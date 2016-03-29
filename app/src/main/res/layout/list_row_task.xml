@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+                <ImageView
+                    android:id="@+id/img_list"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/point_blue"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TableLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1">
+                        <TableRow>
+                    <TextView
+                        android:id="@+id/txt_list_task_subject"
+                        android:layout_column="1"
+                        android:text="OTS ke Pabrik"
+                        android:textColor="@color/Black"
+                        android:textSize="@dimen/activity_horizontal_margin"/>
+                            <TextView
+                                android:id="@+id/txt_list_task_id"
+                                android:textColor="@android:color/transparent"
+                                android:gravity="right"
+                                />
+                        </TableRow>
+                        </TableLayout>
+                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TableLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1">
+                            <TableRow>
+                                <TextView
+                                    android:id="@+id/txt_list_task_pt"
+                                    android:text="Change Password"
+                                    android:layout_column="1"
+                                    android:textColor="@color/background"/>
+
+                                <ImageView
+                                    android:layout_marginRight="10dp"
+                                    android:src="@drawable/ic_forward"
+                                    android:gravity="right" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:layout_gravity="end">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Expire "
+                            android:textColor="@color/red"
+                            android:layout_gravity="end"/>
+                        <TextView
+                            android:id="@+id/txt_list_task_tgl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OTS ke Pabrik"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="5dp"
+                            android:textColor="@color/red"
+                            android:textAlignment="textEnd"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+</LinearLayout>

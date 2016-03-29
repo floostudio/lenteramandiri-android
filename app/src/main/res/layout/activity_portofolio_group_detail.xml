@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/grey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/tooolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+        <TextView
+            android:id="@+id/txt_group_detail_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/activity_horizontal_margin"
+            android:textColor="@color/Black" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/bg_list_datainprofile"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="GROUP ID"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_id"
+                    android:layout_marginRight="10dp"
+                    android:text="MG-MASPINA"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Group Limit"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_limit"
+                    android:layout_marginRight="10dp"
+                    android:layout_column="1"
+                    android:textColor="@color/Black"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/bg_list_datainprofile"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Group Balance"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_balance"
+                    android:layout_marginRight="10dp"
+                    android:text="3.000.000.000.000"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Account Amount"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_account"
+                    android:layout_marginRight="10dp"
+                    android:text="17"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/bg_list_datainprofile"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Facility Amount"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_facility"
+                    android:layout_marginRight="10dp"
+                    android:text="8"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:stretchColumns="1">
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Fee"
+                    android:padding="3dip"
+                    android:textColor="@color/Black"/>
+
+                <TextView
+                    android:id="@+id/txt_group_detail_fee"
+                    android:layout_marginRight="10dp"
+                    android:text="15.000.000.000"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/bg_list_datainprofile"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Bunga"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_bunga"
+                    android:layout_marginRight="10dp"
+                    android:text="5.000.000.000"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:stretchColumns="1">
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Utilisasi"
+                    android:padding="3dip"
+                    android:textColor="@color/Black"/>
+
+                <TextView
+                    android:id="@+id/txt_group_detail_utilisasi"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/Black"
+                    android:text="15%"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+</LinearLayout>

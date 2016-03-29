@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/header_dashboard"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+
+            android:id="@+id/spin_Periode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:entries="@array/periode"
+            android:textColor="#fff"
+            android:layout_margin="1dp" />
+        <Spinner
+
+            android:id="@+id/spin_DataType"
+            android:entries="@array/DataType"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:spinnerMode="dialog"
+
+            android:textColor="#fff"
+            android:layout_margin="1dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <floo.com.mpm_mandiri.column.ColumnChartView
+            android:id="@+id/chart"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </floo.com.mpm_mandiri.column.ColumnChartView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
