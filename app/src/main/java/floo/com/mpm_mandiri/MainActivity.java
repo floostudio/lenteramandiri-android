@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if (strProfpic.trim().equals("null")){
+        if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
 
             //Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
             //Bitmap myLogo = ((BitmapDrawable) myDrawable).getBitmap();
