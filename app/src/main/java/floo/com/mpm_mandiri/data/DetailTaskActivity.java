@@ -150,7 +150,7 @@ public class DetailTaskActivity extends AppCompatActivity {
     public void epochtodate(int epoch){
         Date date = new Date(epoch * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
+        format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
         formatDate = format.format(date);
     }
 

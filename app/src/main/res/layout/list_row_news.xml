@@ -36,6 +36,7 @@
         </TableRow>
         </TableLayout>
         <LinearLayout
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -46,6 +47,7 @@
                 <TableRow>
                     <TextView
                         android:id="@+id/txt_date_news"
+
                         android:textSize="10dp"
                         android:textColor="@color/lightgrey"
                         android:text="22/08/2016"
@@ -63,6 +65,7 @@
 
         <TextView
             android:id="@+id/txt_content_news"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/lightgrey"
