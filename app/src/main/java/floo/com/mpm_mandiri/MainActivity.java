@@ -42,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
     TextView title;
     ActionBar actionBar;
     DrawerLayout drawer;
-    String idParsing, strFirstname, strLastname, strProfpic;
+    String idParsing, strFirstname, strLastname, strProfpic, strEsclated;
     public static final String first_name = "first_name";
     public static final String last_name = "last_name";
     public static final String profpic = "profpic";
     public static final String IDPARSING = "IDPARSING";
+    public static final String escalated_group = "escalated_group";
     RoundedImageView img;
     SessionManager session;
     ProgressDialog progressDialog;
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         strFirstname = user.get(first_name);
         strLastname = user.get(last_name);
         strProfpic = user.get(profpic);
+        strEsclated = user.get(escalated_group);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

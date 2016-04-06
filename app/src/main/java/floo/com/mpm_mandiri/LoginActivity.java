@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     String url = DataManager.url;
     String urlLogin = DataManager.urlLogin;
-    String strEmail, strPassword, idParsing, strStatus,
+    String strEmail, strPassword, idParsing, escalatedParsing, strStatus,
             strFirstname, strLastname, strProfpic, strTitle, strMessage;
     ConnectionDetector connection;
     AlertDialog messagee;
@@ -81,9 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         long today = date.getTime();
-        Log.d("epoch", String.valueOf(today));
 
-        Log.d("sekarang", dateNow());
     }
 
     private String dateNow(){
@@ -155,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
 
@@ -170,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -196,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                 object1.put("email",strEmail);
                 object1.put("password", strPassword);
                 String json1 = object1.toString();
-                Log.e("json", json1);
+
 
                 DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
                 HttpPost httppost = new HttpPost(urlLogin);
@@ -211,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 serverData = EntityUtils.toString(response.getEntity());
-                Log.e("hello", serverData);
+
 
 
             } catch (JSONException e) {
@@ -241,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
 
-                Log.e("hello", strStatus);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -253,44 +251,54 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
-            if (strStatus.trim().equals("200")){
-
-                if (strEscalated == 1){
-                    Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+            //progressDialog.dismiss();
+            try{
+                if (strStatus.trim().equals("200")){
                     idParsing = Integer.toString(user_id);
-                    session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
-                    Intent nextMenu = new Intent(LoginActivity.this, MainActivity.class);
-
-                    //nextMenu.putExtra("IDPARSING", idParsing);
-                    //nextMenu.putExtra(first_name, strFirstname);
-                    //nextMenu.putExtra(last_name, strLastname);
-                    //nextMenu.putExtra(profpic, strProfpic);
+                    escalatedParsing = Integer.toString(strEscalated);
+                    if (strEscalated == 1){
+                        Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
 
 
-                    startActivity(nextMenu);
-                    finish();
-                }else {
-                    Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
-                    idParsing = Integer.toString(user_id);
-                    session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
-                    Intent nextMenu = new Intent(LoginActivity.this, MenuActivity.class);
+                        session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic, escalatedParsing);
+                        Intent nextMenu = new Intent(LoginActivity.this, MainActivity.class);
 
-                    //nextMenu.putExtra("IDPARSING", idParsing);
-                    //nextMenu.putExtra(first_name, strFirstname);
-                    //nextMenu.putExtra(last_name, strLastname);
-                    //nextMenu.putExtra(profpic, strProfpic);
+                        //nextMenu.putExtra("IDPARSING", idParsing);
+                        //nextMenu.putExtra(first_name, strFirstname);
+                        //nextMenu.putExtra(last_name, strLastname);
+                        //nextMenu.putExtra(profpic, strProfpic);
 
 
-                    startActivity(nextMenu);
-                    finish();
+                        startActivity(nextMenu);
+                        finish();
+                    }else {
+                        Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+                        //idParsing = Integer.toString(user_id);
+                        //escalatedParsing = Integer.toString(strEscalated);
+                        session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic, escalatedParsing);
+                        Intent nextMenu = new Intent(LoginActivity.this, MenuActivity.class);
+
+                        //nextMenu.putExtra("IDPARSING", idParsing);
+                        //nextMenu.putExtra(first_name, strFirstname);
+                        //nextMenu.putExtra(last_name, strLastname);
+                        //nextMenu.putExtra(profpic, strProfpic);
+
+
+                        startActivity(nextMenu);
+                        finish();
+                    }
+
+
+                }else{
+
+                    Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_LONG).show();
+
                 }
 
-
-            }else{
-                Log.e("Login Failed", strStatus);
+            }catch (Exception e){
                 Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_LONG).show();
-
             }
 
 
