@@ -140,7 +140,7 @@ public class ProfilActivity extends Fragment {
 
 
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
 
@@ -155,7 +155,7 @@ public class ProfilActivity extends Fragment {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -188,7 +188,7 @@ public class ProfilActivity extends Fragment {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
+
             }catch (ClientProtocolException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -210,9 +210,8 @@ public class ProfilActivity extends Fragment {
                     strTitle = jsonObject.getString(USER_TITLE);
                     strImg = jsonObject.getString(profpic);
 
-                    Log.d("profilim", strImg);
 
-                    if (strImg.trim().equals("http://play.floostudio.com/lenteramandiri/")){
+                    if (strImg.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
                         Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
                         myBitmap = ((BitmapDrawable) myDrawable).getBitmap();
                     }else {
@@ -226,7 +225,7 @@ public class ProfilActivity extends Fragment {
 
                     coba = strTitle;
 
-                Log.d("hello", coba);
+
 
             }catch (JSONException e){
                 e.printStackTrace();

@@ -117,7 +117,7 @@ public class NewsAdapter extends BaseAdapter{
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                Log.d("isiiii", url);
+
                 return myBitmap;
 
             } catch (Exception e) {

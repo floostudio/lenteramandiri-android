@@ -96,7 +96,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
         idParsing  = i.getStringExtra("IDPARSING");
         //expireParsing = i.getStringExtra("date");
         ss = i.getCharSequenceExtra("date");
-        Log.d("CharSequence", String.valueOf(ss));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         TextView titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("TASK DETAIL");
@@ -147,7 +147,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
 
 
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
 
@@ -162,7 +162,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -196,7 +196,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
+
             }catch (ClientProtocolException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -229,8 +229,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
 
                     coba = strTitle;
                 }
-                Log.d("hellotitle", coba);
-                Log.d("expireTask", String.valueOf(strExpire));
+
 
             }catch (JSONException e){
                 e.printStackTrace();

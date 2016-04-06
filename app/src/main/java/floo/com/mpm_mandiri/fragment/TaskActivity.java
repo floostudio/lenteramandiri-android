@@ -199,7 +199,7 @@ public class TaskActivity extends Fragment {
 
 
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
 
@@ -214,7 +214,7 @@ public class TaskActivity extends Fragment {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -247,7 +247,7 @@ public class TaskActivity extends Fragment {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
+                Log.d("data", serverData);
             }catch (ClientProtocolException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -291,8 +291,7 @@ public class TaskActivity extends Fragment {
 
                     coba = title;
                 }
-                Log.d("hello", coba);
-                Log.d("expire", String.valueOf(strExpire));
+
 
             }catch (JSONException e){
                 e.printStackTrace();

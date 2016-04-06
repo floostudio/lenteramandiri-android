@@ -94,8 +94,7 @@ public class TaskAdapter extends BaseAdapter{
             e.printStackTrace();
         }
         today = date2.getTime()/1000;
-        Log.d("expire", Integer.toString(expire));
-        Log.d("today", Long.toString(today));
+
         if (expire < today) {
             viewHolder.imageView.setImageResource(R.drawable.point_red);
         }else if (expire >= (today+epoch)){

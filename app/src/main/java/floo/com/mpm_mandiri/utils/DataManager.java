@@ -26,6 +26,7 @@ public class DataManager {
     public static String urlPortGroupDetail = "";
     public static String urlPortAccount = "http://play.floostudio.com/lenteramandiri/api/v1/portfolio_acc";
     public static String urlPortAccountDetail = "";
+    public static String urlCovenant = "http://play.floostudio.com/lenteramandiri/api/v1/portfolio_acc/covenant/";
 
     //PUT
     public static String urltaskNote = "http://play.floostudio.com/lenteramandiri/api/v1/tasks/note/";

@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     AlertDialog messagee;
     SessionManager session;
     int user_id=0;
+    int strEscalated;
     ProgressDialog progressDialog;
 
     private static final String message = "message";
@@ -233,6 +234,7 @@ public class LoginActivity extends AppCompatActivity {
                     strLastname = jsonObject.getString(last_name);
                     strProfpic = jsonObject.getString(profpic);
                     strTitle = jsonObject.getString(title);
+                    strEscalated = jsonObject.getInt("escalated_group");
                     strMessage = jsonObject.getString(message);
                 }else {
                     strMessage = jsonObject.getString(message);
@@ -253,20 +255,38 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(result);
             progressDialog.dismiss();
             if (strStatus.trim().equals("200")){
-            Log.e("status", strStatus);
-                Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
-                idParsing = Integer.toString(user_id);
-                session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
-                Intent nextMenu = new Intent(LoginActivity.this, MainActivity.class);
 
-                //nextMenu.putExtra("IDPARSING", idParsing);
-                //nextMenu.putExtra(first_name, strFirstname);
-                //nextMenu.putExtra(last_name, strLastname);
-                //nextMenu.putExtra(profpic, strProfpic);
+                if (strEscalated == 1){
+                    Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+                    idParsing = Integer.toString(user_id);
+                    session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
+                    Intent nextMenu = new Intent(LoginActivity.this, MainActivity.class);
+
+                    //nextMenu.putExtra("IDPARSING", idParsing);
+                    //nextMenu.putExtra(first_name, strFirstname);
+                    //nextMenu.putExtra(last_name, strLastname);
+                    //nextMenu.putExtra(profpic, strProfpic);
 
 
-                startActivity(nextMenu);
-                finish();
+                    startActivity(nextMenu);
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+                    idParsing = Integer.toString(user_id);
+                    session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
+                    Intent nextMenu = new Intent(LoginActivity.this, MenuActivity.class);
+
+                    //nextMenu.putExtra("IDPARSING", idParsing);
+                    //nextMenu.putExtra(first_name, strFirstname);
+                    //nextMenu.putExtra(last_name, strLastname);
+                    //nextMenu.putExtra(profpic, strProfpic);
+
+
+                    startActivity(nextMenu);
+                    finish();
+                }
+
+
             }else{
                 Log.e("Login Failed", strStatus);
                 Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_LONG).show();

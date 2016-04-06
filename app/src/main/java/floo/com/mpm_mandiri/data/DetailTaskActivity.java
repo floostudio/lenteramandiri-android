@@ -183,7 +183,7 @@ public class DetailTaskActivity extends AppCompatActivity {
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -197,7 +197,7 @@ public class DetailTaskActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -230,7 +230,7 @@ public class DetailTaskActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
+
             }catch (ClientProtocolException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -269,7 +269,7 @@ public class DetailTaskActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d("hello", coba);
+
 
             return null;
         }
@@ -307,9 +307,9 @@ public class DetailTaskActivity extends AppCompatActivity {
                 img_list_task.setImageResource(R.drawable.point_orange);
             }
 
-            adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayDetailTaskList,
-                    R.layout.list_row_detail_task,new String[]{description},new int[]{R.id.txt_task_list});
-            listDetailTaskList.setAdapter(adapterDetailTaskList);
+            //adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayDetailTaskList,
+            //        R.layout.list_row_detail_task,new String[]{description},new int[]{R.id.txt_task_list});
+            //listDetailTaskList.setAdapter(adapterDetailTaskList);
 
 
 

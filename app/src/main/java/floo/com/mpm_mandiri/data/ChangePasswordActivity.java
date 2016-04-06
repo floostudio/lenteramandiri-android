@@ -139,7 +139,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
 
 
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
 
@@ -154,7 +154,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -182,7 +182,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
                 object1.put(old_password, strCurrent);
                 object1.put(new_password, strNew);
                 String json1 = object1.toString();
-                Log.e("json", json1);
+
 
 
                 DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
@@ -198,7 +198,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
 
                 HttpResponse response = httpclient.execute(httpPut);
                 serverData = EntityUtils.toString(response.getEntity());
-                Log.e("hello", serverData);
+
 
 
             } catch (JSONException e) {
@@ -216,7 +216,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
                 strStatus = jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 
-                Log.e("hello", strStatus);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

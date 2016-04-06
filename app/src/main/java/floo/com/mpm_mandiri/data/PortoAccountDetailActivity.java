@@ -20,7 +20,7 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
     TextView titleToolbar, save, txtAccNumber, txtValuta, txtSaldo, txtLimit, txtTunggakan,
             txtKolektibilitas, txtJmlhTempo, txtDebet, txtKredit, txtRata, txtCompany;
     String pAccNumber, pValuta, pSaldo, pLimit, pTunggakan, pKolektibilitas,
-            pJmlhTempo, pDebet, pKredit, pRata, pCompany, pConvenant;
+            pJmlhTempo, pDebet, pKredit, pRata, pCompany, pId;
     Button convenant;
 
     @Override
@@ -42,7 +42,7 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
         pKredit  = i.getStringExtra("trans_kredit");
         pRata = i.getStringExtra("saldo_rata");
         pCompany  = i.getStringExtra("company_name");
-        pConvenant = i.getStringExtra("covenant");
+        pId = i.getStringExtra("id");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO ACCOUNT");
@@ -84,8 +84,8 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent conv = new Intent(PortoAccountDetailActivity.this, ConvenantActivity.class);
+                conv.putExtra("id", pId.toString());
                 conv.putExtra("company_name", txtCompany.getText().toString());
-                conv.putExtra("covenant", pConvenant.toString());
                 startActivity(conv);
             }
         });

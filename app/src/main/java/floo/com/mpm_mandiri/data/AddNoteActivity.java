@@ -141,7 +141,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
 
                 String json = object.toString();
-                Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
 
@@ -156,7 +156,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -182,7 +182,7 @@ public class AddNoteActivity extends AppCompatActivity {
             try {
                 object1.put(note, strNote);
                 String json1 = object1.toString();
-                Log.e("json", json1);
+
 
                 DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
                 HttpPut httpPut = new HttpPut(urlNote+taskid);
@@ -197,7 +197,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httpPut);
                 serverData = EntityUtils.toString(response.getEntity());
-                Log.e("hello", serverData);
+
 
 
             } catch (JSONException e) {
@@ -215,7 +215,7 @@ public class AddNoteActivity extends AppCompatActivity {
                 strStatus = jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 
-                Log.e("hello", strStatus);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

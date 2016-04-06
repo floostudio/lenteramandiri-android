@@ -33,6 +33,9 @@
         android:name=".MainActivity"
         android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+            android:name=".MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".data.DetailTaskActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".data.AddNoteActivity"
