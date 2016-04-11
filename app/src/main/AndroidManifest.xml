@@ -56,6 +56,8 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".data.CalendarTaskListActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".data.UpdateProfilActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
 
         <activity android:name=".column.ColumnChartActivity"/>

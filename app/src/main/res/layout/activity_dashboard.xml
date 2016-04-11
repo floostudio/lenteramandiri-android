@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -46,16 +47,12 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
-
-        <floo.com.mpm_mandiri.column.ColumnChartView
-            android:id="@+id/chart"
-            android:background="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </floo.com.mpm_mandiri.column.ColumnChartView>
-
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        tools:ignore="Orientation" >
 
     </LinearLayout>
 

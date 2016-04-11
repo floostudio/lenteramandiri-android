@@ -31,5 +31,6 @@ public class DataManager {
     //PUT
     public static String urltaskNote = "http://play.floostudio.com/lenteramandiri/api/v1/tasks/note/";
     public static String urlChangePass = "http://play.floostudio.com/lenteramandiri/api/v1/users/change_password";
+    public static String urlUpdProfile = "http://play.floostudio.com/lenteramandiri/api/v1/users/detail/";
 
 }

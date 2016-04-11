@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     RoundedImageView img;
     SessionManager session;
     ProgressDialog progressDialog;
+    Bitmap myBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +92,28 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
+        Log.d("gambar", strProfpic);
 
+        /*try{
 
+            if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
+                Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
+                myBitmap = ((BitmapDrawable) myDrawable).getBitmap();
 
+            }else {
+                URL urlConnection = new URL(strProfpic);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                myBitmap = BitmapFactory.decodeStream(input);
+
+            }
+        }catch (Exception e){
+
+        }
+
+        img.setImageBitmap(myBitmap);*/
 
         if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
 
@@ -153,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     connection.connect();
                     InputStream input = connection.getInputStream();
                     Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                    Log.d("isiiii", url);
+
                     return myBitmap;
 
             } catch (Exception e) {
@@ -237,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft;
         Bundle bundle = new Bundle();
         bundle.putString("IDPARSING", idParsing);
+        bundle.putString(escalated_group, strEsclated);
         switch (position){
             case 0:
                 fm = getSupportFragmentManager();

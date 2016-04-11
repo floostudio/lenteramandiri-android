@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
@@ -44,8 +45,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.data.ChangePasswordActivity;
+import floo.com.mpm_mandiri.data.UpdateProfilActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
 
 /**
@@ -56,7 +59,7 @@ public class ProfilActivity extends Fragment {
     String urlProfil = DataManager.urlprofilList;
     HashMap<String, String> hashmapTask;
     private ProgressDialog pDialog;
-    String idParsing;
+    String idParsing, pEscalated;
     ImageView imgProfil;
     Bitmap myBitmap;
     LinearLayout linearLayout;
@@ -71,11 +74,14 @@ public class ProfilActivity extends Fragment {
     private static final String USER_EMAIL = "email";
     private static final String USER_TITLE = "title";
     private static final String profpic = "profpic";
+    private static final String escalated_group = "escalated_group";
+
 
 
     TextView txtFullname, txtTitle, txtNip, txtEmail, txtDirectorat, txtGroup, txtDepartment;
     String strId, strFirstname, strLastname, strNip, strDirctorate, strGroup,
             strDepartment, strEmail, strTitle, strPass, strImg, strIsactiv;
+    Button update;
 
 
     @Nullable
@@ -90,6 +96,7 @@ public class ProfilActivity extends Fragment {
 
     public void initView(View view){
         idParsing = this.getArguments().getString("IDPARSING");
+        pEscalated = this.getArguments().getString(escalated_group);
         txtFullname = (TextView)view.findViewById(R.id.txt_profil_fullname);
         txtTitle = (TextView)view.findViewById(R.id.txt_profil_title);
         txtNip = (TextView)view.findViewById(R.id.txt_profil_nip);
@@ -105,6 +112,18 @@ public class ProfilActivity extends Fragment {
                 Intent change = new Intent(getActivity(), ChangePasswordActivity.class);
                 change.putExtra("email", txtEmail.getText().toString());
                 startActivity(change);
+            }
+        });
+        update = (Button)view.findViewById(R.id.btn_updateProfile);
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent update = new Intent(getActivity(), UpdateProfilActivity.class);
+                update.putExtra("IDPARSING", idParsing);
+                update.putExtra("esc", pEscalated);
+                update.putExtra(profpic, strImg);
+                update.putExtra(USER_EMAIL, txtEmail.getText().toString());
+                startActivity(update);
             }
         });
     }
@@ -209,6 +228,7 @@ public class ProfilActivity extends Fragment {
                     strEmail = jsonObject.getString(USER_EMAIL);
                     strTitle = jsonObject.getString(USER_TITLE);
                     strImg = jsonObject.getString(profpic);
+                Log.d("gambar", strImg);
 
 
                     if (strImg.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
