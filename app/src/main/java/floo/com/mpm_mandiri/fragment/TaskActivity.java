@@ -1,11 +1,16 @@
 package floo.com.mpm_mandiri.fragment;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.IntentCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +48,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.data.DetailTaskActivity;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.adapter.Task;
@@ -78,6 +84,7 @@ public class TaskActivity extends Fragment {
     private static final String note = "note";
     private static final String company = "company";
 
+    public static TaskActivity ta;
 
 
     @Nullable
@@ -89,12 +96,11 @@ public class TaskActivity extends Fragment {
         new DataFetcherTask().execute();
 
 
-
         listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView taID = (TextView)view.findViewById(R.id.txt_list_task_id);
+                TextView taID = (TextView) view.findViewById(R.id.txt_list_task_id);
                 Intent detailTask = new Intent(getActivity(), DetailTaskActivity.class);
                 detailTask.putExtra("task_id", taID.getText().toString());
                 startActivity(detailTask);
@@ -113,18 +119,106 @@ public class TaskActivity extends Fragment {
         today = date.getTime();
 
 
-
-
-
         return v;
     }
 
-    public void initView(View view){
+    public void refresh() {
+        ((MainActivity) getActivity()).refresh();
+    }
+
+
+    public void initView(View view) {
         idParsing = this.getArguments().getString("IDPARSING");
         listTask = (ListView) view.findViewById(R.id.listTask);
         btn_expired = (Button) view.findViewById(R.id.btn_task_expired);
         btn_willexpired = (Button) view.findViewById(R.id.btn_task_willExp);
         btn_months = (Button) view.findViewById(R.id.btn_task_6months);
+
+        final HashMap<Button, Integer> hashMap = new HashMap<Button, Integer>();
+        btn_expired.setBackgroundResource(R.drawable.btn_expire_inactive);
+        btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
+        btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_inactive);
+        hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
+        hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
+        hashMap.put(btn_months, R.drawable.btn_6months_inactive);
+
+        btn_expired.setOnClickListener(new View.OnClickListener() {
+            String a = Long.toString(tode());
+
+            @Override
+            public void onClick(View v) {
+
+                if (hashMap.get(btn_expired) == R.drawable.btn_expire_inactive) {
+                    btn_expired.setBackgroundResource(R.drawable.btn_expire_active);
+                    hashMap.put(btn_expired, R.drawable.btn_expire_active);
+                    btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_inactive);
+                    hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
+                    btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
+                    hashMap.put(btn_months, R.drawable.btn_6months_inactive);
+
+                    //taskAdapter.filterRed("");
+                    //taskAdapter = new TaskAdapter(getActivity(), taskArray);
+                    taskAdapter.filterRed(a);
+                    //listTask.setAdapter(taskAdapter);
+                } else {
+                    btn_expired.setBackgroundResource(R.drawable.btn_expire_inactive);
+                    hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
+
+                    taskAdapter.filterRed("");
+
+                }
+            }
+        });
+
+        btn_willexpired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String a = Long.toString(tode());
+                if (hashMap.get(btn_willexpired) == R.drawable.btn_willexpire_inactive) {
+                    btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_active);
+                    hashMap.put(btn_willexpired, R.drawable.btn_willexpire_active);
+                    btn_expired.setBackgroundResource(R.drawable.btn_expire_inactive);
+                    hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
+                    btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
+                    hashMap.put(btn_months, R.drawable.btn_6months_inactive);
+
+
+                    //taskAdapter = new TaskAdapter(getActivity(), taskArray);
+                    taskAdapter.filterOrange(a);
+                    //listTask.setAdapter(taskAdapter);
+                } else {
+                    btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_inactive);
+                    hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
+                    taskAdapter.filterOrange("");
+                }
+            }
+        });
+
+        btn_months.setOnClickListener(new View.OnClickListener() {
+            long nn = 2592000;
+            String a = Long.toString(tode() + nn);
+
+            @Override
+            public void onClick(View v) {
+                if (hashMap.get(btn_months) == R.drawable.btn_6months_inactive) {
+                    btn_months.setBackgroundResource(R.drawable.btn_6months_active);
+                    hashMap.put(btn_months, R.drawable.btn_6months_active);
+                    btn_expired.setBackgroundResource(R.drawable.btn_expire_inactive);
+                    hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
+                    btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_inactive);
+                    hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
+                    //new DataFetcherTask().execute();
+                    taskAdapter.filterGreen(a);
+                    //listTask.setAdapter(taskAdapter);
+
+                } else {
+                    btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
+                    hashMap.put(btn_months, R.drawable.btn_6months_inactive);
+
+                    taskAdapter.filterGreen("");
+                }
+            }
+        });
 
         /*subject = new String[]{"OTS ke Pabrik", "Transaksi tidak di Mandiri", "Saldo untuk AGF kurang",
                                 "LK 2015 Audited", "New Task", "New Event", "New Auditions"};
@@ -154,21 +248,34 @@ public class TaskActivity extends Fragment {
         listTask.setAdapter(adapter);*/
     }
 
-    public void epochtodate(int epoch){
+    private long tode() {
+        String str = dateNow();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date2 = null;
+        try {
+            date2 = df.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date2.getTime() / 1000;
+    }
+
+
+    public void epochtodate(int epoch) {
         Date date = new Date(epoch * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
         formatDate = format.format(date);
     }
 
-    private String dateNow(){
+    private String dateNow() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd/MM/yyyy HH:mm", Locale.getDefault());
         Date date1 = new Date();
         return dateFormat.format(date1);
     }
 
-    private class DataFetcherTask extends AsyncTask<Void, Void, Void> {
+    public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -182,7 +289,7 @@ public class TaskActivity extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String objek="";
+            String objek = "";
 
             HttpParams myParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(myParams, 5000);
@@ -191,11 +298,11 @@ public class TaskActivity extends Fragment {
             JSONObject object = new JSONObject();
             try {
 
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
+                object.put("device_type", "Samsung Galaxy Note 5");
+                object.put("device_os", "android OS 4.4.2");
+                object.put("device_uuid", "njadnjlvafjvnjnjasmsodc");
+                object.put("vendor_name", "DOT");
+                object.put("vendor_pass", "DOTVNDR");
 
 
                 String json = object.toString();
@@ -226,39 +333,39 @@ public class TaskActivity extends Fragment {
                 e.printStackTrace();
             }
 
-            String access_key="";
-            try{
+            String access_key = "";
+            try {
                 JSONObject jsonObject2 = new JSONObject(objek);
                 access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            String serverData="";
-            DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlTask+idParsing);
+            String serverData = "";
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(urlTask + idParsing);
             httpGet.setHeader("Content-Type", "application/json");
             httpGet.setHeader("Accept", "application/json");
             httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language","en-us");
-            httpGet.setHeader("X-Timezone","Asia/Jakarta");
+            httpGet.setHeader("Accept-Language", "en-us");
+            httpGet.setHeader("X-Timezone", "Asia/Jakarta");
 
             try {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
                 Log.d("data", serverData);
-            }catch (ClientProtocolException e){
+            } catch (ClientProtocolException e) {
                 e.printStackTrace();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            String coba="";
+            String coba = "";
             try {
                 taskArray = new ArrayList<Task>();
                 JSONArray jsonArray = new JSONArray(serverData);
-                for (int i=0; i<jsonArray.length();i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                     strId = jsonObject.getInt("task_id");
@@ -278,7 +385,6 @@ public class TaskActivity extends Fragment {
                     taskArray.add(task);
 
 
-
                     // tmp hashmap for single contact
                     //HashMap<String, String> hashmapTask = new HashMap<String, String>();
                     //hashmapTask.put("task_id", Integer.toString(strId));
@@ -293,7 +399,7 @@ public class TaskActivity extends Fragment {
                 }
 
 
-            }catch (JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -318,5 +424,6 @@ public class TaskActivity extends Fragment {
 
         }
     }
+
 }
 

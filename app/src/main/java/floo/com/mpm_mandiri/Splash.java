@@ -25,18 +25,9 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
                 if (session.isLoggedIn()){
-                    HashMap<String, String> user = session.getUserDetails();
-                    escalated = user.get(escalated_group);
-                    if (escalated.trim().equals("1")){
-                        Intent i = new Intent(Splash.this, MainActivity.class);
-                        startActivity(i);
-                        finish();
-
-                    }else {
-                        Intent i = new Intent(Splash.this, MenuActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
+                    Intent i = new Intent(Splash.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
 
                 }else {
                     Intent i = new Intent(Splash.this, LoginActivity.class);

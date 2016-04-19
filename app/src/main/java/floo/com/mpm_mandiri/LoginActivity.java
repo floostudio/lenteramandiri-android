@@ -34,7 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import floo.com.mpm_mandiri.column.ColumnChartActivity;
 import floo.com.mpm_mandiri.utils.ConnectionDetector;
 import floo.com.mpm_mandiri.utils.DataManager;
 import floo.com.mpm_mandiri.utils.SessionManager;
@@ -232,7 +231,6 @@ public class LoginActivity extends AppCompatActivity {
                     strLastname = jsonObject.getString(last_name);
                     strProfpic = jsonObject.getString(profpic);
                     strTitle = jsonObject.getString(title);
-                    strEscalated = jsonObject.getInt("escalated_group");
                     strMessage = jsonObject.getString(message);
                 }else {
                     strMessage = jsonObject.getString(message);
@@ -257,12 +255,8 @@ public class LoginActivity extends AppCompatActivity {
             try{
                 if (strStatus.trim().equals("200")){
                     idParsing = Integer.toString(user_id);
-                    escalatedParsing = Integer.toString(strEscalated);
-                    if (strEscalated == 1){
                         Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
-
-
-                        session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic, escalatedParsing);
+                        session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
                         Intent nextMenu = new Intent(LoginActivity.this, MainActivity.class);
 
                         //nextMenu.putExtra("IDPARSING", idParsing);
@@ -270,26 +264,8 @@ public class LoginActivity extends AppCompatActivity {
                         //nextMenu.putExtra(last_name, strLastname);
                         //nextMenu.putExtra(profpic, strProfpic);
 
-
                         startActivity(nextMenu);
                         finish();
-                    }else {
-                        Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
-                        //idParsing = Integer.toString(user_id);
-                        //escalatedParsing = Integer.toString(strEscalated);
-                        session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic, escalatedParsing);
-                        Intent nextMenu = new Intent(LoginActivity.this, MenuActivity.class);
-
-                        //nextMenu.putExtra("IDPARSING", idParsing);
-                        //nextMenu.putExtra(first_name, strFirstname);
-                        //nextMenu.putExtra(last_name, strLastname);
-                        //nextMenu.putExtra(profpic, strProfpic);
-
-
-                        startActivity(nextMenu);
-                        finish();
-                    }
-
 
                 }else{
 

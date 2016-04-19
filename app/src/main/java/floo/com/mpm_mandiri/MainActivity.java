@@ -54,11 +54,15 @@ public class MainActivity extends AppCompatActivity {
     SessionManager session;
     ProgressDialog progressDialog;
     Bitmap myBitmap;
+    public static MainActivity ma;
+    String frgment="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         /*Intent i = getIntent();
         idParsing = i.getStringExtra("IDPARSING");
         strFirstname = i.getStringExtra(first_name);
@@ -74,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
         strFirstname = user.get(first_name);
         strLastname = user.get(last_name);
         strProfpic = user.get(profpic);
-        strEsclated = user.get(escalated_group);
+
 
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        title.setText("DASHBOARD");
+        //title.setText("DASHBOARD");
 
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
-        Log.d("gambar", strProfpic);
+
 
         /*try{
 
@@ -120,10 +124,10 @@ public class MainActivity extends AppCompatActivity {
             //Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
             //Bitmap myLogo = ((BitmapDrawable) myDrawable).getBitmap();
             img.setImageResource(R.drawable.profile);
-            Log.d("kosong", strProfpic);
+
         }else {
             new ImageLoadTask(strProfpic, img).execute();
-            Log.d("isiiii", strProfpic);
+
         }
 
         TextView name = (TextView) headerView.findViewById(R.id.txtname);
@@ -143,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), strProfpic, Toast.LENGTH_LONG).show();
                 title.setText("PROFILE");
                 setFragment(0);
+
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -151,7 +156,16 @@ public class MainActivity extends AppCompatActivity {
         }
         setupNavigationDrawerContent(navigationView);
 
-        setFragment(1);
+        Intent i = getIntent();
+        frgment = i.getStringExtra("fragment");
+
+        if (frgment==null){
+            setFragment(1);
+        }else {
+            setFragment(2);
+        }
+
+        //setFragment(1);
     }
 
     public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
@@ -209,31 +223,31 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.nav_home:
-                                title.setText("DASHBOARD");
+                                //title.setText("DASHBOARD");
                                 item.setChecked(true);
                                 setFragment(1);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_task:
-                                title.setText("TASK");
+
                                 item.setChecked(true);
                                 setFragment(2);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_portfolio:
-                                title.setText("PORTFOLIO");
+
                                 item.setChecked(true);
                                 setFragment(3);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_calender:
-                                title.setText("CALENDAR");
+
                                 item.setChecked(true);
                                 setFragment(4);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_news:
-                                title.setText("NEWS");
+
                                 item.setChecked(true);
                                 setFragment(5);
                                 drawer.closeDrawer(GravityCompat.START);
@@ -254,12 +268,17 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public void refresh(){
+        setFragment(2);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
     public void setFragment(int position){
         FragmentManager fm;
         FragmentTransaction ft;
         Bundle bundle = new Bundle();
         bundle.putString("IDPARSING", idParsing);
-        bundle.putString(escalated_group, strEsclated);
+
         switch (position){
             case 0:
                 fm = getSupportFragmentManager();
@@ -270,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 1:
+                title.setText("DASHBOARD");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 DashboardActivity dashboar = new DashboardActivity();
@@ -277,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 2:
+                title.setText("TASK");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 TaskActivity task= new TaskActivity();
@@ -285,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 3:
+                title.setText("PORTFOLIO");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 PortofolioActivity porto = new PortofolioActivity();
@@ -292,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 4:
+                title.setText("CALENDAR");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 CalenderActivity calender = new CalenderActivity();
@@ -300,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 5:
+                title.setText("NEWS");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 NewsActivity news = new NewsActivity();
@@ -334,7 +358,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
     public void onBackPressed(){
         new AlertDialog.Builder(this)
                 .setTitle("Really Exit?")
@@ -355,4 +378,5 @@ public class MainActivity extends AppCompatActivity {
                         }).create().show();
 
     }
+
 }

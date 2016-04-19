@@ -41,20 +41,44 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:spinnerMode="dialog"
-
             android:textColor="#fff"
             android:layout_margin="1dp" />
 
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        tools:ignore="Orientation" >
 
-    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart"
+                android:clickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginBottom="10dp"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchart"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
 
 
 </LinearLayout>

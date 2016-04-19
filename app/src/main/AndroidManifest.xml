@@ -33,9 +33,6 @@
         android:name=".MainActivity"
         android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".MenuActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".data.DetailTaskActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".data.AddNoteActivity"
@@ -59,8 +56,6 @@
         <activity android:name=".data.UpdateProfilActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-
-        <activity android:name=".column.ColumnChartActivity"/>
     </application>
 
 </manifest>

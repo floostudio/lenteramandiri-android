@@ -1,9 +1,14 @@
 package floo.com.mpm_mandiri.data;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,6 +27,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -42,7 +49,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
+import floo.com.mpm_mandiri.fragment.TaskActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
 
 /**
@@ -72,6 +81,15 @@ public class DetailTaskActivity extends AppCompatActivity {
     ListView listDetailTaskList;
     SimpleAdapter adapterDetailTaskList;
 
+    public static final String status_code = "status_code";
+    public static final String message = "message";
+    String urlDone = DataManager.urltaskDone;
+    String strStatus, strMessage;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +117,7 @@ public class DetailTaskActivity extends AppCompatActivity {
         img_list_task = (ImageView)findViewById(R.id.img_list_task);
         listDetailTaskList = (ListView)findViewById(R.id.list_detail_task);
         btnNote = (Button) findViewById(R.id.btn_detail_task_note);
-        btnReport = (Button) findViewById(R.id.btn_detail_task_report);
+
         btnDone = (Button) findViewById(R.id.btn_detail_task_done);
         save.setVisibility(View.INVISIBLE);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
@@ -122,22 +140,157 @@ public class DetailTaskActivity extends AppCompatActivity {
             }
         });
 
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailTaskActivity.this.finish();
+                //Intent back=new Intent(DetailTaskActivity.this, MainActivity.class);
+                //back.putExtra("fragment", "fragment");
+                //startActivity(back);
+               new AlertDialog.Builder(DetailTaskActivity.this)
+                        .setTitle("Really?")
+                        .setMessage("Are you sure you want to done?")
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes,
+                                new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface arg0,
+                                                        int arg1) {
+                                        new DoneAsync().execute();
+                                        Intent back=new Intent(DetailTaskActivity.this, MainActivity.class);
+                                        back.putExtra("fragment", "fragment");
+                                        startActivity(back);
+                                        //TaskActivity.ta.RefreshList();
+
+
+                                    }
+                                }).create().show();
+
             }
         });
 
 
 
+    }
+
+    class DoneAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String objek = "";
+
+            HttpParams myParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
+            HttpConnectionParams.setSoTimeout(myParams, 5000);
+
+            JSONObject object = new JSONObject();
+            try {
+
+                object.put("device_type","Samsung Galaxy Note 5");
+                object.put("device_os","android OS 4.4.2");
+                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
+                object.put("vendor_name","DOT");
+                object.put("vendor_pass","DOTVNDR");
+
+
+                String json = object.toString();
+
+                HttpClient httpclient = new DefaultHttpClient(myParams);
+
+
+                HttpPost httppost = new HttpPost(url);
+                httppost.setHeader("Content-Type", "application/json");
+                httppost.setHeader("Accept", "application/json");
+                httppost.setHeader("Accept-Language", "en-us");
+                httppost.setHeader("X-Timezone", "Asia/Jakarta");
+
+                StringEntity se = new StringEntity(json);
+                httppost.setEntity(se);
+
+                HttpResponse response = httpclient.execute(httppost);
+                objek = EntityUtils.toString(response.getEntity());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String access_key="";
+            try{
+                JSONObject jsonObject2 = new JSONObject(objek);
+                access_key = jsonObject2.getString("access_key");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            String serverData="";
+
+            JSONObject object1 = new JSONObject();
+            try {
+
+
+                DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
+                HttpPut httpPut = new HttpPut(urlDone+idTaskParsing);
+                httpPut.setHeader("Content-Type", "application/json");
+                httpPut.setHeader("Accept", "application/json");
+                httpPut.setHeader("X-Header_access_key", access_key);
+                httpPut.setHeader("Accept-Language","en-us");
+                httpPut.setHeader("X-Timezone", "Asia/Jakarta");
+
+                HttpResponse response = httpclient.execute(httpPut);
+                serverData = EntityUtils.toString(response.getEntity());
+
+
+
+            }  catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JSONObject jsonObject = new JSONObject(serverData);
+                strStatus = jsonObject.getString(status_code);
+                strMessage = jsonObject.getString(message);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (strStatus.trim().equals("200")){
+                Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+                DetailTaskActivity.this.finish();
+                //Intent back = new Intent(DetailTaskActivity.this, MainActivity.class);
+                //startActivity(back);
+
+
+            }else {
+                Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     private String dateNow(){
@@ -315,4 +468,6 @@ public class DetailTaskActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

@@ -12,6 +12,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
     }
     buildTypes {
@@ -26,11 +27,15 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile files('libs/universal-image-loader-1.9.3.jar')
-    compile files('libs/achartengine-1.0.0.jar')
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
 }

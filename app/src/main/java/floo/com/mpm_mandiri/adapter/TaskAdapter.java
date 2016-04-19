@@ -25,10 +25,13 @@ import floo.com.mpm_mandiri.R;
 public class TaskAdapter extends BaseAdapter{
     Context context;
     ArrayList<Task> listData;
+    ArrayList<Task> list;
 
     public TaskAdapter(Context context, ArrayList<Task> listData){
         this.context = context;
         this.listData = listData;
+        this.list = new ArrayList<Task>();
+        this.list.addAll(listData);
     }
 
     @Override
@@ -74,8 +77,8 @@ public class TaskAdapter extends BaseAdapter{
         viewHolder.subjectTask.setText(subject);
         String pt = task.getCompany();
         viewHolder.ptTask.setText(pt);
-        int expire = task.getExpire();
 
+        int expire = task.getExpire();
         Date date = new Date(expire * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
@@ -104,11 +107,72 @@ public class TaskAdapter extends BaseAdapter{
         }
         return view;
     }
+    private long tode() {
+        String str = dateNow();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date2 = null;
+        try {
+            date2 = df.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date2.getTime()/1000;
+    }
 
     private String dateNow(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd/MM/yyyy HH:mm", Locale.getDefault());
         Date date1 = new Date();
         return dateFormat.format(date1);
+    }
+
+
+    public void filterRed(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(list);
+        } else {
+            for (Task wp : list) {
+                long h = Long.parseLong(charText);
+                if (wp.getExpire()<h) {
+                    listData.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterGreen(String charText) {
+
+        charText = charText.toLowerCase(Locale.getDefault());
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(list);
+        } else {
+            for (Task wp : list) {
+                long h = Long.parseLong(charText);
+                if ( wp.getExpire()>= h) {
+                    listData.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterOrange(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(list);
+        } else {
+            for (Task wp : list) {
+                long h = Long.parseLong(charText);
+                if ( wp.getExpire()>=h && wp.getExpire()< (h+2592000)) {
+                    listData.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }

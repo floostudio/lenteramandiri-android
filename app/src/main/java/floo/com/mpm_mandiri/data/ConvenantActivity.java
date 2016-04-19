@@ -209,7 +209,7 @@ public class ConvenantActivity extends AppCompatActivity {
                     HashMap<String, String> hashMap = new HashMap<String, String>();
                     hashMap.put(cov_id, Integer.toString(i+1));
                     hashMap.put(cov_title, strCovTitle);
-                    hashMap.put(cov_expire, epochtodate(strCovExpire));
+                    //hashMap.put(cov_expire, epochtodate(strCovExpire));
 
 
                     mylist.add(hashMap);
@@ -231,8 +231,8 @@ public class ConvenantActivity extends AppCompatActivity {
                 pDialog.dismiss();
 
             adapter = new SimpleAdapter(getApplicationContext(), mylist,
-                    R.layout.list_row_covenant,new String[]{cov_id, cov_title, cov_expire},
-                    new int[]{R.id.txt_list_cov_no, R.id.txt_list_cov_title, R.id.txt_list_cov_expire});
+                    R.layout.list_row_covenant,new String[]{cov_id, cov_title},
+                    new int[]{R.id.txt_list_cov_no, R.id.txt_list_cov_title});
             listCovenant.setAdapter(adapter);
 
 

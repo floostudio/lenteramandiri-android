@@ -361,7 +361,7 @@
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONVENANT"
+            android:text="COVENANT"
             android:textColor="@color/White"
             android:background="@color/yellow"/>
 

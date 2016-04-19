@@ -59,7 +59,7 @@ public class ProfilActivity extends Fragment {
     String urlProfil = DataManager.urlprofilList;
     HashMap<String, String> hashmapTask;
     private ProgressDialog pDialog;
-    String idParsing, pEscalated;
+    String idParsing;
     ImageView imgProfil;
     Bitmap myBitmap;
     LinearLayout linearLayout;
@@ -74,7 +74,7 @@ public class ProfilActivity extends Fragment {
     private static final String USER_EMAIL = "email";
     private static final String USER_TITLE = "title";
     private static final String profpic = "profpic";
-    private static final String escalated_group = "escalated_group";
+
 
 
 
@@ -96,7 +96,7 @@ public class ProfilActivity extends Fragment {
 
     public void initView(View view){
         idParsing = this.getArguments().getString("IDPARSING");
-        pEscalated = this.getArguments().getString(escalated_group);
+
         txtFullname = (TextView)view.findViewById(R.id.txt_profil_fullname);
         txtTitle = (TextView)view.findViewById(R.id.txt_profil_title);
         txtNip = (TextView)view.findViewById(R.id.txt_profil_nip);
@@ -120,7 +120,6 @@ public class ProfilActivity extends Fragment {
             public void onClick(View v) {
                 Intent update = new Intent(getActivity(), UpdateProfilActivity.class);
                 update.putExtra("IDPARSING", idParsing);
-                update.putExtra("esc", pEscalated);
                 update.putExtra(profpic, strImg);
                 update.putExtra(USER_EMAIL, txtEmail.getText().toString());
                 startActivity(update);

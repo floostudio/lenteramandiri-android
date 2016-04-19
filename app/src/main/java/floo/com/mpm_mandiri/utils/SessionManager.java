@@ -46,7 +46,7 @@ public class SessionManager {
 	 * Create login session
 	 * */
 	public void createLoginSession(String IDPARSING, String first_name,
-								   String last_name, String profpic, String escalated_group){
+								   String last_name, String profpic){
 		// Storing login value as TRUE
 		editor.putBoolean(IS_LOGIN, true);
 		
@@ -57,7 +57,7 @@ public class SessionManager {
 		editor.putString(Key_first_name, first_name);
 		editor.putString(Key_last_name, last_name);
 		editor.putString(Key_profpic, profpic);
-		editor.putString(Key_escalated_group, escalated_group);
+
 		
 		// commit changes
 		editor.commit();
@@ -97,7 +97,7 @@ public class SessionManager {
 		user.put(Key_first_name, pref.getString(Key_first_name, null));
 		user.put(Key_last_name, pref.getString(Key_last_name, null));
 		user.put(Key_profpic, pref.getString(Key_profpic, null));
-		user.put(Key_escalated_group, pref.getString(Key_escalated_group, null));
+
 		
 		// return user
 		return user;

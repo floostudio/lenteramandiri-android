@@ -1,193 +1,274 @@
 package floo.com.mpm_mandiri.fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import org.achartengine.ChartFactory;
-import org.achartengine.chart.BarChart;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
+import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
-import floo.com.mpm_mandiri.column.Axis;
-import floo.com.mpm_mandiri.column.ChartUtils;
-import floo.com.mpm_mandiri.column.Column;
-import floo.com.mpm_mandiri.column.ColumnChartData;
-import floo.com.mpm_mandiri.column.ColumnChartView;
-import floo.com.mpm_mandiri.column.SubcolumnValue;
+
 
 /**
  * Created by Floo on 2/23/2016.
  */
 public class DashboardActivity extends Fragment {
-    private View mChart;
-    private String[] mMonth = new String[] { "6", "8", "10", "12", "14",
-            "16", "18", "20", "22", "24", "26"};
-    LinearLayout chartContainer;
+    private static String tanggal = "tanggal";
+    private static String income = "income";
+    String strTgl, strIncome;
+    BarChart barChart;
+
+
+    private static String bulan = "bulan";
+    private static String persentage = "persentage";
+    PieChart pieChart;
+    ArrayList<Entry> entries;
+    PieDataSet piedataset;
+    ArrayList<String> labels;
+    PieData data;
+    String strBln;
+    int strPersen;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_dashboard, container, false);
-        chartContainer = (LinearLayout) v.findViewById(R.id.chart);
-        barChart();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("DASHBOARD");
+        barChart = (BarChart) v.findViewById(R.id.barchart);
+        pieChart = (PieChart) v.findViewById(R.id.piechart);
 
+        exampleBar();
+        examplePie();
+        //piechart();
 
 
         return v;
     }
 
-    private void barChart() {
-        int[] x = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-        int[] income = { 50, 40, 70, 60, 50, 40, 100, 80, 90, 88,
-                85};
 
-        // Creating an XYSeries for Income
-        // Creating an XYSeries for Income
-        XYSeries incomeSeries = new XYSeries("");
-        // Creating an XYSeries for Expense
-        XYSeries expenseSeries = new XYSeries("Expense");
-        // Adding data to Income and Expense Series
-        //for (int i = 0; i < income.length; i++) {
-        //	incomeSeries.add(i, income[i]);
-        //	//expenseSeries.add(i, expense[i]);
-        //}
+    private void exampleBar(){
+        ArrayList<BarEntry> group1 = new ArrayList<>();
+        group1.add(new BarEntry(4f, 0));
+        group1.add(new BarEntry(8f, 1));
+        group1.add(new BarEntry(6f, 2));
+        group1.add(new BarEntry(12f, 3));
+        group1.add(new BarEntry(18f, 4));
+        group1.add(new BarEntry(9f, 5));
 
-        // Creating a dataset to hold each series
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        // Adding Income Series to the dataset
-        dataset.addSeries(incomeSeries);
-        // Adding Expense Series to dataset
-        //dataset.addSeries(expenseSeries);
+        ArrayList<BarEntry> group2 = new ArrayList<>();
+        group2.add(new BarEntry(6f, 0));
+        group2.add(new BarEntry(7f, 1));
+        group2.add(new BarEntry(8f, 2));
+        group2.add(new BarEntry(12f, 3));
+        group2.add(new BarEntry(15f, 4));
+        group2.add(new BarEntry(10f, 5));
 
-        // Creating XYSeriesRenderer to customize incomeSeries
-        XYSeriesRenderer incomeRenderer = new XYSeriesRenderer();
-        incomeRenderer.setColor(Color.BLUE); // color of the graph set to cyan
-        incomeRenderer.setFillPoints(true);
-        incomeRenderer.setLineWidth(2);
-        incomeRenderer.setDisplayChartValues(true);
-        incomeRenderer.setDisplayChartValuesDistance(10); // setting chart value
-        // distance
+        BarDataSet barDataSet1 = new BarDataSet(group1, "Group 1");
+        //barDataSet1.setColor(Color.rgb(0, 155, 0));
+        barDataSet1.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        // Creating XYSeriesRenderer to customize expenseSeries
-        XYSeriesRenderer expenseRenderer = new XYSeriesRenderer();
-        expenseRenderer.setColor(Color.GREEN);
-        expenseRenderer.setFillPoints(true);
-        expenseRenderer.setLineWidth(2);
-        expenseRenderer.setDisplayChartValues(true);
+        BarDataSet barDataSet2 = new BarDataSet(group2, "Group 2");
+        barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        // Creating a XYMultipleSeriesRenderer to customize the whole chart
-        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer
-                .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
-        multiRenderer.setXLabels(0);
-        //multiRenderer.setChartTitle("Income vs Expense Chart");
+        ArrayList<BarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(barDataSet1);
+        dataSets.add(barDataSet2);
+
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("JAN");
+        labels.add("FEB");
+        labels.add("MAR");
+        labels.add("APR");
+        labels.add("MAY");
+        labels.add("JUN");
 
 
-        /***
-         * Customizing graphs
-         */
-        // setting text size of the title
-        multiRenderer.setChartTitleTextSize(28);
-        // setting text size of the axis title
-        multiRenderer.setAxisTitleTextSize(24);
-        // setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(50);
-        // setting zoom buttons visiblity
-        multiRenderer.setZoomButtonsVisible(false);
-        // setting pan enablity which uses graph to move on both axis
-        multiRenderer.setPanEnabled(false, false);
-        // setting click false on graph
-        multiRenderer.setClickEnabled(false);
-        // setting zoom to false on both axis
-        multiRenderer.setZoomEnabled(false, false);
-        // setting lines to display on y axis
-        multiRenderer.setShowGridY(false);
-        // setting lines to display on x axis
-        multiRenderer.setShowGridX(false);
-        // setting legend to fit the screen size
-        multiRenderer.setFitLegend(true);
-        // setting displaying line on grid
-        multiRenderer.setShowGrid(false);
-        // setting zoom to false
-        multiRenderer.setZoomEnabled(false);
-        // setting external zoom functions to false
-        multiRenderer.setExternalZoomEnabled(false);
-        // setting displaying lines on graph to be formatted(like using
-        // graphics)
-        multiRenderer.setAntialiasing(true);
-        // setting to in scroll to false
-        multiRenderer.setInScroll(false);
-        // setting to set legend height of the graph
-        multiRenderer.setLegendHeight(30);
-        // setting x axis label align
-        multiRenderer.setXLabelsAlign(Paint.Align.CENTER);
-        // setting y axis label to align
-        multiRenderer.setYLabelsAlign(Paint.Align.LEFT);
-        // setting text style
-        //multiRenderer.setTextTypeface("sans_serif", Typeface.NORMAL);
-        // setting no of values to display in y axis
-        multiRenderer.setYLabels(10);
-        // setting y axis max value, Since i'm using static values inside the
-        // graph so i'm setting y max value to 4000.
-        // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(100);
-        multiRenderer.setYAxisMin(0);
-        // setting used to move the graph on xaxiz to .5 to the right
-        multiRenderer.setXAxisMin(-1.5);
-        // setting max values to be display in x axis
-        //multiRenderer.setXAxisMax(11);
-        // setting bar size or space between two bars
-        multiRenderer.setBarSpacing(1);
-        // Setting background color of the graph to transparent
-        multiRenderer.setBackgroundColor(Color.TRANSPARENT);
-        // Setting margin color of the graph to transparent
-        multiRenderer.setMarginsColor(getResources().getColor(
-                R.color.transparent_background));
-        multiRenderer.setApplyBackgroundColor(true);
+        BarData data = new BarData(labels, dataSets);
+        barChart.setData(data);
+        barChart.setTouchEnabled(false);
+        //barChart.getXAxis().setEnabled(false);
+        barChart.getAxisRight().setDrawLabels(false);
+        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        //barChart.getLegend().setEnabled(false);
+        barChart.setDescription("");
+        barChart.animateXY(2000, 2000);
+        barChart.invalidate();
+    }
 
-        // setting the margin size for the graph in the order top, left, bottom,
-        // right
-        multiRenderer.setMargins(new int[] { 30, 30, 30, 30 });
+    private void examplePie(){
 
-        for (int i = 0; i < income.length; i++) {
-            incomeSeries.add(i, income[i]);
-            multiRenderer.addXTextLabel(i, mMonth[i]);
-        }
+        entries = new ArrayList<>();
+        entries.add(new Entry(360, 0));
+        entries.add(new Entry(80, 1));
+        //Log.d("entries", String.valueOf(entries));
 
-        // Adding incomeRenderer and expenseRenderer to multipleRenderer
-        // Note: The order of adding dataseries to dataset and renderers to
-        // multipleRenderer
-        // should be same
-        multiRenderer.addSeriesRenderer(incomeRenderer);
-        //multiRenderer.addSeriesRenderer(expenseRenderer);
 
-        // this part is used to display graph on the xml
+        piedataset = new PieDataSet(entries, "");
 
-        // remove any views before u paint the chart
-        chartContainer.removeAllViews();
-        // drawing bar chart
-        mChart = ChartFactory.getBarChartView(getActivity(), dataset,
-                multiRenderer, BarChart.Type.DEFAULT);
+        labels = new ArrayList<String>();
+        labels.add("January");
+        labels.add("February");
 
-        // adding the view to the linearlayout
-        chartContainer.addView(mChart);
+        data = new PieData(labels, piedataset);
+        pieChart.setData(data);
+        piedataset.setDrawValues(false);
+        piedataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        pieChart.setDescription("");
+        pieChart.setHighlightPerTapEnabled(false);
+        //pieChart.setHardwareAccelerationEnabled(false);
+        pieChart.setDrawSliceText(false);
+        //pieChart.getLegend().setEnabled(false);
+        pieChart.setRotationEnabled(false);
+        pieChart.setCenterText("KOLEKTIBILITAS\nDOWNGRADE\n75%");
+        pieChart.animateXY(5000, 5000);
+
 
 
     }
+
+    private void piechart(){
+        entries = new ArrayList<>();
+        labels = new ArrayList<String>();
+        new DataPie().execute();
+
+
+
+
+
+
+    }
+
+    private class DataPie extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            String objek="";
+
+            HttpParams myParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
+            HttpConnectionParams.setSoTimeout(myParams, 5000);
+
+            String serverData="";
+            DefaultHttpClient httpClient= new DefaultHttpClient(myParams);
+            HttpGet httpGet = new HttpGet("http://192.168.1.127/piechart.json");
+
+            try {
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                serverData = EntityUtils.toString(httpEntity);
+
+            }catch (ClientProtocolException e){
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+            String coba="";
+
+            try {
+                JSONArray jsonArray = new JSONArray(serverData);
+                for(int i=0; i<jsonArray.length(); i++){
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    strBln = jsonObject.getString(bulan);
+                    strPersen= jsonObject.getInt("persentage");
+
+                    entries.add(new Entry(strPersen, i));
+
+                    labels.add(strBln);
+
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            piedataset = new PieDataSet(entries, "");
+            data = new PieData(labels, piedataset);
+            pieChart.setData(data);
+            piedataset.setDrawValues(false);
+            //piedataset.setHighlightEnabled(false);
+            piedataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+            pieChart.setDescription("");
+            pieChart.setHighlightPerTapEnabled(false);
+            //pieChart.setHardwareAccelerationEnabled(false);
+            pieChart.setDrawSliceText(false);
+            pieChart.setRotationEnabled(false);
+            pieChart.setCenterText("KOLEKTIBILITAS\nDOWNGRADE\n75%");
+
+
+
+        }
+    }
+
+
+
 }

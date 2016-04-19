@@ -52,7 +52,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
     private static String department = "department";
     private static String title = "title";
     private static String email = "email";
-    private static String esc = "esc";
     private static String profpic = "profpic";
 
     private static final String status_code = "status_code";
@@ -66,7 +65,7 @@ public class UpdateProfilActivity extends AppCompatActivity {
     EditText edtFirstName, edtLastName, edtNip, edtEmail;
     Spinner spinDirectorate, spinDepartment, spinGroup, spinTitle;
     TextView idDirectorate, idDepartment, idGroup, idTitle;
-    String pProfpic, pId, pEmail, pEsc, strFirstName, strLastName, strEmail, strNip,
+    String pProfpic, pId, pEmail, strFirstName, strLastName, strEmail, strNip,
             strProfpic, strStatus, strMessage, strDirectorate, strGroup, strDepartment, strTitle;
 
     @Override
@@ -85,7 +84,7 @@ public class UpdateProfilActivity extends AppCompatActivity {
         pId = i.getStringExtra("IDPARSING");
         pProfpic = i.getStringExtra(profpic);
         pEmail = i.getStringExtra(email);
-        pEsc = i.getStringExtra(esc);
+
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView) toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("UPDATE PROFILE");
@@ -216,7 +215,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 object1.put(department, strDepartment);
                 object1.put(title, strTitle);
                 object1.put(email, pEmail);
-                object1.put(esc, pEsc);
                 object1.put(profpic, pProfpic);
                 String json1 = object1.toString();
 
