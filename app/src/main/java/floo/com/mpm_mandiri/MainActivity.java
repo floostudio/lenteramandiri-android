@@ -32,6 +32,7 @@ import java.util.HashMap;
 
 import floo.com.mpm_mandiri.fragment.CalenderActivity;
 import floo.com.mpm_mandiri.fragment.DashboardActivity;
+import floo.com.mpm_mandiri.fragment.NewDashboardActivity;
 import floo.com.mpm_mandiri.fragment.NewsActivity;
 import floo.com.mpm_mandiri.fragment.PortofolioActivity;
 import floo.com.mpm_mandiri.fragment.ProfilActivity;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title.setText("PROFILE");
+                //title.setText("PROFILE");
                 setFragment(0);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), strProfpic, Toast.LENGTH_LONG).show();
-                title.setText("PROFILE");
+
                 setFragment(0);
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -281,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (position){
             case 0:
+                title.setText("PROFILE");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 ProfilActivity profil = new ProfilActivity();
@@ -292,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
                 title.setText("DASHBOARD");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
-                DashboardActivity dashboar = new DashboardActivity();
+                NewDashboardActivity dashboar = new NewDashboardActivity();
                 ft.replace(R.id.content_fragment, dashboar);
                 ft.commit();
                 break;

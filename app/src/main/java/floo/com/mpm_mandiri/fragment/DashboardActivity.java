@@ -87,7 +87,7 @@ public class DashboardActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_dashboard, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("DASHBOARD");
+        //((MainActivity) getActivity()).getSupportActionBar().setTitle("DASHBOARD");
         barChart = (BarChart) v.findViewById(R.id.barchart);
         pieChart = (PieChart) v.findViewById(R.id.piechart);
 

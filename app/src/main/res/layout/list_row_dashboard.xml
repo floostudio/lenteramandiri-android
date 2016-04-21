@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:background="@color/White">
+
+            <TextView
+                android:id="@+id/txt_background"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collection"
+                android:textColor="@color/Black"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btn_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/background"
+                android:textColor="@color/White"
+                android:text="24.1 T"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:background="@color/grey">
+
+            <TextView
+                android:id="@+id/txt_light"
+                android:textColor="@color/Black"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collection"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btn_light"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightyellow"
+                android:textColor="@color/White"
+                android:text="24.1 T"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:background="@color/grey">
+
+            <TextView
+                android:id="@+id/txt_blue"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collection"
+                android:textColor="@color/Black"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btn_blue"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/cpb_blue"
+                android:textColor="@color/White"
+                android:text="24.1 T"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:background="@color/White">
+
+            <TextView
+                android:id="@+id/txt_yellow"
+                android:textColor="@color/Black"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collection"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/btn_yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:textColor="@color/White"
+                android:text="24.1 T"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

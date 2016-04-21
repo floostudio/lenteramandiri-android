@@ -55,8 +55,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:clickable="false"
@@ -70,15 +68,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp" />
 
-
-
         </LinearLayout>
-
-
     </ScrollView>
-
-
-
-
-
 </LinearLayout>
