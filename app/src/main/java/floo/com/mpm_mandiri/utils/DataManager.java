@@ -27,6 +27,9 @@ public class DataManager {
     public static String urlPortAccount = "http://play.floostudio.com/lenteramandiri/api/v1/portfolio_acc";
     public static String urlPortAccountDetail = "";
     public static String urlCovenant = "http://play.floostudio.com/lenteramandiri/api/v1/portfolio_acc/covenant/";
+    public static String urlDashboard = "http://play.floostudio.com/lenteramandiri/api/v1/dashboard";
+    public static String urlListperAccount = "http://play.floostudio.com/lenteramandiri/api/v1/dashboard/listAccount";
+    public static String urlGetperAccount = "http://play.floostudio.com/lenteramandiri/api/v1/dashboard/account/";
 
     //PUT
     public static String urltaskNote = "http://play.floostudio.com/lenteramandiri/api/v1/tasks/note/";
