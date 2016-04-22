@@ -7,21 +7,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,12 +39,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import floo.com.mpm_mandiri.R;
-import floo.com.mpm_mandiri.adapter.DataSpinner;
-import floo.com.mpm_mandiri.adapter.Task;
-import floo.com.mpm_mandiri.adapter.TaskAdapter;
 import floo.com.mpm_mandiri.data.ImageActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
 
@@ -58,7 +50,7 @@ import floo.com.mpm_mandiri.utils.DataManager;
 public class NewDashboardActivity extends Fragment {
     HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> mylist;
-    ListView listView;
+    ListView listtfd, litcahsio, listdlr, listagf, listavg, listbakidebet, listbantuchasio;
     SimpleAdapter adapter;
     String[] array = new String[]{"ABC UNGGUL", "MASPINA","TELEMA","SAMPURNA"};
 
@@ -88,17 +80,10 @@ public class NewDashboardActivity extends Fragment {
 
     Button btntfd, btncash, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
     Spinner spinner;
-    ArrayAdapter<String> arrayAdapter;
+
 
     TextView text1, text2, title_blue, title_yellow;
 
-    BaseAdapter baseAdapter;
-
-    String[] aa = new String[]{"170","170","170"};
-    String[] bb = new String[]{"150","160", "150"};
-    String[] cc = new String[]{"165","180", "180"};
-    String[] dd = new String[]{"140","160", "150"};
-    String[] ee = new String[]{"180","130", "190"};
 
     @Nullable
     @Override
@@ -158,7 +143,7 @@ public class NewDashboardActivity extends Fragment {
         btnavg = (Button)v.findViewById(R.id.btn_avg);
         btnbakidebet = (Button)v.findViewById(R.id.btn_BakiDebet);
         btndetail = (Button)v.findViewById(R.id.btn_detail);
-        listView = (ListView)v.findViewById(R.id.list_dasboard);
+        listtfd = (ListView)v.findViewById(R.id.list_dasboard);
 
         //spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_new_spinner, array);
         //spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
@@ -171,6 +156,7 @@ public class NewDashboardActivity extends Fragment {
 
             @Override
             public void onClick(View v) {
+                listtfd.setVisibility(View.VISIBLE);
                 title_yellow.setText("Transaction Flow Diagram");
                 title_blue.setText("Transaction Flow Diagram");
                 text1.setText("Collection");
@@ -188,25 +174,13 @@ public class NewDashboardActivity extends Fragment {
                 btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
                 btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
 
-                mylist = new ArrayList<HashMap<String, String>>();
-                for (int i=0; i<subject.length;i++){
-                    hashMap = new HashMap<String, String>();
-                    hashMap.put("subject", subject[i]);
-                    hashMap.put("pt", pt[i]);
-                    hashMap.put("ss", ss[i]);
-                    hashMap.put("pp", pp[i]);
-                    mylist.add(hashMap);
-                }
-
-
-                btndetail.setVisibility(View.VISIBLE);
-
             }
         });
 
         btncash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listtfd.setVisibility(View.INVISIBLE);
                 title_yellow.setText("CashInOut");
                 title_blue.setText("CashInOut");
                 text1.setText("Cashin Target | Cashin Actual");
@@ -241,10 +215,7 @@ public class NewDashboardActivity extends Fragment {
                         new String[]{"aa", "bb", "aa", "dd","aa","cc","aa","ee"}, new int[]{R.id.txt_background,
                         R.id.btn_background, R.id.txt_light, R.id.btn_light, R.id.txt_blue, R.id.btn_blue, R.id.txt_yellow, R.id.btn_yellow});
                 listView.setAdapter(adapter);*/
-                listView.setScrollbarFadingEnabled(false);
-                listView.setFastScrollAlwaysVisible(false);
-                listView.setFastScrollEnabled(false);
-                listView.setScrollbarFadingEnabled(false);
+
 
                 btndetail.setVisibility(View.VISIBLE);
             }
@@ -253,8 +224,9 @@ public class NewDashboardActivity extends Fragment {
         btndlr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title_yellow.setText("Depositto Loan Ratio");
-                title_blue.setText("Depositto Loan Ratio");
+                listtfd.setVisibility(View.INVISIBLE);
+                title_yellow.setText("Deposito Loan Ratio");
+                title_blue.setText("Deposito Loan Ratio");
                 btntfd.setBackgroundResource(R.drawable.activity_btn);
                 btntfd.setTextColor(Color.parseColor("#0b3a77"));
                 btncash.setBackgroundResource(R.drawable.activity_btn);
@@ -274,6 +246,7 @@ public class NewDashboardActivity extends Fragment {
         btnagf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                listtfd.setVisibility(View.INVISIBLE);
                 btntfd.setBackgroundResource(R.drawable.activity_btn);
                 btntfd.setTextColor(Color.parseColor("#0b3a77"));
                 btncash.setBackgroundResource(R.drawable.activity_btn);
@@ -293,6 +266,7 @@ public class NewDashboardActivity extends Fragment {
             @Override
             public void onClick(View v) {
 
+                listtfd.setVisibility(View.INVISIBLE);
                 btntfd.setBackgroundResource(R.drawable.activity_btn);
                 btntfd.setTextColor(Color.parseColor("#0b3a77"));
                 btncash.setBackgroundResource(R.drawable.activity_btn);
@@ -312,6 +286,8 @@ public class NewDashboardActivity extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+                listtfd.setVisibility(View.INVISIBLE);
                 btntfd.setBackgroundResource(R.drawable.activity_btn);
                 btntfd.setTextColor(Color.parseColor("#0b3a77"));
                 btncash.setBackgroundResource(R.drawable.activity_btn);
@@ -457,6 +433,7 @@ public class NewDashboardActivity extends Fragment {
                         String strbmri21 = jsonObject3.getString(bmri_share2);
                         Log.d("strfy1", strfy1);
 
+                    mylist.clear();
                         hashMap = new HashMap<String, String>();
                         hashMap.put(fy_2014, strfy);
                         hashMap.put(bmri_share, strbmri);
@@ -467,6 +444,7 @@ public class NewDashboardActivity extends Fragment {
                         hashMap.put("strytd1", strytd1);
                         hashMap.put("strbmri21", strbmri21);
                         mylist.add(hashMap);
+
 
                 }
 
@@ -488,7 +466,7 @@ public class NewDashboardActivity extends Fragment {
                     new String[]{fy_2014, "strfy1", bmri_share, "strbmri1", ytd_jul, "strytd1", bmri_share2, "strbmri21"}, new int[]{R.id.btn_background,
                     R.id.btn_light, R.id.btn_blue, R.id.btn_yellow, R.id.btn_background1,
                     R.id.btn_light1, R.id.btn_blue1, R.id.btn_yellow1});
-            listView.setAdapter(adapter);
+            listtfd.setAdapter(adapter);
 
 
         }
@@ -618,4 +596,5 @@ public class NewDashboardActivity extends Fragment {
 
         }
     }
+
 }

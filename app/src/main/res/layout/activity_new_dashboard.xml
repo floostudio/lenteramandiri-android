@@ -203,17 +203,41 @@
                     android:orientation="horizontal">
 
                     <ListView
-                        android:layout_width="30dp"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
-
-                    <ListView
                         android:id="@+id/list_dasboard"
                         android:layout_width="match_parent"
                         android:divider="@android:color/transparent"
                         android:layout_height="300dp"></ListView>
 
-
+                    <ListView
+                        android:id="@+id/list_cashio"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"></ListView>
+                    <ListView
+                        android:id="@+id/list_dlr"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"></ListView>
+                    <ListView
+                        android:id="@+id/list_agf"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"></ListView>
+                    <ListView
+                        android:id="@+id/list_avg"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"></ListView>
+                    <ListView
+                        android:id="@+id/list_bakidebet"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:visibility="gone"></ListView>
+                    <ListView
+                        android:id="@+id/list_bantucashio"
+                        android:layout_width="30dp"
+                        android:layout_height="300dp"
+                        android:visibility="gone"></ListView>
 
                 </RelativeLayout>
 
