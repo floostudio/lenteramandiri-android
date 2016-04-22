@@ -173,7 +173,6 @@ public class NewDashboardActivity extends Fragment {
                 btnavg.setTextColor(Color.parseColor("#0b3a77"));
                 btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
                 btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
-
             }
         });
 
