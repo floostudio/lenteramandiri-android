@@ -99,31 +99,9 @@ public class MainActivity extends AppCompatActivity {
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
 
 
-        /*try{
-
-            if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
-                Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
-                myBitmap = ((BitmapDrawable) myDrawable).getBitmap();
-
-            }else {
-                URL urlConnection = new URL(strProfpic);
-                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
-
-            }
-        }catch (Exception e){
-
-        }
-
-        img.setImageBitmap(myBitmap);*/
 
         if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
 
-            //Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
-            //Bitmap myLogo = ((BitmapDrawable) myDrawable).getBitmap();
             img.setImageResource(R.drawable.profile);
 
         }else {

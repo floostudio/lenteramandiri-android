@@ -38,4 +38,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
+    compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
 }

@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     Button login;
     String url = DataManager.url;
-    String urlLogin = DataManager.urlLogin;
+    String urlLogin = DataManager.urlLoginSementara;
     String strEmail, strPassword, idParsing, escalatedParsing, strStatus,
             strFirstname, strLastname, strProfpic, strTitle, strMessage;
     ConnectionDetector connection;
@@ -111,6 +111,9 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //email.setText("qwerty@domain.com", TextView.BufferType.EDITABLE);
+                //password.setText("qwerty", TextView.BufferType.EDITABLE);
+
                 if (email.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Email empty", Toast.LENGTH_LONG).show();
 

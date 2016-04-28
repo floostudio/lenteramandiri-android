@@ -10,7 +10,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="2dp"
-        android:paddingBottom="5dp"
+        android:paddingBottom="4dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:background="@color/yellow">
@@ -67,15 +67,16 @@
                                 android:id="@+id/btn_tfd"
                                 android:text="TFD"
                                 android:layout_width="80dp"
-                                android:layout_height="35dp"
+                                android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:textColor="@color/background"
                                 android:textAllCaps="false" />
 
                             <Button
+
                                 android:textColor="@color/background"
                                 android:layout_width="80dp"
-                                android:layout_height="35dp"
+                                android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_cash"
@@ -83,9 +84,10 @@
                                 android:text="CashIO"/>
 
                             <Button
+
                                 android:textColor="@color/background"
-                                android:layout_width="70dp"
-                                android:layout_height="35dp"
+                                android:layout_width="80dp"
+                                android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_dlr"
@@ -93,9 +95,10 @@
                                 android:text="DLR"/>
 
                             <Button
+
                                 android:textColor="@color/background"
                                 android:layout_width="80dp"
-                                android:layout_height="35dp"
+                                android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_agf"
@@ -103,9 +106,10 @@
                                 android:text="AGF"/>
 
                             <Button
+
                                 android:textColor="@color/background"
                                 android:layout_width="80dp"
-                                android:layout_height="35dp"
+                                android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_avg"
@@ -113,9 +117,10 @@
                                 android:text="AVG"/>
 
                             <Button
+
                                 android:textColor="@color/background"
                                 android:layout_width="80dp"
-                                android:layout_height="35dp"
+                                android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_BakiDebet"
@@ -199,61 +204,84 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ListView
+                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_dasboard"
                         android:layout_width="match_parent"
                         android:divider="@android:color/transparent"
-                        android:layout_height="300dp"></ListView>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
-                    <ListView
-                        android:id="@+id/list_cashio"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
-                    <ListView
+                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+                    <RelativeLayout
+                        android:id="@+id/relative_cashio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                            android:id="@+id/list_cashio"
+                            android:layout_width="fill_parent"
+                            android:divider="@android:color/transparent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                            android:id="@+id/list_month"
+                            android:layout_width="30dp"
+                            android:divider="@android:color/transparent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+                    </RelativeLayout>
+
+                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_dlr"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
-                    <ListView
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_agf"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
-                    <ListView
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_avg"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
-                    <ListView
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_bakidebet"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
-                    <ListView
-                        android:id="@+id/list_bantucashio"
-                        android:layout_width="30dp"
-                        android:layout_height="300dp"
-                        android:visibility="gone"></ListView>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
 
                 </RelativeLayout>
 
             <Button
-                android:layout_below="@+id/list_dasboard"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:id="@+id/btn_detail"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:text="DETAIL"
                 android:textSize="18dp"
-                android:layout_gravity="center|bottom"
+                android:layout_gravity="center"
                 android:textColor="@color/White"
-                android:background="@color/yellow"
-                />
+                android:background="@color/yellow"/>
 
 
         </LinearLayout>
