@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText email, password;
     Button login;
     String url = DataManager.url;
-    String urlLogin = DataManager.urlLoginSementara;
+    String urlLogin = DataManager.urlLogin;
     String strEmail, strPassword, idParsing, escalatedParsing, strStatus,
             strFirstname, strLastname, strProfpic, strTitle, strMessage;
     ConnectionDetector connection;
