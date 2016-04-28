@@ -349,7 +349,7 @@ public class TaskActivity extends Fragment {
             httpGet.setHeader("X-Header_access_key", access_key);
             httpGet.setHeader("Accept-Language", "en-us");
             httpGet.setHeader("X-Timezone", "Asia/Jakarta");
-
+            Log.d("urllist", urlTask+idParsing);
             try {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
@@ -360,11 +360,13 @@ public class TaskActivity extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            Log.d("UrlData", url);
+            Log.d("IDParsing", idParsing);
             String coba = "";
             try {
                 taskArray = new ArrayList<Task>();
                 JSONArray jsonArray = new JSONArray(serverData);
+                Log.d("taskasd", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 

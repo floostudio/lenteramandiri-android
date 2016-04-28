@@ -191,7 +191,7 @@ public class ConvenantActivity extends AppCompatActivity {
             }
 
             String coba="";
-
+            Log.d("Covenant", DataManager.url);
             try {
 
                 JSONArray jsonArray = new JSONArray(serverData);

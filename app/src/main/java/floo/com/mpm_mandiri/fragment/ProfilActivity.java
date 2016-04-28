@@ -111,20 +111,22 @@ public class ProfilActivity extends Fragment {
             public void onClick(View v) {
                 Intent change = new Intent(getActivity(), ChangePasswordActivity.class);
                 change.putExtra("email", txtEmail.getText().toString());
-                startActivity(change);
+
             }
         });
-        update = (Button)view.findViewById(R.id.btn_updateProfile);
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent update = new Intent(getActivity(), UpdateProfilActivity.class);
-                update.putExtra("IDPARSING", idParsing);
-                update.putExtra(profpic, strImg);
-                update.putExtra(USER_EMAIL, txtEmail.getText().toString());
-                startActivity(update);
-            }
-        });
+//        update = (Button)view.findViewById(R.id.btn_updateProfile);
+//        update.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent update = new Intent(getActivity(), UpdateProfilActivity.class);
+//                update.putExtra("IDPARSING", idParsing);
+//                update.putExtra(profpic, strImg);
+//                update.putExtra(USER_EMAIL, txtEmail.getText().toString());
+//                startActivity(update);
+//            }
+//        });
+
+        //update.setVisibility(View.INVISIBLE);
     }
 
     private class DataFetcherProfil extends AsyncTask<Void, Void, Void> {

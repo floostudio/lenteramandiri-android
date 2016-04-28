@@ -297,13 +297,15 @@
         android:gravity="center"
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="3dp"
-        android:layout_marginRight="15dp">
+        android:layout_marginRight="15dp"
+        android:visibility="invisible">
 
     <Button
         android:id="@+id/btn_updateProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UPDATE PROFILE"/>
+        android:text="UPDATE PROFILES"
+        android:visibility="invisible" />
 
         </LinearLayout>
 
