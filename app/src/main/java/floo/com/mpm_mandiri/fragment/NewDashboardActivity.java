@@ -19,6 +19,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -48,24 +50,22 @@ import floo.com.mpm_mandiri.utils.DataManager;
  * Created by Floo on 4/21/2016.
  */
 public class NewDashboardActivity extends Fragment {
-    HashMap<String, String> hashMap;
-    ArrayList<HashMap<String, String>> mylist;
-    ListView listtfd, litcahsio, listdlr, listagf, listavg, listbakidebet, listbantuchasio;
-    SimpleAdapter adapter;
-    String[] array = new String[]{"ABC UNGGUL", "MASPINA","TELEMA","SAMPURNA"};
-
-    String[] subject = new String[]{"FY 2014", "YTD Jul"};
-    String[] pt = new String[]{"24.1 T", "3.7 T", "14.2 T", "3.5 T"};
-    String[] ss = new String[]{"BMRI Share", "BMRI Share"};
-    String[] pp = new String[]{"3.7 T", "3.5 T"};
+    HashMap<String, String> hashMapTFD, hashMapCashio, hashMapMonth;
+    ArrayList<HashMap<String, String>> mylistTFD, mylistCashio, mylistMonth;
+    ExpandableHeightListView listTFD, listCashio, listMonth, listDLR, listAGF, listAVG, listBakiDebet;
+    SimpleAdapter adapterTFD, adapterCashio, adapterMonth;
+    Button btntfd, btncash, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
+    Spinner spinner;
+    TextView text1, text2, title_blue, title_yellow;
 
     private ProgressDialog pDialog;
     String url = DataManager.url;
     String urlDashboard = DataManager.urlDashboard;
-    String urlGetperAccount = DataManager.urlGetperAccount;
+    String urlGetperAccount = DataManager.urlGetperAccountSementara;
     String strAcc_num, strtfd, strcollection, strfy, strbmri, strytd, strbmri2, strpayment;
     private static final String acc_num = "acc_num";
     private static final String tfd = "tfd";
+    private static final String cashio = "cashio";
     private static final String collection = "collection";
     private static final String fy_2014 = "fy_2014";
     private static final String bmri_share = "bmri_share";
@@ -73,16 +73,14 @@ public class NewDashboardActivity extends Fragment {
     private static final String bmri_share2 = "bmri_share2";
     private static final String payment = "payment";
     private static final String cashinout = "cashinout";
+    private static final String month = "month";
+    private static final String cashintarget = "cashintarget";
     private static final String cashinactual = "cashinactual";
     private static final String cashouttarget = "cashouttarget";
     private static final String cashoutactual = "cashoutactual";
 
 
-    Button btntfd, btncash, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
-    Spinner spinner;
 
-
-    TextView text1, text2, title_blue, title_yellow;
 
 
     @Nullable
@@ -90,15 +88,17 @@ public class NewDashboardActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_new_dashboard, container, false);
         initView(v);
-        mylist = new ArrayList<HashMap<String, String>>();
-        //new DataFetcherTask().execute();
+        mylistTFD = new ArrayList<HashMap<String, String>>();
+        mylistCashio = new ArrayList<HashMap<String, String>>();
+        mylistMonth = new ArrayList<HashMap<String, String>>();
+
         new DataSpinner().execute();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView txt = (TextView)view.findViewById(R.id.text1);
-                //adapter.getFilter().filter("");
+
                 //Toast.makeText(getActivity(), txt.getText().toString(),Toast.LENGTH_LONG).show();
 
                 new DataFetcherTask(txt.getText().toString()).execute();
@@ -106,18 +106,15 @@ public class NewDashboardActivity extends Fragment {
                 title_blue.setText("Transaction Flow Diagram");
                 text1.setText("Collection");
                 text2.setText("Payment");
+                toggleButtonActive(false);
                 btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
                 btntfd.setTextColor(Color.parseColor("#ffffff"));
-                btncash.setBackgroundResource(R.drawable.activity_btn);
-                btncash.setTextColor(Color.parseColor("#0b3a77"));
-                btndlr.setBackgroundResource(R.drawable.activity_btn);
-                btndlr.setTextColor(Color.parseColor("#0b3a77"));
-                btnagf.setBackgroundResource(R.drawable.activity_btn);
-                btnagf.setTextColor(Color.parseColor("#0b3a77"));
-                btnavg.setBackgroundResource(R.drawable.activity_btn);
-                btnavg.setTextColor(Color.parseColor("#0b3a77"));
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
-                btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
+
+
+                toggleListView(listTFD);
+                listMonth.setVisibility(View.INVISIBLE);
+                btndetail.setVisibility(View.VISIBLE);
+
             }
 
             @Override
@@ -128,6 +125,50 @@ public class NewDashboardActivity extends Fragment {
 
 
         return v;
+    }
+
+    private void toggleButtonActive(Boolean active){
+        if(!active) {
+            btntfd.setBackgroundResource(R.drawable.activity_btn);
+            btntfd.setTextColor(Color.parseColor("#0b3a77"));
+            btncash.setBackgroundResource(R.drawable.activity_btn);
+            btncash.setTextColor(Color.parseColor("#0b3a77"));
+            btndlr.setBackgroundResource(R.drawable.activity_btn);
+            btndlr.setTextColor(Color.parseColor("#0b3a77"));
+            btnagf.setBackgroundResource(R.drawable.activity_btn);
+            btnagf.setTextColor(Color.parseColor("#0b3a77"));
+            btnavg.setBackgroundResource(R.drawable.activity_btn);
+            btnavg.setTextColor(Color.parseColor("#0b3a77"));
+            btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
+            btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
+        } else {
+            btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
+            btntfd.setTextColor(Color.parseColor("#ffffff"));
+            btncash.setBackgroundResource(R.drawable.activity_btn_blue);
+            btncash.setTextColor(Color.parseColor("#ffffff"));
+            btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
+            btndlr.setTextColor(Color.parseColor("#ffffff"));
+            btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnagf.setTextColor(Color.parseColor("#ffffff"));
+            btnavg.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnavg.setTextColor(Color.parseColor("#ffffff"));
+            btnbakidebet.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnbakidebet.setTextColor(Color.parseColor("#ffffff"));
+        }
+    }
+
+    private void toggleListView(ListView lv){
+        listTFD.setVisibility(View.INVISIBLE);
+        listCashio.setVisibility(View.INVISIBLE);
+        listDLR.setVisibility(View.INVISIBLE);
+        listAGF.setVisibility(View.INVISIBLE);
+        listAVG.setVisibility(View.INVISIBLE);
+        listBakiDebet.setVisibility(View.INVISIBLE);
+
+
+        lv.setVisibility(View.VISIBLE);
+
+
     }
 
     private void initView(View v){
@@ -143,8 +184,21 @@ public class NewDashboardActivity extends Fragment {
         btnavg = (Button)v.findViewById(R.id.btn_avg);
         btnbakidebet = (Button)v.findViewById(R.id.btn_BakiDebet);
         btndetail = (Button)v.findViewById(R.id.btn_detail);
-        listtfd = (ListView)v.findViewById(R.id.list_dasboard);
+        listTFD = (ExpandableHeightListView)v.findViewById(R.id.list_dasboard);
+        listCashio = (ExpandableHeightListView) v.findViewById(R.id.list_cashio);
+        listMonth = (ExpandableHeightListView)v.findViewById(R.id.list_month);
+        listDLR = (ExpandableHeightListView)v.findViewById(R.id.list_dlr);
+        listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
+        listAVG = (ExpandableHeightListView)v.findViewById(R.id.list_avg);
+        listBakiDebet = (ExpandableHeightListView)v.findViewById(R.id.list_bakidebet);
 
+        listTFD.setEnabled(false);
+        listCashio.setEnabled(false);
+        listMonth.setEnabled(false);
+        listDLR.setEnabled(false);
+        listAGF.setEnabled(false);
+        listAVG.setEnabled(false);
+        listBakiDebet.setEnabled(false);
         //spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_new_spinner, array);
         //spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         //spinner.setAdapter(spinnerArrayAdapter);
@@ -156,66 +210,35 @@ public class NewDashboardActivity extends Fragment {
 
             @Override
             public void onClick(View v) {
-                listtfd.setVisibility(View.VISIBLE);
                 title_yellow.setText("Transaction Flow Diagram");
                 title_blue.setText("Transaction Flow Diagram");
                 text1.setText("Collection");
                 text2.setText("Payment");
+                toggleButtonActive(false);
                 btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
                 btntfd.setTextColor(Color.parseColor("#ffffff"));
-                btncash.setBackgroundResource(R.drawable.activity_btn);
-                btncash.setTextColor(Color.parseColor("#0b3a77"));
-                btndlr.setBackgroundResource(R.drawable.activity_btn);
-                btndlr.setTextColor(Color.parseColor("#0b3a77"));
-                btnagf.setBackgroundResource(R.drawable.activity_btn);
-                btnagf.setTextColor(Color.parseColor("#0b3a77"));
-                btnavg.setBackgroundResource(R.drawable.activity_btn);
-                btnavg.setTextColor(Color.parseColor("#0b3a77"));
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
-                btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
+
+
+                toggleListView(listTFD);
+                listMonth.setVisibility(View.INVISIBLE);
+                //btndetail.setVisibility(View.VISIBLE);
+
             }
         });
 
         btncash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listtfd.setVisibility(View.INVISIBLE);
                 title_yellow.setText("CashInOut");
                 title_blue.setText("CashInOut");
                 text1.setText("Cashin Target | Cashin Actual");
                 text2.setText("Cashout Target | Cashout Actual");
-                btntfd.setBackgroundResource(R.drawable.activity_btn);
-                btntfd.setTextColor(Color.parseColor("#0b3a77"));
+                toggleButtonActive(false);
                 btncash.setBackgroundResource(R.drawable.activity_btn_blue);
                 btncash.setTextColor(Color.parseColor("#ffffff"));
-                btndlr.setBackgroundResource(R.drawable.activity_btn);
-                btndlr.setTextColor(Color.parseColor("#0b3a77"));
-                btnagf.setBackgroundResource(R.drawable.activity_btn);
-                btnagf.setTextColor(Color.parseColor("#0b3a77"));
-                btnavg.setBackgroundResource(R.drawable.activity_btn);
-                btnavg.setTextColor(Color.parseColor("#0b3a77"));
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
-                btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
 
-
-
-                mylist = new ArrayList<HashMap<String, String>>();
-                /*for (int i=0; i<aa.length;i++){
-                    hashMap = new HashMap<String, String>();
-                    hashMap.put("aa", aa[i]);
-                    hashMap.put("bb", bb[i]);
-                    hashMap.put("cc", cc[i]);
-                    hashMap.put("dd", dd[i]);
-                    hashMap.put("ee", ee[i]);
-                    mylist.add(hashMap);
-                }
-
-                adapter = new SimpleAdapter(getActivity(), mylist, R.layout.list_row_dashboard,
-                        new String[]{"aa", "bb", "aa", "dd","aa","cc","aa","ee"}, new int[]{R.id.txt_background,
-                        R.id.btn_background, R.id.txt_light, R.id.btn_light, R.id.txt_blue, R.id.btn_blue, R.id.txt_yellow, R.id.btn_yellow});
-                listView.setAdapter(adapter);*/
-
-
+                toggleListView(listCashio);
+                listMonth.setVisibility(View.VISIBLE);
                 btndetail.setVisibility(View.VISIBLE);
             }
         });
@@ -223,21 +246,15 @@ public class NewDashboardActivity extends Fragment {
         btndlr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listtfd.setVisibility(View.INVISIBLE);
                 title_yellow.setText("Deposito Loan Ratio");
                 title_blue.setText("Deposito Loan Ratio");
-                btntfd.setBackgroundResource(R.drawable.activity_btn);
-                btntfd.setTextColor(Color.parseColor("#0b3a77"));
-                btncash.setBackgroundResource(R.drawable.activity_btn);
-                btncash.setTextColor(Color.parseColor("#0b3a77"));
+
+                toggleButtonActive(false);
                 btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
                 btndlr.setTextColor(Color.parseColor("#ffffff"));
-                btnagf.setBackgroundResource(R.drawable.activity_btn);
-                btnagf.setTextColor(Color.parseColor("#0b3a77"));
-                btnavg.setBackgroundResource(R.drawable.activity_btn);
-                btnavg.setTextColor(Color.parseColor("#0b3a77"));
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
-                btnbakidebet.setTextColor(Color.parseColor("#000000"));
+
+                toggleListView(listDLR);
+                listMonth.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -245,19 +262,12 @@ public class NewDashboardActivity extends Fragment {
         btnagf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listtfd.setVisibility(View.INVISIBLE);
-                btntfd.setBackgroundResource(R.drawable.activity_btn);
-                btntfd.setTextColor(Color.parseColor("#0b3a77"));
-                btncash.setBackgroundResource(R.drawable.activity_btn);
-                btncash.setTextColor(Color.parseColor("#0b3a77"));
-                btndlr.setBackgroundResource(R.drawable.activity_btn);
-                btndlr.setTextColor(Color.parseColor("#0b3a77"));
+                toggleButtonActive(false);
                 btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
                 btnagf.setTextColor(Color.parseColor("#ffffff"));
-                btnavg.setBackgroundResource(R.drawable.activity_btn);
-                btnavg.setTextColor(Color.parseColor("#0b3a77"));
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
-                btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
+
+                toggleListView(listAGF);
+                listMonth.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -265,19 +275,12 @@ public class NewDashboardActivity extends Fragment {
             @Override
             public void onClick(View v) {
 
-                listtfd.setVisibility(View.INVISIBLE);
-                btntfd.setBackgroundResource(R.drawable.activity_btn);
-                btntfd.setTextColor(Color.parseColor("#0b3a77"));
-                btncash.setBackgroundResource(R.drawable.activity_btn);
-                btncash.setTextColor(Color.parseColor("#0b3a77"));
-                btndlr.setBackgroundResource(R.drawable.activity_btn);
-                btndlr.setTextColor(Color.parseColor("#0b3a77"));
-                btnagf.setBackgroundResource(R.drawable.activity_btn);
-                btnagf.setTextColor(Color.parseColor("#0b3a77"));
+                toggleButtonActive(false);
                 btnavg.setBackgroundResource(R.drawable.activity_btn_blue);
                 btnavg.setTextColor(Color.parseColor("#ffffff"));
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn);
-                btnbakidebet.setTextColor(Color.parseColor("#0b3a77"));
+
+                toggleListView(listAVG);
+                listMonth.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -285,20 +288,12 @@ public class NewDashboardActivity extends Fragment {
             @Override
             public void onClick(View v) {
 
-
-                listtfd.setVisibility(View.INVISIBLE);
-                btntfd.setBackgroundResource(R.drawable.activity_btn);
-                btntfd.setTextColor(Color.parseColor("#0b3a77"));
-                btncash.setBackgroundResource(R.drawable.activity_btn);
-                btncash.setTextColor(Color.parseColor("#0b3a77"));
-                btndlr.setBackgroundResource(R.drawable.activity_btn);
-                btndlr.setTextColor(Color.parseColor("#0b3a77"));
-                btnagf.setBackgroundResource(R.drawable.activity_btn);
-                btnagf.setTextColor(Color.parseColor("#0b3a77"));
-                btnavg.setBackgroundResource(R.drawable.activity_btn);
-                btnavg.setTextColor(Color.parseColor("#0b3a77"));
+                toggleButtonActive(false);
                 btnbakidebet.setBackgroundResource(R.drawable.activity_btn_blue);
                 btnbakidebet.setTextColor(Color.parseColor("#ffffff"));
+
+                toggleListView(listBakiDebet);
+                listMonth.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -398,55 +393,67 @@ public class NewDashboardActivity extends Fragment {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("data", serverData);
+
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            String coba = "";
             try {
                 JSONArray jsonArray = new JSONArray(serverData);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+
                     strAcc_num = jsonObject.getString(acc_num);
-                    Log.d("acc_number", strAcc_num);
+                    // Mapping Data TFD
+                    JSONObject objTfd=jsonObject.getJSONObject(tfd);
 
+                    JSONObject objCollection=objTfd.getJSONObject(collection);
+                    strfy = objCollection.getString(fy_2014);
+                    strbmri = objCollection.getString(bmri_share);
+                    strytd = objCollection.getString(ytd_jul);
+                    strbmri2 = objCollection.getString(bmri_share2);
 
-                        JSONObject jsonObject1=jsonObject.getJSONObject(tfd);
+                    JSONObject objPayment = objTfd.getJSONObject(payment);
 
-                        JSONObject jsonObject2=jsonObject1.getJSONObject(collection);
-                        strfy = jsonObject2.getString(fy_2014);
-                        strbmri = jsonObject2.getString(bmri_share);
-                        strytd = jsonObject2.getString(ytd_jul);
-                        strbmri2 = jsonObject2.getString(bmri_share2);
-                        Log.d("strfy", strfy);
+                    String strfy1 = objPayment.getString(fy_2014);
+                    String strbmri1 = objPayment.getString(bmri_share);
+                    String strytd1 = objPayment.getString(ytd_jul);
+                    String strbmri21 = objPayment.getString(bmri_share2);
 
+                    mylistTFD.clear();
+                    hashMapTFD = new HashMap<String, String>();
+                    hashMapTFD.put(fy_2014, strfy);
+                    hashMapTFD.put(bmri_share, strbmri);
+                    hashMapTFD.put(ytd_jul, strytd);
+                    hashMapTFD.put(bmri_share2, strbmri2);
+                    hashMapTFD.put("strfy1", strfy1);
+                    hashMapTFD.put("strbmri1", strbmri1);
+                    hashMapTFD.put("strytd1", strytd1);
+                    hashMapTFD.put("strbmri21", strbmri21);
+                    mylistTFD.add(hashMapTFD);
 
-                        JSONObject jsonObject3 = jsonObject1.getJSONObject(payment);
+                    mylistCashio.clear();
+                    mylistMonth.clear();
+                    // Mapping Data Cashio
+                    JSONArray arrayCashio = jsonObject.getJSONArray(cashinout);
+                    for (int a = 0; a < arrayCashio.length(); a++){
+                       JSONObject objCashio = arrayCashio.getJSONObject(a);
 
-                        String strfy1 = jsonObject3.getString(fy_2014);
-                        String strbmri1 = jsonObject3.getString(bmri_share);
-                        String strytd1 = jsonObject3.getString(ytd_jul);
-                        String strbmri21 = jsonObject3.getString(bmri_share2);
-                        Log.d("strfy1", strfy1);
+                        hashMapMonth = new HashMap<String, String>();
+                        hashMapMonth.put(month, objCashio.getString(month));
+                        mylistMonth.add(hashMapMonth);
 
-                    mylist.clear();
-                        hashMap = new HashMap<String, String>();
-                        hashMap.put(fy_2014, strfy);
-                        hashMap.put(bmri_share, strbmri);
-                        hashMap.put(ytd_jul, strytd);
-                        hashMap.put(bmri_share2, strbmri2);
-                        hashMap.put("strfy1", strfy1);
-                        hashMap.put("strbmri1", strbmri1);
-                        hashMap.put("strytd1", strytd1);
-                        hashMap.put("strbmri21", strbmri21);
-                        mylist.add(hashMap);
+                        hashMapCashio = new HashMap<String, String>();
+                        hashMapCashio.put(cashintarget, objCashio.getString(cashintarget));
+                        hashMapCashio.put(cashinactual, objCashio.getString(cashinactual));
+                        hashMapCashio.put(cashouttarget, objCashio.getString(cashouttarget));
+                        hashMapCashio.put(cashoutactual, objCashio.getString(cashoutactual));
+                        mylistCashio.add(hashMapCashio);
 
-
+                    }
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -460,13 +467,25 @@ public class NewDashboardActivity extends Fragment {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-
-            adapter = new SimpleAdapter(getActivity(), mylist, R.layout.list_row_dashboard,
+            //TFD
+            adapterTFD = new SimpleAdapter(getActivity(), mylistTFD, R.layout.list_row_dashboard_tfd,
                     new String[]{fy_2014, "strfy1", bmri_share, "strbmri1", ytd_jul, "strytd1", bmri_share2, "strbmri21"}, new int[]{R.id.btn_background,
                     R.id.btn_light, R.id.btn_blue, R.id.btn_yellow, R.id.btn_background1,
                     R.id.btn_light1, R.id.btn_blue1, R.id.btn_yellow1});
-            listtfd.setAdapter(adapter);
+            listTFD.setAdapter(adapterTFD);
+            listTFD.setExpanded(true);
 
+            //CASHIO
+            String[] columnTags = new String[] {cashintarget, cashinactual, cashouttarget, cashoutactual};
+            int[] columnIds = new int[] {R.id.txt_background, R.id.btn_background, R.id.txt_light, R.id.btn_light};
+            adapterCashio = new SimpleAdapter(getActivity(), mylistCashio, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
+            listCashio.setAdapter(adapterCashio);
+            listCashio.setExpanded(true);
+
+            adapterMonth = new SimpleAdapter(getActivity(), mylistMonth, R.layout.list_row_dashboard_month,
+                    new String[]{month}, new int[]{R.id.txt_background});
+            listMonth.setAdapter(adapterMonth);
+            listMonth.setExpanded(true);
 
         }
     }
@@ -518,7 +537,7 @@ public class NewDashboardActivity extends Fragment {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -566,17 +585,12 @@ public class NewDashboardActivity extends Fragment {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                     strspinnum = jsonObject1.getString(acc_num);
 
-
                     worldListDirectorate.add(strspinnum);
 
-
                 }
-
-                //coba = strNameDrectorate;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             return null;
         }
@@ -590,10 +604,6 @@ public class NewDashboardActivity extends Fragment {
             //wo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
             //        R.layout.list_new_spinner, worldListDirectorate));
-
-
-
         }
     }
-
 }

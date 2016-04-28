@@ -9,6 +9,7 @@ public class DataManager {
     public static String url = "http://play.floostudio.com/lenteramandiri/api/v1/instance";
     public static String urlLogin = "http://play.floostudio.com/lenteramandiri/api/v1/users/login";
     public static String urlRegister = "http://play.floostudio.com/lenteramandiri/api/v1/users/register";
+    public static String urlLoginSementara = "http://sandbox.floostudio.com/lenteramandiri/index.php/api/v1/users/login";
     String name = "DOT";
     String password = "DOTVNDR";
 
@@ -28,8 +29,9 @@ public class DataManager {
     public static String urlPortAccountDetail = "";
     public static String urlCovenant = "http://play.floostudio.com/lenteramandiri/api/v1/portfolio_acc/covenant/";
     public static String urlDashboard = "http://play.floostudio.com/lenteramandiri/api/v1/dashboard";
-    public static String urlListperAccount = "http://play.floostudio.com/lenteramandiri/api/v1/dashboard/listAccount";
+    public static String urlListperAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard/listAccount";
     public static String urlGetperAccount = "http://play.floostudio.com/lenteramandiri/api/v1/dashboard/account/";
+    public static String urlGetperAccountSementara = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard/account/";
 
     //PUT
     public static String urltaskNote = "http://play.floostudio.com/lenteramandiri/api/v1/tasks/note/";
