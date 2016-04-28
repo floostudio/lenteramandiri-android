@@ -82,7 +82,6 @@ public class NewsAdapter extends BaseAdapter{
         viewHolder.contentNews.setText(sbtr+"....");
         int expire = news.getDate();
 
-        Log.e("fuck", sbtr);
         Date date = new Date(expire * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));

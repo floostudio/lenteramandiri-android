@@ -182,7 +182,6 @@ public class NewsActivity extends Fragment {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            Log.e("fuck", "fuck this shit");
             String coba="";
             try {
                 newsArray = new ArrayList<News>();
@@ -195,7 +194,6 @@ public class NewsActivity extends Fragment {
                     strimage = jsonObject.getString(image);
                     strContent = jsonObject.getString(content);
                     strDate = jsonObject.getInt("date");
-                    Log.d("strlen", strContent);
                     //epochtodate(strDate);
 
                     News news = new News();

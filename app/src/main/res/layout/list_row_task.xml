@@ -26,14 +26,18 @@
                         <TableLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:stretchColumns="1">
+                            android:stretchColumns="1"
+                            android:layout_marginRight="5dp">
                         <TableRow>
                     <TextView
                         android:id="@+id/txt_list_task_subject"
                         android:layout_column="1"
-                        android:text=""
                         android:textColor="@color/Black"
-                        android:textSize="@dimen/activity_horizontal_margin"/>
+                        android:textSize="@dimen/activity_horizontal_margin"
+                        android:elegantTextHeight="true"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginRight="5dp" />
                             <TextView
                                 android:id="@+id/txt_list_task_id"
                                 android:textColor="@android:color/transparent"

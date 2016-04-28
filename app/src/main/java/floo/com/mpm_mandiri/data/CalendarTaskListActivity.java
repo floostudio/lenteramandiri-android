@@ -207,6 +207,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
             try {
                 taskArray = new ArrayList<Task>();
                 JSONArray jsonArray = new JSONArray(serverData);
+                Log.e("task", jsonArray.toString());
                 for (int i=0; i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
