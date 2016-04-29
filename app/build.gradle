@@ -39,4 +39,7 @@ dependencies {
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.github.paolorotolo:expandableheightlistview:1.0.0'
+    compile files('libs/listviewanimations_lib-manipulation_3.1.0.jar')
+    compile files('libs/listviewanimations_lib-core_3.1.0.jar')
+    compile files('libs/listviewanimations_lib-core-slh_3.1.0.jar')
 }

@@ -53,7 +53,6 @@ public class NewsAdapter extends BaseAdapter{
         private TextView idNews, titleNews, datenews, contentNews;
         private ImageView imageView;
 
-
     }
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
@@ -90,8 +89,6 @@ public class NewsAdapter extends BaseAdapter{
 
         String img = news.getImage();
         new ImageLoadTask(img, viewHolder.imageView).execute();
-
-
 
         return view;
     }

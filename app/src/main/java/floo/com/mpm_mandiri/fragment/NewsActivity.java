@@ -6,13 +6,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -49,10 +51,10 @@ import floo.com.mpm_mandiri.utils.DataManager;
  * Created by Floo on 3/3/2016.
  */
 public class NewsActivity extends Fragment {
-    ListView list_news;
+    DynamicListView list_news;
     String url = DataManager.url;
     String urlNews = DataManager.urlNewsList;
-    HashMap<String, String > hashmapNews;
+    HashMap<String, Object> hashmapNews;
 
     private ProgressDialog pDialog;
     private static final String title = "title";
@@ -63,6 +65,7 @@ public class NewsActivity extends Fragment {
     int strDate;
     NewsAdapter newsAdapter;
     ArrayList<News> newsArray;
+    AnimationAdapter animationAdapter;
 
 
     @Nullable
@@ -72,13 +75,15 @@ public class NewsActivity extends Fragment {
         initView(v);
 
         new DataFetcherTask().execute();
+        //appearanceAnimate(1);
 
 
         return v;
     }
     public void initView(View view) {
 
-        list_news = (ListView) view.findViewById(R.id.list_news);
+        list_news = (DynamicListView) view.findViewById(R.id.list_news);
+
         list_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,14 +95,16 @@ public class NewsActivity extends Fragment {
         });
     }
 
-    public void epochtodate(int epoch){
+    private void epochtodate(int epoch){
         Date date = new Date(epoch * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
+
         formatDate = format.format(date);
     }
 
-    private class DataFetcherTask extends AsyncTask<Void, Void, Void> {
+
+    private class DataFetcherTask extends AsyncTask<Void, Void, ArrayList<News>> {
 
         @Override
         protected void onPreExecute() {
@@ -109,7 +116,7 @@ public class NewsActivity extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected ArrayList<News> doInBackground(Void... arg0) {
 
             String objek="";
 
@@ -194,6 +201,7 @@ public class NewsActivity extends Fragment {
                     strimage = jsonObject.getString(image);
                     strContent = jsonObject.getString(content);
                     strDate = jsonObject.getInt("date");
+
                     //epochtodate(strDate);
 
                     News news = new News();
@@ -205,25 +213,24 @@ public class NewsActivity extends Fragment {
 
                     newsArray.add(news);
 
-                    coba = title;
                 }
-
-
-
             }catch (JSONException e){
                 e.printStackTrace();
             }
 
-            return null;
+            return newsArray;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(ArrayList<News> result) {
             super.onPostExecute(result);
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            newsAdapter = new NewsAdapter(getActivity(), newsArray);
+            newsAdapter = new NewsAdapter(getActivity(), result);
+
+            //animationAdapter = new AlphaInAnimationAdapter(newsAdapter);
+            //animationAdapter.setAbsListView(list_news);
             list_news.setAdapter(newsAdapter);
 
         }

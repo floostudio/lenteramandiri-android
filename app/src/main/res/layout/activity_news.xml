@@ -7,12 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="14dp">
 
-    <ListView
+    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
         android:id="@+id/list_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/hint"
         android:dividerHeight="1dp">
-    </ListView>
+    </com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
 
 </LinearLayout>

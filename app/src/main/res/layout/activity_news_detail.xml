@@ -14,13 +14,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp"
         android:paddingLeft="@dimen/activity_horizontal_margin">
         <ImageView
             android:id="@+id/img_news_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+
             android:layout_gravity="center_horizontal" />
 
         <TextView
