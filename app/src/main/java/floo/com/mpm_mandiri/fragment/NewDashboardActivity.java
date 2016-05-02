@@ -51,11 +51,14 @@ import floo.com.mpm_mandiri.utils.DataManager;
  * Created by Floo on 4/21/2016.
  */
 public class NewDashboardActivity extends Fragment {
-    HashMap<String, String> hashMapTFD, hashMapCashio, hashMapMonth;
-    ArrayList<HashMap<String, String>> mylistTFD, mylistCashin, mylistMonth;
-    ExpandableHeightListView listTFD, listCashin, listMonth, listDLR, listAGF, listAVG, listBakiDebet;
-    SimpleAdapter adapterTFD, adapterCashin, adapterMonth;
-    Button btntfd, btncash, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
+    HashMap<String, String> hashMapTFD, hashMapCashio, hashMapCashout, hashMapDpk, hashMapLcf, hashMapMonth;
+    ArrayList<HashMap<String, String>> mylistTFD, mylistCashin, mylistCashout, mylistDpk, mylistLcf,
+            mylistMonth, myListMonthCashout, myListMonthDPK, myListMonthLCF;
+    ExpandableHeightListView listTFD, listCashin, listCashout, listDPK, listLCF,
+            listMonth, listMonthCashout, listMonthDpk, listMonthLcf,
+            listDLR, listAGF, listAVG, listBakiDebet;
+    SimpleAdapter adapterTFD, adapterCashin, adapterCashout, adapterDpk, adapterLcf, adapterMonth, adapterMonthCashout, adapterMonthDPK, adapterMonthLCF;
+    Button btntfd, btncash, btncashout, btndpk, btnlcf, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
     Spinner spinner;
     TextView text1, text2, title_blue, title_yellow, title1 ;
 
@@ -63,20 +66,11 @@ public class NewDashboardActivity extends Fragment {
     String url = DataManager.url;
     String urlDashboard = DataManager.urlDashboard;
     String urlGetperAccount = DataManager.urlGetperAccountSementara;
-    String strAcc_num, strtfd, strcollection, strfy, strbmri, strytd, strbmri2, strpayment;
+    String strAcc_num;
     private static final String acc_num = "acc_num";
     private static final String tfd = "tfd";
-    private static final String cashio = "cashio";
     private static final String collection = "collection";
     private static String[] titles = new String[8];
-//    private static String title_1 = "";
-//    private static String title_2 = "";
-//    private static String title_3 = "";
-//    private static String title_4 = "";
-//    private static String title_5 = "";
-//    private static String title_6 = "";
-//    private static String title_7 = "";
-//    private static String title_8 = "";
     private static final String payment = "payment";
     private static final String cashin = "cashin" ;
     private static final String cashout = "cashout";
@@ -86,10 +80,6 @@ public class NewDashboardActivity extends Fragment {
     private static final String cashouttarget = "cashouttarget";
     private static final String cashoutactual = "cashoutactual";
 
-
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +88,13 @@ public class NewDashboardActivity extends Fragment {
         initView(v);
         mylistTFD = new ArrayList<HashMap<String, String>>();
         mylistCashin = new ArrayList<HashMap<String, String>>();
+        mylistCashout = new ArrayList<HashMap<String, String>>();
+        mylistDpk = new ArrayList<HashMap<String, String>>();
+        mylistLcf = new ArrayList<HashMap<String, String>>();
         mylistMonth = new ArrayList<HashMap<String, String>>();
+        myListMonthCashout = new ArrayList<HashMap<String, String>>();
+        myListMonthDPK = new ArrayList<HashMap<String, String>>();
+        myListMonthLCF = new ArrayList<HashMap<String, String>>();
 
         new DataSpinner().execute();
 
@@ -141,6 +137,12 @@ public class NewDashboardActivity extends Fragment {
             btntfd.setTextColor(Color.parseColor("#0b3a77"));
             btncash.setBackgroundResource(R.drawable.activity_btn);
             btncash.setTextColor(Color.parseColor("#0b3a77"));
+            btncashout.setBackgroundResource(R.drawable.activity_btn);
+            btncashout.setTextColor(Color.parseColor("#0b3a77"));
+            btndpk.setBackgroundResource(R.drawable.activity_btn);
+            btndpk.setTextColor(Color.parseColor("#0b3a77"));
+            btnlcf.setBackgroundResource(R.drawable.activity_btn);
+            btnlcf.setTextColor(Color.parseColor("#0b3a77"));
             btndlr.setBackgroundResource(R.drawable.activity_btn);
             btndlr.setTextColor(Color.parseColor("#0b3a77"));
             btnagf.setBackgroundResource(R.drawable.activity_btn);
@@ -154,6 +156,12 @@ public class NewDashboardActivity extends Fragment {
             btntfd.setTextColor(Color.parseColor("#ffffff"));
             btncash.setBackgroundResource(R.drawable.activity_btn_blue);
             btncash.setTextColor(Color.parseColor("#ffffff"));
+            btncashout.setBackgroundResource(R.drawable.activity_btn_blue);
+            btncashout.setTextColor(Color.parseColor("#ffffff"));
+            btndpk.setBackgroundResource(R.drawable.activity_btn_blue);
+            btndpk.setTextColor(Color.parseColor("#ffffff"));
+            btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnlcf.setTextColor(Color.parseColor("#ffffff"));
             btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
             btndlr.setTextColor(Color.parseColor("#ffffff"));
             btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
@@ -168,6 +176,9 @@ public class NewDashboardActivity extends Fragment {
     private void toggleListView(ListView lv){
         listTFD.setVisibility(View.INVISIBLE);
         listCashin.setVisibility(View.INVISIBLE);
+        listCashout.setVisibility(View.INVISIBLE);
+        listDPK.setVisibility(View.INVISIBLE);
+        listLCF.setVisibility(View.INVISIBLE);
         listDLR.setVisibility(View.INVISIBLE);
         listAGF.setVisibility(View.INVISIBLE);
         listAVG.setVisibility(View.INVISIBLE);
@@ -188,6 +199,9 @@ public class NewDashboardActivity extends Fragment {
         spinner = (Spinner)v.findViewById(R.id.spin_array);
         btntfd = (Button)v.findViewById(R.id.btn_tfd);
         btncash = (Button)v.findViewById(R.id.btn_cash);
+        btncashout = (Button)v.findViewById(R.id.btn_cashout);
+        btndpk = (Button)v.findViewById(R.id.btn_dpk);
+        btnlcf = (Button)v.findViewById(R.id.btn_lcf);
         btndlr = (Button)v.findViewById(R.id.btn_dlr);
         btnagf = (Button)v.findViewById(R.id.btn_agf);
         btnavg = (Button)v.findViewById(R.id.btn_avg);
@@ -195,7 +209,13 @@ public class NewDashboardActivity extends Fragment {
         btndetail = (Button)v.findViewById(R.id.btn_detail);
         listTFD = (ExpandableHeightListView)v.findViewById(R.id.list_dasboard);
         listCashin = (ExpandableHeightListView) v.findViewById(R.id.list_cashio);
+        listCashout = (ExpandableHeightListView) v.findViewById(R.id.list_cashout);
+        listDPK = (ExpandableHeightListView) v.findViewById(R.id.list_dpk);
+        listLCF = (ExpandableHeightListView) v.findViewById(R.id.list_lcf );
         listMonth = (ExpandableHeightListView)v.findViewById(R.id.list_month);
+        listMonthCashout = (ExpandableHeightListView)v.findViewById(R.id.list_monthcashout);
+        listMonthDpk = (ExpandableHeightListView)v.findViewById(R.id.list_month_dpk);
+        listMonthLcf = (ExpandableHeightListView)v.findViewById(R.id.list_month_lcf);
         listDLR = (ExpandableHeightListView)v.findViewById(R.id.list_dlr);
         listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
         listAVG = (ExpandableHeightListView)v.findViewById(R.id.list_avg);
@@ -205,6 +225,9 @@ public class NewDashboardActivity extends Fragment {
 
         listTFD.setEnabled(false);
         listCashin.setEnabled(false);
+        listCashout.setEnabled(false);
+        listDPK.setEnabled(false);
+        listLCF.setEnabled(false);
         listMonth.setEnabled(false);
         listDLR.setEnabled(false);
         listAGF.setEnabled(false);
@@ -240,8 +263,8 @@ public class NewDashboardActivity extends Fragment {
         btncash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title_yellow.setText("CashInOut");
-                title_blue.setText("CashInOut");
+                title_yellow.setText("Cash In");
+                title_blue.setText("Cash In");
                 text1.setText("Cashin Target | Cashin Actual");
                 text2.setText("Percentage");
                 toggleButtonActive(false);
@@ -250,6 +273,68 @@ public class NewDashboardActivity extends Fragment {
 
                 toggleListView(listCashin);
                 listMonth.setVisibility(View.VISIBLE);
+                listMonthCashout.setVisibility(View.INVISIBLE);
+                listMonthDpk.setVisibility(View.INVISIBLE);
+                listMonthLcf.setVisibility(View.INVISIBLE);
+                btndetail.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btncashout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    title_yellow.setText("Cash Out");
+                    title_blue.setText("Cash Out");
+                    text1.setText("Cashout Target | Cashout Actual");
+                    text2.setText("Percentage");
+                    toggleButtonActive(false);
+                    btncashout.setBackgroundResource(R.drawable.activity_btn_blue);
+                    btncashout.setTextColor(Color.parseColor("#ffffff"));
+
+                    toggleListView(listCashin);
+                    listMonthCashout.setVisibility(View.VISIBLE);
+                    listMonth.setVisibility(View.INVISIBLE);
+                    listMonthDpk.setVisibility(View.INVISIBLE);
+                    listMonthLcf.setVisibility(View.INVISIBLE);
+                    btndetail.setVisibility(View.VISIBLE);
+                }
+            });
+
+        btndpk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title_yellow.setText("DPK");
+                title_blue.setText("DPK");
+                text1.setText("DPK | Credit");
+                text2.setText("Percentage");
+                toggleButtonActive(false);
+                btndpk.setBackgroundResource(R.drawable.activity_btn_blue);
+                btndpk.setTextColor(Color.parseColor("#ffffff"));
+
+                toggleListView(listDPK);
+                listMonthDpk.setVisibility(View.VISIBLE);
+                listMonth.setVisibility(View.INVISIBLE);
+                listMonthCashout.setVisibility(View.INVISIBLE);
+                listMonthLcf.setVisibility(View.INVISIBLE);
+                btndetail.setVisibility(View.VISIBLE);
+            }
+        });
+        btnlcf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title_yellow.setText("LCF");
+                title_blue.setText("LCF");
+                text1.setText("LCF | Credit");
+                text2.setText("Percentage");
+                toggleButtonActive(false);
+                btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
+                btnlcf.setTextColor(Color.parseColor("#ffffff"));
+
+                toggleListView(listLCF);
+                listMonthLcf.setVisibility(View.VISIBLE);
+                listMonthCashout.setVisibility(View.INVISIBLE);
+                listMonthDpk.setVisibility(View.INVISIBLE);
+                listMonth.setVisibility(View.INVISIBLE);
                 btndetail.setVisibility(View.VISIBLE);
             }
         });
@@ -421,7 +506,6 @@ public class NewDashboardActivity extends Fragment {
                     // Mapping Data TFD
                     if(jsonObject.has(tfd)) {
                         JSONObject objTfd = jsonObject.getJSONObject(tfd);
-                        Log.e("tfddata", objTfd.toString());
                         JSONObject objCollection = objTfd.getJSONObject(collection);
                         titles[0] = objCollection.getString("data_title_1");
                         titles[1] = objCollection.getString("data_title_2");
@@ -468,11 +552,11 @@ public class NewDashboardActivity extends Fragment {
                         mylistTFD.add(hashMapTFD);
                     }
 
-                    mylistCashin.clear();
-                    mylistMonth.clear();
 
+                    // Mapping Data Cashin
                     if(jsonObject.has("cashin")) {
-                        // Mapping Data Cashio
+                        mylistCashin.clear();
+                        mylistMonth.clear();
                         JSONArray arrayCashin = jsonObject.getJSONArray("cashin");
                         for (int a = 0; a < arrayCashin.length(); a++){
                             JSONObject objCashin = arrayCashin.getJSONObject(a);
@@ -488,7 +572,98 @@ public class NewDashboardActivity extends Fragment {
                             mylistCashin.add(hashMapCashio);
 
                         }
+                    } else {
+                        mylistCashin.clear();
+                        mylistMonth.clear();
+                        hashMapCashio = new HashMap<String, String>();
+                        mylistCashin.add(hashMapCashio);
+                        hashMapMonth = new HashMap<String, String>();
+                        mylistMonth.add(hashMapMonth);
                     }
+
+                    // Mapping Data Cashout
+                    if(jsonObject.has("cashout")) {
+                        mylistCashout.clear();
+                        myListMonthCashout.clear();
+                        JSONArray arrayCashout = jsonObject.getJSONArray("cashout");
+                        for (int a = 0; a < arrayCashout.length(); a++){
+                            JSONObject objCashout = arrayCashout.getJSONObject(a);
+
+                            hashMapMonth = new HashMap<String, String>();
+                            hashMapMonth.put(month, objCashout.getString(month));
+                            myListMonthCashout.add(hashMapMonth);
+
+                            hashMapCashout = new HashMap<String, String>();
+                            hashMapCashout.put(cashouttarget, objCashout.getString(cashouttarget));
+                            hashMapCashout.put("targetrevenue", objCashout.getString("targetrevenue"));
+                            hashMapCashout.put("percentage", objCashout.getString("percentage"));
+                            mylistCashout.add(hashMapCashout);
+
+                        }
+                    } else {
+                        mylistCashout.clear();
+                        myListMonthCashout.clear();
+                        hashMapCashout = new HashMap<String, String>();
+                        mylistCashout.add(hashMapCashout);
+                        hashMapMonth = new HashMap<String, String>();
+                        myListMonthCashout.add(hashMapMonth);
+                    }
+                    // Mapping Data DPK
+                    if(jsonObject.has("dpk")) {
+                        mylistDpk.clear();
+                        myListMonthDPK.clear();
+                        JSONArray arrayDPK = jsonObject.getJSONArray("dpk");
+                        for (int a = 0; a < arrayDPK.length(); a++){
+                            JSONObject objDPK = arrayDPK.getJSONObject(a);
+
+                            hashMapMonth = new HashMap<String, String>();
+                            hashMapMonth.put(month, objDPK.getString(month));
+                            myListMonthDPK.add(hashMapMonth);
+
+                            hashMapDpk = new HashMap<String, String>();
+                            hashMapDpk.put("dpk", objDPK.getString("dpk"));
+                            hashMapDpk.put("credit", objDPK.getString("credit"));
+                            hashMapDpk.put("percentage", objDPK.getString("percentage"));
+                            mylistDpk.add(hashMapDpk);
+
+                        }
+                    } else {
+                        mylistDpk.clear();
+                        myListMonthDPK.clear();
+                        hashMapDpk = new HashMap<String, String>();
+                        mylistDpk.add(hashMapDpk);
+                        hashMapMonth = new HashMap<String, String>();
+                        myListMonthDPK.add(hashMapMonth);
+                    }
+                    // Mapping Data Lcf
+                    if(jsonObject.has("lcf")) {
+                        mylistLcf.clear();
+                        myListMonthLCF.clear();
+                        JSONArray arrayLCF = jsonObject.getJSONArray("lcf");
+                        for (int a = 0; a < arrayLCF.length(); a++){
+                            JSONObject objLCF = arrayLCF.getJSONObject(a);
+
+                            hashMapMonth = new HashMap<String, String>();
+                            hashMapMonth.put(month, objLCF.getString(month));
+                            myListMonthLCF.add(hashMapMonth);
+
+                            hashMapLcf = new HashMap<String, String>();
+                            hashMapLcf.put("lcf", objLCF.getString("lcf"));
+                            hashMapLcf.put("credit", objLCF.getString("credit"));
+                            hashMapLcf.put("percentage", objLCF.getString("percentage"));
+                            mylistLcf.add(hashMapLcf);
+
+                        }
+                    } else {
+                        mylistLcf.clear();
+                        myListMonthLCF.clear();
+                        hashMapLcf = new HashMap<String, String>();
+                        mylistLcf.add(hashMapLcf);
+                        hashMapMonth = new HashMap<String, String>();
+                        myListMonthLCF.add(hashMapMonth);
+                    }
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -517,17 +692,51 @@ public class NewDashboardActivity extends Fragment {
             listTFD.setAdapter(adapterTFD);
             listTFD.setExpanded(true);
 
-            //CASHIO
+            //CASHIN
             String[] columnTags = new String[] {cashintarget, "targetrevenue", "percentage"};
             int[] columnIds = new int[] {R.id.cashin_target, R.id.cashin_targetrevenue, R.id.cashin_percentage};
             adapterCashin = new SimpleAdapter(getActivity(), mylistCashin, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
             listCashin.setAdapter(adapterCashin);
             listCashin.setExpanded(true);
 
+            //CASHOut
+            String[] cashoutTags = new String[] {cashouttarget, "targetrevenue", "percentage"};
+            int[] cashoutIds = new int[] {R.id.cashout_target, R.id.cashout_targetrevenue, R.id.cashout_percentage};
+            adapterCashout = new SimpleAdapter(getActivity(), mylistCashout, R.layout.list_row_dashboard_cashout, cashoutTags , cashoutIds);
+            listCashout.setAdapter(adapterCashout);
+            listCashout.setExpanded(true);
+
+            //DPK
+            String[] dpkTags = new String[] {"dpk", "credit", "percentage"};
+            int[] dpkIds = new int[] {R.id.dpk_target, R.id.dpk_credit, R.id.dpk_percentage};
+            adapterDpk = new SimpleAdapter(getActivity(), mylistDpk, R.layout.list_row_dashboard_dpk, dpkTags , dpkIds);
+            listDPK.setAdapter(adapterDpk);
+            listDPK.setExpanded(true);
+
+            //LCF
+            String[] lcfTags = new String[] {"lcf", "credit", "percentage"};
+            int[] lcfIds = new int[] {R.id.lcf_target, R.id.lcf_credit, R.id.lcf_percentage};
+            adapterLcf = new SimpleAdapter(getActivity(), mylistLcf, R.layout.list_row_dashboard_lcf, lcfTags , lcfIds);
+            listLCF.setAdapter(adapterLcf);
+            listLCF.setExpanded(true);
+
             adapterMonth = new SimpleAdapter(getActivity(), mylistMonth, R.layout.list_row_dashboard_month,
-                    new String[]{month}, new int[]{R.id.txt_background});
+                    new String[]{month}, new int[]{R.id.list_month});
+            adapterMonthCashout = new SimpleAdapter(getActivity(), myListMonthCashout, R.layout.list_row_dashboard_month,
+                    new String[]{month}, new int[]{R.id.list_month});
+            adapterMonthDPK = new SimpleAdapter(getActivity(), myListMonthDPK, R.layout.list_row_dashboard_month,
+                    new String[]{month}, new int[]{R.id.list_month});
+            adapterMonthLCF = new SimpleAdapter(getActivity(), myListMonthLCF, R.layout.list_row_dashboard_month,
+                    new String[]{month}, new int[]{R.id.list_month});
             listMonth.setAdapter(adapterMonth);
+            listMonthCashout.setAdapter(adapterMonthCashout);
+            listMonthDpk.setAdapter(adapterMonthDPK);
+            listMonthLcf.setAdapter(adapterMonthLCF);
+
             listMonth.setExpanded(true);
+            listMonthCashout.setExpanded(true);
+            listMonthDpk.setExpanded(true);
+            listMonthLcf.setExpanded(true);
             adapterTFD.notifyDataSetChanged();
         }
     }
