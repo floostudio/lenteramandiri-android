@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -51,12 +52,12 @@ import floo.com.mpm_mandiri.utils.DataManager;
  */
 public class NewDashboardActivity extends Fragment {
     HashMap<String, String> hashMapTFD, hashMapCashio, hashMapMonth;
-    ArrayList<HashMap<String, String>> mylistTFD, mylistCashio, mylistMonth;
-    ExpandableHeightListView listTFD, listCashio, listMonth, listDLR, listAGF, listAVG, listBakiDebet;
-    SimpleAdapter adapterTFD, adapterCashio, adapterMonth;
+    ArrayList<HashMap<String, String>> mylistTFD, mylistCashin, mylistMonth;
+    ExpandableHeightListView listTFD, listCashin, listMonth, listDLR, listAGF, listAVG, listBakiDebet;
+    SimpleAdapter adapterTFD, adapterCashin, adapterMonth;
     Button btntfd, btncash, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
     Spinner spinner;
-    TextView text1, text2, title_blue, title_yellow;
+    TextView text1, text2, title_blue, title_yellow, title1 ;
 
     private ProgressDialog pDialog;
     String url = DataManager.url;
@@ -67,12 +68,18 @@ public class NewDashboardActivity extends Fragment {
     private static final String tfd = "tfd";
     private static final String cashio = "cashio";
     private static final String collection = "collection";
-    private static final String fy_2014 = "fy_2014";
-    private static final String bmri_share = "bmri_share";
-    private static final String ytd_jul = "ytd_jul";
-    private static final String bmri_share2 = "bmri_share2";
+    private static String[] titles = new String[8];
+//    private static String title_1 = "";
+//    private static String title_2 = "";
+//    private static String title_3 = "";
+//    private static String title_4 = "";
+//    private static String title_5 = "";
+//    private static String title_6 = "";
+//    private static String title_7 = "";
+//    private static String title_8 = "";
     private static final String payment = "payment";
-    private static final String cashinout = "cashinout";
+    private static final String cashin = "cashin" ;
+    private static final String cashout = "cashout";
     private static final String month = "month";
     private static final String cashintarget = "cashintarget";
     private static final String cashinactual = "cashinactual";
@@ -87,9 +94,10 @@ public class NewDashboardActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_new_dashboard, container, false);
+
         initView(v);
         mylistTFD = new ArrayList<HashMap<String, String>>();
-        mylistCashio = new ArrayList<HashMap<String, String>>();
+        mylistCashin = new ArrayList<HashMap<String, String>>();
         mylistMonth = new ArrayList<HashMap<String, String>>();
 
         new DataSpinner().execute();
@@ -159,7 +167,7 @@ public class NewDashboardActivity extends Fragment {
 
     private void toggleListView(ListView lv){
         listTFD.setVisibility(View.INVISIBLE);
-        listCashio.setVisibility(View.INVISIBLE);
+        listCashin.setVisibility(View.INVISIBLE);
         listDLR.setVisibility(View.INVISIBLE);
         listAGF.setVisibility(View.INVISIBLE);
         listAVG.setVisibility(View.INVISIBLE);
@@ -176,6 +184,7 @@ public class NewDashboardActivity extends Fragment {
         text2 = (TextView)v.findViewById(R.id.txt_dasboard_2);
         title_blue = (TextView)v.findViewById(R.id.txt_title_blue);
         title_yellow = (TextView)v.findViewById(R.id.txt_title_yellow);
+        title1 = (TextView)v.findViewById(R.id.tfd_title_1);
         spinner = (Spinner)v.findViewById(R.id.spin_array);
         btntfd = (Button)v.findViewById(R.id.btn_tfd);
         btncash = (Button)v.findViewById(R.id.btn_cash);
@@ -185,15 +194,17 @@ public class NewDashboardActivity extends Fragment {
         btnbakidebet = (Button)v.findViewById(R.id.btn_BakiDebet);
         btndetail = (Button)v.findViewById(R.id.btn_detail);
         listTFD = (ExpandableHeightListView)v.findViewById(R.id.list_dasboard);
-        listCashio = (ExpandableHeightListView) v.findViewById(R.id.list_cashio);
+        listCashin = (ExpandableHeightListView) v.findViewById(R.id.list_cashio);
         listMonth = (ExpandableHeightListView)v.findViewById(R.id.list_month);
         listDLR = (ExpandableHeightListView)v.findViewById(R.id.list_dlr);
         listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
         listAVG = (ExpandableHeightListView)v.findViewById(R.id.list_avg);
         listBakiDebet = (ExpandableHeightListView)v.findViewById(R.id.list_bakidebet);
 
+
+
         listTFD.setEnabled(false);
-        listCashio.setEnabled(false);
+        listCashin.setEnabled(false);
         listMonth.setEnabled(false);
         listDLR.setEnabled(false);
         listAGF.setEnabled(false);
@@ -232,12 +243,12 @@ public class NewDashboardActivity extends Fragment {
                 title_yellow.setText("CashInOut");
                 title_blue.setText("CashInOut");
                 text1.setText("Cashin Target | Cashin Actual");
-                text2.setText("Cashout Target | Cashout Actual");
+                text2.setText("Percentage");
                 toggleButtonActive(false);
                 btncash.setBackgroundResource(R.drawable.activity_btn_blue);
                 btncash.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listCashio);
+                toggleListView(listCashin);
                 listMonth.setVisibility(View.VISIBLE);
                 btndetail.setVisibility(View.VISIBLE);
             }
@@ -310,7 +321,6 @@ public class NewDashboardActivity extends Fragment {
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
         private String parsing;
 
-
         public DataFetcherTask(String parsing) {
             this.parsing = parsing;
 
@@ -319,10 +329,13 @@ public class NewDashboardActivity extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             pDialog = new ProgressDialog(getActivity());
             pDialog.setMessage("Please wait...!!!");
+
             pDialog.setCancelable(false);
             pDialog.show();
+
         }
 
         @Override
@@ -332,7 +345,7 @@ public class NewDashboardActivity extends Fragment {
 
             HttpParams myParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
+            HttpConnectionParams.setSoTimeout(myParams, 7000);
 
             JSONObject object = new JSONObject();
             try {
@@ -404,54 +417,77 @@ public class NewDashboardActivity extends Fragment {
                 JSONArray jsonArray = new JSONArray(serverData);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                     strAcc_num = jsonObject.getString(acc_num);
                     // Mapping Data TFD
-                    JSONObject objTfd=jsonObject.getJSONObject(tfd);
+                    if(jsonObject.has(tfd)) {
+                        JSONObject objTfd = jsonObject.getJSONObject(tfd);
+                        Log.e("tfddata", objTfd.toString());
+                        JSONObject objCollection = objTfd.getJSONObject(collection);
+                        titles[0] = objCollection.getString("data_title_1");
+                        titles[1] = objCollection.getString("data_title_2");
+                        titles[2] = objCollection.getString("data_title_3");
+                        titles[3] = objCollection.getString("data_title_4");
+                        String data_1 = objCollection.getString("data_1");
+                        String data_2 = objCollection.getString("data_2");
+                        String data_3 = objCollection.getString("data_3");
+                        String data_4 = objCollection.getString("data_4");
 
-                    JSONObject objCollection=objTfd.getJSONObject(collection);
-                    strfy = objCollection.getString(fy_2014);
-                    strbmri = objCollection.getString(bmri_share);
-                    strytd = objCollection.getString(ytd_jul);
-                    strbmri2 = objCollection.getString(bmri_share2);
+                        JSONObject objPayment = objTfd.getJSONObject(payment);
 
-                    JSONObject objPayment = objTfd.getJSONObject(payment);
+                        titles[4] = objPayment.getString("data_title_5");
+                        titles[5] = objPayment.getString("data_title_6");
+                        titles[6] = objPayment.getString("data_title_7");
+                        titles[7] = objPayment.getString("data_title_8");
+                        String data_5 = objPayment.getString("data_5");
+                        String data_6 = objPayment.getString("data_6");
+                        String data_7 = objPayment.getString("data_7");
+                        String data_8 = objPayment.getString("data_8");
 
-                    String strfy1 = objPayment.getString(fy_2014);
-                    String strbmri1 = objPayment.getString(bmri_share);
-                    String strytd1 = objPayment.getString(ytd_jul);
-                    String strbmri21 = objPayment.getString(bmri_share2);
+                        mylistTFD.clear();
+                        hashMapTFD = new HashMap<String, String>();
+                        hashMapTFD.put("data_1", data_1);
+                        hashMapTFD.put("data_2", data_2);
+                        hashMapTFD.put("data_3", data_3);
+                        hashMapTFD.put("data_4", data_4);
+                        hashMapTFD.put("data_5", data_5);
+                        hashMapTFD.put("data_6", data_6);
+                        hashMapTFD.put("data_7", data_7);
+                        hashMapTFD.put("data_8", data_8);
+                        hashMapTFD.put("dt_title_1", titles[0]);
+                        hashMapTFD.put("dt_title_2", titles[1]);
+                        hashMapTFD.put("dt_title_3", titles[2]);
+                        hashMapTFD.put("dt_title_4", titles[3]);
+                        hashMapTFD.put("dt_title_5", titles[4]);
+                        hashMapTFD.put("dt_title_6", titles[5]);
+                        hashMapTFD.put("dt_title_7", titles[6]);
+                        hashMapTFD.put("dt_title_8", titles[7]);
+                        mylistTFD.add(hashMapTFD);
+                    } else {
+                        mylistTFD.clear();
+                        hashMapTFD  = new HashMap<String, String>();
+                        mylistTFD.add(hashMapTFD);
+                    }
 
-                    mylistTFD.clear();
-                    hashMapTFD = new HashMap<String, String>();
-                    hashMapTFD.put(fy_2014, strfy);
-                    hashMapTFD.put(bmri_share, strbmri);
-                    hashMapTFD.put(ytd_jul, strytd);
-                    hashMapTFD.put(bmri_share2, strbmri2);
-                    hashMapTFD.put("strfy1", strfy1);
-                    hashMapTFD.put("strbmri1", strbmri1);
-                    hashMapTFD.put("strytd1", strytd1);
-                    hashMapTFD.put("strbmri21", strbmri21);
-                    mylistTFD.add(hashMapTFD);
-
-                    mylistCashio.clear();
+                    mylistCashin.clear();
                     mylistMonth.clear();
-                    // Mapping Data Cashio
-                    JSONArray arrayCashio = jsonObject.getJSONArray(cashinout);
-                    for (int a = 0; a < arrayCashio.length(); a++){
-                       JSONObject objCashio = arrayCashio.getJSONObject(a);
 
-                        hashMapMonth = new HashMap<String, String>();
-                        hashMapMonth.put(month, objCashio.getString(month));
-                        mylistMonth.add(hashMapMonth);
+                    if(jsonObject.has("cashin")) {
+                        // Mapping Data Cashio
+                        JSONArray arrayCashin = jsonObject.getJSONArray("cashin");
+                        for (int a = 0; a < arrayCashin.length(); a++){
+                            JSONObject objCashin = arrayCashin.getJSONObject(a);
 
-                        hashMapCashio = new HashMap<String, String>();
-                        hashMapCashio.put(cashintarget, objCashio.getString(cashintarget));
-                        hashMapCashio.put(cashinactual, objCashio.getString(cashinactual));
-                        hashMapCashio.put(cashouttarget, objCashio.getString(cashouttarget));
-                        hashMapCashio.put(cashoutactual, objCashio.getString(cashoutactual));
-                        mylistCashio.add(hashMapCashio);
+                            hashMapMonth = new HashMap<String, String>();
+                            hashMapMonth.put(month, objCashin.getString(month));
+                            mylistMonth.add(hashMapMonth);
 
+                            hashMapCashio = new HashMap<String, String>();
+                            hashMapCashio.put(cashintarget, objCashin.getString(cashintarget));
+                            hashMapCashio.put("targetrevenue", objCashin.getString("targetrevenue"));
+                            hashMapCashio.put("percentage", objCashin.getString("percentage"));
+                            mylistCashin.add(hashMapCashio);
+
+                        }
                     }
                 }
             } catch (JSONException e) {
@@ -464,29 +500,35 @@ public class NewDashboardActivity extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
+            if (pDialog.isShowing()) {
                 pDialog.dismiss();
+            }
 
+            String[] tfdColumns = new String[]{"data_1","data_2","data_3","data_4","data_5","data_6","data_7","data_8",
+                                            "dt_title_1","dt_title_2","dt_title_3","dt_title_4",
+                                            "dt_title_5","dt_title_6","dt_title_7","dt_title_8"};
+            int[] tfdTags = new int[] {R.id.tfd_data_1, R.id.tfd_data_2, R.id.tfd_data_3, R.id.tfd_data_4,
+                    R.id.tfd_data_5, R.id.tfd_data_6, R.id.tfd_data_7, R.id.tfd_data_8,
+                    R.id.tfd_title_1, R.id.tfd_title_2, R.id.tfd_title_3, R.id.tfd_title_4,
+                    R.id.tfd_title_5, R.id.tfd_title_6, R.id.tfd_title_7, R.id.tfd_title_8,
+            };
             //TFD
-            adapterTFD = new SimpleAdapter(getActivity(), mylistTFD, R.layout.list_row_dashboard_tfd,
-                    new String[]{fy_2014, "strfy1", bmri_share, "strbmri1", ytd_jul, "strytd1", bmri_share2, "strbmri21"}, new int[]{R.id.btn_background,
-                    R.id.btn_light, R.id.btn_blue, R.id.btn_yellow, R.id.btn_background1,
-                    R.id.btn_light1, R.id.btn_blue1, R.id.btn_yellow1});
+            adapterTFD = new SimpleAdapter(getActivity(), mylistTFD, R.layout.list_row_dashboard_tfd, tfdColumns, tfdTags);
             listTFD.setAdapter(adapterTFD);
             listTFD.setExpanded(true);
 
             //CASHIO
-            String[] columnTags = new String[] {cashintarget, cashinactual, cashouttarget, cashoutactual};
-            int[] columnIds = new int[] {R.id.txt_background, R.id.btn_background, R.id.txt_light, R.id.btn_light};
-            adapterCashio = new SimpleAdapter(getActivity(), mylistCashio, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
-            listCashio.setAdapter(adapterCashio);
-            listCashio.setExpanded(true);
+            String[] columnTags = new String[] {cashintarget, "targetrevenue", "percentage"};
+            int[] columnIds = new int[] {R.id.cashin_target, R.id.cashin_targetrevenue, R.id.cashin_percentage};
+            adapterCashin = new SimpleAdapter(getActivity(), mylistCashin, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
+            listCashin.setAdapter(adapterCashin);
+            listCashin.setExpanded(true);
 
             adapterMonth = new SimpleAdapter(getActivity(), mylistMonth, R.layout.list_row_dashboard_month,
                     new String[]{month}, new int[]{R.id.txt_background});
             listMonth.setAdapter(adapterMonth);
             listMonth.setExpanded(true);
-
+            adapterTFD.notifyDataSetChanged();
         }
     }
 

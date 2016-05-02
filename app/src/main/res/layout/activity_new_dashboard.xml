@@ -81,7 +81,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_cash"
                                 android:textAllCaps="false"
-                                android:text="CashIO"/>
+                                android:text="Cash In"/>
 
                             <Button
 

@@ -23,19 +23,19 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FY 2014"
+                android:text=""
                 android:textSize="11dp"
                 android:textColor="@color/Black"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_1" />
 
             <Button
-                android:id="@+id/btn_background"
+                android:id="@+id/tfd_data_1"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_blue"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
 
@@ -58,17 +58,17 @@
                 android:textSize="11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FY 2014"
-                android:textStyle="bold"/>
+                android:text=""
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_5" />
 
             <Button
-                android:id="@+id/btn_light"
+                android:id="@+id/tfd_data_5"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_light_yellow"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
     </LinearLayout>
@@ -93,20 +93,20 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BMRI SHARE"
                 android:textSize="11dp"
                 android:textColor="@color/Black"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_2" />
 
             <Button
-                android:id="@+id/btn_blue"
+                android:id="@+id/tfd_data_2"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_bluee"
                 android:textColor="@color/White"
 
-                android:text="24.1 T"/>
+                />
 
         </LinearLayout>
 
@@ -129,17 +129,16 @@
                 android:textSize="11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BMRI SHARE"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_6" />
 
             <Button
-                android:id="@+id/btn_yellow"
+                android:id="@+id/tfd_data_6"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_yellow"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
 
@@ -165,19 +164,18 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FY 2014"
                 android:textSize="11dp"
                 android:textColor="@color/Black"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_3" />
 
             <Button
-                android:id="@+id/btn_background1"
+                android:id="@+id/tfd_data_3"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_blue"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
 
@@ -200,17 +198,16 @@
                 android:textSize="11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FY 2014"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_7" />
 
             <Button
-                android:id="@+id/btn_light1"
+                android:id="@+id/tfd_data_7"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_light_yellow"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
     </LinearLayout>
@@ -235,20 +232,20 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BMRI SHARE"
                 android:textSize="11dp"
                 android:textColor="@color/Black"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_4" />
 
             <Button
-                android:id="@+id/btn_blue1"
+                android:id="@+id/tfd_data_4"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_bluee"
                 android:textColor="@color/White"
 
-                android:text="24.1 T"/>
+                />
 
         </LinearLayout>
 
@@ -271,17 +268,16 @@
                 android:textSize="11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BMRI SHARE"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_8" />
 
             <Button
-                android:id="@+id/btn_yellow1"
+                android:id="@+id/tfd_data_8"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_yellow"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
 

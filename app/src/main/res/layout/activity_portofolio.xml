@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"
-            android:src="@drawable/btn_portfilo_group" />
+            android:src="@drawable/btn_portfolio_group" />
 
         <ImageView
             android:id="@+id/img_portofolio_account"

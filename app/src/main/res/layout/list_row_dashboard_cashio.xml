@@ -17,26 +17,24 @@
             android:background="@color/White">
 
             <TextView
-                android:id="@+id/txt_background"
+                android:id="@+id/cashin_target"
                 android:layout_marginLeft="36dp"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FY 2014"
                 android:textSize="12dp"
                 android:textColor="@color/Black"
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/btn_background"
+                android:id="@+id/cashin_targetrevenue"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:enabled="false"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_blue"
-                android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
 
@@ -50,7 +48,7 @@
             android:background="@color/grey">
 
             <TextView
-                android:id="@+id/txt_light"
+                android:id="@+id/cashin_percentage"
                 android:textColor="@color/Black"
                 android:layout_marginLeft="36dp"
                 android:layout_marginRight="15dp"
@@ -59,7 +57,6 @@
                 android:textSize="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FY 2014"
                 android:textStyle="bold"/>
 
             <Button
@@ -70,7 +67,8 @@
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_light_yellow"
                 android:textColor="@color/White"
-                android:text="24.1 T"/>
+                android:text="24.1 T"
+                android:visibility="invisible" />
 
         </LinearLayout>
     </LinearLayout>
