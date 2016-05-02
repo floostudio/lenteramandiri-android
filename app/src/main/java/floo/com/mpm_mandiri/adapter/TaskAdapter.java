@@ -74,7 +74,9 @@ public class TaskAdapter extends BaseAdapter{
         int id = task.getTask_id();
         viewHolder.idTask.setText(Integer.toString(id));
         String subject = task.getTitle();
-        viewHolder.subjectTask.setText(subject);
+        StringBuilder stringBuilder = new StringBuilder(subject);
+        String sbtr = (subject.length()>50) ? stringBuilder.substring(0, 50) : subject;
+        viewHolder.subjectTask.setText(sbtr+"....");
         String pt = task.getCompany();
         viewHolder.ptTask.setText(pt);
 

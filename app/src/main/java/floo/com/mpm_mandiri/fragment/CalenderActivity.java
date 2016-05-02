@@ -94,8 +94,8 @@ public class CalenderActivity extends Fragment {
         calendar.set(calendar.get(Calendar.YEAR) + 2, Calendar.OCTOBER, 31);
         calendarr.setMaximumDate(calendar.getTime());
 
-        int color = Color.BLUE;
-        calendarr.setSelectionColor(color);
+        //int color = R.color.lightblue;
+        calendarr.setSelectionColor(this.getResources().getColor(R.color.lightblue));
 
         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
 
@@ -267,7 +267,7 @@ public class CalenderActivity extends Fragment {
         protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
             super.onPostExecute(calendarDays);
 
-            calendarr.addDecorator(new EventDecorator(Color.parseColor("#ffc903"), calendarDays));
+            calendarr.addDecorator(new EventDecorator(getActivity().getResources().getColor(R.color.lightyellow), calendarDays));
         }
     }
 }
