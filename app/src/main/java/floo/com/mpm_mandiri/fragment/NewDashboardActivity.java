@@ -255,6 +255,9 @@ public class NewDashboardActivity extends Fragment {
 
                 toggleListView(listTFD);
                 listMonth.setVisibility(View.INVISIBLE);
+                listMonthCashout.setVisibility(View.INVISIBLE);
+                listMonthDpk.setVisibility(View.INVISIBLE);
+                listMonthLcf.setVisibility(View.INVISIBLE);
                 //btndetail.setVisibility(View.VISIBLE);
 
             }
