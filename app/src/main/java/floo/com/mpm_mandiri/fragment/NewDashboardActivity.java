@@ -130,7 +130,11 @@ public class NewDashboardActivity extends Fragment {
                 btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
                 btntfd.setTextColor(Color.parseColor("#ffffff"));
 
-
+                chart_CashIn.setVisibility(View.INVISIBLE);
+                chat_CashOut.setVisibility(View.INVISIBLE);
+                chart_Lcf.setVisibility(View.INVISIBLE);
+                chart_Dpk.setVisibility(View.INVISIBLE);
+                toggleImage();
                 toggleListView(listTFD);
                 listMonth.setVisibility(View.INVISIBLE);
                 btndetail.setVisibility(View.VISIBLE);
