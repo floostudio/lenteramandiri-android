@@ -269,10 +269,28 @@
 
 
                     <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/barchart"
-                        android:layout_width="350dp"
-                        android:layout_height="300dp"
-                        />
+                        android:id="@+id/chart_cashIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:visibility="gone"/>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart_cashOut"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:visibility="gone"/>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart_dpk"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:visibility="gone"/>
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart_lcf"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:visibility="gone"/>
 
                     <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_dasboard"

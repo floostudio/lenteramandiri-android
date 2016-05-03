@@ -19,6 +19,6 @@ public class MyValueFormatter implements ValueFormatter {
 
     @Override
     public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-        return mFormat.format(value) + " $";
+        return mFormat.format(value) + "";
     }
 }

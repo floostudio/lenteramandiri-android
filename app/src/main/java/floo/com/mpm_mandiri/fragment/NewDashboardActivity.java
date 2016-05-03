@@ -92,11 +92,7 @@ public class NewDashboardActivity extends Fragment {
     private static final String cashouttarget = "cashouttarget";
     private static final String cashoutactual = "cashoutactual";
 
-    BarChart chart;
-    ArrayList<BarEntry> arraychart;
-    ArrayList<String> label;
-    ArrayList<BarDataSet> dataSets;
-    BarDataSet set1;
+    BarChart chart_CashIn, chat_CashOut, chart_Lcf, chart_Dpk;
 
     ImageView imgCashIN, imgcashOut, imgDpk, imgLcf;
 
@@ -126,7 +122,7 @@ public class NewDashboardActivity extends Fragment {
                 //Toast.makeText(getActivity(), txt.getText().toString(),Toast.LENGTH_LONG).show();
 
                 new DataFetcherTask(txt.getText().toString()).execute();
-                /*title_yellow.setText("Transaction Flow Diagram");
+                title_yellow.setText("Transaction Flow Diagram");
                 title_blue.setText("Transaction Flow Diagram");
                 text1.setText("Collection");
                 text2.setText("Payment");
@@ -137,7 +133,7 @@ public class NewDashboardActivity extends Fragment {
 
                 toggleListView(listTFD);
                 listMonth.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.VISIBLE);*/
+                btndetail.setVisibility(View.VISIBLE);
 
 
 
@@ -212,13 +208,13 @@ public class NewDashboardActivity extends Fragment {
 
     }
 
-    private void toggleImage(ImageView img){
+    private void toggleImage(){
         imgCashIN.setVisibility(View.INVISIBLE);
         imgcashOut.setVisibility(View.INVISIBLE);
         imgDpk.setVisibility(View.INVISIBLE);
         imgLcf.setVisibility(View.INVISIBLE);
 
-        img.setVisibility(View.VISIBLE);
+        //img.setVisibility(View.VISIBLE);
     }
 
     private void initView(View v){
@@ -251,11 +247,14 @@ public class NewDashboardActivity extends Fragment {
         listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
         listAVG = (ExpandableHeightListView)v.findViewById(R.id.list_avg);
         listBakiDebet = (ExpandableHeightListView)v.findViewById(R.id.list_bakidebet);
-        chart = (BarChart) v.findViewById(R.id.barchart);
+        chart_CashIn = (BarChart) v.findViewById(R.id.chart_cashIn);
+        chat_CashOut = (BarChart)v.findViewById(R.id.chart_cashOut);
+        chart_Lcf = (BarChart) v.findViewById(R.id.chart_lcf);
+        chart_Dpk = (BarChart)v.findViewById(R.id.chart_dpk);
 
 
-        chart.setDescription("");
-        chart.fitScreen();
+        //chart.setDescription("");
+        //chart.fitScreen();
 
 
 
@@ -295,14 +294,14 @@ public class NewDashboardActivity extends Fragment {
                 btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
                 btntfd.setTextColor(Color.parseColor("#ffffff"));
 
-
+                chart_CashIn.setVisibility(View.INVISIBLE);
+                chat_CashOut.setVisibility(View.INVISIBLE);
+                chart_Lcf.setVisibility(View.INVISIBLE);
+                chart_Dpk.setVisibility(View.INVISIBLE);
                 toggleListView(listTFD);
                 listMonth.setVisibility(View.INVISIBLE);
                 //btndetail.setVisibility(View.VISIBLE);
-                imgCashIN.setVisibility(View.INVISIBLE);
-                imgcashOut.setVisibility(View.INVISIBLE);
-                imgDpk.setVisibility(View.INVISIBLE);
-                imgLcf.setVisibility(View.INVISIBLE);
+                toggleImage();
                 btndetail.setVisibility(View.VISIBLE);
 
             }
@@ -313,13 +312,14 @@ public class NewDashboardActivity extends Fragment {
             public void onClick(View v) {
                 title_yellow.setText("Cash In");
                 title_blue.setText("Cash In");
-                text1.setText("Cashin Target | Cashin Actual");
-                text2.setText("Percentage");
+                text1.setText("");
+                text2.setText("");
                 toggleButtonActive(false);
                 btncash.setBackgroundResource(R.drawable.activity_btn_blue);
                 btncash.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleImage(imgCashIN);
+                toggleChart(chart_CashIn);
+                toggleImage();
                 //toggleListView(listCashin);
                 listTFD.setVisibility(View.INVISIBLE);
                 listMonth.setVisibility(View.INVISIBLE);
@@ -335,13 +335,14 @@ public class NewDashboardActivity extends Fragment {
                 public void onClick(View v) {
                     title_yellow.setText("Cash Out");
                     title_blue.setText("Cash Out");
-                    text1.setText("Cashout Target | Cashout Actual");
-                    text2.setText("Percentage");
+                    text1.setText("");
+                    text2.setText("");
                     toggleButtonActive(false);
                     btncashout.setBackgroundResource(R.drawable.activity_btn_blue);
                     btncashout.setTextColor(Color.parseColor("#ffffff"));
 
-                    toggleImage(imgcashOut);
+                    toggleChart(chat_CashOut);
+                    toggleImage();
                     listTFD.setVisibility(View.INVISIBLE);
                     //toggleListView(listCashin);
                     listMonthCashout.setVisibility(View.INVISIBLE);
@@ -357,13 +358,14 @@ public class NewDashboardActivity extends Fragment {
             public void onClick(View v) {
                 title_yellow.setText("DPK");
                 title_blue.setText("DPK");
-                text1.setText("DPK | Credit");
-                text2.setText("Percentage");
+                text1.setText("");
+                text2.setText("");
                 toggleButtonActive(false);
                 btndpk.setBackgroundResource(R.drawable.activity_btn_blue);
                 btndpk.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleImage(imgDpk);
+                toggleChart(chart_Dpk);
+                toggleImage();
                 listTFD.setVisibility(View.INVISIBLE);
                 //toggleListView(listDPK);
                 listMonthDpk.setVisibility(View.INVISIBLE);
@@ -378,13 +380,14 @@ public class NewDashboardActivity extends Fragment {
             public void onClick(View v) {
                 title_yellow.setText("LCF");
                 title_blue.setText("LCF");
-                text1.setText("LCF | Credit");
-                text2.setText("Percentage");
+                text1.setText("");
+                text2.setText("");
                 toggleButtonActive(false);
                 btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
                 btnlcf.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleImage(imgLcf);
+                toggleChart(chart_Lcf);
+                toggleImage();
                 listTFD.setVisibility(View.INVISIBLE);
                 //toggleListView(listLCF);
                 listMonthLcf.setVisibility(View.INVISIBLE);
@@ -459,8 +462,27 @@ public class NewDashboardActivity extends Fragment {
 
     }
 
+    private void toggleChart(BarChart bc){
+        chart_CashIn.setVisibility(View.INVISIBLE);
+        chat_CashOut.setVisibility(View.INVISIBLE);
+        chart_Lcf.setVisibility(View.INVISIBLE);
+        chart_Dpk.setVisibility(View.INVISIBLE);
+
+        bc.setVisibility(View.VISIBLE);
+    }
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
         private String parsing;
+        ArrayList<BarEntry> yCashIn = new ArrayList<BarEntry>();
+        ArrayList<String> xCashIn = new ArrayList<String>();
+
+        ArrayList<BarEntry> yCashOut = new ArrayList<BarEntry>();
+        ArrayList<String> xCashOut = new ArrayList<String>();
+
+        ArrayList<BarEntry> yLcf = new ArrayList<BarEntry>();
+        ArrayList<String> xLcf = new ArrayList<String>();
+
+        ArrayList<BarEntry> yDpk = new ArrayList<BarEntry>();
+        ArrayList<String> xDpk = new ArrayList<String>();
 
         public DataFetcherTask(String parsing) {
             this.parsing = parsing;
@@ -617,22 +639,21 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayCashin.length(); a++){
                             JSONObject objCashin = arrayCashin.getJSONObject(a);
 
-                            String mMonths = objCashin.getString(month);
-                            label = new ArrayList<String>();
-                            label.add(mMonths);
-                            Log.d("label", String.valueOf(label));
+                            String strBln = objCashin.getString(month);
+                            String targettt = objCashin.getString(cashintarget);
+                            String actualll = objCashin.getString("targetrevenue");
 
-                            float val1 = (float) Float.parseFloat(objCashin.getString(cashintarget));
-                            float val2 = (float) Float.parseFloat(objCashin.getString("targetrevenue"));
-                            Log.d("val1", String.valueOf(val1));
-                            Log.d("val2", String.valueOf(val2));
+                            int strCashIn = Integer.parseInt(targettt);
+                            int strRevenue = Integer.parseInt(actualll);
 
-                            float zz = (float) 140;
-                            float za = (float) 100;
+                            float z = (float) strCashIn;
+                            float y = (float) strRevenue;
 
-                            arraychart = new ArrayList<BarEntry>();
-                            arraychart.add(new BarEntry(new float[]{val1, val2}, a));
-                            Log.d("arraychart", String.valueOf(arraychart));
+
+                            xCashIn.add(strBln);
+
+                            yCashIn.add(new BarEntry(new float[]{z, y}, a));
+
 
 
                             /*hashMapMonth = new HashMap<String, String>();
@@ -663,7 +684,22 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayCashout.length(); a++){
                             JSONObject objCashout = arrayCashout.getJSONObject(a);
 
-                            hashMapMonth = new HashMap<String, String>();
+                            String strBln = objCashout.getString(month);
+                            String targettt = objCashout.getString(cashouttarget);
+                            String actualll = objCashout.getString("targetrevenue");
+
+                            int strCashOut = Integer.parseInt(targettt);
+                            int strRevenue = Integer.parseInt(actualll);
+
+                            float z = (float) strCashOut;
+                            float y = (float) strRevenue;
+
+
+                            xCashOut.add(strBln);
+
+                            yCashOut.add(new BarEntry(new float[]{z, y}, a));
+
+                            /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objCashout.getString(month));
                             myListMonthCashout.add(hashMapMonth);
 
@@ -671,7 +707,7 @@ public class NewDashboardActivity extends Fragment {
                             hashMapCashout.put(cashouttarget, objCashout.getString(cashouttarget));
                             hashMapCashout.put("targetrevenue", objCashout.getString("targetrevenue"));
                             hashMapCashout.put("percentage", objCashout.getString("percentage"));
-                            mylistCashout.add(hashMapCashout);
+                            mylistCashout.add(hashMapCashout);*/
 
                         }
                     } else {
@@ -690,7 +726,22 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayDPK.length(); a++){
                             JSONObject objDPK = arrayDPK.getJSONObject(a);
 
-                            hashMapMonth = new HashMap<String, String>();
+                            String strBln = objDPK.getString(month);
+                            String dpkkk = objDPK.getString("dpk");
+                            String credittt = objDPK.getString("credit");
+
+                            int strdpk = Integer.parseInt(dpkkk);
+                            int strcredit = Integer.parseInt(credittt);
+
+                            float z = (float) strdpk;
+                            float y = (float) strcredit;
+
+
+                            xDpk.add(strBln);
+
+                            yDpk.add(new BarEntry(new float[]{z, y}, a));
+
+                            /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objDPK.getString(month));
                             myListMonthDPK.add(hashMapMonth);
 
@@ -698,7 +749,7 @@ public class NewDashboardActivity extends Fragment {
                             hashMapDpk.put("dpk", objDPK.getString("dpk"));
                             hashMapDpk.put("credit", objDPK.getString("credit"));
                             hashMapDpk.put("percentage", objDPK.getString("percentage"));
-                            mylistDpk.add(hashMapDpk);
+                            mylistDpk.add(hashMapDpk);*/
 
                         }
                     } else {
@@ -717,7 +768,22 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayLCF.length(); a++){
                             JSONObject objLCF = arrayLCF.getJSONObject(a);
 
-                            hashMapMonth = new HashMap<String, String>();
+                            String strBln = objLCF.getString(month);
+                            String dlcfff = objLCF.getString("lcf");
+                            String credittt = objLCF.getString("credit");
+
+                            int strlcf = Integer.parseInt(dlcfff);
+                            int strcredit = Integer.parseInt(credittt);
+
+                            float z = (float) strlcf;
+                            float y = (float) strcredit;
+
+
+                            xLcf.add(strBln);
+
+                            yLcf.add(new BarEntry(new float[]{z, y}, a));
+
+                            /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objLCF.getString(month));
                             myListMonthLCF.add(hashMapMonth);
 
@@ -725,7 +791,7 @@ public class NewDashboardActivity extends Fragment {
                             hashMapLcf.put("lcf", objLCF.getString("lcf"));
                             hashMapLcf.put("credit", objLCF.getString("credit"));
                             hashMapLcf.put("percentage", objLCF.getString("percentage"));
-                            mylistLcf.add(hashMapLcf);
+                            mylistLcf.add(hashMapLcf);*/
 
                         }
                     } else {
@@ -767,52 +833,51 @@ public class NewDashboardActivity extends Fragment {
             listTFD.setExpanded(true);
 
             //CASHIN
-            set1 = new BarDataSet(arraychart, "");
-            //set1.setStackLabels(label);
-            dataSets = new ArrayList<BarDataSet>();
-            dataSets.add(set1);
-            BarData data = new BarData(label, dataSets);
-            data.setValueFormatter(new MyValueFormatter());
-            //chart.setMaxVisibleValueCount(60);
+            BarDataSet setCashIn = new BarDataSet(yCashIn, "");
+            setCashIn.setColors(getColors());
+            setCashIn.setStackLabels(new String[] { "Cash In", "Target Revenue" });
 
-            // scaling can now only be done on x- and y-axis separately
-            chart.setDescription("");
+            ArrayList<BarDataSet> dataSetCashIn = new ArrayList<BarDataSet>();
+            dataSetCashIn.add(setCashIn);
+
+            BarData dataCashIn = new BarData(xCashIn, dataSetCashIn);
+            dataCashIn.setValueFormatter(new MyValueFormatter());
+
+            chart_CashIn.setDescription("");
 
             // if more than 60 entries are displayed in the chart, no values will be
             // drawn
-            chart.setMaxVisibleValueCount(60);
+            chart_CashIn.setMaxVisibleValueCount(60);
 
             // scaling can now only be done on x- and y-axis separately
-            chart.setPinchZoom(false);
+            chart_CashIn.setPinchZoom(false);
 
-            chart.setDrawGridBackground(false);
-            chart.setDrawBarShadow(false);
+            chart_CashIn.setDrawGridBackground(false);
+            chart_CashIn.setDrawBarShadow(false);
 
-            chart.setDrawValueAboveBar(false);
+            chart_CashIn.setDrawValueAboveBar(false);
 
             // change the position of the y-labels
-            YAxis leftAxis = chart.getAxisLeft();
+            YAxis leftAxis = chart_CashIn.getAxisLeft();
             leftAxis.setValueFormatter(new MyYAxisValueFormatter());
             leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
-            chart.getAxisRight().setEnabled(false);
+            chart_CashIn.getAxisRight().setEnabled(false);
 
-            XAxis xLabels = chart.getXAxis();
-            xLabels.setPosition(XAxis.XAxisPosition.TOP);
+            XAxis xLabels = chart_CashIn.getXAxis();
+            xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
 
             // mChart.setDrawXLabels(false);
             // mChart.setDrawYLabels(false);
 
-
-
-            Legend l = chart.getLegend();
+            Legend l = chart_CashIn.getLegend();
             l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
             l.setFormSize(8f);
             l.setFormToTextSpace(4f);
             l.setXEntrySpace(6f);
 
 
-            chart.setData(data);
-            chart.invalidate();
+            chart_CashIn.setData(dataCashIn);
+            chart_CashIn.invalidate();
 
             //String[] columnTags = new String[] {cashintarget, "targetrevenue", "percentage"};
             //int[] columnIds = new int[] {R.id.cashin_target, R.id.cashin_targetrevenue, R.id.cashin_percentage};
@@ -821,21 +886,156 @@ public class NewDashboardActivity extends Fragment {
             //listCashin.setExpanded(true);
 
             //CASHOut
-            String[] cashoutTags = new String[] {cashouttarget, "targetrevenue", "percentage"};
+            BarDataSet setCashOut = new BarDataSet(yCashOut, "");
+            setCashOut.setColors(getColors());
+            setCashOut.setStackLabels(new String[] { "Cash Out", "Target Revenue" });
+
+            ArrayList<BarDataSet> dataSetCashOut = new ArrayList<BarDataSet>();
+            dataSetCashOut.add(setCashOut);
+
+            BarData dataCashOut = new BarData(xCashOut, dataSetCashOut);
+            dataCashOut.setValueFormatter(new MyValueFormatter());
+
+            chat_CashOut.setDescription("");
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            chat_CashOut.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chat_CashOut.setPinchZoom(false);
+
+            chat_CashOut.setDrawGridBackground(false);
+            chat_CashOut.setDrawBarShadow(false);
+
+            chat_CashOut.setDrawValueAboveBar(false);
+
+            // change the position of the y-labels
+            YAxis leftAxis_CashOin = chat_CashOut.getAxisLeft();
+            leftAxis_CashOin.setValueFormatter(new MyYAxisValueFormatter());
+            leftAxis_CashOin.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            chat_CashOut.getAxisRight().setEnabled(false);
+
+            XAxis xLabels_CashOut = chat_CashOut.getXAxis();
+            xLabels_CashOut.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            // mChart.setDrawXLabels(false);
+            // mChart.setDrawYLabels(false);
+
+            Legend l_CashOut = chat_CashOut.getLegend();
+            l_CashOut.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+            l_CashOut.setFormSize(8f);
+            l_CashOut.setFormToTextSpace(4f);
+            l_CashOut.setXEntrySpace(6f);
+
+
+            chat_CashOut.setData(dataCashOut);
+            chat_CashOut.invalidate();
+            /*String[] cashoutTags = new String[] {cashouttarget, "targetrevenue", "percentage"};
             int[] cashoutIds = new int[] {R.id.cashout_target, R.id.cashout_targetrevenue, R.id.cashout_percentage};
             adapterCashout = new SimpleAdapter(getActivity(), mylistCashout, R.layout.list_row_dashboard_cashout, cashoutTags , cashoutIds);
             listCashout.setAdapter(adapterCashout);
-            listCashout.setExpanded(true);
+            listCashout.setExpanded(true);*/
 
             //DPK
-            String[] dpkTags = new String[] {"dpk", "credit", "percentage"};
+            BarDataSet setDPK = new BarDataSet(yDpk, "");
+            setDPK.setColors(getColors());
+            setDPK.setStackLabels(new String[] { "DPK", "Credit" });
+
+            ArrayList<BarDataSet> dataSetDPK = new ArrayList<BarDataSet>();
+            dataSetDPK.add(setDPK);
+
+            BarData dataDPK = new BarData(xDpk, dataSetDPK);
+            dataDPK.setValueFormatter(new MyValueFormatter());
+
+            chart_Dpk.setDescription("");
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            chart_Dpk.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chart_Dpk.setPinchZoom(false);
+
+            chart_Dpk.setDrawGridBackground(false);
+            chart_Dpk.setDrawBarShadow(false);
+
+            chart_Dpk.setDrawValueAboveBar(false);
+
+            // change the position of the y-labels
+            YAxis leftAxis_DPK = chat_CashOut.getAxisLeft();
+            leftAxis_DPK.setValueFormatter(new MyYAxisValueFormatter());
+            leftAxis_DPK.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            chart_Dpk.getAxisRight().setEnabled(false);
+
+            XAxis xLabels_DPK = chart_Dpk.getXAxis();
+            xLabels_DPK.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            // mChart.setDrawXLabels(false);
+            // mChart.setDrawYLabels(false);
+
+            Legend l_DPK = chart_Dpk.getLegend();
+            l_DPK.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+            l_DPK.setFormSize(8f);
+            l_DPK.setFormToTextSpace(4f);
+            l_DPK.setXEntrySpace(6f);
+
+
+            chart_Dpk.setData(dataDPK);
+            chart_Dpk.invalidate();
+            /*String[] dpkTags = new String[] {"dpk", "credit", "percentage"};
             int[] dpkIds = new int[] {R.id.dpk_target, R.id.dpk_credit, R.id.dpk_percentage};
             adapterDpk = new SimpleAdapter(getActivity(), mylistDpk, R.layout.list_row_dashboard_dpk, dpkTags , dpkIds);
             listDPK.setAdapter(adapterDpk);
-            listDPK.setExpanded(true);
+            listDPK.setExpanded(true);*/
 
             //LCF
-            String[] lcfTags = new String[] {"lcf", "credit", "percentage"};
+            BarDataSet setLCF = new BarDataSet(yLcf, "");
+            setLCF.setColors(getColors());
+            setLCF.setStackLabels(new String[] { "LCF", "Credit" });
+
+            ArrayList<BarDataSet> dataSetLCF = new ArrayList<BarDataSet>();
+            dataSetLCF.add(setLCF);
+
+            BarData dataLCF = new BarData(xLcf, dataSetLCF);
+            dataLCF.setValueFormatter(new MyValueFormatter());
+
+            chart_Lcf.setDescription("");
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            chart_Lcf.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chart_Lcf.setPinchZoom(false);
+
+            chart_Lcf.setDrawGridBackground(false);
+            chart_Lcf.setDrawBarShadow(false);
+
+            chart_Lcf.setDrawValueAboveBar(false);
+
+            // change the position of the y-labels
+            YAxis leftAxis_LCF = chart_Lcf.getAxisLeft();
+            leftAxis_LCF.setValueFormatter(new MyYAxisValueFormatter());
+            leftAxis_LCF.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            chart_Lcf.getAxisRight().setEnabled(false);
+
+            XAxis xLabels_LCF = chart_Lcf.getXAxis();
+            xLabels_LCF.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            // mChart.setDrawXLabels(false);
+            // mChart.setDrawYLabels(false);
+
+            Legend l_LCF = chart_Lcf.getLegend();
+            l_LCF.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+            l_LCF.setFormSize(8f);
+            l_LCF.setFormToTextSpace(4f);
+            l_LCF.setXEntrySpace(6f);
+
+
+            chart_Lcf.setData(dataLCF);
+            chart_Lcf.invalidate();
+            /*String[] lcfTags = new String[] {"lcf", "credit", "percentage"};
             int[] lcfIds = new int[] {R.id.lcf_target, R.id.lcf_credit, R.id.lcf_percentage};
             adapterLcf = new SimpleAdapter(getActivity(), mylistLcf, R.layout.list_row_dashboard_lcf, lcfTags , lcfIds);
             listLCF.setAdapter(adapterLcf);
@@ -858,13 +1058,13 @@ public class NewDashboardActivity extends Fragment {
             listMonthCashout.setExpanded(true);
             listMonthDpk.setExpanded(true);
             listMonthLcf.setExpanded(true);
-            adapterTFD.notifyDataSetChanged();
+            adapterTFD.notifyDataSetChanged();*/
         }
     }
 
     private int[] getColors() {
 
-        int stacksize = 3;
+        int stacksize = 2;
 
         // have as many colors as stack-values per entry
         int[] colors = new int[stacksize];
