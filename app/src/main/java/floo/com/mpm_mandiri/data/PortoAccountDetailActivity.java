@@ -85,6 +85,7 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent conv = new Intent(PortoAccountDetailActivity.this, ConvenantActivity.class);
                 conv.putExtra("id", pId.toString());
+                conv.putExtra("acc_number", pAccNumber.toString());
                 conv.putExtra("company_name", txtCompany.getText().toString());
                 startActivity(conv);
             }

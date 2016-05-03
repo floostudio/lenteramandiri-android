@@ -194,6 +194,7 @@
                 android:gravity="bottom"
                 android:layout_gravity="bottom">
                 <LinearLayout
+                    android:id="@+id/line_yellow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -236,6 +237,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_cashIn"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/a_cashin"
+                        android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/img_cashOut"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/a_cashout"
+                        android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/img_dpk"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/a_dpk"
+                        android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/img_lcf"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/a_lcf"
+                        android:visibility="gone"/>
+
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barchart"
+                        android:layout_width="350dp"
+                        android:layout_height="300dp"
+                        />
 
                     <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_dasboard"
@@ -380,7 +417,8 @@
                 android:textSize="18dp"
                 android:layout_gravity="center"
                 android:textColor="@color/White"
-                android:background="@color/yellow"/>
+                android:background="@color/yellow"
+                android:visibility="gone"/>
 
 
         </LinearLayout>

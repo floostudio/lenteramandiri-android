@@ -3,6 +3,7 @@ package floo.com.mpm_mandiri.fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +16,22 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
+
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,6 +53,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.data.ImageActivity;
@@ -80,6 +92,14 @@ public class NewDashboardActivity extends Fragment {
     private static final String cashouttarget = "cashouttarget";
     private static final String cashoutactual = "cashoutactual";
 
+    BarChart chart;
+    ArrayList<BarEntry> arraychart;
+    ArrayList<String> label;
+    ArrayList<BarDataSet> dataSets;
+    BarDataSet set1;
+
+    ImageView imgCashIN, imgcashOut, imgDpk, imgLcf;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +126,7 @@ public class NewDashboardActivity extends Fragment {
                 //Toast.makeText(getActivity(), txt.getText().toString(),Toast.LENGTH_LONG).show();
 
                 new DataFetcherTask(txt.getText().toString()).execute();
-                title_yellow.setText("Transaction Flow Diagram");
+                /*title_yellow.setText("Transaction Flow Diagram");
                 title_blue.setText("Transaction Flow Diagram");
                 text1.setText("Collection");
                 text2.setText("Payment");
@@ -117,7 +137,9 @@ public class NewDashboardActivity extends Fragment {
 
                 toggleListView(listTFD);
                 listMonth.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.VISIBLE);
+                btndetail.setVisibility(View.VISIBLE);*/
+
+
 
             }
 
@@ -173,7 +195,7 @@ public class NewDashboardActivity extends Fragment {
         }
     }
 
-    private void toggleListView(ListView lv){
+    private void toggleListView(ExpandableHeightListView lv){
         listTFD.setVisibility(View.INVISIBLE);
         listCashin.setVisibility(View.INVISIBLE);
         listCashout.setVisibility(View.INVISIBLE);
@@ -188,6 +210,15 @@ public class NewDashboardActivity extends Fragment {
         lv.setVisibility(View.VISIBLE);
 
 
+    }
+
+    private void toggleImage(ImageView img){
+        imgCashIN.setVisibility(View.INVISIBLE);
+        imgcashOut.setVisibility(View.INVISIBLE);
+        imgDpk.setVisibility(View.INVISIBLE);
+        imgLcf.setVisibility(View.INVISIBLE);
+
+        img.setVisibility(View.VISIBLE);
     }
 
     private void initView(View v){
@@ -220,6 +251,11 @@ public class NewDashboardActivity extends Fragment {
         listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
         listAVG = (ExpandableHeightListView)v.findViewById(R.id.list_avg);
         listBakiDebet = (ExpandableHeightListView)v.findViewById(R.id.list_bakidebet);
+        chart = (BarChart) v.findViewById(R.id.barchart);
+
+
+        chart.setDescription("");
+        chart.fitScreen();
 
 
 
@@ -233,6 +269,13 @@ public class NewDashboardActivity extends Fragment {
         listAGF.setEnabled(false);
         listAVG.setEnabled(false);
         listBakiDebet.setEnabled(false);
+
+        imgCashIN = (ImageView)v.findViewById(R.id.img_cashIn);
+        imgcashOut = (ImageView)v.findViewById(R.id.img_cashOut);
+        imgDpk = (ImageView)v.findViewById(R.id.img_dpk);
+        imgLcf = (ImageView)v.findViewById(R.id.img_lcf);
+
+
         //spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_new_spinner, array);
         //spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         //spinner.setAdapter(spinnerArrayAdapter);
@@ -255,10 +298,12 @@ public class NewDashboardActivity extends Fragment {
 
                 toggleListView(listTFD);
                 listMonth.setVisibility(View.INVISIBLE);
-                listMonthCashout.setVisibility(View.INVISIBLE);
-                listMonthDpk.setVisibility(View.INVISIBLE);
-                listMonthLcf.setVisibility(View.INVISIBLE);
                 //btndetail.setVisibility(View.VISIBLE);
+                imgCashIN.setVisibility(View.INVISIBLE);
+                imgcashOut.setVisibility(View.INVISIBLE);
+                imgDpk.setVisibility(View.INVISIBLE);
+                imgLcf.setVisibility(View.INVISIBLE);
+                btndetail.setVisibility(View.VISIBLE);
 
             }
         });
@@ -274,12 +319,14 @@ public class NewDashboardActivity extends Fragment {
                 btncash.setBackgroundResource(R.drawable.activity_btn_blue);
                 btncash.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listCashin);
-                listMonth.setVisibility(View.VISIBLE);
+                toggleImage(imgCashIN);
+                //toggleListView(listCashin);
+                listTFD.setVisibility(View.INVISIBLE);
+                listMonth.setVisibility(View.INVISIBLE);
                 listMonthCashout.setVisibility(View.INVISIBLE);
                 listMonthDpk.setVisibility(View.INVISIBLE);
                 listMonthLcf.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.VISIBLE);
+                btndetail.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -294,12 +341,14 @@ public class NewDashboardActivity extends Fragment {
                     btncashout.setBackgroundResource(R.drawable.activity_btn_blue);
                     btncashout.setTextColor(Color.parseColor("#ffffff"));
 
-                    toggleListView(listCashin);
-                    listMonthCashout.setVisibility(View.VISIBLE);
+                    toggleImage(imgcashOut);
+                    listTFD.setVisibility(View.INVISIBLE);
+                    //toggleListView(listCashin);
+                    listMonthCashout.setVisibility(View.INVISIBLE);
                     listMonth.setVisibility(View.INVISIBLE);
                     listMonthDpk.setVisibility(View.INVISIBLE);
                     listMonthLcf.setVisibility(View.INVISIBLE);
-                    btndetail.setVisibility(View.VISIBLE);
+                    btndetail.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -314,12 +363,14 @@ public class NewDashboardActivity extends Fragment {
                 btndpk.setBackgroundResource(R.drawable.activity_btn_blue);
                 btndpk.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listDPK);
-                listMonthDpk.setVisibility(View.VISIBLE);
+                toggleImage(imgDpk);
+                listTFD.setVisibility(View.INVISIBLE);
+                //toggleListView(listDPK);
+                listMonthDpk.setVisibility(View.INVISIBLE);
                 listMonth.setVisibility(View.INVISIBLE);
                 listMonthCashout.setVisibility(View.INVISIBLE);
                 listMonthLcf.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.VISIBLE);
+                btndetail.setVisibility(View.INVISIBLE);
             }
         });
         btnlcf.setOnClickListener(new View.OnClickListener() {
@@ -333,12 +384,14 @@ public class NewDashboardActivity extends Fragment {
                 btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
                 btnlcf.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listLCF);
-                listMonthLcf.setVisibility(View.VISIBLE);
+                toggleImage(imgLcf);
+                listTFD.setVisibility(View.INVISIBLE);
+                //toggleListView(listLCF);
+                listMonthLcf.setVisibility(View.INVISIBLE);
                 listMonthCashout.setVisibility(View.INVISIBLE);
                 listMonthDpk.setVisibility(View.INVISIBLE);
                 listMonth.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.VISIBLE);
+                btndetail.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -564,7 +617,25 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayCashin.length(); a++){
                             JSONObject objCashin = arrayCashin.getJSONObject(a);
 
-                            hashMapMonth = new HashMap<String, String>();
+                            String mMonths = objCashin.getString(month);
+                            label = new ArrayList<String>();
+                            label.add(mMonths);
+                            Log.d("label", String.valueOf(label));
+
+                            float val1 = (float) Float.parseFloat(objCashin.getString(cashintarget));
+                            float val2 = (float) Float.parseFloat(objCashin.getString("targetrevenue"));
+                            Log.d("val1", String.valueOf(val1));
+                            Log.d("val2", String.valueOf(val2));
+
+                            float zz = (float) 140;
+                            float za = (float) 100;
+
+                            arraychart = new ArrayList<BarEntry>();
+                            arraychart.add(new BarEntry(new float[]{val1, val2}, a));
+                            Log.d("arraychart", String.valueOf(arraychart));
+
+
+                            /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objCashin.getString(month));
                             mylistMonth.add(hashMapMonth);
 
@@ -572,7 +643,7 @@ public class NewDashboardActivity extends Fragment {
                             hashMapCashio.put(cashintarget, objCashin.getString(cashintarget));
                             hashMapCashio.put("targetrevenue", objCashin.getString("targetrevenue"));
                             hashMapCashio.put("percentage", objCashin.getString("percentage"));
-                            mylistCashin.add(hashMapCashio);
+                            mylistCashin.add(hashMapCashio);*/
 
                         }
                     } else {
@@ -696,11 +767,58 @@ public class NewDashboardActivity extends Fragment {
             listTFD.setExpanded(true);
 
             //CASHIN
-            String[] columnTags = new String[] {cashintarget, "targetrevenue", "percentage"};
-            int[] columnIds = new int[] {R.id.cashin_target, R.id.cashin_targetrevenue, R.id.cashin_percentage};
-            adapterCashin = new SimpleAdapter(getActivity(), mylistCashin, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
-            listCashin.setAdapter(adapterCashin);
-            listCashin.setExpanded(true);
+            set1 = new BarDataSet(arraychart, "");
+            //set1.setStackLabels(label);
+            dataSets = new ArrayList<BarDataSet>();
+            dataSets.add(set1);
+            BarData data = new BarData(label, dataSets);
+            data.setValueFormatter(new MyValueFormatter());
+            //chart.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chart.setDescription("");
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            chart.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chart.setPinchZoom(false);
+
+            chart.setDrawGridBackground(false);
+            chart.setDrawBarShadow(false);
+
+            chart.setDrawValueAboveBar(false);
+
+            // change the position of the y-labels
+            YAxis leftAxis = chart.getAxisLeft();
+            leftAxis.setValueFormatter(new MyYAxisValueFormatter());
+            leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            chart.getAxisRight().setEnabled(false);
+
+            XAxis xLabels = chart.getXAxis();
+            xLabels.setPosition(XAxis.XAxisPosition.TOP);
+
+            // mChart.setDrawXLabels(false);
+            // mChart.setDrawYLabels(false);
+
+
+
+            Legend l = chart.getLegend();
+            l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+            l.setFormSize(8f);
+            l.setFormToTextSpace(4f);
+            l.setXEntrySpace(6f);
+
+
+            chart.setData(data);
+            chart.invalidate();
+
+            //String[] columnTags = new String[] {cashintarget, "targetrevenue", "percentage"};
+            //int[] columnIds = new int[] {R.id.cashin_target, R.id.cashin_targetrevenue, R.id.cashin_percentage};
+            //adapterCashin = new SimpleAdapter(getActivity(), mylistCashin, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
+            //listCashin.setAdapter(adapterCashin);
+            //listCashin.setExpanded(true);
 
             //CASHOut
             String[] cashoutTags = new String[] {cashouttarget, "targetrevenue", "percentage"};
@@ -742,6 +860,20 @@ public class NewDashboardActivity extends Fragment {
             listMonthLcf.setExpanded(true);
             adapterTFD.notifyDataSetChanged();
         }
+    }
+
+    private int[] getColors() {
+
+        int stacksize = 3;
+
+        // have as many colors as stack-values per entry
+        int[] colors = new int[stacksize];
+
+        for (int i = 0; i < stacksize; i++) {
+            colors[i] = ColorTemplate.VORDIPLOM_COLORS[i];
+        }
+
+        return colors;
     }
 
     private class DataSpinner extends AsyncTask<Void, Void, Void> {

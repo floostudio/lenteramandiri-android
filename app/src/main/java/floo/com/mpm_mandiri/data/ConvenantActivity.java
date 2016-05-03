@@ -49,7 +49,7 @@ public class ConvenantActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save, txtConvenant, txtCompany;
-    String pId, pCompany;
+    String pId, pCompany, pAcc_number;
     String strCovTitle, strCovNote, strCompany;
     int strCovId, strCovExpire;
 
@@ -77,6 +77,7 @@ public class ConvenantActivity extends AppCompatActivity {
     public void initView(){
         Intent i = getIntent();
         pId  = i.getStringExtra("id");
+        pAcc_number = i.getStringExtra("acc_number");
         pCompany = i.getStringExtra("company_name");
 
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
@@ -171,7 +172,7 @@ public class ConvenantActivity extends AppCompatActivity {
 
             String serverData="";
             DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlCovenant+pId);
+            HttpGet httpGet = new HttpGet(urlCovenant+pAcc_number);
 
             httpGet.setHeader("Content-Type", "application/json");
             httpGet.setHeader("Accept", "application/json");
@@ -202,7 +203,7 @@ public class ConvenantActivity extends AppCompatActivity {
                     strCovTitle = jsonObject.getString(cov_title);
                     strCovExpire = jsonObject.getInt("cov_expire");
                     strCovNote = jsonObject.getString(cov_note);
-                    strCompany = jsonObject.getString(company_name);
+                    //strCompany = jsonObject.getString(company_name);
 
 
 

@@ -263,6 +263,7 @@ public class PortoAccountActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
+                Log.d("serverData", serverData);
 
             }catch (ClientProtocolException e){
                 e.printStackTrace();
