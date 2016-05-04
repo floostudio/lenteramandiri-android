@@ -150,8 +150,8 @@ public class DetailTaskActivity extends AppCompatActivity {
                 //back.putExtra("fragment", "fragment");
                 //startActivity(back);
                new AlertDialog.Builder(DetailTaskActivity.this)
-                        .setTitle("Really?")
-                        .setMessage("Are you sure you want to done?")
+                        .setTitle("Confirmation")
+                        .setMessage("Do you want to finish this task?")
                         .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.yes,
                                 new DialogInterface.OnClickListener() {

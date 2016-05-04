@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.ScaleInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import org.apache.http.HttpEntity;
@@ -65,7 +66,7 @@ public class NewsActivity extends Fragment {
     int strDate;
     NewsAdapter newsAdapter;
     ArrayList<News> newsArray;
-    AnimationAdapter animationAdapter;
+
 
 
     @Nullable
@@ -228,7 +229,8 @@ public class NewsActivity extends Fragment {
                 pDialog.dismiss();
 
             newsAdapter = new NewsAdapter(getActivity(), result);
-
+            //AnimationAdapter animasi = new ScaleInAnimationAdapter(newsAdapter);
+            //animasi.setAbsListView(list_news);
             //animationAdapter = new AlphaInAnimationAdapter(newsAdapter);
             //animationAdapter.setAbsListView(list_news);
             list_news.setAdapter(newsAdapter);

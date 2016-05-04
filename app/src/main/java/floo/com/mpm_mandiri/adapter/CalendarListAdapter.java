@@ -120,6 +120,13 @@ public class CalendarListAdapter extends BaseAdapter{
         return dateFormat.format(date1);
     }
 
+    public static String epochtodate(int epoch){
+        Date date = new Date(epoch * 1000L);
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
+        return format.format(date);
+    }
+
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
         listData.clear();
@@ -127,7 +134,8 @@ public class CalendarListAdapter extends BaseAdapter{
             listData.addAll(list);
         } else {
             for (Task wp : list) {
-                if (Integer.toString(wp.getExpire()).toLowerCase(Locale.getDefault())
+                //Log.d("epoch", epochtodate(wp.getExpire()));
+                if (epochtodate(wp.getExpire()).toLowerCase(Locale.getDefault())
                         .contains(charText)) {
                     listData.add(wp);
                 }

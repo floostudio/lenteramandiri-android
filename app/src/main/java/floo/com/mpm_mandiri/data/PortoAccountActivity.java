@@ -8,11 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.SimpleSwipeUndoAdapter;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -46,7 +52,7 @@ public class PortoAccountActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save;
-    ListView portoAccount;
+    DynamicListView portoAccount;
     String[] subject, pt, idr;
     HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> mylist;
@@ -147,7 +153,7 @@ public class PortoAccountActivity extends AppCompatActivity {
         titleToolbar.setText("PORTFOLIO ACCOUNT");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
-        portoAccount = (ListView) findViewById(R.id.list_porto_account);
+        portoAccount = (DynamicListView) findViewById(R.id.list_porto_account);
 
         save.setVisibility(View.INVISIBLE);
         line.setOnClickListener(new View.OnClickListener() {
@@ -333,6 +339,9 @@ public class PortoAccountActivity extends AppCompatActivity {
                             R.id.txt_porto_account_tunggakan, R.id.txt_porto_account_kolektibilitas, R.id.txt_porto_account_tempo,
                             R.id.txt_porto_account_debet, R.id.txt_porto_account_kredit, R.id.txt_porto_account_rata,
                             R.id.txt_porto_account_company, R.id.txt_porto_account_id});
+
+            AlphaInAnimationAdapter animasi = new AlphaInAnimationAdapter(adapter);
+            //animasi.setAbsListView(portoAccount);
 
             portoAccount.setAdapter(adapter);
 

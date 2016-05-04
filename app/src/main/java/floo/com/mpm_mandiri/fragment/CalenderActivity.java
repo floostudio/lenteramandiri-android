@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import org.apache.http.HttpEntity;
@@ -117,10 +118,11 @@ public class CalenderActivity extends Fragment {
 
                 Intent task = new Intent(getActivity(), CalendarTaskListActivity.class);
                 task.putExtra("IDPARSING", idParsing);
-                task.putExtra("date", String.valueOf(today));
+                //task.putExtra("date", String.valueOf(today));
+                task.putExtra("date", getSelectedDatesString());
 
                 startActivity(task);
-                //Toast.makeText(getActivity(), getSelectedDatesString().toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), getSelectedDatesString(), Toast.LENGTH_LONG).show();
 
 
             }
@@ -247,7 +249,7 @@ public class CalenderActivity extends Fragment {
 
                     CalendarDay dayy;
                     dayy = CalendarDay.from(new Date(epochtodate(strExpire)));
-
+                    //Log.d("tanggal", String.valueOf(dayy));
 
                     dates.add(dayy);
 
@@ -259,7 +261,7 @@ public class CalenderActivity extends Fragment {
                 e.printStackTrace();
             }
 
-            //Log.d("tanggal", String.valueOf(dates));
+
             return dates;
         }
 
