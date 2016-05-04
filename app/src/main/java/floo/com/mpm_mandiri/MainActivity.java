@@ -273,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 NewDashboardActivity dashboar = new NewDashboardActivity();
+                dashboar.setArguments(bundle);
                 ft.replace(R.id.content_fragment, dashboar);
                 ft.commit();
                 break;
@@ -290,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 PortofolioActivity porto = new PortofolioActivity();
+                porto.setArguments(bundle);
                 ft.replace(R.id.content_fragment, porto);
                 ft.commit();
                 break;

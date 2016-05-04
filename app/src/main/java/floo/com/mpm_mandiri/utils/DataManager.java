@@ -25,11 +25,11 @@ public class DataManager {
     public static String urlMasterTitle = "http://sandbox.floostudio.com/lenteramandiri/api/v1/master/title";
     public static String urlPortGroup = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_group";
     public static String urlPortGroupDetail = "";
-    public static String urlPortAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_acc";
+    public static String urlPortAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_acc/user/";
     public static String urlPortAccountDetail = "";
     public static String urlCovenant = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_acc/covenant/";
     public static String urlDashboard = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard";
-    public static String urlListperAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard/listAccount";
+    public static String urlListperAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard/listAccount/";
     public static String urlGetperAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard/account/";
     public static String urlGetperAccountSementara = "http://sandbox.floostudio.com/lenteramandiri/api/v1/dashboard/account/";
 

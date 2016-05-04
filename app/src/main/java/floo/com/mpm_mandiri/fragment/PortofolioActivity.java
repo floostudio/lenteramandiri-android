@@ -25,6 +25,7 @@ import floo.com.mpm_mandiri.data.PortoGroupActivity;
  */
 public class PortofolioActivity extends Fragment {
     ImageView group, account;
+    String idParsing;
 
     @Nullable
     @Override
@@ -36,6 +37,7 @@ public class PortofolioActivity extends Fragment {
         return v;
     }
     public void initView(View view) {
+        idParsing = this.getArguments().getString("IDPARSING");
         group = (ImageView)view.findViewById(R.id.img_portofolio_group);
         group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +52,7 @@ public class PortofolioActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent nextAccount=new Intent(getActivity(), PortoAccountActivity.class);
+                nextAccount.putExtra("IDPARSING", idParsing);
                 startActivity(nextAccount);
             }
         });

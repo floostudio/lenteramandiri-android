@@ -71,7 +71,7 @@ public class PortoAccountActivity extends AppCompatActivity {
 
     String strId, strAccNumber, strValuta, strSaldo, strLimit,
             strTunggakan, strKolektibilitas, strJmlhTempo, strTransDebet,
-            strTransKredit, strSaldoRata, strCompanyName, strConvenant;
+            strTransKredit, strSaldoRata, strCompanyName, strConvenant, idParsing;
 
 
     @Override
@@ -140,6 +140,8 @@ public class PortoAccountActivity extends AppCompatActivity {
 
     }
     public void initView(){
+        Intent i = getIntent();
+        idParsing  = i.getStringExtra("IDPARSING");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO ACCOUNT");
@@ -252,7 +254,7 @@ public class PortoAccountActivity extends AppCompatActivity {
 
             String serverData="";
             DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlPortAccount);
+            HttpGet httpGet = new HttpGet(urlPortAccount+idParsing);
             httpGet.setHeader("Content-Type", "application/json");
             httpGet.setHeader("Accept", "application/json");
             httpGet.setHeader("X-Header_access_key", access_key);

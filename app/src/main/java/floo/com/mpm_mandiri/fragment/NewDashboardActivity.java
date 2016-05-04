@@ -76,7 +76,7 @@ public class NewDashboardActivity extends Fragment {
     String url = DataManager.url;
     String urlDashboard = DataManager.urlDashboard;
     String urlGetperAccount = DataManager.urlGetperAccountSementara;
-    String strAcc_num;
+    String strAcc_num, idParsing;
     private static final String acc_num = "acc_num";
     private static final String tfd = "tfd";
     private static final String collection = "collection";
@@ -221,6 +221,7 @@ public class NewDashboardActivity extends Fragment {
     }
 
     private void initView(View v){
+        idParsing = this.getArguments().getString("IDPARSING");
         text1 = (TextView)v.findViewById(R.id.txt_dasboard_1);
         text2 = (TextView)v.findViewById(R.id.txt_dasboard_2);
         title_blue = (TextView)v.findViewById(R.id.txt_title_blue);
@@ -1148,7 +1149,7 @@ public class NewDashboardActivity extends Fragment {
 
             String serverData = "";
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlList);
+            HttpGet httpGet = new HttpGet(urlList+idParsing);
             httpGet.setHeader("Content-Type", "application/json");
             httpGet.setHeader("Accept", "application/json");
             httpGet.setHeader("X-Header_access_key", access_key);
