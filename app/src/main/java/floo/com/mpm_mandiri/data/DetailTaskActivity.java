@@ -402,7 +402,7 @@ public class DetailTaskActivity extends AppCompatActivity {
 
                 //convert = Integer.parseInt(strExpire);
                 epochtodate(strExpire);
-
+                Log.e("task", jsonObject.toString());
                 JSONArray jsonArray=jsonObject.getJSONArray(detail);
                 for (int i=0; i<jsonArray.length();i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
