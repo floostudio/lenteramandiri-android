@@ -1,4 +1,4 @@
-package floo.com.mpm_mandiri.fragment;
+package floo.com.mpm_mandiri.utils;
 
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;

@@ -3,7 +3,6 @@ package floo.com.mpm_mandiri.fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,11 +50,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.data.ImageActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
+import floo.com.mpm_mandiri.utils.MyValueFormatter;
+import floo.com.mpm_mandiri.utils.MyYAxisValueFormatter;
 
 /**
  * Created by Floo on 4/21/2016.
@@ -644,20 +642,20 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayCashin.length(); a++){
                             JSONObject objCashin = arrayCashin.getJSONObject(a);
 
-                            String strBln = objCashin.getString(month);
-                            String targettt = objCashin.getString(cashintarget);
-                            String actualll = objCashin.getString("targetrevenue");
+                            String strBlnCashIn = objCashin.getString(month);
+                            String strtargettt = objCashin.getString(cashintarget);
+                            String stractualll = objCashin.getString("targetrevenue");
 
-                            int strCashIn = Integer.parseInt(targettt);
-                            int strRevenue = Integer.parseInt(actualll);
+                            int intCashIn = Integer.parseInt(strtargettt);
+                            int intRevenue = Integer.parseInt(stractualll);
 
-                            float z = (float) strCashIn;
-                            float y = (float) strRevenue;
+                            float fltCashIn = (float) intCashIn;
+                            float fltRevenue = (float) intRevenue;
 
 
-                            xCashIn.add(strBln);
+                            xCashIn.add(strBlnCashIn);
 
-                            yCashIn.add(new BarEntry(new float[]{z, y}, a));
+                            yCashIn.add(new BarEntry(new float[]{fltCashIn, fltRevenue}, a));
 
 
 
@@ -689,20 +687,20 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayCashout.length(); a++){
                             JSONObject objCashout = arrayCashout.getJSONObject(a);
 
-                            String strBln = objCashout.getString(month);
-                            String targettt = objCashout.getString(cashouttarget);
-                            String actualll = objCashout.getString("targetrevenue");
+                            String strBlnCashOut = objCashout.getString(month);
+                            String strtargettt = objCashout.getString(cashouttarget);
+                            String strrevenue = objCashout.getString("targetrevenue");
 
-                            int strCashOut = Integer.parseInt(targettt);
-                            int strRevenue = Integer.parseInt(actualll);
+                            int intCashOut = Integer.parseInt(strtargettt);
+                            int intRevenue = Integer.parseInt(strrevenue);
 
-                            float z = (float) strCashOut;
-                            float y = (float) strRevenue;
+                            float fltCashOut = (float) intCashOut;
+                            float fltRevenue = (float) intRevenue;
 
 
-                            xCashOut.add(strBln);
+                            xCashOut.add(strBlnCashOut);
 
-                            yCashOut.add(new BarEntry(new float[]{z, y}, a));
+                            yCashOut.add(new BarEntry(new float[]{fltCashOut, fltRevenue}, a));
 
                             /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objCashout.getString(month));
@@ -731,20 +729,20 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayDPK.length(); a++){
                             JSONObject objDPK = arrayDPK.getJSONObject(a);
 
-                            String strBln = objDPK.getString(month);
-                            String dpkkk = objDPK.getString("dpk");
-                            String credittt = objDPK.getString("credit");
+                            String strBlnDPK = objDPK.getString(month);
+                            String strdpkkk = objDPK.getString("dpk");
+                            String strcredittt = objDPK.getString("credit");
 
-                            int strdpk = Integer.parseInt(dpkkk);
-                            int strcredit = Integer.parseInt(credittt);
+                            int intdpk = Integer.parseInt(strdpkkk);
+                            int intcredit = Integer.parseInt(strcredittt);
 
-                            float z = (float) strdpk;
-                            float y = (float) strcredit;
+                            float fltDPK = (float) intdpk;
+                            float fltCredit = (float) intcredit;
 
 
-                            xDpk.add(strBln);
+                            xDpk.add(strBlnDPK);
 
-                            yDpk.add(new BarEntry(new float[]{z, y}, a));
+                            yDpk.add(new BarEntry(new float[]{fltDPK, fltCredit}, a));
 
                             /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objDPK.getString(month));
@@ -773,20 +771,20 @@ public class NewDashboardActivity extends Fragment {
                         for (int a = 0; a < arrayLCF.length(); a++){
                             JSONObject objLCF = arrayLCF.getJSONObject(a);
 
-                            String strBln = objLCF.getString(month);
-                            String dlcfff = objLCF.getString("lcf");
-                            String credittt = objLCF.getString("credit");
+                            String strBlnLCF = objLCF.getString(month);
+                            String strlcfff = objLCF.getString("lcf");
+                            String strcredittt = objLCF.getString("credit");
 
-                            int strlcf = Integer.parseInt(dlcfff);
-                            int strcredit = Integer.parseInt(credittt);
+                            int intlcf = Integer.parseInt(strlcfff);
+                            int intcredit = Integer.parseInt(strcredittt);
 
-                            float z = (float) strlcf;
-                            float y = (float) strcredit;
+                            float fltLCF = (float) intlcf;
+                            float fltCredit = (float) intcredit;
 
 
-                            xLcf.add(strBln);
+                            xLcf.add(strBlnLCF);
 
-                            yLcf.add(new BarEntry(new float[]{z, y}, a));
+                            yLcf.add(new BarEntry(new float[]{fltLCF, fltCredit}, a));
 
                             /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objLCF.getString(month));

@@ -44,7 +44,9 @@
         <activity
             android:name=".data.DetailTaskActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity android:name=".data.AddNoteActivity"
             android:theme="@style/AppTheme.NoActionBar"

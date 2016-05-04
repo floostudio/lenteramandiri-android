@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -74,7 +75,7 @@ public class DetailTaskActivity extends AppCompatActivity {
     private static final String title = "title";
     private static final String note = "note";
     private static final String company = "company";
-    private static final String detail = "detail";
+    private static final String escalated_from = "escalated_from";
     private ProgressDialog pDialog;
     HashMap<String, String> hashmapDetailTaskList;
     ArrayList<HashMap<String, String>> arrayDetailTaskList;
@@ -402,23 +403,20 @@ public class DetailTaskActivity extends AppCompatActivity {
 
                 //convert = Integer.parseInt(strExpire);
                 epochtodate(strExpire);
-                Log.e("task", jsonObject.toString());
-                JSONArray jsonArray=jsonObject.getJSONArray(detail);
-                for (int i=0; i<jsonArray.length();i++) {
-                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                    strDetailTaskid = jsonObject1.getInt("task_detail_id");
-                    strDetailDesc = jsonObject1.getString(description);
 
-                    HashMap<String, String> hashmapDetailTaskList = new HashMap<String, String>();
-                    hashmapDetailTaskList.put("task_id", Integer.toString(strid));
-                    hashmapDetailTaskList.put("task_detail_id", Integer.toString(strDetailTaskid));
-                    hashmapDetailTaskList.put(description, strDetailDesc);
+                JSONArray arrayEscal = jsonObject.getJSONArray(escalated_from);
+                //Log.d("objEscalated", arrayEscal.toString());
+                for (int i=0; i<arrayEscal.length();i++){
+                    //Log.d("arrayEscal", arrayEscal.getString(i));
+                    String strEscalated = arrayEscal.getString(i);
 
+                    hashmapDetailTaskList = new HashMap<String, String>();
+                    hashmapDetailTaskList.put(escalated_from, strEscalated);
 
                     arrayDetailTaskList.add(hashmapDetailTaskList);
                 }
 
-                    coba = strCompany;
+
                 } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -460,9 +458,9 @@ public class DetailTaskActivity extends AppCompatActivity {
                 img_list_task.setImageResource(R.drawable.point_orange);
             }
 
-            //adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayDetailTaskList,
-            //        R.layout.list_row_detail_task,new String[]{description},new int[]{R.id.txt_task_list});
-            //listDetailTaskList.setAdapter(adapterDetailTaskList);
+            adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayDetailTaskList,
+                    R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
+            listDetailTaskList.setAdapter(adapterDetailTaskList);
 
 
 
