@@ -136,7 +136,7 @@ public class ConvenantActivity extends AppCompatActivity {
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
                 String json = object.toString();
-                Log.e("json", json);
+                //Log.e("json", json);
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -150,7 +150,7 @@ public class ConvenantActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
+                //Log.e("hello", objek);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -192,7 +192,7 @@ public class ConvenantActivity extends AppCompatActivity {
             }
 
             String coba="";
-            Log.d("Covenant", DataManager.url);
+            //Log.d("Covenant", DataManager.url);
             try {
 
                 JSONArray jsonArray = new JSONArray(serverData);
@@ -204,8 +204,6 @@ public class ConvenantActivity extends AppCompatActivity {
                     strCovExpire = jsonObject.getInt("cov_expire");
                     strCovNote = jsonObject.getString(cov_note);
                     //strCompany = jsonObject.getString(company_name);
-
-
 
                     HashMap<String, String> hashMap = new HashMap<String, String>();
                     hashMap.put(cov_id, Integer.toString(i+1));

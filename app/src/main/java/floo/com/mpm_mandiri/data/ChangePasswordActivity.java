@@ -122,7 +122,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
 
         @Override
         protected Void doInBackground(Void... params) {
-            String objek = "";
+            /*String objek = "";
 
             HttpParams myParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(myParams, 5000);
@@ -209,10 +209,20 @@ public class ChangePasswordActivity extends AppCompatActivity{
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }*/
+            String objPut = "";
+            JSONObject object1 = new JSONObject();
+            try {
+                object1.put(email, emailParsing);
+                object1.put(old_password, strCurrent);
+                object1.put(new_password, strNew);
+                objPut = object1.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             try {
-                JSONObject jsonObject = new JSONObject(serverData);
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlChangePass, objPut));
                 strStatus = jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 

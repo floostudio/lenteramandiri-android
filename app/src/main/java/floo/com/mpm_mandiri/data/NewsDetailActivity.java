@@ -48,6 +48,7 @@ import java.util.TimeZone;
 
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.utils.DataManager;
+import floo.com.mpm_mandiri.utils.ImageLoader;
 
 /**
  * Created by Floo on 3/6/2016.
@@ -122,76 +123,7 @@ public class NewsDetailActivity extends AppCompatActivity{
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String objek="";
-
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
-            try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-                String json = object.toString();
-
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
-            DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlDetailNews+idNewsParsing);
-            httpGet.setHeader("Content-Type", "application/json");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language","en-us");
-            httpGet.setHeader("X-Timezone","Asia/Jakarta");
-
-            try {
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                serverData = EntityUtils.toString(httpEntity);
-
-            }catch (ClientProtocolException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-            String coba="";
+            String serverData = DataManager.MyHttpGet(urlDetailNews+idNewsParsing);
 
             try {
                 JSONObject jsonObject = new JSONObject(serverData);
@@ -205,23 +137,13 @@ public class NewsDetailActivity extends AppCompatActivity{
                 //convert = Integer.parseInt(strExpire);
                 epochtodate(strDate);
 
-                URL urlConnection = new URL(strImage);
-                HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                myBitmap = BitmapFactory.decodeStream(input);
+                myBitmap = ImageLoader.getBitmap(strImage);
 
 
-                coba = strImage;
+
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-
 
             return null;
         }

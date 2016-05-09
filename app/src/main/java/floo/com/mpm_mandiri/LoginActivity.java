@@ -138,71 +138,28 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String objek = "";
+            String json1 = "";
+            JSONObject object1 = new JSONObject();
 
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
             try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-
-
-                String json = object.toString();
-
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-
-
+                object1.put("email",strEmail);
+                object1.put("password", strPassword);
+                json1 = object1.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
-            JSONObject object1 = new JSONObject();
-            try {
+            /*try {
                 object1.put("email",strEmail);
                 object1.put("password", strPassword);
                 String json1 = object1.toString();
 
 
-                DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
+                DefaultHttpClient httpclient= new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(urlLogin);
                 httppost.setHeader("Content-Type", "application/json");
                 httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("X-Header_access_key", access_key);
+                httppost.setHeader("X-Header_access_key", DataManager.getHeaderKey());
                 httppost.setHeader("Accept-Language","en-us");
                 httppost.setHeader("X-Timezone", "Asia/Jakarta");
 
@@ -222,11 +179,11 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
             try {
-                JSONObject jsonObject = new JSONObject(serverData);
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlLogin, json1));
                 strStatus = jsonObject.getString(status_code);
                 if (strStatus.trim().equals("200")){
                     user_id = jsonObject.getInt("user_id");

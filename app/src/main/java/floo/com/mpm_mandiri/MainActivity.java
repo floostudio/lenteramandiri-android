@@ -5,15 +5,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,20 +19,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 
 import floo.com.mpm_mandiri.fragment.CalenderActivity;
-import floo.com.mpm_mandiri.fragment.DashboardActivity;
 import floo.com.mpm_mandiri.fragment.NewDashboardActivity;
 import floo.com.mpm_mandiri.fragment.NewsActivity;
 import floo.com.mpm_mandiri.fragment.PortofolioActivity;
 import floo.com.mpm_mandiri.fragment.ProfilActivity;
 import floo.com.mpm_mandiri.fragment.TaskActivity;
+import floo.com.mpm_mandiri.utils.ImageLoader;
 import floo.com.mpm_mandiri.utils.SessionManager;
 import floo.com.mpm_mandiri.utils.CircleImageView;
 import floo.com.mpm_mandiri.utils.RoundedImageView;
@@ -57,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     Bitmap myBitmap;
     public static MainActivity ma;
     String frgment="";
+    ImageLoader imageLoader;
+
 
 
     @Override
@@ -98,16 +92,19 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
 
+        imageLoader = new ImageLoader();
+        imageLoader.DisplayProfile(strProfpic, img);
 
-
-        if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
+        /*if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
 
             img.setImageResource(R.drawable.profile);
 
         }else {
-            new ImageLoadTask(strProfpic, img).execute();
+            //imageLoader = new ImageLoader(strProfpic, img);
+            imageLoader.DisplayImage(strProfpic, img);
+            //new ImageLoadTask(strProfpic, img).execute();
 
-        }
+        }*/
 
         TextView name = (TextView) headerView.findViewById(R.id.txtname);
         name.setText(strFirstname + " " + strLastname);
@@ -146,44 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
         //setFragment(1);
     }
-
-    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
-
-        private String url;
-        private ImageView imageView;
-
-        public ImageLoadTask(String url, ImageView imageView) {
-            this.url = url;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... params) {
-            try {
-
-                    URL urlConnection = new URL(url);
-                    HttpURLConnection connection = (HttpURLConnection) urlConnection
-                            .openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    Bitmap myBitmap = BitmapFactory.decodeStream(input);
-
-                    return myBitmap;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-                imageView.setImageBitmap(result);
-        }
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

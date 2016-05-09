@@ -193,59 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String objek = "";
-
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
-            try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-
-
-                String json = object.toString();
-                Log.e("json", json);
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
+            String objReg="";
             JSONObject object1 = new JSONObject();
             try {
                 object1.put(first_name,strFirstname);
@@ -258,38 +206,16 @@ public class RegisterActivity extends AppCompatActivity {
                 object1.put(title, strTitle);
                 object1.put(password,strPassword);
 
-                String json1 = object1.toString();
-                Log.e("json", json1);
-
-                DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
-                HttpPost httppost = new HttpPost(urlRegister);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("X-Header_access_key", access_key);
-                httppost.setHeader("Accept-Language","en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json1);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                serverData = EntityUtils.toString(response.getEntity());
-                Log.e("hello", serverData);
-
+                objReg = object1.toString();
+                //Log.e("json", json1);
 
             } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
             try {
-                JSONObject jsonObject = new JSONObject(serverData);
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlRegister, objReg));
                 //strStatus= jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 
@@ -336,81 +262,13 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String objek="";
+
             worldDirectorate = new ArrayList<DataSpinner>();
             worldListDirectorate = new ArrayList<String>();
 
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
-            try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-                String json = object.toString();
-                Log.e("json", json);
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
-            DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlDirectorate);
-            httpGet.setHeader("Content-Type", "application/json");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language","en-us");
-            httpGet.setHeader("X-Timezone","Asia/Jakarta");
 
             try {
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
-            }catch (ClientProtocolException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-            String coba="";
-
-            try {
-                JSONArray jsonArray=new JSONArray(serverData);
+                JSONArray jsonArray=new JSONArray(DataManager.MyHttpGet(urlDirectorate));
                 for (int i=0; i<jsonArray.length();i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                     stridDirectorate = jsonObject1.getInt("id");
@@ -427,7 +285,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
 
-                coba = strNameDrectorate;
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -478,81 +336,12 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String objek="";
             world = new ArrayList<DataSpinner>();
             worldList = new ArrayList<String>();
 
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
-            try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-                String json = object.toString();
-                Log.e("json", json);
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
-            DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlDepartment);
-            httpGet.setHeader("Content-Type", "application/json");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language","en-us");
-            httpGet.setHeader("X-Timezone","Asia/Jakarta");
 
             try {
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
-            }catch (ClientProtocolException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-            String coba="";
-
-            try {
-                JSONArray jsonArray=new JSONArray(serverData);
+                JSONArray jsonArray=new JSONArray(DataManager.MyHttpGet(urlDepartment));
                 for (int i=0; i<jsonArray.length();i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                     strid = jsonObject1.getInt("id");
@@ -569,7 +358,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
 
-                coba = strName;
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -620,81 +409,11 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String objek = "";
             worldDirectorate = new ArrayList<DataSpinner>();
             worldListDirectorate = new ArrayList<String>();
 
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
             try {
-
-                object.put("device_type", "Samsung Galaxy Note 5");
-                object.put("device_os", "android OS 4.4.2");
-                object.put("device_uuid", "njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name", "DOT");
-                object.put("vendor_pass", "DOTVNDR");
-                String json = object.toString();
-                Log.e("json", json);
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key = "";
-            try {
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            String serverData = "";
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlGroup);
-            httpGet.setHeader("Content-Type", "application/json");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language", "en-us");
-            httpGet.setHeader("X-Timezone", "Asia/Jakarta");
-
-            try {
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String coba = "";
-
-            try {
-                JSONArray jsonArray = new JSONArray(serverData);
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlGroup));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                     stridDirectorate = jsonObject1.getInt("id");
@@ -711,7 +430,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
 
-                coba = strNameDrectorate;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -762,81 +480,12 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            String objek = "";
+
             worldDirectorate = new ArrayList<DataSpinner>();
             worldListDirectorate = new ArrayList<String>();
 
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
             try {
-
-                object.put("device_type", "Samsung Galaxy Note 5");
-                object.put("device_os", "android OS 4.4.2");
-                object.put("device_uuid", "njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name", "DOT");
-                object.put("vendor_pass", "DOTVNDR");
-                String json = object.toString();
-                Log.e("json", json);
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key = "";
-            try {
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            String serverData = "";
-            DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlTitle);
-            httpGet.setHeader("Content-Type", "application/json");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language", "en-us");
-            httpGet.setHeader("X-Timezone", "Asia/Jakarta");
-
-            try {
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String coba = "";
-
-            try {
-                JSONArray jsonArray = new JSONArray(serverData);
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlTitle));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                     stridDirectorate = jsonObject1.getInt("id");
@@ -853,7 +502,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
 
-                coba = strNameDrectorate;
             } catch (JSONException e) {
                 e.printStackTrace();
             }

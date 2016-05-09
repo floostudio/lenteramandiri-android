@@ -124,7 +124,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String objek = "";
+            /*String objek = "";
 
             HttpParams myParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(myParams, 5000);
@@ -208,10 +208,16 @@ public class AddNoteActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
+
+            String putNote = "";
+            JSONObject objNote = new JSONObject();
 
             try {
-                JSONObject jsonObject = new JSONObject(serverData);
+                objNote.put(note, strNote);
+                putNote = objNote.toString();
+
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlNote+taskid, putNote));
                 strStatus = jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 

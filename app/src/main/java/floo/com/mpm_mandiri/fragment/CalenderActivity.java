@@ -161,82 +161,9 @@ public class CalenderActivity extends Fragment {
 
         @Override
         protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
-            String objek="";
-
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
-            try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-
-
-                String json = object.toString();
-
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
-            DefaultHttpClient httpClient= new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(urlTask+idParsing);
-            httpGet.setHeader("Content-Type", "application/json");
-            httpGet.setHeader("Accept", "application/json");
-            httpGet.setHeader("X-Header_access_key", access_key);
-            httpGet.setHeader("Accept-Language","en-us");
-            httpGet.setHeader("X-Timezone","Asia/Jakarta");
 
             try {
-                HttpResponse httpResponse = httpClient.execute(httpGet);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                serverData = EntityUtils.toString(httpEntity);
-
-            }catch (ClientProtocolException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
-            String coba="";
-
-            try {
-                JSONArray jsonArray = new JSONArray(serverData);
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlTask+idParsing));
                 JSONObject jsonObject;
                 for (int i=0; i<jsonArray.length();i++){
                     jsonObject = jsonArray.getJSONObject(i);
@@ -253,7 +180,6 @@ public class CalenderActivity extends Fragment {
 
                     dates.add(dayy);
 
-                    coba = title;
                 }
 
 

@@ -1,10 +1,6 @@
 package floo.com.mpm_mandiri.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +15,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import floo.com.mpm_mandiri.R;
+import floo.com.mpm_mandiri.utils.ImageLoader;
 
 /**
  * Created by Floo on 3/4/2016.
@@ -88,47 +82,10 @@ public class NewsAdapter extends BaseAdapter{
         viewHolder.datenews.setText(formatDate);
 
         String img = news.getImage();
-        new ImageLoadTask(img, viewHolder.imageView).execute();
+        ImageLoader imageLoader = new ImageLoader();
+        imageLoader.DisplayImage(img, viewHolder.imageView);
+        //new ImageLoadTask(img, viewHolder.imageView).execute();
 
         return view;
     }
-
-    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
-
-        private String url;
-        private ImageView imageView;
-
-        public ImageLoadTask(String url, ImageView imageView) {
-            this.url = url;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... params) {
-            try {
-
-                URL urlConnection = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-
-                return myBitmap;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            imageView.setImageBitmap(result);
-        }
-    }
-
-
 }

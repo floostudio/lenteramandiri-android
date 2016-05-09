@@ -10,15 +10,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -33,7 +30,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,11 +41,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.data.ChangePasswordActivity;
-import floo.com.mpm_mandiri.data.UpdateProfilActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
+import floo.com.mpm_mandiri.utils.ImageLoader;
 
 /**
  * Created by Floo on 2/23/2016.
@@ -76,12 +71,11 @@ public class ProfilActivity extends Fragment {
     private static final String profpic = "profpic";
 
 
-
-
     TextView txtFullname, txtTitle, txtNip, txtEmail, txtDirectorat, txtGroup, txtDepartment;
     String strId, strFirstname, strLastname, strNip, strDirctorate, strGroup,
             strDepartment, strEmail, strTitle, strPass, strImg, strIsactiv;
     Button update;
+    ImageLoader imageLoader = new ImageLoader();
 
 
     @Nullable
@@ -111,6 +105,7 @@ public class ProfilActivity extends Fragment {
             public void onClick(View v) {
                 Intent change = new Intent(getActivity(), ChangePasswordActivity.class);
                 change.putExtra("email", txtEmail.getText().toString());
+                startActivity(change);
 
             }
         });
@@ -229,30 +224,28 @@ public class ProfilActivity extends Fragment {
                     strEmail = jsonObject.getString(USER_EMAIL);
                     strTitle = jsonObject.getString(USER_TITLE);
                     strImg = jsonObject.getString(profpic);
-                Log.d("gambar", strImg);
+                //Log.d("gambar", strImg);
 
 
                     if (strImg.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
                         Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
                         myBitmap = ((BitmapDrawable) myDrawable).getBitmap();
                     }else {
-                        URL urlConnection = new URL(strImg);
+
+                        /*URL urlConnection = new URL(strImg);
                         HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
                         connection.setDoInput(true);
                         connection.connect();
                         InputStream input = connection.getInputStream();
-                        myBitmap = BitmapFactory.decodeStream(input);
+                        myBitmap = BitmapFactory.decodeStream(input);*/
+                        myBitmap = ImageLoader.getBitmap(strImg);
                     }
 
-                    coba = strTitle;
+
 
 
 
             }catch (JSONException e){
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
                 e.printStackTrace();
             }
 
