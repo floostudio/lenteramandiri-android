@@ -1,8 +1,5 @@
 package floo.com.mpm_mandiri.data;
 
-import android.app.Activity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,11 +17,9 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
@@ -46,13 +40,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
-import floo.com.mpm_mandiri.fragment.TaskActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
 
 /**
@@ -117,8 +109,8 @@ public class DetailTaskActivity extends AppCompatActivity {
         txtID = (TextView) findViewById(R.id.txt_detail_task_id);
         img_list_task = (ImageView)findViewById(R.id.img_list_task);
         listDetailTaskList = (ListView)findViewById(R.id.list_detail_task);
-        btnNote = (Button) findViewById(R.id.btn_detail_task_note);
-
+        btnReport = (Button) findViewById(R.id.btn_detail_task_report);
+        btnNote = (Button)findViewById(R.id.btn_detail_task_note);
         btnDone = (Button) findViewById(R.id.btn_detail_task_done);
         save.setVisibility(View.INVISIBLE);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
@@ -130,13 +122,22 @@ public class DetailTaskActivity extends AppCompatActivity {
             }
         });
 
-        btnNote.setOnClickListener(new View.OnClickListener() {
+        btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent nextNote = new Intent(DetailTaskActivity.this, AddNoteActivity.class);
+                Intent nextReport = new Intent(DetailTaskActivity.this, ReportActivity.class);
+                nextReport.putExtra(note, strNote);
+                nextReport.putExtra(taskid, txtID.getText().toString());
+                startActivity(nextReport);
+            }
+        });
+
+        btnNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextNote = new Intent(DetailTaskActivity.this, NoteActivity.class);
                 nextNote.putExtra(note, strNote);
-                nextNote.putExtra(taskid, txtID.getText().toString());
                 startActivity(nextNote);
             }
         });
@@ -146,9 +147,7 @@ public class DetailTaskActivity extends AppCompatActivity {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent back=new Intent(DetailTaskActivity.this, MainActivity.class);
-                //back.putExtra("fragment", "fragment");
-                //startActivity(back);
+
                new AlertDialog.Builder(DetailTaskActivity.this)
                         .setTitle("Confirmation")
                         .setMessage("Do you want to finish this task?")

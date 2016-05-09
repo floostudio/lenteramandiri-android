@@ -48,7 +48,11 @@
 
         </activity>
 
-        <activity android:name=".data.AddNoteActivity"
+        <activity android:name=".data.ReportActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".data.NoteActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
 

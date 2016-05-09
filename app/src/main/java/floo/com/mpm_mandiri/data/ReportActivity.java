@@ -7,38 +7,22 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.utils.DataManager;
 
 /**
  * Created by Floo on 2/26/2016.
  */
-public class AddNoteActivity extends AppCompatActivity {
+public class ReportActivity extends AppCompatActivity {
     String url = DataManager.url;
     String urlNote = DataManager.urltaskNote;
     Toolbar toolbar;
@@ -49,12 +33,12 @@ public class AddNoteActivity extends AppCompatActivity {
     public static final String status_code = "status_code";
     public static final String message = "message";
 
-    EditText edt_add_note;
+    EditText edt_add_report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_note_activity);
+        setContentView(R.layout.activity_report);
         initView();
     }
 
@@ -64,16 +48,16 @@ public class AddNoteActivity extends AppCompatActivity {
         taskid = i.getStringExtra(taskidd);
         toolbar = (Toolbar)findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("ADD NOTE");
+        titleToolbar.setText("REPORT");
         save = (TextView)findViewById(R.id.txt_save);
-        edt_add_note = (EditText)findViewById(R.id.edt_add_note);
-        edt_add_note.setText(isiNote);
+        edt_add_report = (EditText)findViewById(R.id.edt_add_report);
+        edt_add_report.setText(isiNote);
         LinearLayout line = (LinearLayout) findViewById(R.id.linier_toolbar);
 
         line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNoteActivity.this.finish();
+                ReportActivity.this.finish();
             }
         });
 
@@ -81,7 +65,7 @@ public class AddNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddNoteActivity.this);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ReportActivity.this);
 
                 // set title
                 alertDialogBuilder.setTitle("Message");
@@ -92,7 +76,7 @@ public class AddNoteActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Save",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                strNote = edt_add_note.getText().toString();
+                                strNote = edt_add_report.getText().toString();
                                 new NoteAsync().execute();
 
                             }
@@ -235,7 +219,7 @@ public class AddNoteActivity extends AppCompatActivity {
             super.onPostExecute(result);
             if (strStatus.trim().equals("200")){
                 Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
-                AddNoteActivity.this.finish();
+                ReportActivity.this.finish();
             }else {
                 Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
             }
