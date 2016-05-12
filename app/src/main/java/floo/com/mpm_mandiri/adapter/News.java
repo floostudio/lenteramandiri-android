@@ -7,6 +7,7 @@ public class News {
     private int news_id;
     private String title;
     private String image;
+    private String url;
     private String content;
     private int date;
 
@@ -14,10 +15,11 @@ public class News {
 
     }
 
-    public News(int news_id, String title, String image, String content, int date){
+    public News(int news_id, String title, String url, String image, String content, int date){
         this.news_id = news_id;
         this.title = title;
         this.image = image;
+        this.url = url;
         this.content = content;
         this.date = date;
     }
@@ -44,6 +46,14 @@ public class News {
 
     public void setImage(String image){
         this.image = image;
+    }
+
+    public String getUrl(){
+        return url;
+    }
+
+    public void setUrl(String url){
+        this.url = url;
     }
 
     public String getContent(){

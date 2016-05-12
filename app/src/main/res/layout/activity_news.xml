@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<floo.com.mpm_mandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="14dp">
 
-    <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+    <ListView
         android:id="@+id/list_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/hint"
         android:dividerHeight="1dp">
-    </com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
+    </ListView>
 
-</LinearLayout>
+</floo.com.mpm_mandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom>

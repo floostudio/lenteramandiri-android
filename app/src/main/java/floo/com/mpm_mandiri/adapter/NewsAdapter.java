@@ -1,12 +1,15 @@
 package floo.com.mpm_mandiri.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,7 +47,7 @@ public class NewsAdapter extends BaseAdapter{
         return position;
     }
     class ViewHolder {
-        private TextView idNews, titleNews, datenews, contentNews;
+        private TextView idNews, titleNews, datenews, contentNews, urlNews;
         private ImageView imageView;
 
     }
@@ -58,17 +61,26 @@ public class NewsAdapter extends BaseAdapter{
             viewHolder.idNews= (TextView) view.findViewById(R.id.txt_id_news);
             viewHolder.titleNews = (TextView) view.findViewById(R.id.txt_title_news);
             viewHolder.datenews = (TextView) view.findViewById(R.id.txt_date_news);
+            viewHolder.urlNews = (TextView)view.findViewById(R.id.txt_url_news);
             viewHolder.contentNews = (TextView) view.findViewById(R.id.txt_content_news);
             viewHolder.imageView = (ImageView) view.findViewById(R.id.img_news);
             view.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        News news = listData.get(position);
+        final News news = listData.get(position);
         int id = news.getNews_id();
         viewHolder.idNews.setText(Integer.toString(id));
         String subject = news.getTitle();
-        viewHolder.titleNews.setText(subject);
+        if (news.getUrl().trim().equals("")){
+
+            viewHolder.titleNews.setText(subject);
+        }else {
+            String tittle = "[PDF] "+subject;
+            viewHolder.titleNews.setText(tittle);
+        }
+
+        viewHolder.urlNews.setText(news.getUrl());
         String pt = news.getContent();
         StringBuilder stringBuilder = new StringBuilder(pt);
         String sbtr = (pt.length()>30) ? stringBuilder.substring(0, 30) : pt;
@@ -85,6 +97,17 @@ public class NewsAdapter extends BaseAdapter{
         ImageLoader imageLoader = new ImageLoader();
         imageLoader.DisplayImage(img, viewHolder.imageView);
         //new ImageLoadTask(img, viewHolder.imageView).execute();
+
+        /*viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            String tost = news.getTitle();
+            @Override
+            public void onClick(View v) {
+                //TextView txt = (TextView)v.findViewById(R.id.txt_title_news);
+                //Toast.makeText(context, tost, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.pdf995.com/samples/pdf.pdf"));
+                context.startActivity(intent);
+            }
+        });*/
 
         return view;
     }

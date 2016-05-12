@@ -41,6 +41,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.data.ChangePasswordActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
@@ -53,7 +54,7 @@ public class ProfilActivity extends Fragment {
     String url = DataManager.url;
     String urlProfil = DataManager.urlprofilList;
     HashMap<String, String> hashmapTask;
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     String idParsing;
     ImageView imgProfil;
     Bitmap myBitmap;
@@ -129,7 +130,7 @@ public class ProfilActivity extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(getActivity());
+            pDialog = new SpotsDialog(getActivity(), R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();

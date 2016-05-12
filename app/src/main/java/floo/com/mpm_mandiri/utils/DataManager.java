@@ -38,7 +38,7 @@ public class DataManager {
     public static String urltaskList = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/user/";
     public static String urltaskDetails = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/";
     public static String urlprofilList = "http://sandbox.floostudio.com/lenteramandiri/api/v1/users/detail/";
-    public static String urlNewsList = "http://sandbox.floostudio.com/lenteramandiri/api/v1/news";
+    public static String urlNewsList = "http://sandbox.floostudio.com/lenteramandiri/api/v1/news?offset=";
     public static String urlFetchNews = "http://sandbox.floostudio.com/lenteramandiri/api/v1/news/detail/";
     public static String urlMasterDirectorate = "http://sandbox.floostudio.com/lenteramandiri/api/v1/master/directorate";
     public static String urlMasterDepartment = "http://sandbox.floostudio.com/lenteramandiri/api/v1/master/department";

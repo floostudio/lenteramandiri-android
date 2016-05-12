@@ -51,6 +51,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.data.ImageActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
@@ -72,7 +73,7 @@ public class NewDashboardActivity extends Fragment {
     Spinner spinner;
     TextView text1, text2, title_blue, title_yellow, title1 ;
 
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     String url = DataManager.url;
     String urlDashboard = DataManager.urlDashboard;
     String urlGetperAccount = DataManager.urlGetperAccountSementara;
@@ -497,7 +498,7 @@ public class NewDashboardActivity extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(getActivity());
+            pDialog = new SpotsDialog(getActivity(), R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
 
             pDialog.setCancelable(false);
@@ -1044,9 +1045,14 @@ public class NewDashboardActivity extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            world = new ArrayAdapter<String>(getActivity(), R.layout.list_new_spinner, worldListDirectorate);
-            world.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(world);
+            try {
+                world = new ArrayAdapter<String>(getActivity(), R.layout.list_new_spinner, worldListDirectorate);
+                world.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(world);
+            }catch (Exception e){
+
+            }
+
             //wo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
             //        R.layout.list_new_spinner, worldListDirectorate));

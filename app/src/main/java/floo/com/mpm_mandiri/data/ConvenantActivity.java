@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.utils.DataManager;
 
@@ -55,7 +56,7 @@ public class ConvenantActivity extends AppCompatActivity {
 
     String url = DataManager.url;
     String urlCovenant = DataManager.urlCovenant;
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     SimpleAdapter adapter;
     ListView listCovenant;
     HashMap<String, String> hashMap;
@@ -112,7 +113,7 @@ public class ConvenantActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ConvenantActivity.this);
+            pDialog = new SpotsDialog(ConvenantActivity.this, R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();

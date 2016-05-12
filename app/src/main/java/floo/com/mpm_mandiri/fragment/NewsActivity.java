@@ -2,14 +2,18 @@ package floo.com.mpm_mandiri.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
@@ -42,32 +46,35 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.adapter.News;
 import floo.com.mpm_mandiri.adapter.NewsAdapter;
 import floo.com.mpm_mandiri.data.NewsDetailActivity;
 import floo.com.mpm_mandiri.utils.DataManager;
+import floo.com.mpm_mandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom;
 
 /**
  * Created by Floo on 3/3/2016.
  */
-public class NewsActivity extends Fragment {
-    DynamicListView list_news;
-    String url = DataManager.url;
+public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.OnRefreshListener{
+    ListView list_news;
+
     String urlNews = DataManager.urlNewsList;
     HashMap<String, Object> hashmapNews;
 
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     private static final String title = "title";
     private static final String content = "content";
     private static final String image = "image";
+    private static final String url = "url";
     int strnews_id;
-    String strTitle, strContent, formatDate, strimage;
+    String strTitle, strContent, formatDate, strimage, strUrl;
     int strDate;
     NewsAdapter newsAdapter;
     ArrayList<News> newsArray;
-
-
+    SwipeRefreshLayoutBottom refreshLayout;
+    private int offset = 0;
 
     @Nullable
     @Override
@@ -75,23 +82,48 @@ public class NewsActivity extends Fragment {
         View v = inflater.inflate(R.layout.activity_news, container, false);
         initView(v);
 
-        new DataFetcherTask().execute();
+        //new DataFetcherTask().execute();
         //appearanceAnimate(1);
 
 
         return v;
     }
     public void initView(View view) {
+        refreshLayout = (SwipeRefreshLayoutBottom) view.findViewById(R.id.refresh);
+        list_news = (ListView) view.findViewById(R.id.list_news);
 
-        list_news = (DynamicListView) view.findViewById(R.id.list_news);
+        newsArray = new ArrayList<News>();
+        //newsAdapter = new NewsAdapter(getActivity(), newsArray);
+        //list_news.setAdapter(newsAdapter);
 
         list_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView taID = (TextView)view.findViewById(R.id.txt_id_news);
-                Intent detailNews = new Intent(getActivity(), NewsDetailActivity.class);
-                detailNews.putExtra("news_id", taID.getText().toString());
-                startActivity(detailNews);
+                TextView taURL = (TextView)view.findViewById(R.id.txt_url_news);
+                //Log.e("urlLink", taURL.getText().toString());
+                //Log.e("idparsing", taID.getText().toString());
+                if (taURL.getText().toString().trim().equals("")){
+                    Intent detailNews = new Intent(getActivity(), NewsDetailActivity.class);
+                    detailNews.putExtra("news_id", taID.getText().toString());
+                    startActivity(detailNews);
+                }else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taURL.getText().toString()));
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setColorSchemeColors(R.color.yellow, R.color.cpb_blue);
+
+
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+                new DataFetcherTask().execute();
             }
         });
     }
@@ -104,30 +136,36 @@ public class NewsActivity extends Fragment {
         formatDate = format.format(date);
     }
 
+    @Override
+    public void onRefresh() {
+        new DataFetcherTask().execute();
+    }
 
-    private class DataFetcherTask extends AsyncTask<Void, Void, ArrayList<News>> {
+
+    private class DataFetcherTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(getActivity());
+            pDialog = new SpotsDialog(getActivity(), R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();
         }
 
         @Override
-        protected ArrayList<News> doInBackground(Void... arg0) {
+        protected Void doInBackground(Void... arg0) {
 
             try {
-                newsArray = new ArrayList<News>();
-                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlNews));
+                //Log.d("urutan", String.valueOf(offset));
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlNews+offset+"&limit=2"));
                 for (int i=0; i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                     strnews_id = jsonObject.getInt("news_id");
                     strTitle = jsonObject.getString(title);
                     strimage = jsonObject.getString(image);
+                    strUrl = jsonObject.getString(url);
                     strContent = jsonObject.getString(content);
                     strDate = jsonObject.getInt("date");
 
@@ -137,30 +175,30 @@ public class NewsActivity extends Fragment {
                     news.setNews_id(strnews_id);
                     news.setTitle(strTitle);
                     news.setImage(strimage);
+                    news.setUrl(strUrl);
                     news.setContent(strContent);
                     news.setDate(strDate);
 
                     newsArray.add(news);
+
+                    offset = offset+1;
 
                 }
             }catch (JSONException e){
                 e.printStackTrace();
             }
 
-            return newsArray;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<News> result) {
+        protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             if (pDialog.isShowing())
                 pDialog.dismiss();
-
-            newsAdapter = new NewsAdapter(getActivity(), result);
-            //AnimationAdapter animasi = new ScaleInAnimationAdapter(newsAdapter);
-            //animasi.setAbsListView(list_news);
-            //animationAdapter = new AlphaInAnimationAdapter(newsAdapter);
-            //animationAdapter.setAbsListView(list_news);
+            refreshLayout.setRefreshing(false);
+            newsAdapter = new NewsAdapter(getActivity(), newsArray);
+            newsAdapter.notifyDataSetChanged();
             list_news.setAdapter(newsAdapter);
 
         }

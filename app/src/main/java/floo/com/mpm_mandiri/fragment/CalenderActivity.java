@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.Executors;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.calendar.CalendarDay;
 import floo.com.mpm_mandiri.calendar.DayViewDecorator;
@@ -63,6 +64,7 @@ public class CalenderActivity extends Fragment {
     private static final String company = "company";
     private static int strId, strExpire;
     String idParsing, strTitle, strNote, strCompany, formatDate;
+    private SpotsDialog pDialog;
 
     MaterialCalendarView calendarr;
     ArrayList<CalendarDay> dates;
@@ -160,6 +162,15 @@ public class CalenderActivity extends Fragment {
     private class ApiSimulator extends AsyncTask<Void, Void, List<CalendarDay>> {
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new SpotsDialog(getActivity(), R.style.CustomProgress);
+            pDialog.setMessage("Please wait...!!!");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
         protected List<CalendarDay> doInBackground(@NonNull Void... voids) {
 
             try {
@@ -194,6 +205,8 @@ public class CalenderActivity extends Fragment {
         @Override
         protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
             super.onPostExecute(calendarDays);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
 
             calendarr.addDecorator(new EventDecorator(getActivity().getResources().getColor(R.color.lightyellow), calendarDays));
         }

@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.data.DetailTaskActivity;
 import floo.com.mpm_mandiri.R;
@@ -63,8 +64,10 @@ public class TaskActivity extends Fragment {
     HashMap<String, String> hashmapTask;
     ArrayList<HashMap<String, String>> arraylistTask;
     ListView listTask;
+    int[] tgl = new int[]{1455206700,1460390700,1463108700,1463836320,1467306420,
+            1475633280,1478364980,1480904520,1478364960};
 
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     Button btn_expired, btn_willexpired, btn_months;
     String url = DataManager.url;
     String urlTask = DataManager.urltaskList;
@@ -96,18 +99,7 @@ public class TaskActivity extends Fragment {
         new DataFetcherTask().execute();
 
 
-        listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                TextView taID = (TextView) view.findViewById(R.id.txt_list_task_id);
-                Intent detailTask = new Intent(getActivity(), DetailTaskActivity.class);
-                detailTask.putExtra("task_id", taID.getText().toString());
-                startActivity(detailTask);
-                //Toast.makeText(getActivity(), taID.getText().toString(),Toast.LENGTH_LONG).show();
-
-            }
-        });
         String str = dateNow();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = null;
@@ -134,6 +126,7 @@ public class TaskActivity extends Fragment {
         btn_willexpired = (Button) view.findViewById(R.id.btn_task_willExp);
         btn_months = (Button) view.findViewById(R.id.btn_task_6months);
 
+
         final HashMap<Button, Integer> hashMap = new HashMap<Button, Integer>();
         btn_expired.setBackgroundResource(R.drawable.btn_expire_inactive);
         btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
@@ -141,6 +134,23 @@ public class TaskActivity extends Fragment {
         hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
         hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
         hashMap.put(btn_months, R.drawable.btn_6months_inactive);
+
+        listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                TextView taID = (TextView) view.findViewById(R.id.txt_list_task_id);
+                TextView epoch = (TextView)view.findViewById(R.id.txt_list_task_tgl);
+                Intent detailTask = new Intent(getActivity(), DetailTaskActivity.class);
+                detailTask.putExtra("task_id", taID.getText().toString());
+                //Log.d("idParsing", idParsing);
+                detailTask.putExtra("idParsing", idParsing);
+                //detailTask.putExtra("epoch", epoch.getText().toString());
+                startActivity(detailTask);
+                //Toast.makeText(getActivity(), taID.getText().toString(),Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         btn_expired.setOnClickListener(new View.OnClickListener() {
             String a = Long.toString(tode());
@@ -280,7 +290,7 @@ public class TaskActivity extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(getActivity());
+            pDialog = new SpotsDialog(getActivity(), R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -292,38 +302,39 @@ public class TaskActivity extends Fragment {
             try {
                 taskArray = new ArrayList<Task>();
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlTask+idParsing));
-                Log.d("taskasd", jsonArray.toString());
+                //Log.d("taskasd", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                     strId = jsonObject.getInt("task_id");
                     strTitle = jsonObject.getString(title);
                     strExpire = jsonObject.getInt("expire");
+                    //strExpire = tgl[i];
                     strNote = jsonObject.getString(note);
                     strCompany = jsonObject.getString(company);
 
-                    epochtodate(strExpire);
 
                     Task task = new Task();
-                    task.setTask_id(strId);
-                    task.setTitle(strTitle);
-                    task.setExpire(strExpire);
-                    task.setNote(strNote);
-                    task.setCompany(strCompany);
-                    taskArray.add(task);
+                    //if (strExpire<tode()){
+
+                      //  if (strExpire>)
+
+                        task.setTask_id(strId);
+                        task.setTitle(strTitle);
+                        task.setExpire(strExpire);
+                        task.setNote(strNote);
+                        task.setCompany(strCompany);
+                        taskArray.add(task);
+                    /*}else {
+                        task.setTask_id(strId);
+                        task.setTitle(strTitle);
+                        task.setExpire(strExpire);
+                        task.setNote(strNote);
+                        task.setCompany(strCompany);
+                        taskArray.add(task);
+                    }*/
 
 
-                    // tmp hashmap for single contact
-                    //HashMap<String, String> hashmapTask = new HashMap<String, String>();
-                    //hashmapTask.put("task_id", Integer.toString(strId));
-                    //hashmapTask.put(company, strCompany);
-                    //hashmapTask.put(title, strTitle);
-                    //hashmapTask.put("expire", formatDate);
-
-
-                    //arraylistTask.add(hashmapTask);
-
-                    //coba = title;
                 }
 
 
@@ -340,18 +351,12 @@ public class TaskActivity extends Fragment {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            //adapter = new SimpleAdapter(getActivity(), arraylistTask,
-            //        R.layout.list_row_task,
-            //        new String[]{company, title, "expire", "task_id"},
-            //        new int[]{R.id.txt_list_task_pt, R.id.txt_list_task_subject, R.id.txt_list_task_tgl, R.id.txt_list_task_id});
             taskAdapter = new TaskAdapter(getActivity(), taskArray);
+            //String day = String.valueOf(datenowwwwww());
+            //taskAdapter.filter(day);
             listTask.setAdapter(taskAdapter);
-
-            //expired(strExpire);
-            //Log.d("sekarang", expired(strExpire));
 
         }
     }
-
 }
 

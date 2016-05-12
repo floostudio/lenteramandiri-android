@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.utils.DataManager;
 import floo.com.mpm_mandiri.utils.ImageLoader;
@@ -67,7 +68,7 @@ public class NewsDetailActivity extends AppCompatActivity{
     HashMap<String, String> hashmapDetailNewsList;
     ArrayList<HashMap<String, String>> arrayDetailNewsList;
     SimpleAdapter adapterDetailNewsList;
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     Bitmap myBitmap;
     TextView txtTitle, txtDate, txtContent;
     ImageView imageView;
@@ -114,7 +115,7 @@ public class NewsDetailActivity extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(NewsDetailActivity.this);
+            pDialog = new SpotsDialog(NewsDetailActivity.this, R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();

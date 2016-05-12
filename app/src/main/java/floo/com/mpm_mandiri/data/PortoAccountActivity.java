@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.utils.DataManager;
 
@@ -60,7 +61,7 @@ public class PortoAccountActivity extends AppCompatActivity {
 
     String url = DataManager.url;
     String urlPortAccount = DataManager.urlPortAccount;
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     private static final String id = "id";
     private static final String acc_number = "acc_number";
     private static final String valuta = "valuta";
@@ -200,7 +201,7 @@ public class PortoAccountActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(PortoAccountActivity.this);
+            pDialog = new SpotsDialog(PortoAccountActivity.this, R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();

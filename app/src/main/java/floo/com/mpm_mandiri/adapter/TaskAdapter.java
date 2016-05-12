@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import floo.com.mpm_mandiri.R;
+import floo.com.mpm_mandiri.data.DetailTaskActivity;
 
 /**
  * Created by Floo on 3/4/2016.
@@ -87,6 +88,7 @@ public class TaskAdapter extends BaseAdapter{
         String formatDate = format.format(date);
         viewHolder.expireTask.setText(formatDate);
 
+
         long today;
         long epoch = 2592000;
 
@@ -109,6 +111,23 @@ public class TaskAdapter extends BaseAdapter{
         }
         return view;
     }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(list);
+        } else {
+            for (Task wp : list) {
+                long h = Long.parseLong(charText);
+                if (h-2592000>wp.getExpire()-5184000) {
+                    listData.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     private long tode() {
         String str = dateNow();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -146,7 +165,6 @@ public class TaskAdapter extends BaseAdapter{
     }
 
     public void filterGreen(String charText) {
-
         charText = charText.toLowerCase(Locale.getDefault());
         listData.clear();
         if (charText.length() == 0) {

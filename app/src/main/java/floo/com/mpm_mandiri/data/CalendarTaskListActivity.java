@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.adapter.CalendarListAdapter;
 import floo.com.mpm_mandiri.adapter.Task;
@@ -30,7 +31,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
 
     ListView listTask;
 
-    private ProgressDialog pDialog;
+    private SpotsDialog pDialog;
     String url = DataManager.url;
     String urlTask = DataManager.urltaskList;
     String idParsing, expireParsing, strTitle, strNote, strCompany;
@@ -57,15 +58,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
         initView();
 
         new DataFetcherTask().execute();
-        listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView taID = (TextView)view.findViewById(R.id.txt_list_task_id);
-                Intent detailTask = new Intent(CalendarTaskListActivity.this, DetailTaskActivity.class);
-                detailTask.putExtra("task_id", taID.getText().toString());
-                startActivity(detailTask);
-            }
-        });
+
 
 
 
@@ -85,6 +78,17 @@ public class CalendarTaskListActivity extends AppCompatActivity {
         LinearLayout line = (LinearLayout) findViewById(R.id.linier_toolbar);
         listTask = (ListView) findViewById(R.id.listCalendar_Tasklist);
 
+        listTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView taID = (TextView)view.findViewById(R.id.txt_list_task_id);
+                Intent detailTask = new Intent(CalendarTaskListActivity.this, DetailTaskActivity.class);
+                detailTask.putExtra("task_id", taID.getText().toString());
+                detailTask.putExtra("idParsing", idParsing);
+                startActivity(detailTask);
+            }
+        });
+
         line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +105,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(CalendarTaskListActivity.this);
+            pDialog = new SpotsDialog(CalendarTaskListActivity.this, R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();
