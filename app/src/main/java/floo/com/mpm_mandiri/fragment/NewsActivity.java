@@ -158,7 +158,7 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
 
             try {
                 //Log.d("urutan", String.valueOf(offset));
-                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlNews+offset+"&limit=2"));
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlNews+offset+"&limit=10"));
                 for (int i=0; i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
