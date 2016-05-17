@@ -1,7 +1,6 @@
 package floo.com.mpm_mandiri.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import floo.com.mpm_mandiri.R;
-import floo.com.mpm_mandiri.data.DetailTaskActivity;
 
 /**
  * Created by Floo on 3/4/2016.

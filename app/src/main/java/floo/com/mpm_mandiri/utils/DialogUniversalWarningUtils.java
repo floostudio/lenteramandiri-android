@@ -6,12 +6,12 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import floo.com.mpm_mandiri.R;
-import floo.com.mpm_mandiri.data.DetailTaskActivity;
+import floo.com.mpm_mandiri.data.TaskDetailActivity;
 
 
 public class DialogUniversalWarningUtils {
 
-	private DetailTaskActivity mDialogUniversalWarningActivity;
+	private TaskDetailActivity mDialogUniversalWarningActivity;
 	private Dialog mDialog;
 
 	private TextView mDialogText;
@@ -19,7 +19,7 @@ public class DialogUniversalWarningUtils {
 	private TextView mDialogCancelButton;
 
 	public DialogUniversalWarningUtils(
-			DetailTaskActivity mDialogUniversalWarningActivity) {
+			TaskDetailActivity mDialogUniversalWarningActivity) {
 		this.mDialogUniversalWarningActivity = mDialogUniversalWarningActivity;
 	}
 

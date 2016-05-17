@@ -1,17 +1,10 @@
 package floo.com.mpm_mandiri.fragment;
 
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.IntentCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,24 +14,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,7 +29,7 @@ import java.util.TimeZone;
 
 import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.MainActivity;
-import floo.com.mpm_mandiri.data.DetailTaskActivity;
+import floo.com.mpm_mandiri.data.TaskDetailActivity;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.adapter.Task;
 import floo.com.mpm_mandiri.adapter.TaskAdapter;
@@ -141,7 +120,7 @@ public class TaskActivity extends Fragment {
 
                 TextView taID = (TextView) view.findViewById(R.id.txt_list_task_id);
                 TextView epoch = (TextView)view.findViewById(R.id.txt_list_task_tgl);
-                Intent detailTask = new Intent(getActivity(), DetailTaskActivity.class);
+                Intent detailTask = new Intent(getActivity(), TaskDetailActivity.class);
                 detailTask.putExtra("task_id", taID.getText().toString());
                 //Log.d("idParsing", idParsing);
                 detailTask.putExtra("idParsing", idParsing);

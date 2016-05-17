@@ -42,7 +42,7 @@
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".data.DetailTaskActivity"
+            android:name=".data.TaskDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
 

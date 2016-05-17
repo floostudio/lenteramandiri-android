@@ -1,6 +1,5 @@
 package floo.com.mpm_mandiri.data;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,7 +81,7 @@ public class CalendarTaskListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView taID = (TextView)view.findViewById(R.id.txt_list_task_id);
-                Intent detailTask = new Intent(CalendarTaskListActivity.this, DetailTaskActivity.class);
+                Intent detailTask = new Intent(CalendarTaskListActivity.this, TaskDetailActivity.class);
                 detailTask.putExtra("task_id", taID.getText().toString());
                 detailTask.putExtra("idParsing", idParsing);
                 startActivity(detailTask);

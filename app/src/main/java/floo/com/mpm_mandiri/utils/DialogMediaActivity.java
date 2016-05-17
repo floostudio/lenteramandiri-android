@@ -5,13 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +17,12 @@ import org.json.JSONObject;
 
 import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
-import floo.com.mpm_mandiri.data.DetailTaskActivity;
+import floo.com.mpm_mandiri.data.TaskDetailActivity;
 
 
 public class DialogMediaActivity {
 
-	private DetailTaskActivity mDialogMediaActivity;
+	private TaskDetailActivity mDialogMediaActivity;
 	private Dialog mDialog;
 
 
@@ -44,7 +41,7 @@ public class DialogMediaActivity {
 	String urlDone = DataManager.urltaskDone;
 	String strStatus, strMessage;
 
-	public DialogMediaActivity(DetailTaskActivity mDialogMediaActivity, String idTaskParsing, String struserid) {
+	public DialogMediaActivity(TaskDetailActivity mDialogMediaActivity, String idTaskParsing, String struserid) {
 		this.mDialogMediaActivity = mDialogMediaActivity;
 		this.idTaskParsing = idTaskParsing;
 		this.struserid = struserid;
@@ -168,7 +165,7 @@ public class DialogMediaActivity {
 			if (strStatus.trim().equals("200")){
 				Toast.makeText(mDialogMediaActivity, strMessage, Toast.LENGTH_LONG).show();
 				mDialogMediaActivity.finish();
-				//Intent back = new Intent(DetailTaskActivity.this, MainActivity.class);
+				//Intent back = new Intent(TaskDetailActivity.this, MainActivity.class);
 				//startActivity(back);
 
 

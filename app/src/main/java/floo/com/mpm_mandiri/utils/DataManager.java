@@ -65,8 +65,8 @@ public class DataManager {
         String headerKey="";
 
         HttpParams myParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-        HttpConnectionParams.setSoTimeout(myParams, 5000);
+        HttpConnectionParams.setConnectionTimeout(myParams, 15000);
+        HttpConnectionParams.setSoTimeout(myParams, 15000);
 
         JSONObject object = new JSONObject();
         try {

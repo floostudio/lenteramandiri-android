@@ -115,7 +115,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
         });
 
 
-        refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorSchemeColors(R.color.yellow, R.color.cpb_blue);
 
 

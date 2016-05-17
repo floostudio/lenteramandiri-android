@@ -1,6 +1,5 @@
 package floo.com.mpm_mandiri.data;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +29,8 @@ import java.util.TimeZone;
 
 import dmax.dialog.SpotsDialog;
 import floo.com.mpm_mandiri.R;
+import floo.com.mpm_mandiri.adapter.Escalateds;
+import floo.com.mpm_mandiri.adapter.TaskDetailAdapter;
 import floo.com.mpm_mandiri.utils.DataManager;
 import floo.com.mpm_mandiri.utils.DialogMediaActivity;
 import floo.com.mpm_mandiri.utils.DialogUniversalWarningUtils;
@@ -38,7 +38,7 @@ import floo.com.mpm_mandiri.utils.DialogUniversalWarningUtils;
 /**
  * Created by Floo on 2/25/2016.
  */
-public class DetailTaskActivity extends AppCompatActivity {
+public class TaskDetailActivity extends AppCompatActivity {
     String url = DataManager.url;
     String urlDetailTask = DataManager.urltaskDetails;
     String idTaskParsing, struserid, strepoch,strTitle,  strNote, strCompany,strDetail,
@@ -73,6 +73,8 @@ public class DetailTaskActivity extends AppCompatActivity {
     String urlDone = DataManager.urltaskDone;
     String strStatus, strMessage;
 
+    TaskDetailAdapter adapter;
+    ArrayList<Escalateds> arrayListTo;
 
 
 
@@ -84,6 +86,7 @@ public class DetailTaskActivity extends AppCompatActivity {
         initView();
         arrayfromTaskList = new ArrayList<HashMap<String, String>>();
         arraytoTaskList = new ArrayList<HashMap<String, String>>();
+        arrayListTo = new ArrayList<Escalateds>();
         new DataFetcherDetailTask().execute();
 
 
@@ -117,7 +120,7 @@ public class DetailTaskActivity extends AppCompatActivity {
         line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailTaskActivity.this.finish();
+                TaskDetailActivity.this.finish();
             }
         });
 
@@ -125,7 +128,7 @@ public class DetailTaskActivity extends AppCompatActivity {
         btnNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent nextNote = new Intent(DetailTaskActivity.this, NoteActivity.class);
+                Intent nextNote = new Intent(TaskDetailActivity.this, NoteActivity.class);
                 nextNote.putExtra(note, strNote);
                 startActivity(nextNote);
             }
@@ -141,14 +144,14 @@ public class DetailTaskActivity extends AppCompatActivity {
 
                 //long tanggal = epoch(txtTgl.getText().toString());
                 //Log.d("tanggal", String.valueOf(tanggal));
-                //DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(DetailTaskActivity.this);
+                //DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(TaskDetailActivity.this);
                 //warning.showDialog();
 
                if (epoch(txtTgl.getText().toString()) < epoch(dateNow())) {
-                    DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(DetailTaskActivity.this);
+                    DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(TaskDetailActivity.this);
                     warning.showDialog();
                 }else {
-                    DialogMediaActivity dialog = new DialogMediaActivity(DetailTaskActivity.this, idTaskParsing, struserid);
+                    DialogMediaActivity dialog = new DialogMediaActivity(TaskDetailActivity.this, idTaskParsing, struserid);
                     dialog.showDialog();
                 }
 
@@ -192,7 +195,7 @@ public class DetailTaskActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new SpotsDialog(DetailTaskActivity.this, R.style.CustomProgress);
+            pDialog = new SpotsDialog(TaskDetailActivity.this, R.style.CustomProgress);
             pDialog.setMessage("Please wait...!!!");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -220,6 +223,7 @@ public class DetailTaskActivity extends AppCompatActivity {
                     //Log.d("arrayEscal", arrayEscal.getString(i));
                     String strEscalated = arrayEscalfrom.getString(i);
 
+
                     hashmapfromTaskList = new HashMap<String, String>();
                     hashmapfromTaskList.put(escalated_from, strEscalated);
 
@@ -233,15 +237,34 @@ public class DetailTaskActivity extends AppCompatActivity {
                     //Log.d("urutannya", String.valueOf(b));
                     JSONArray arrayEscal = objEscalTo.getJSONArray(Escalated+" "+b);
                     //Log.d("urutannya", arrayEscal.toString());
-                    for (int c=0;c<arrayEscal.length();c++){
-                        String data = arrayEscal.getString(c);
+                    if (arrayEscal.length()>0){
+                        String escal = Escalated+" "+b;
+                        Log.d(Escalated, escal);
+                        Escalateds escale = new Escalateds();
+                        escale.setEscalate(escal);
 
-                        hashMaptoTaskList = new HashMap<String, String>();
-                        hashMaptoTaskList.put(escalated_to, data);
+                        arrayListTo.add(escale);
 
-                        arraytoTaskList.add(hashMaptoTaskList);
-                        //Log.d("datanya", data);
+                        for (int c=0;c<arrayEscal.length();c++){
+
+                            String data = arrayEscal.getString(c);
+                            Log.d(Escalated, data);
+
+                            Escalateds escalateds = new Escalateds();
+                            escalateds.setEscalate(data);
+
+                            arrayListTo.add(escalateds);
+                            Log.d("datanya", arrayListTo.toString());
+
+
+                            //hashMaptoTaskList = new HashMap<String, String>();
+                            //hashMaptoTaskList.put(escalated_to, data);
+
+                            //arraytoTaskList.add(hashMaptoTaskList);
+                            //Log.d("datanya", data);
+                        }
                     }
+
                 }
 
 
@@ -288,21 +311,24 @@ public class DetailTaskActivity extends AppCompatActivity {
 
             }
 
-            if (arrayfromTaskList.isEmpty()){
-                txtEscalated.setText("Escalated To :");
-                adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arraytoTaskList,
-                        R.layout.list_row_detail_task,new String[]{escalated_to},new int[]{R.id.txt_task_list});
 
-            }else {
-                txtEscalated.setText("Escalated From :");
-                adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
-                        R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
+
+            if (arrayListTo.isEmpty() && arrayfromTaskList.isEmpty()){
+                txtEscalated.setText("");
+            }else{
+                if (arrayfromTaskList.isEmpty()){
+                    txtEscalated.setText("Escalated To :");
+                    adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
+                    listDetailTaskList.setAdapter(adapter);
+
+                }else {
+                    txtEscalated.setText("Escalated From :");
+                    adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
+                            R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
+                    listDetailTaskList.setAdapter(adapterDetailTaskList);
+                }
+
             }
-            listDetailTaskList.setAdapter(adapterDetailTaskList);
-
-
-
-
         }
     }
 }
