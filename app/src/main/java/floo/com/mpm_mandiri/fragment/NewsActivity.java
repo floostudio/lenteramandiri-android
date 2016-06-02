@@ -101,16 +101,17 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView taID = (TextView)view.findViewById(R.id.txt_id_news);
                 TextView taURL = (TextView)view.findViewById(R.id.txt_url_news);
+                Intent detailNews = new Intent(getActivity(), NewsDetailActivity.class);
+                detailNews.putExtra("news_id", taID.getText().toString());
+                startActivity(detailNews);
                 //Log.e("urlLink", taURL.getText().toString());
                 //Log.e("idparsing", taID.getText().toString());
-                if (taURL.getText().toString().trim().equals("")){
-                    Intent detailNews = new Intent(getActivity(), NewsDetailActivity.class);
-                    detailNews.putExtra("news_id", taID.getText().toString());
-                    startActivity(detailNews);
+               /* if (taURL.getText().toString().trim().equals("")){
+
                 }else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taURL.getText().toString()));
                     startActivity(intent);
-                }
+                }*/
             }
         });
 

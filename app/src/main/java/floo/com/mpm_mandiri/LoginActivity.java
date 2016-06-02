@@ -2,16 +2,23 @@ package floo.com.mpm_mandiri;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelUuid;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -63,13 +70,19 @@ public class LoginActivity extends AppCompatActivity {
     public static final String profpic = "profpic";
     public static final String title = "title";
 
+    GoogleCloudMessaging gcm;
+    String regid;
+    String msg = "";
+    String PROJECTNUMBER = DataManager.PROJECTNUMBER;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        getRegId();
         initView();
+
 
         String str = dateNow();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -82,6 +95,40 @@ public class LoginActivity extends AppCompatActivity {
         long today = date.getTime();
 
     }
+
+    public void getRegId() {
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging
+                                .getInstance(getApplicationContext());
+                    }
+                    regid = gcm.register(PROJECTNUMBER);
+                    msg = "Device registered, registration ID=" + regid;
+
+                    //Log.d("nouuid", regid);
+
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+
+                    System.out.println("Error---" + ex.getMessage());
+                }
+
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                System.out.println("Registerid---" + regid);
+            }
+        }.execute(null, null, null);
+
+    }
+
 
     private String dateNow(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -115,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 //password.setText("qwerty", TextView.BufferType.EDITABLE);
 
                 if (email.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Email empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "NIP empty", Toast.LENGTH_LONG).show();
 
                 }else if (password.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Password empty", Toast.LENGTH_LONG).show();
@@ -140,10 +187,12 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             String json1 = "";
             JSONObject object1 = new JSONObject();
+            //Log.d("nouuid", regid);
 
             try {
-                object1.put("email",strEmail);
+                object1.put("nip",strEmail);
                 object1.put("password", strPassword);
+                object1.put("device_id", regid);
                 json1 = object1.toString();
             } catch (JSONException e) {
                 e.printStackTrace();

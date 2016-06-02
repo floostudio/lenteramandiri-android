@@ -1,15 +1,12 @@
 package floo.com.mpm_mandiri.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,11 +20,11 @@ import floo.com.mpm_mandiri.utils.ImageLoader;
 /**
  * Created by Floo on 3/4/2016.
  */
-public class NewsAdapter extends BaseAdapter{
+public class InfoAdapter extends BaseAdapter{
     Context context;
-    ArrayList<News> listData;
+    ArrayList<Info> listData;
 
-    public NewsAdapter(Context context, ArrayList<News> listData){
+    public InfoAdapter(Context context, ArrayList<Info> listData){
         this.context = context;
         this.listData = listData;
     }
@@ -47,7 +44,7 @@ public class NewsAdapter extends BaseAdapter{
         return position;
     }
     class ViewHolder {
-        private TextView idNews, titleNews, datenews, contentNews, urlNews;
+        private TextView idInfo, titleInfo, dateInfo, contentNews, urlInfo;
         private ImageView imageView;
 
     }
@@ -56,45 +53,34 @@ public class NewsAdapter extends BaseAdapter{
         ViewHolder viewHolder = null;
         if(view == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_row_news,null);
+            view = inflater.inflate(R.layout.list_row_info,null);
             viewHolder = new ViewHolder();
-            viewHolder.idNews= (TextView) view.findViewById(R.id.txt_id_news);
-            viewHolder.titleNews = (TextView) view.findViewById(R.id.txt_title_news);
-            viewHolder.datenews = (TextView) view.findViewById(R.id.txt_date_news);
-            viewHolder.urlNews = (TextView)view.findViewById(R.id.txt_url_news);
-            viewHolder.contentNews = (TextView) view.findViewById(R.id.txt_content_news);
-            viewHolder.imageView = (ImageView) view.findViewById(R.id.img_news);
+            viewHolder.idInfo= (TextView) view.findViewById(R.id.txt_id_info);
+            viewHolder.titleInfo= (TextView) view.findViewById(R.id.txt_title_info);
+            viewHolder.dateInfo= (TextView) view.findViewById(R.id.txt_date_info);
+            viewHolder.urlInfo= (TextView)view.findViewById(R.id.txt_url_info);
+            viewHolder.imageView = (ImageView) view.findViewById(R.id.img_info);
             view.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        final News news = listData.get(position);
-        int id = news.getNews_id();
-        viewHolder.idNews.setText(Integer.toString(id));
-        String subject = news.getTitle();
-        viewHolder.titleNews.setText(subject);
-        /*if (news.getUrl().trim().equals("")){
+        final Info info = listData.get(position);
+        int id = info.getInfo_id();
+        viewHolder.idInfo.setText(Integer.toString(id));
+        String tittle = info.getTitle();
+        viewHolder.titleInfo.setText("[PDF] "+tittle);
 
-            viewHolder.titleNews.setText(subject);
-        }else {
-            String tittle = "[PDF] "+subject;
-            viewHolder.titleNews.setText(tittle);
-        }*/
+        viewHolder.urlInfo.setText(info.getUrl());
 
-        viewHolder.urlNews.setText(news.getUrl());
-        String pt = news.getContent();
-        StringBuilder stringBuilder = new StringBuilder(pt);
-        String sbtr = (pt.length()>30) ? stringBuilder.substring(0, 30) : pt;
-        viewHolder.contentNews.setText(sbtr+"....");
-        int expire = news.getDate();
+        int expire = info.getDate();
 
         Date date = new Date(expire * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
         String formatDate = format.format(date);
-        viewHolder.datenews.setText(formatDate);
+        viewHolder.dateInfo.setText(formatDate);
 
-        String img = news.getImage();
+        String img = info.getImage();
         ImageLoader imageLoader = new ImageLoader();
         imageLoader.DisplayImage(img, viewHolder.imageView);
         //new ImageLoadTask(img, viewHolder.imageView).execute();

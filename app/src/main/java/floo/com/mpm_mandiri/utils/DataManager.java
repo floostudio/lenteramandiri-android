@@ -1,6 +1,11 @@
 package floo.com.mpm_mandiri.utils;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,6 +31,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class DataManager {
 
+
     //POST
     public static String url = "http://play.floostudio.com/lenteramandiri/api/v1/instance";
     public static String urlLogin = "http://play.floostudio.com/lenteramandiri/api/v1/users/login";
@@ -34,12 +40,17 @@ public class DataManager {
     String name = "DOT";
     String password = "DOTVNDR";
 
+    public static String PROJECTNUMBER = "924946499768";
+
+
     //GET
     public static String urltaskList = "http://play.floostudio.com/lenteramandiri/api/v1/tasks/user/";
     public static String urltaskDetails = "http://play.floostudio.com/lenteramandiri/api/v1/tasks/detail/";
     public static String urlprofilList = "http://play.floostudio.com/lenteramandiri/api/v1/users/detail/";
     public static String urlNewsList = "http://play.floostudio.com/lenteramandiri/api/v1/news?offset=";
     public static String urlFetchNews = "http://play.floostudio.com/lenteramandiri/api/v1/news/detail/";
+    public static String urlInfo = "http://play.floostudio.com/lenteramandiri/api/v1/info";
+    public static String urlFetchInfo = "http://play.floostudio.com/lenteramandiri/api/v1/info/detail/";
     public static String urlMasterDirectorate = "http://play.floostudio.com/lenteramandiri/api/v1/master/directorate";
     public static String urlMasterDepartment = "http://play.floostudio.com/lenteramandiri/api/v1/master/department";
     public static String urlMasterGroup = "http://play.floostudio.com/lenteramandiri/api/v1/master/group";
@@ -64,15 +75,18 @@ public class DataManager {
         String objek="";
         String headerKey="";
 
+        String model = android.os.Build.MANUFACTURER +" "+ Build.DEVICE;
+        String os = Build.VERSION.RELEASE;
+
         HttpParams myParams = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(myParams, 15000);
         HttpConnectionParams.setSoTimeout(myParams, 15000);
 
         JSONObject object = new JSONObject();
         try {
-
-            object.put("device_type","Samsung Galaxy Note 5");
-            object.put("device_os","android OS 4.4.2");
+            object.put("device_type", 1);
+            object.put("device_model",model);
+            object.put("device_os",os);
             object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
             object.put("vendor_name","DOT");
             object.put("vendor_pass","DOTVNDR");

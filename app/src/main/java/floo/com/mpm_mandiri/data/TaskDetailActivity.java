@@ -28,6 +28,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import dmax.dialog.SpotsDialog;
+import floo.com.mpm_mandiri.MainActivity;
 import floo.com.mpm_mandiri.R;
 import floo.com.mpm_mandiri.adapter.Escalateds;
 import floo.com.mpm_mandiri.adapter.TaskDetailAdapter;
@@ -239,7 +240,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     //Log.d("urutannya", arrayEscal.toString());
                     if (arrayEscal.length()>0){
                         String escal = Escalated+" "+b;
-                        Log.d(Escalated, escal);
+                        //Log.d(Escalated, escal);
                         Escalateds escale = new Escalateds();
                         escale.setEscalate(escal);
 
@@ -248,13 +249,13 @@ public class TaskDetailActivity extends AppCompatActivity {
                         for (int c=0;c<arrayEscal.length();c++){
 
                             String data = arrayEscal.getString(c);
-                            Log.d(Escalated, data);
+                            //Log.d(Escalated, data);
 
                             Escalateds escalateds = new Escalateds();
                             escalateds.setEscalate(data);
 
                             arrayListTo.add(escalateds);
-                            Log.d("datanya", arrayListTo.toString());
+                            //Log.d("datanya", arrayListTo.toString());
 
 
                             //hashMaptoTaskList = new HashMap<String, String>();
@@ -310,8 +311,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                 img_list_task.setImageResource(R.drawable.point_orange);
 
             }
-
-
 
             if (arrayListTo.isEmpty() && arrayfromTaskList.isEmpty()){
                 txtEscalated.setText("");

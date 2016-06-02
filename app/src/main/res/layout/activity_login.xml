@@ -58,9 +58,9 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:textColorHint="@color/hint"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     android:layout_marginLeft="10dp"
-                    android:hint="Email"/>
+                    android:hint="NIP"/>
 
 
             </LinearLayout>

@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "924946499768",
+    "project_id": "lentera-mandiri-1330"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924946499768:android:a4787de9995c2eec",
+        "android_client_info": {
+          "package_name": "floo.com.mpm_mandiri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk6MN9eWvVdoukyza-F2BnlByUX6pFlQQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

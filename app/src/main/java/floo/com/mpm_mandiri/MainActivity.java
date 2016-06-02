@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import floo.com.mpm_mandiri.fragment.CalenderActivity;
+import floo.com.mpm_mandiri.fragment.InfoActivity;
 import floo.com.mpm_mandiri.fragment.NewDashboardActivity;
 import floo.com.mpm_mandiri.fragment.NewsActivity;
 import floo.com.mpm_mandiri.fragment.PortofolioActivity;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
 
@@ -115,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
                 //title.setText("PROFILE");
                 setFragment(0);
                 drawer.closeDrawer(GravityCompat.START);
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
+                navigationView.getMenu().getItem(5).setChecked(false);
             }
         });
         img.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
                 setFragment(0);
 
                 drawer.closeDrawer(GravityCompat.START);
+
+                navigationView.getMenu().getItem(0).setChecked(false);
+                navigationView.getMenu().getItem(1).setChecked(false);
+                navigationView.getMenu().getItem(2).setChecked(false);
+                navigationView.getMenu().getItem(3).setChecked(false);
+                navigationView.getMenu().getItem(4).setChecked(false);
+                navigationView.getMenu().getItem(5).setChecked(false);
             }
         });
         if (navigationView != null){
@@ -138,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         if (frgment==null){
             setFragment(1);
         }else {
+            navigationView.getMenu().getItem(1).setChecked(true);
             setFragment(2);
         }
 
@@ -188,6 +203,12 @@ public class MainActivity extends AppCompatActivity {
 
                                 item.setChecked(true);
                                 setFragment(5);
+                                drawer.closeDrawer(GravityCompat.START);
+                                return true;
+                            case R.id.nav_info:
+
+                                item.setChecked(true);
+                                setFragment(6);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_logout:
@@ -269,6 +290,14 @@ public class MainActivity extends AppCompatActivity {
                 ft = fm.beginTransaction();
                 NewsActivity news = new NewsActivity();
                 ft.replace(R.id.content_fragment, news);
+                ft.commit();
+                break;
+            case 6:
+                title.setText("INFO");
+                fm = getSupportFragmentManager();
+                ft = fm.beginTransaction();
+                InfoActivity info = new InfoActivity();
+                ft.replace(R.id.content_fragment, info);
                 ft.commit();
                 break;
         }

@@ -1,12 +1,14 @@
 package floo.com.mpm_mandiri;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -107,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtLastName = (EditText) findViewById(R.id.edt_reg_lastname);
         edtNip = (EditText) findViewById(R.id.edt_reg_nip);
         spinDirectorate = (Spinner) findViewById(R.id.spin_Directorate);
+
         idDirectorate = (TextView) findViewById(R.id.txtid_directorate);
         spinGroup = (Spinner) findViewById(R.id.spin_Group);
         idGroup = (TextView) findViewById(R.id.txtid_group);
@@ -140,6 +143,26 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else if (edtNip.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "NIP empty",Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }else if (idDirectorate.getText().toString().trim().equals("0")){
+                    Toast.makeText(getApplicationContext(), "Directorate",Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }else if (idGroup.getText().toString().trim().equals("0")){
+                    Toast.makeText(getApplicationContext(), "Group",Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }else if (idDepartment.getText().toString().trim().equals("0")){
+                    Toast.makeText(getApplicationContext(), "Department",Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }else if (idTitle.getText().toString().trim().equals("0")){
+                    Toast.makeText(getApplicationContext(), "Title",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
@@ -252,6 +275,7 @@ public class RegisterActivity extends AppCompatActivity {
         String strNameDrectorate;
         ArrayList<String> worldListDirectorate;
         ArrayList<DataSpinner> worldDirectorate;
+        ArrayAdapter<String> arrayAdapter;
 
         @Override
         protected void onPreExecute() {
@@ -266,8 +290,21 @@ public class RegisterActivity extends AppCompatActivity {
             worldDirectorate = new ArrayList<DataSpinner>();
             worldListDirectorate = new ArrayList<String>();
 
+            String[] plan = new String[]{
+                    "Select an item..."
+            };
+
 
             try {
+                DataSpinner data = new DataSpinner();
+                int id = 0;
+                String pilih = "Directorate";
+                data.setId(id);
+                data.setName(pilih);
+                worldDirectorate.add(data);
+
+                worldListDirectorate.add(pilih);
+
                 JSONArray jsonArray=new JSONArray(DataManager.MyHttpGet(urlDirectorate));
                 for (int i=0; i<jsonArray.length();i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -298,16 +335,61 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
+            arrayAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                    R.layout.list_spinner, worldListDirectorate){
+                @Override
+                public boolean isEnabled(int position){
+                    if(position == 0)
+                    {
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if(position == 0){
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    }
+                    else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
+                }
+            };
 
-            spinDirectorate.setAdapter(new ArrayAdapter<String>(RegisterActivity.this,
-                    R.layout.list_spinner, worldListDirectorate));
+            //spinDirectorate.setPrompt("pilih");
+            spinDirectorate.setAdapter(arrayAdapter);
+
+
+            //spinDirectorate.setAdapter(new ArrayAdapter<String>(RegisterActivity.this,
+            //        R.layout.list_spinner, worldListDirectorate));
 
             spinDirectorate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int position, long id) {
+                    TextView row = (TextView)view.findViewById(R.id.txtSpinner);
+
+                    if (row.getText().toString().trim().equals("Directorate")){
+                        row.setTextColor(getResources().getColor(R.color.hint));
+                    }else {
+                        row.setTextColor(Color.BLACK);
+                    }
+
                     TextView txtid = (TextView) findViewById(R.id.txtid_directorate);
                     txtid.setText(Integer.toString(worldDirectorate.get(position).getId()));
+                    //Toast.makeText(getApplicationContext(), txtid.getText().toString(), Toast.LENGTH_LONG).show();
+
+
                 }
 
                 @Override
@@ -315,6 +397,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
             });
+
+
 
         }
     }
@@ -326,6 +410,7 @@ public class RegisterActivity extends AppCompatActivity {
         String strName;
         ArrayList<String> worldList;
         ArrayList<DataSpinner> world;
+        ArrayAdapter<String> arrayAdapter;
 
         @Override
         protected void onPreExecute() {
@@ -341,6 +426,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
             try {
+                DataSpinner data = new DataSpinner();
+                int id = 0;
+                String pilih = "Department";
+                data.setId(id);
+                data.setName(pilih);
+                world.add(data);
+
+                worldList.add(pilih);
                 JSONArray jsonArray=new JSONArray(DataManager.MyHttpGet(urlDepartment));
                 for (int i=0; i<jsonArray.length();i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -371,14 +464,53 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
-
-            spinDepartment.setAdapter(new ArrayAdapter<String>(RegisterActivity.this,
-                    R.layout.list_spinner, worldList));
+            arrayAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                    R.layout.list_spinner, worldList){
+                @Override
+                public boolean isEnabled(int position){
+                    if(position == 0)
+                    {
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if(position == 0){
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    }
+                    else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
+                }
+            };
+            spinDepartment.setAdapter(arrayAdapter);
 
             spinDepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int position, long id) {
+
+                    TextView row = (TextView)view.findViewById(R.id.txtSpinner);
+
+                    if (row.getText().toString().trim().equals("Department")){
+                        row.setTextColor(getResources().getColor(R.color.hint));
+                    }else {
+                        row.setTextColor(Color.BLACK);
+                    }
+
+
+
                     TextView txtid = (TextView) findViewById(R.id.txtid_department);
                     txtid.setText(Integer.toString(world.get(position).getId()));
                 }
@@ -413,6 +545,15 @@ public class RegisterActivity extends AppCompatActivity {
             worldListDirectorate = new ArrayList<String>();
 
             try {
+                DataSpinner data = new DataSpinner();
+                int id = 0;
+                String pilih = "Group";
+                data.setId(id);
+                data.setName(pilih);
+                worldDirectorate.add(data);
+
+                worldListDirectorate.add(pilih);
+
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlGroup));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -442,14 +583,51 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                    R.layout.list_spinner, worldListDirectorate){
+                @Override
+                public boolean isEnabled(int position){
+                    if(position == 0)
+                    {
+                        // Disable the first item from Spinner
+                        // First item will be use for hint
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+                    if(position == 0){
+                        // Set the hint text color gray
+                        tv.setTextColor(Color.GRAY);
+                    }
+                    else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    return view;
+                }
+            };
 
-            spinGroup.setAdapter(new ArrayAdapter<String>(RegisterActivity.this,
-                    R.layout.coba, worldListDirectorate));
+            spinGroup.setAdapter(arrayAdapter);
 
             spinGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int position, long id) {
+                    TextView row = (TextView)view.findViewById(R.id.txtSpinner);
+
+                    if (row.getText().toString().trim().equals("Group")){
+                        row.setTextColor(getResources().getColor(R.color.hint));
+                    }else {
+                        row.setTextColor(Color.BLACK);
+                    }
+
                     TextView txtid = (TextView) findViewById(R.id.txtid_group);
                     txtid.setText(Integer.toString(worldDirectorate.get(position).getId()));
                 }
@@ -485,6 +663,14 @@ public class RegisterActivity extends AppCompatActivity {
             worldListDirectorate = new ArrayList<String>();
 
             try {
+                DataSpinner data = new DataSpinner();
+                int id = 0;
+                String pilih = "Tittle";
+                data.setId(id);
+                data.setName(pilih);
+                worldDirectorate.add(data);
+
+                worldListDirectorate.add(pilih);
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlTitle));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -514,14 +700,51 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                    R.layout.list_spinner, worldListDirectorate){
+                @Override
+                public boolean isEnabled(int position){
+                if(position == 0)
+                {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+                @Override
+                public View getDropDownView(int position, View convertView,
+                    ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if(position == 0){
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                }
+                else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+            };
 
-            spinTitle.setAdapter(new ArrayAdapter<String>(RegisterActivity.this,
-                    R.layout.list_spinner, worldListDirectorate));
+            spinTitle.setAdapter(arrayAdapter);
 
             spinTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent,
                                            View view, int position, long id) {
+                    TextView row = (TextView)view.findViewById(R.id.txtSpinner);
+
+                    if (row.getText().toString().trim().equals("Tittle")){
+                        row.setTextColor(getResources().getColor(R.color.hint));
+                    }else {
+                        row.setTextColor(Color.BLACK);
+                    }
+
                     TextView txtid = (TextView) findViewById(R.id.txtid_title);
                     txtid.setText(Integer.toString(worldDirectorate.get(position).getId()));
                 }
