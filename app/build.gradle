@@ -9,8 +9,8 @@ android {
     defaultConfig {
         applicationId "floo.com.mpm_mandiri"
         manifestPlaceholders = [manifestApplicationId: "${applicationId}",
-                                onesignal_app_id: "037ddd11-9d7a-4796-bb81-2b9da0071caa",
-                                onesignal_google_project_number: "924946499768"]
+                                onesignal_app_id: "5ec995d7-ce3a-4588-88bb-fd2fc2c2d672",
+                                onesignal_google_project_number: "697251048533"]
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

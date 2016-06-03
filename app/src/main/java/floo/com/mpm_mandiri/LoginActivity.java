@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 object1.put("nip",strEmail);
                 object1.put("password", strPassword);
-                object1.put("device_id", regid);
+                object1.put("device_id", DataManager.oneSignal());
                 json1 = object1.toString();
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.onesignal.OneSignal;
 
 import java.util.HashMap;
 
@@ -29,6 +33,7 @@ import floo.com.mpm_mandiri.fragment.NewsActivity;
 import floo.com.mpm_mandiri.fragment.PortofolioActivity;
 import floo.com.mpm_mandiri.fragment.ProfilActivity;
 import floo.com.mpm_mandiri.fragment.TaskActivity;
+import floo.com.mpm_mandiri.utils.DataManager;
 import floo.com.mpm_mandiri.utils.ImageLoader;
 import floo.com.mpm_mandiri.utils.SessionManager;
 import floo.com.mpm_mandiri.utils.CircleImageView;
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     ImageLoader imageLoader;
 
 
-
+    String user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

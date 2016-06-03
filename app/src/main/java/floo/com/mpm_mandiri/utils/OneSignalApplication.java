@@ -2,12 +2,18 @@ package floo.com.mpm_mandiri.utils;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onesignal.OneSignal;
 
 import org.json.JSONObject;
 
+import floo.com.mpm_mandiri.adapter.DBHandler;
+import floo.com.mpm_mandiri.adapter.Notifi;
+
 public class OneSignalApplication extends Application {
+   //DBHandler dbHandler;
 
 
    @Override
@@ -21,7 +27,11 @@ public class OneSignalApplication extends Application {
           .setNotificationOpenedHandler(new ExampleNotificationOpenedHandler())
           .setAutoPromptLocation(true)
           .init();
-      //OneSignal.sendTag("test3", "test3");
+      OneSignal.enableNotificationsWhenActive(true);
+      OneSignal.enableInAppAlertNotification(true);
+      OneSignal.enableVibrate(true);
+      OneSignal.enableSound(true);
+      //OneSignal.promptLocation();
    }
 
 
@@ -42,13 +52,21 @@ public class OneSignalApplication extends Application {
          Log.d("OneSignalExample", "additional data: " + additionalData);
 
          try {
+            /*String strmsg = message;
+            String strContent = additionalData.getString("title");
+            Log.d("semua", strContent + " "+strmsg);
 
+            Notifi notifi = new Notifi();
+            notifi.setTITLE(message);
+            notifi.setCONTENT(additionalData.getString("title"));
+            dbHandler.addNotification(notifi);
+            Log.d("semua", dbHandler.toString());
             if (additionalData != null) {
                if (additionalData.has("actionSelected"))
                   additionalMessage += "Pressed ButtonID: " + additionalData.getString("actionSelected");
 
                additionalMessage = message + "\nFull additionalData:\n" + additionalData.toString();
-            }
+            }*/
 
          Log.d("OneSignalExample", "message:\n" + message + "\nadditionalMessage:\n" + additionalMessage);
          } catch (Throwable t) {
