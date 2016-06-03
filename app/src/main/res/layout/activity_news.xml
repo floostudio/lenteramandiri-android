@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<floo.com.mpm_mandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom xmlns:android="http://schemas.android.com/apk/res/android"
+<com.floo.lenteramandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -17,4 +17,4 @@
         android:dividerHeight="1dp">
     </ListView>
 
-</floo.com.mpm_mandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom>
+</com.floo.lenteramandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom>

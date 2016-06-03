@@ -3,6 +3,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="floo.com.mpm_mandiri.column.ColumnChartActivity"
+    tools:context="com.floo.lenteramandiri.column.ColumnChartActivity"
     tools:ignore="MergeRootFrame" />
 

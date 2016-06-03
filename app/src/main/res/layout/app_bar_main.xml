@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context="floo.com.mpm_mandiri.MainActivity">
+    tools:context=".MainActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

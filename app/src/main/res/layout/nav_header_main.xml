@@ -18,7 +18,7 @@
         android:gravity="center">
 
 
-        <floo.com.mpm_mandiri.utils.CircleImageView
+        <com.floo.lenteramandiri.utils.CircleImageView
             android:id="@+id/img_profil"
             android:layout_width="64dp"
             android:layout_height="64dp"
