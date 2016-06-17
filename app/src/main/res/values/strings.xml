@@ -10,21 +10,5 @@
     <string name="action_settings">Settings</string>
     <string name="material_icon_info_box">&#xe896;</string>
 
-    <string-array name="periode">
-        <item>Periode Maret 2016</item>
-    </string-array>
-
-    <string-array name="DataType">
-        <item>Kolektibilitas downgrade</item>
-        <item>Baki debet vs limit</item>
-        <item>Saldo Rata-Rata</item>
-        <item>Limit Individu dan Group</item>
-        <item>Status AGF</item>
-        <item>Deposit to Loan Ratio</item>
-        <item>Cash in Flow vs Omset</item>
-        <item>Transaction Flow Diagram</item>
-    </string-array>
-
-
 
 </resources>

@@ -45,8 +45,6 @@ public class TaskActivity extends Fragment {
     HashMap<String, String> hashmapTask;
     ArrayList<HashMap<String, String>> arraylistTask;
     ListView listTask;
-    int[] tgl = new int[]{1455206700,1460390700,1463108700,1463836320,1467306420,
-            1475633280,1478364980,1480904520,1478364960};
 
     private SpotsDialog pDialog;
     Button btn_expired, btn_willexpired, btn_months;
@@ -93,10 +91,6 @@ public class TaskActivity extends Fragment {
 
 
         return v;
-    }
-
-    public void refresh() {
-        ((MainActivity) getActivity()).refresh();
     }
 
 

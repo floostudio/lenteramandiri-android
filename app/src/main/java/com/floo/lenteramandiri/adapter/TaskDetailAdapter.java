@@ -1,6 +1,8 @@
 package com.floo.lenteramandiri.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,25 +66,72 @@ public class TaskDetailAdapter extends BaseAdapter {
         }
         Escalateds escalated = listData.get(position);
         String a = escalated.getEscalate();
+        String z = escalated.getBold();
+        //Log.d("datamasuk1", z);
 
         if (a.trim().equals("Escalated 1")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
-            //viewHolder.escal.setText(escalated.getEscalate());
+            viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.escal.setTextColor(context.getResources().getColor(R.color.green));
+            if (z.trim().equals("1")){
+                viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
+            }
+            viewHolder.escal.setText(escalated.getEscalate());
         }else if (a.trim().equals("Escalated 2")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
+            viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.escal.setTextColor(context.getResources().getColor(R.color.green));
+            if (z.trim().equals("1")){
+                viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
+            }
+            viewHolder.escal.setText(escalated.getEscalate());
         }else if (a.trim().equals("Escalated 3")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
+            viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.escal.setTextColor(context.getResources().getColor(R.color.green));
+            if (z.trim().equals("1")){
+                viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
+            }
+            viewHolder.escal.setText(escalated.getEscalate());
         }else if (a.trim().equals("Escalated 4")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
+            viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.escal.setTextColor(context.getResources().getColor(R.color.green));
+            if (z.trim().equals("1")){
+                viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
+            }
+            viewHolder.escal.setText(escalated.getEscalate());
         }else if (a.trim().equals("Escalated 5")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
+            viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.escal.setTextColor(context.getResources().getColor(R.color.green));
+            if (z.trim().equals("1")){
+                viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
+            }
+            viewHolder.escal.setText(escalated.getEscalate());
+        }else {
+            viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.escal.setTextColor(context.getResources().getColor(R.color.green));
+            if (z.trim().equals("1")){
+                viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
+            }
+
+            viewHolder.escal.setText(escalated.getEscalate());
         }
-        viewHolder.escal.setText(escalated.getEscalate());
+
+        
+
 
         return view;
     }

@@ -117,11 +117,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <ListView
                     android:id="@+id/list_detail_task"
+                    android:layout_width="match_parent"
+                    android:divider="@android:color/transparent"
+                    android:layout_height="wrap_content"
+                    ></ListView>
+
+            </LinearLayout>
+            <TextView
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:id="@+id/txt_escalated_taskdetail1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/list_detail_task1"
                     android:layout_width="match_parent"
                     android:divider="@android:color/transparent"
                     android:layout_height="wrap_content"></ListView>

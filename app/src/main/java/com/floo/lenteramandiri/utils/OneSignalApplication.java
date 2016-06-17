@@ -3,16 +3,15 @@ package com.floo.lenteramandiri.utils;
 import android.app.Application;
 import android.util.Log;
 
-import com.floo.lenteramandiri.adapter.DBHandler;
+import com.floo.lenteramandiri.utils.database.DBNotification;
 import com.onesignal.OneSignal;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.floo.lenteramandiri.adapter.Notifi;
 
 public class OneSignalApplication extends Application {
-   DBHandler dbHandler;
+   DBNotification dbNotification;
 
 
 
@@ -51,7 +50,7 @@ public class OneSignalApplication extends Application {
          Log.d("OneSignalExample", "message: " + message);
          Log.d("OneSignalExample", "additional data: " + additionalData);
 
-         dbHandler = new DBHandler(getApplicationContext());
+         dbNotification = new DBNotification(getApplicationContext());
 
          try {
             //Log.d("length", String.valueOf(message.length()));
@@ -61,7 +60,7 @@ public class OneSignalApplication extends Application {
             notifi.setCONTENT(additionalData.getString("title"));
             notifi.setDATE((int) DataManager.dateToEpoch(DataManager.getDatesNow()));
             //notifi.setDATE((int)(DataManager.dateToEpoch(DataManager.getDatesNow())-(2678400+86400)));
-            dbHandler.addNotification(notifi);
+            dbNotification.addNotification(notifi);
          } catch (Throwable t) {
             t.printStackTrace();
          }
@@ -77,7 +76,7 @@ public class OneSignalApplication extends Application {
             }
             notifi.setTITLE(message);
             notifi.setCONTENT(additionalData.getString("title"));
-            dbHandler.addNotification(notifi);
+            dbNotification.addNotification(notifi);
          Log.d("OneSignalExample", "message:\n" + message + "\nadditionalMessage:\n" + additionalMessage);
          } catch (Throwable t) {
             t.printStackTrace();

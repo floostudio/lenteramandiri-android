@@ -1,7 +1,10 @@
 package com.floo.lenteramandiri;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,8 +20,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floo.lenteramandiri.fragment.InfoActivity;
 import com.floo.lenteramandiri.fragment.NewDashboardActivity;
@@ -26,16 +32,29 @@ import com.floo.lenteramandiri.fragment.NewsActivity;
 import com.floo.lenteramandiri.fragment.NotificationActivity;
 import com.floo.lenteramandiri.fragment.ProfilActivity;
 import com.floo.lenteramandiri.fragment.TaskActivity;
+import com.floo.lenteramandiri.utils.AlarmReceiver;
 import com.floo.lenteramandiri.utils.CircleImageView;
+import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.ImageLoader;
 import com.floo.lenteramandiri.utils.SessionManager;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
 
 import com.floo.lenteramandiri.fragment.CalenderActivity;
 import com.floo.lenteramandiri.fragment.PortofolioActivity;
 
 import com.floo.lenteramandiri.utils.RoundedImageView;
+import com.floo.lenteramandiri.utils.calendarphone.CalendarHelper;
+import com.floo.lenteramandiri.utils.calendarphone.CustomOnItemSelectedListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     TextView title;
@@ -51,17 +70,28 @@ public class MainActivity extends AppCompatActivity {
     SessionManager session;
     ProgressDialog progressDialog;
     Bitmap myBitmap;
-    public static MainActivity ma;
     String frgment="";
     ImageLoader imageLoader;
     NavigationView navigationView;
 
 
-    String user;
+    //calendar
+    private Hashtable<String,String> calendarIdTable;
+    Spinner calendarIdSpinner;
+
+    //wake up call
+    ArrayList<Long> arrayList = new ArrayList<>();
+    Long[] dataCall ;
+    AlarmManager[] alarmManager = new AlarmManager[24];
+    PendingIntent pendingIntent;
+    ArrayList<PendingIntent> arrayListInten = new ArrayList<>();
+    ArrayList<Long> arrayListTime = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         /*Intent i = getIntent();
         idParsing = i.getStringExtra("IDPARSING");
@@ -147,11 +177,219 @@ public class MainActivity extends AppCompatActivity {
             setFragment(1);
         }else {
             navigationView.getMenu().getItem(1).setChecked(true);
+
             setFragment(2);
         }
 
-        //setFragment(1);
+        //Calendar
+        calendarIdSpinner = new Spinner(this);
+        calendarIdSpinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+
+        if (CalendarHelper.haveCalendarReadWritePermissions(this))
+        {
+            //Load calendars
+            calendarIdTable = CalendarHelper.listCalendarId(this);
+
+            updateCalendarIdSpinner();
+
+        }
+
+
+        if (CalendarHelper.haveCalendarReadWritePermissions(MainActivity.this)){
+            new DataFetcherTask().execute();
+            //addNewEvent();
+
+
+        }else {
+            CalendarHelper.requestCalendarReadWritePermission(MainActivity.this);
+        }
+
     }
+
+    private void updateCalendarIdSpinner()
+    {
+        if (calendarIdTable==null)
+        {
+            return;
+        }
+
+        List<String> list = new ArrayList<String>();
+
+        Enumeration e = calendarIdTable.keys();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            list.add(key);
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        calendarIdSpinner.setAdapter(dataAdapter);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode==CalendarHelper.CALENDARHELPER_PERMISSION_REQUEST_CODE)
+        {
+            if (CalendarHelper.haveCalendarReadWritePermissions(this))
+            {
+                Toast.makeText(this, (String)"Have Calendar Read/Write Permission.",
+                        Toast.LENGTH_LONG).show();
+
+            }
+
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void addNewEvent(String title, long mili)
+    {
+        if (calendarIdTable==null)
+        {
+            Toast.makeText(this, (String)"No calendars found. Please ensure at least one google account has been added.",
+                    Toast.LENGTH_LONG).show();
+            //Load calendars
+            calendarIdTable = CalendarHelper.listCalendarId(this);
+
+            updateCalendarIdSpinner();
+
+            return;
+        }
+
+
+        final long oneHour = 1000 * 60 * 60;
+        final long tenMinutes = 1000 * 60 * 10;
+        final long fiveMinutes = 1000 * 60 * 5;
+        final long twoMinutes = 1000 * 60 * 2;
+
+        long oneHourFromNow = (new Date()).getTime() + oneHour;
+        long tenMinutesFromNow = (new Date()).getTime() + tenMinutes;
+        long twoMinutesFromNow = (new Date()).getTime() + twoMinutes;
+
+        //long mili = DataManager.dateTomiliSecond(DataManager.epochtodateTime(1466211960));
+        //Log.d("datamasuk", String.valueOf(tenMinutesFromNow));
+
+
+        String calendarString = calendarIdSpinner.getSelectedItem().toString();
+        //Log.d("spinner", calendarString);
+        //Log.d("table", "table>"+calendarIdTable.get(calendarString)+" spnner>"+calendarString);
+        int calendar_id = Integer.parseInt(calendarIdTable.get(calendarString));
+
+        CalendarHelper.MakeNewCalendarEntry(this, title, "Add event", "Somewhere",mili,mili,false,true,calendar_id,3);
+
+    }
+
+    public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
+        String strTitle, strNote, strCompany, strNotifi;
+        int strId, strExpire;
+
+        int expire;
+        int week = 604800;
+
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            try {
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(DataManager.urltaskList+idParsing));
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                    strId = jsonObject.getInt("task_id");
+                    strTitle = jsonObject.getString("title");
+                    strExpire = jsonObject.getInt("expire");
+                    strNote = jsonObject.getString("note");
+                    strCompany = jsonObject.getString("company");
+
+                    if (jsonObject.has("notification")){
+                        JSONArray arrayNotification = jsonObject.getJSONArray("notification");
+                        for (int a=0; a<arrayNotification.length();a++){
+                            String number = arrayNotification.getString(a);
+
+                            if (!number.trim().equals("0")){
+                                if (number.trim().equals("7")){
+                                    expire = strExpire - week;
+                                }else if (number.trim().equals("14")){
+                                    expire = strExpire - (week*2);
+                                }else if (number.trim().equals("21")){
+                                    expire = strExpire - (week*3);
+                                }
+
+
+                                if (expire>0){
+
+                                    addNewEvent(strTitle, DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                }
+
+
+                            }
+                        }
+                    }
+
+                    if (jsonObject.has("wakeup_call")){
+                        JSONArray arrayWakeUp = jsonObject.getJSONArray("wakeup_call");
+                        for (int a=0; a<arrayWakeUp.length();a++){
+                            String number = arrayWakeUp.getString(a);
+
+                            if (!number.trim().equals("0")) {
+                                if (number.trim().equals("7")) {
+                                    expire = strExpire - week;
+                                    arrayListTime.add(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                } else if (number.trim().equals("14")) {
+                                    expire = strExpire - (week * 2);
+                                    arrayListTime.add(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                } else if (number.trim().equals("21")) {
+                                    expire = strExpire - (week * 3);
+                                    arrayListTime.add(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                }
+
+                                /*if (expire>0) {
+
+                                    dataCall = new Long[]{DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire))};
+                                }*/
+                            }
+                        }
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            //Log.d("datamasuk", String.valueOf(arrayListTime.size()));
+            if (!arrayListTime.isEmpty()){
+                for (int a=0; a<arrayListTime.size();a++){
+                Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+                pendingIntent = PendingIntent.getBroadcast(
+                        getBaseContext(), 1, intent, 0);
+                alarmManager[a] = (AlarmManager)getSystemService(Context.ALARM_SERVICE) ;
+                alarmManager[a].set(AlarmManager.RTC_WAKEUP, arrayListTime.get(a),
+                        pendingIntent);
+
+                arrayListInten.add(pendingIntent);
+                }
+
+            }
+        }
+    }
+
+
 
     private void setChecked(){
         navigationView.getMenu().getItem(0).setChecked(false);
@@ -186,7 +424,6 @@ public class MainActivity extends AppCompatActivity {
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_task:
-
                                 item.setChecked(true);
                                 setFragment(2);
                                 drawer.closeDrawer(GravityCompat.START);
@@ -215,11 +452,6 @@ public class MainActivity extends AppCompatActivity {
                                 setFragment(6);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;
-                            case R.id.nav_notification:
-                                item.setChecked(true);
-                                setFragment(7);
-                                drawer.closeDrawer(GravityCompat.START);
-                                return true;
                             case R.id.nav_logout:
                                 new logoutuser().execute();
 
@@ -234,11 +466,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-    public void refresh(){
-        setFragment(2);
-        drawer.closeDrawer(GravityCompat.START);
     }
 
     public void setFragment(int position){
@@ -345,6 +572,9 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
     public void onBackPressed(){
         new AlertDialog.Builder(this)
                 .setTitle("Really Exit?")

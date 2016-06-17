@@ -1,5 +1,6 @@
 package com.floo.lenteramandiri.utils;
 
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
@@ -28,6 +29,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 /**
@@ -256,6 +259,8 @@ public class DataManager {
         return format.format(date);
     }
 
+
+
     public static String getDatesNow() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -279,4 +284,71 @@ public class DataManager {
 
         return today;
     }
+
+    public static String epochtodateTime(int epoch){
+        Date date = new Date(epoch * 1000L);
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
+        return format.format(date);
+    }
+
+    public static long dateTomiliSecond(String parsing){
+        long milis;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); // I assume d-M, you may refer to M-d for month-day instead.
+        Date date = null; // You will need try/catch around this
+        try {
+            date = formatter.parse(parsing);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        milis = date.getTime();
+
+        return milis;
+    }
+
+    public static String dateNow(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "dd/MM/yyyy HH:mm", Locale.getDefault());
+        Date date1 = new Date();
+        return dateFormat.format(date1);
+    }
+
+    public static String getDecimalFormat(String value) {
+        StringTokenizer lst = new StringTokenizer(value, ".");
+        String str1 = value;
+        String str2 = "";
+        if (lst.countTokens() > 1) {
+            str1 = lst.nextToken();
+            str2 = lst.nextToken();
+        }
+        String str3 = "";
+        int i = 0;
+        int j = -1 + str1.length();
+        if (str1.charAt(-1 + str1.length()) == '.') {
+            j--;
+            str3 = ".";
+        }
+        for (int k = j; ; k--) {
+            if (k < 0) {
+                if (str2.length() > 0)
+                    str3 = str3 + "." + str2;
+                return str3;
+            }
+            if (i == 3) {
+                str3 = "." + str3;
+                i = 0;
+            }
+            str3 = str1.charAt(k) + str3;
+            i++;
+        }
+    }
+
+    public static String getDateTimeStr(String p_time_in_millis) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd, HH:mm:ss");
+        Date l_time = new Date(Long.parseLong(p_time_in_millis));
+        return sdf.format(l_time);
+    }
+
+
 }

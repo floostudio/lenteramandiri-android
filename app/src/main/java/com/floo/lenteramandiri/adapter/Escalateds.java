@@ -5,12 +5,14 @@ package com.floo.lenteramandiri.adapter;
  */
 public class Escalateds {
     private String escalate;
+    private String bold;
 
 
     public Escalateds(){}
 
-    public Escalateds(String escalate){
+    public Escalateds(String escalate, String bold){
         this.escalate = escalate;
+        this.bold = bold;
 
     }
 
@@ -20,5 +22,13 @@ public class Escalateds {
 
     public void setEscalate(String escalate){
         this.escalate = escalate;
+    }
+
+    public String getBold(){
+        return bold;
+    }
+
+    public void setBold(String bold){
+        this.bold = bold;
     }
 }

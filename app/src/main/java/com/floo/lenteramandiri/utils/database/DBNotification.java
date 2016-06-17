@@ -1,4 +1,4 @@
-package com.floo.lenteramandiri.adapter;
+package com.floo.lenteramandiri.utils.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.floo.lenteramandiri.adapter.Notifi;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Floo on 2/3/2016.
  */
-public class DBHandler extends SQLiteOpenHelper {
+public class DBNotification extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "SurveyDatabase.db";
 
@@ -33,7 +34,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
-    public DBHandler(Context context) {
+    public DBNotification(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 

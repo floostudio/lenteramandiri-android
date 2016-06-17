@@ -6,6 +6,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="2dp"
+        android:paddingBottom="4dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:background="@color/lightyellow" >
+
+        <Spinner
+            android:id="@+id/spin_array_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/White"
+            android:layout_margin="1dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingLeft="10dp"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -29,7 +51,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transcation Flow Diagram"
+            android:text=""
             android:textColor="@color/White"
             android:textSize="@dimen/activity_horizontal_margin"
             android:textStyle="normal"/>
@@ -144,7 +166,8 @@
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_avg"
                                 android:textAllCaps="false"
-                                android:text="AVG"/>
+                                android:text="AVG"
+                                android:visibility="gone"/>
 
                             <Button
 
@@ -238,43 +261,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/img_cashIn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/a_cashin"
-                        android:visibility="gone"/>
-                    <ImageView
-                        android:id="@+id/img_cashOut"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/a_cashout"
-                        android:visibility="gone"/>
-                    <ImageView
-                        android:id="@+id/img_dpk"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/a_dpk"
-                        android:visibility="gone"/>
-                    <ImageView
-                        android:id="@+id/img_lcf"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/a_lcf"
-                        android:visibility="gone"/>
-
-
-                    <com.github.mikephil.charting.charts.BarChart
+                    <com.github.mikephil.charting.charts.CombinedChart
                         android:id="@+id/chart_cashIn"
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
                         android:visibility="gone"/>
 
-                    <com.github.mikephil.charting.charts.BarChart
+                    <com.github.mikephil.charting.charts.CombinedChart
                         android:id="@+id/chart_cashOut"
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
@@ -301,126 +294,225 @@
 
                     </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
 
-                    <RelativeLayout
-                        android:id="@+id/relative_cashio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_cashio"
-                            android:layout_width="fill_parent"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_month"
-                            android:layout_width="30dp"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                    </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/relative_cashout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                        >
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_cashout"
-                            android:layout_width="fill_parent"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_monthcashout"
-                            android:layout_width="30dp"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                    </RelativeLayout>
-<RelativeLayout
-                        android:id="@+id/relative_dpk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_dpk"
-                            android:layout_width="fill_parent"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_month_dpk"
-                            android:layout_width="30dp"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                    </RelativeLayout>
-<RelativeLayout
-                        android:id="@+id/relative_lcf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_lcf"
-                            android:layout_width="fill_parent"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                        <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                            android:id="@+id/list_month_lcf"
-                            android:layout_width="30dp"
-                            android:divider="@android:color/transparent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
-                        </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-                    </RelativeLayout>
-
-                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                        android:id="@+id/list_dlr"
+                    <LinearLayout
+                        android:id="@+id/linierBakiDebet"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
                         android:visibility="gone">
-                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
 
-                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                        android:id="@+id/list_agf"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone">
-                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center"
 
-                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                        android:id="@+id/list_avg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone">
-                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+                            android:layout_gravity="center"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_weight="1"
+                                android:paddingLeft="25dp"
+                                android:paddingRight="25dp">
+                                <Button
+                                    android:id="@+id/btn_BakiDebet_true"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:text="Baki Debet"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/background"
+                                    android:background="@drawable/activity_btn" />
 
-                    <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                        android:id="@+id/list_bakidebet"
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_weight="1"
+                                android:paddingLeft="25dp"
+                                android:paddingRight="25dp">
+                                <Button
+                                    android:id="@+id/btn_Percentage_true"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:text="Percentage"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/background"
+                                    android:background="@drawable/activity_btn"/>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1sp"
+                            android:background="@color/background"
+                            android:layout_marginBottom="5dp"/>
+
+                        <com.github.mikephil.charting.charts.CombinedChart
+                            android:id="@+id/chart_bakidebet1"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:visibility="gone"></com.github.mikephil.charting.charts.CombinedChart>
+
+
+                        <com.github.mikephil.charting.charts.CombinedChart
+                            android:id="@+id/chart_bakidebet2"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:visibility="gone"></com.github.mikephil.charting.charts.CombinedChart>
+
+                    </LinearLayout>
+
+
+                    <HorizontalScrollView
+                        android:id="@+id/horizontalAGF"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true"
+                        android:scrollbars="horizontal"
+                        android:background="@color/Black"
                         android:visibility="gone">
-                    </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginBottom="1dp">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="20sp"
+                                        android:layout_height="35sp"
+                                        android:text="NO"
+                                        android:textColor="@color/White"
+                                        android:background="@color/yellow"
+                                        android:layout_marginRight="1dp"
+                                        android:gravity="center"
+                                        android:paddingRight="2dp"
+                                        android:paddingLeft="2dp"
+                                        android:textSize="11sp"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="110sp"
+                                        android:layout_height="35sp"
+                                        android:text="Rekening\nPinjam"
+                                        android:textColor="@color/White"
+                                        android:background="@color/yellow"
+                                        android:gravity="center"
+                                        android:layout_marginRight="1dp"
+                                        android:paddingRight="2dp"
+                                        android:paddingLeft="2dp"
+                                        android:textSize="11sp"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="110sp"
+                                        android:layout_height="35sp"
+                                        android:text="Rekening\nSumber"
+                                        android:textColor="@color/White"
+                                        android:background="@color/yellow"
+                                        android:layout_marginRight="1dp"
+                                        android:gravity="center"
+                                        android:paddingRight="2dp"
+                                        android:paddingLeft="2dp"
+                                        android:textSize="11sp"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="80sp"
+                                        android:layout_height="35sp"
+                                        android:text="Jatuh\nTempo"
+                                        android:textColor="@color/White"
+                                        android:background="@color/yellow"
+                                        android:layout_marginRight="1dp"
+                                        android:gravity="center"
+                                        android:paddingRight="2dp"
+                                        android:paddingLeft="2dp"
+                                        android:textSize="11sp"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="110sp"
+                                        android:layout_height="35sp"
+                                        android:text="Nominal"
+                                        android:textColor="@color/White"
+                                        android:background="@color/yellow"
+                                        android:layout_marginRight="1dp"
+                                        android:gravity="center"
+                                        android:paddingRight="2dp"
+                                        android:paddingLeft="2dp"
+                                        android:textSize="11sp"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="80sp"
+                                        android:layout_height="35sp"
+                                        android:text="Kolektibilitas"
+                                        android:textColor="@color/White"
+                                        android:background="@color/yellow"
+                                        android:gravity="center"
+                                        android:paddingRight="2dp"
+                                        android:paddingLeft="2dp"
+                                        android:textSize="11sp"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                            <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
+                                android:id="@+id/list_agf"
+                                android:layout_width="match_parent"
+                                android:divider="@android:color/transparent"
+                                android:layout_height="match_parent"></com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
+
+
+
+                        </LinearLayout>
+
+
+                    </HorizontalScrollView>
 
 
                 </RelativeLayout>

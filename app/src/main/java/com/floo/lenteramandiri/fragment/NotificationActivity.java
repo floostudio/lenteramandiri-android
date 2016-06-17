@@ -1,30 +1,20 @@
 package com.floo.lenteramandiri.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import com.floo.lenteramandiri.R;
-import com.floo.lenteramandiri.adapter.DBHandler;
+import com.floo.lenteramandiri.utils.database.DBNotification;
 import com.floo.lenteramandiri.adapter.NotificationAdapter;
 import com.floo.lenteramandiri.adapter.Notifi;
-import com.floo.lenteramandiri.calendar.CalendarDay;
-import com.floo.lenteramandiri.utils.DataManager;
 
 import dmax.dialog.SpotsDialog;
 
@@ -33,7 +23,7 @@ import dmax.dialog.SpotsDialog;
  */
 public class NotificationActivity extends Fragment {
     ListView listView;
-    DBHandler dbHandler;
+    DBNotification dbNotification;
     NotificationAdapter adapter;
     private SpotsDialog pDialog;
     private static final int SPLASH_DURATION = 3000;
@@ -47,7 +37,7 @@ public class NotificationActivity extends Fragment {
         pDialog.setCancelable(false);
         pDialog.show();
 
-        dbHandler = new DBHandler(getActivity());
+        dbNotification = new DBNotification(getActivity());
         initView(v);
 
         //Log.d("today", String.valueOf(DataManager.epochtodate((int) (DataManager.dateToEpoch(DataManager.getDatesNow())-(2678400+86400)))));
@@ -58,7 +48,7 @@ public class NotificationActivity extends Fragment {
     private void initView(View view){
         listView = (ListView)view.findViewById(R.id.lis_notifikasi);
         progress();
-        ArrayList<Notifi> arrayList = dbHandler.getAllSurvey();
+        ArrayList<Notifi> arrayList = dbNotification.getAllSurvey();
         adapter = new NotificationAdapter(getActivity(), arrayList);
         listView.setAdapter(adapter);
 
@@ -78,7 +68,7 @@ public class NotificationActivity extends Fragment {
     /*@Override
     public void onStart() {
         super.onStart();
-        ArrayList<Notifi> arrayList = dbHandler.getAllSurvey();
+        ArrayList<Notifi> arrayList = dbNotification.getAllSurvey();
         //Log.d("semuadata", arrayList.toString());
         adapter = new NotificationAdapter(getActivity(), arrayList);
         //int fisrt = listView.getFirstVisiblePosition();
@@ -88,7 +78,7 @@ public class NotificationActivity extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ArrayList<Notifi> arrayList = dbHandler.getAllSurvey();
+        ArrayList<Notifi> arrayList = dbNotification.getAllSurvey();
         adapter = new NotificationAdapter(getActivity(), arrayList);
         listView.setAdapter(adapter);
     }*/

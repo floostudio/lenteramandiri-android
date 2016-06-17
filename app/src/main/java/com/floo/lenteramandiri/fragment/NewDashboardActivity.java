@@ -2,28 +2,36 @@ package com.floo.lenteramandiri.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
@@ -45,16 +53,14 @@ import com.floo.lenteramandiri.utils.MyYAxisValueFormatter;
 /**
  * Created by Floo on 4/21/2016.
  */
-public class NewDashboardActivity extends Fragment {
-    HashMap<String, String> hashMapTFD, hashMapCashio, hashMapCashout, hashMapDpk, hashMapLcf, hashMapMonth;
+public class NewDashboardActivity extends Fragment implements View.OnClickListener{
+    HashMap<String, String> hashMapTFD, hashMapCashio, hashMapCashout, hashMapDpk, hashMapLcf, hashMapMonth, hashMapAGF;
     ArrayList<HashMap<String, String>> mylistTFD, mylistCashin, mylistCashout, mylistDpk, mylistLcf,
-            mylistMonth, myListMonthCashout, myListMonthDPK, myListMonthLCF;
-    ExpandableHeightListView listTFD, listCashin, listCashout, listDPK, listLCF,
-            listMonth, listMonthCashout, listMonthDpk, listMonthLcf,
-            listDLR, listAGF, listAVG, listBakiDebet;
-    SimpleAdapter adapterTFD, adapterCashin, adapterCashout, adapterDpk, adapterLcf, adapterMonth, adapterMonthCashout, adapterMonthDPK, adapterMonthLCF;
+            mylistMonth, myListMonthCashout, myListMonthDPK, myListMonthLCF, mylistAGF;
+    ExpandableHeightListView listTFD, listAGF;
+    SimpleAdapter adapterTFD, adapterAGF;
     Button btntfd, btncash, btncashout, btndpk, btnlcf, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
-    Spinner spinner;
+    Spinner spinner, spin_top;
     TextView text1, text2, title_blue, title_yellow, title1 ;
 
     private SpotsDialog pDialog;
@@ -75,9 +81,12 @@ public class NewDashboardActivity extends Fragment {
     private static final String cashouttarget = "cashouttarget";
     private static final String cashoutactual = "cashoutactual";
 
-    BarChart chart_CashIn, chat_CashOut, chart_Lcf, chart_Dpk;
+    BarChart chart_Lcf, chart_Dpk;
+    CombinedChart chart_CashIn, chat_CashOut, chart_BakiDebet1, chart_BakiDebet2;
+    LinearLayout lineBakiDebet;
+    Button btnBakiDebetTrue, btnPercentageTrue;
+    HorizontalScrollView horizontalAGF;
 
-    ImageView imgCashIN, imgcashOut, imgDpk, imgLcf;
 
     @Nullable
     @Override
@@ -94,8 +103,10 @@ public class NewDashboardActivity extends Fragment {
         myListMonthCashout = new ArrayList<HashMap<String, String>>();
         myListMonthDPK = new ArrayList<HashMap<String, String>>();
         myListMonthLCF = new ArrayList<HashMap<String, String>>();
+        mylistAGF = new ArrayList<HashMap<String, String>>();
 
-        new DataSpinner().execute();
+        //new DataSpinner().execute();
+        new DataSpinnerTop().execute();
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -114,13 +125,11 @@ public class NewDashboardActivity extends Fragment {
                 btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
                 btntfd.setTextColor(Color.parseColor("#ffffff"));
 
-                chart_CashIn.setVisibility(View.INVISIBLE);
-                chat_CashOut.setVisibility(View.INVISIBLE);
-                chart_Lcf.setVisibility(View.INVISIBLE);
-                chart_Dpk.setVisibility(View.INVISIBLE);
-                toggleImage();
-                toggleListView(listTFD);
-                listMonth.setVisibility(View.INVISIBLE);
+                setGONE();
+
+                //toggleListView(listTFD);
+                listTFD.setVisibility(View.VISIBLE);
+
                 btndetail.setVisibility(View.VISIBLE);
 
 
@@ -135,6 +144,20 @@ public class NewDashboardActivity extends Fragment {
 
 
         return v;
+    }
+
+    private void toogleButtonBakiDebet(Boolean active){
+        if(!active) {
+            btnBakiDebetTrue.setBackgroundResource(R.drawable.activity_btn);
+            btnBakiDebetTrue.setTextColor(Color.parseColor("#0b3a77"));
+            btnPercentageTrue.setBackgroundResource(R.drawable.activity_btn);
+            btnPercentageTrue.setTextColor(Color.parseColor("#0b3a77"));
+        }else {
+            btnBakiDebetTrue.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnBakiDebetTrue.setTextColor(Color.parseColor("#ffffff"));
+            btnPercentageTrue.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnPercentageTrue.setTextColor(Color.parseColor("#ffffff"));
+        }
     }
 
     private void toggleButtonActive(Boolean active){
@@ -179,32 +202,6 @@ public class NewDashboardActivity extends Fragment {
         }
     }
 
-    private void toggleListView(ExpandableHeightListView lv){
-        listTFD.setVisibility(View.INVISIBLE);
-        listCashin.setVisibility(View.INVISIBLE);
-        listCashout.setVisibility(View.INVISIBLE);
-        listDPK.setVisibility(View.INVISIBLE);
-        listLCF.setVisibility(View.INVISIBLE);
-        listDLR.setVisibility(View.INVISIBLE);
-        listAGF.setVisibility(View.INVISIBLE);
-        listAVG.setVisibility(View.INVISIBLE);
-        listBakiDebet.setVisibility(View.INVISIBLE);
-
-
-        lv.setVisibility(View.VISIBLE);
-
-
-    }
-
-    private void toggleImage(){
-        imgCashIN.setVisibility(View.INVISIBLE);
-        imgcashOut.setVisibility(View.INVISIBLE);
-        imgDpk.setVisibility(View.INVISIBLE);
-        imgLcf.setVisibility(View.INVISIBLE);
-
-        //img.setVisibility(View.VISIBLE);
-    }
-
     private void initView(View v){
         idParsing = this.getArguments().getString("IDPARSING");
         text1 = (TextView)v.findViewById(R.id.txt_dasboard_1);
@@ -213,6 +210,10 @@ public class NewDashboardActivity extends Fragment {
         title_yellow = (TextView)v.findViewById(R.id.txt_title_yellow);
         title1 = (TextView)v.findViewById(R.id.tfd_title_1);
         spinner = (Spinner)v.findViewById(R.id.spin_array);
+        spin_top = (Spinner)v.findViewById(R.id.spin_array_top);
+        spin_top.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
+
         btntfd = (Button)v.findViewById(R.id.btn_tfd);
         btncash = (Button)v.findViewById(R.id.btn_cash);
         btncashout = (Button)v.findViewById(R.id.btn_cashout);
@@ -223,255 +224,238 @@ public class NewDashboardActivity extends Fragment {
         btnavg = (Button)v.findViewById(R.id.btn_avg);
         btnbakidebet = (Button)v.findViewById(R.id.btn_BakiDebet);
         btndetail = (Button)v.findViewById(R.id.btn_detail);
+        btntfd.setOnClickListener(this);
+        btncash.setOnClickListener(this);
+        btncashout.setOnClickListener(this);
+        btndpk.setOnClickListener(this);
+        btnlcf.setOnClickListener(this);
+        btndlr.setOnClickListener(this);
+        btnagf.setOnClickListener(this);
+        btnavg.setOnClickListener(this);
+        btnbakidebet.setOnClickListener(this);
+        btndetail.setOnClickListener(this);
+
+        btnBakiDebetTrue = (Button)v.findViewById(R.id.btn_BakiDebet_true);
+        btnPercentageTrue = (Button)v.findViewById(R.id.btn_Percentage_true);
+        btnBakiDebetTrue.setOnClickListener(this);
+        btnPercentageTrue.setOnClickListener(this);
+
         listTFD = (ExpandableHeightListView)v.findViewById(R.id.list_dasboard);
-        listCashin = (ExpandableHeightListView) v.findViewById(R.id.list_cashio);
-        listCashout = (ExpandableHeightListView) v.findViewById(R.id.list_cashout);
-        listDPK = (ExpandableHeightListView) v.findViewById(R.id.list_dpk);
-        listLCF = (ExpandableHeightListView) v.findViewById(R.id.list_lcf );
-        listMonth = (ExpandableHeightListView)v.findViewById(R.id.list_month);
-        listMonthCashout = (ExpandableHeightListView)v.findViewById(R.id.list_monthcashout);
-        listMonthDpk = (ExpandableHeightListView)v.findViewById(R.id.list_month_dpk);
-        listMonthLcf = (ExpandableHeightListView)v.findViewById(R.id.list_month_lcf);
-        listDLR = (ExpandableHeightListView)v.findViewById(R.id.list_dlr);
-        listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
-        listAVG = (ExpandableHeightListView)v.findViewById(R.id.list_avg);
-        listBakiDebet = (ExpandableHeightListView)v.findViewById(R.id.list_bakidebet);
-        chart_CashIn = (BarChart) v.findViewById(R.id.chart_cashIn);
-        chat_CashOut = (BarChart)v.findViewById(R.id.chart_cashOut);
+        listTFD.setEnabled(false);
+        chart_CashIn = (CombinedChart) v.findViewById(R.id.chart_cashIn);
+        chat_CashOut = (CombinedChart)v.findViewById(R.id.chart_cashOut);
         chart_Lcf = (BarChart) v.findViewById(R.id.chart_lcf);
         chart_Dpk = (BarChart)v.findViewById(R.id.chart_dpk);
+        chart_BakiDebet1 = (CombinedChart)v.findViewById(R.id.chart_bakidebet1);
+        chart_BakiDebet2 = (CombinedChart)v.findViewById(R.id.chart_bakidebet2);
+        lineBakiDebet = (LinearLayout)v.findViewById(R.id.linierBakiDebet) ;
 
-
-        //chart.setDescription("");
-        //chart.fitScreen();
-
-
-
-        listTFD.setEnabled(false);
-        listCashin.setEnabled(false);
-        listCashout.setEnabled(false);
-        listDPK.setEnabled(false);
-        listLCF.setEnabled(false);
-        listMonth.setEnabled(false);
-        listDLR.setEnabled(false);
+        horizontalAGF = (HorizontalScrollView)v.findViewById(R.id.horizontalAGF);
+        listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
         listAGF.setEnabled(false);
-        listAVG.setEnabled(false);
-        listBakiDebet.setEnabled(false);
-
-        imgCashIN = (ImageView)v.findViewById(R.id.img_cashIn);
-        imgcashOut = (ImageView)v.findViewById(R.id.img_cashOut);
-        imgDpk = (ImageView)v.findViewById(R.id.img_dpk);
-        imgLcf = (ImageView)v.findViewById(R.id.img_lcf);
-
-
-        //spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_new_spinner, array);
-        //spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-        //spinner.setAdapter(spinnerArrayAdapter);
 
 
 
 
-        btntfd.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                title_yellow.setText("Transaction Flow Diagram");
-                title_blue.setText("Transaction Flow Diagram");
-                text1.setText("Collection");
-                text2.setText("Payment");
-                toggleButtonActive(false);
-                btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
-                btntfd.setTextColor(Color.parseColor("#ffffff"));
 
-                chart_CashIn.setVisibility(View.INVISIBLE);
-                chat_CashOut.setVisibility(View.INVISIBLE);
-                chart_Lcf.setVisibility(View.INVISIBLE);
-                chart_Dpk.setVisibility(View.INVISIBLE);
-                toggleListView(listTFD);
-                listMonth.setVisibility(View.INVISIBLE);
-                //btndetail.setVisibility(View.VISIBLE);
-                toggleImage();
-                btndetail.setVisibility(View.VISIBLE);
 
-            }
-        });
+    }
 
-        btncash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title_yellow.setText("Cash In");
-                title_blue.setText("Cash In");
-                text1.setText("");
-                text2.setText("");
-                toggleButtonActive(false);
-                btncash.setBackgroundResource(R.drawable.activity_btn_blue);
-                btncash.setTextColor(Color.parseColor("#ffffff"));
+    @Override
+    public void onClick(View v) {
+        if (v==btntfd){
+            title_yellow.setText("Transaction Flow Diagram");
+            title_blue.setText("Transaction Flow Diagram");
+            text1.setText("Collection");
+            text2.setText("Payment");
+            toggleButtonActive(false);
+            btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
+            btntfd.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleChart(chart_CashIn);
-                toggleImage();
-                //toggleListView(listCashin);
-                listTFD.setVisibility(View.INVISIBLE);
-                listMonth.setVisibility(View.INVISIBLE);
-                listMonthCashout.setVisibility(View.INVISIBLE);
-                listMonthDpk.setVisibility(View.INVISIBLE);
-                listMonthLcf.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.INVISIBLE);
-            }
-        });
+            setGONE();
 
-        btncashout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    title_yellow.setText("Cash Out");
-                    title_blue.setText("Cash Out");
-                    text1.setText("");
-                    text2.setText("");
-                    toggleButtonActive(false);
-                    btncashout.setBackgroundResource(R.drawable.activity_btn_blue);
-                    btncashout.setTextColor(Color.parseColor("#ffffff"));
+            listTFD.setVisibility(View.VISIBLE);
+            btndetail.setVisibility(View.VISIBLE);
 
-                    toggleChart(chat_CashOut);
-                    toggleImage();
-                    listTFD.setVisibility(View.INVISIBLE);
-                    //toggleListView(listCashin);
-                    listMonthCashout.setVisibility(View.INVISIBLE);
-                    listMonth.setVisibility(View.INVISIBLE);
-                    listMonthDpk.setVisibility(View.INVISIBLE);
-                    listMonthLcf.setVisibility(View.INVISIBLE);
-                    btndetail.setVisibility(View.INVISIBLE);
-                }
-            });
+        }else if (v==btncash){
+            title_yellow.setText("Cash In");
+            title_blue.setText("Cash In");
+            text1.setText("");
+            text2.setText("");
+            toggleButtonActive(false);
+            btncash.setBackgroundResource(R.drawable.activity_btn_blue);
+            btncash.setTextColor(Color.parseColor("#ffffff"));
 
-        btndpk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title_yellow.setText("DPK");
-                title_blue.setText("DPK");
-                text1.setText("");
-                text2.setText("");
-                toggleButtonActive(false);
-                btndpk.setBackgroundResource(R.drawable.activity_btn_blue);
-                btndpk.setTextColor(Color.parseColor("#ffffff"));
+            setGONE();
+            toggleLineChart(chart_CashIn);
 
-                toggleChart(chart_Dpk);
-                toggleImage();
-                listTFD.setVisibility(View.INVISIBLE);
-                //toggleListView(listDPK);
-                listMonthDpk.setVisibility(View.INVISIBLE);
-                listMonth.setVisibility(View.INVISIBLE);
-                listMonthCashout.setVisibility(View.INVISIBLE);
-                listMonthLcf.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.INVISIBLE);
-            }
-        });
-        btnlcf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title_yellow.setText("LCF");
-                title_blue.setText("LCF");
-                text1.setText("");
-                text2.setText("");
-                toggleButtonActive(false);
-                btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
-                btnlcf.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleChart(chart_Lcf);
-                toggleImage();
-                listTFD.setVisibility(View.INVISIBLE);
-                //toggleListView(listLCF);
-                listMonthLcf.setVisibility(View.INVISIBLE);
-                listMonthCashout.setVisibility(View.INVISIBLE);
-                listMonthDpk.setVisibility(View.INVISIBLE);
-                listMonth.setVisibility(View.INVISIBLE);
-                btndetail.setVisibility(View.INVISIBLE);
-            }
-        });
+        }else if (v==btncashout){
+            title_yellow.setText("Cash Out");
+            title_blue.setText("Cash Out");
+            text1.setText("");
+            text2.setText("");
+            toggleButtonActive(false);
+            btncashout.setBackgroundResource(R.drawable.activity_btn_blue);
+            btncashout.setTextColor(Color.parseColor("#ffffff"));
 
-        btndlr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                title_yellow.setText("Deposito Loan Ratio");
-                title_blue.setText("Deposito Loan Ratio");
+            setGONE();
+            toggleLineChart(chat_CashOut);
 
-                toggleButtonActive(false);
-                btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
-                btndlr.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listDLR);
-                listMonth.setVisibility(View.INVISIBLE);
+        }else if (v==btndpk){
+            title_yellow.setText("DPK");
+            title_blue.setText("DPK");
+            text1.setText("");
+            text2.setText("");
+            toggleButtonActive(false);
+            btndpk.setBackgroundResource(R.drawable.activity_btn_blue);
+            btndpk.setTextColor(Color.parseColor("#ffffff"));
 
-            }
-        });
+            setGONE();
+            toggleChart(chart_Dpk);
 
-        btnagf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleButtonActive(false);
-                btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
-                btnagf.setTextColor(Color.parseColor("#ffffff"));
+        }else if (v==btnlcf){
+            title_yellow.setText("LCF");
+            title_blue.setText("LCF");
+            text1.setText("");
+            text2.setText("");
+            toggleButtonActive(false);
+            btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnlcf.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listAGF);
-                listMonth.setVisibility(View.INVISIBLE);
-            }
-        });
+            setGONE();
+            toggleChart(chart_Lcf);
 
-        btnavg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                toggleButtonActive(false);
-                btnavg.setBackgroundResource(R.drawable.activity_btn_blue);
-                btnavg.setTextColor(Color.parseColor("#ffffff"));
+        }else if (v==btndlr){
+            title_yellow.setText("Deposito Loan Ratio");
+            title_blue.setText("Deposito Loan Ratio");
 
-                toggleListView(listAVG);
-                listMonth.setVisibility(View.INVISIBLE);
-            }
-        });
+            toggleButtonActive(false);
+            btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
+            btndlr.setTextColor(Color.parseColor("#ffffff"));
 
-        btnbakidebet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                toggleButtonActive(false);
-                btnbakidebet.setBackgroundResource(R.drawable.activity_btn_blue);
-                btnbakidebet.setTextColor(Color.parseColor("#ffffff"));
 
-                toggleListView(listBakiDebet);
-                listMonth.setVisibility(View.INVISIBLE);
-            }
-        });
+        }else if (v==btnagf){
+            title_yellow.setText("AGF");
+            title_blue.setText("AGF");
+            text1.setText("");
+            text2.setText("");
+            toggleButtonActive(false);
+            btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnagf.setTextColor(Color.parseColor("#ffffff"));
 
-        btndetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent im=new Intent(getActivity(), ImageActivity.class);
-                startActivity(im);
-            }
-        });
+            setGONE();
+            horizontalAGF.setVisibility(View.VISIBLE);
 
+
+
+        }else if (v==btnavg){
+            toggleButtonActive(false);
+            btnavg.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnavg.setTextColor(Color.parseColor("#ffffff"));
+
+
+
+        }else if (v==btnbakidebet){
+            title_yellow.setText("Baki Debet");
+            title_blue.setText("Baki Debet");
+            text1.setText("");
+            text2.setText("");
+            toggleButtonActive(false);
+            btnbakidebet.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnbakidebet.setTextColor(Color.parseColor("#ffffff"));
+
+            toogleButtonBakiDebet(false);
+            btnBakiDebetTrue.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnBakiDebetTrue.setTextColor(Color.parseColor("#ffffff"));
+
+            setGONE();
+            lineBakiDebet.setVisibility(View.VISIBLE);
+            toggleLineChart(chart_BakiDebet1);
+
+
+        }else if (v==btndetail){
+            Intent im=new Intent(getActivity(), ImageActivity.class);
+            startActivity(im);
+
+        }else if (v==btnBakiDebetTrue){
+            toogleButtonBakiDebet(false);
+            btnBakiDebetTrue.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnBakiDebetTrue.setTextColor(Color.parseColor("#ffffff"));
+            toggleLineChart(chart_BakiDebet1);
+
+        }else if (v==btnPercentageTrue){
+            toogleButtonBakiDebet(false);
+            btnPercentageTrue.setBackgroundResource(R.drawable.activity_btn_blue);
+            btnPercentageTrue.setTextColor(Color.parseColor("#ffffff"));
+            toggleLineChart(chart_BakiDebet2);
+        }
     }
 
     private void toggleChart(BarChart bc){
-        chart_CashIn.setVisibility(View.INVISIBLE);
-        chat_CashOut.setVisibility(View.INVISIBLE);
-        chart_Lcf.setVisibility(View.INVISIBLE);
-        chart_Dpk.setVisibility(View.INVISIBLE);
+
+        chart_Lcf.setVisibility(View.GONE);
+        chart_Dpk.setVisibility(View.GONE);
 
         bc.setVisibility(View.VISIBLE);
     }
+
+    private void setGONE(){
+
+        listTFD.setVisibility(View.GONE);
+        btndetail.setVisibility(View.GONE);
+
+        chart_CashIn.setVisibility(View.GONE);
+        chat_CashOut.setVisibility(View.GONE);
+        chart_Lcf.setVisibility(View.GONE);
+        chart_Dpk.setVisibility(View.GONE);
+
+        lineBakiDebet.setVisibility(View.GONE);
+
+        horizontalAGF.setVisibility(View.GONE);
+
+    }
+
+    private void toggleLineChart(CombinedChart cc){
+        chart_CashIn.setVisibility(View.GONE);
+        chat_CashOut.setVisibility(View.GONE);
+        chart_BakiDebet1.setVisibility(View.GONE);
+        chart_BakiDebet2.setVisibility(View.GONE);
+
+        cc.setVisibility(View.VISIBLE);
+    }
+
+    private static String removeLastChar(String str) {
+        return str.substring(0,str.length()-1);
+    }
+
+
+
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
         private String parsing;
         ArrayList<BarEntry> yCashIn = new ArrayList<BarEntry>();
         ArrayList<String> xCashIn = new ArrayList<String>();
+        ArrayList<Entry> lineIn = new ArrayList<Entry>();
 
         ArrayList<BarEntry> yCashOut = new ArrayList<BarEntry>();
         ArrayList<String> xCashOut = new ArrayList<String>();
+        ArrayList<Entry> lineOut = new ArrayList<Entry>();
 
         ArrayList<BarEntry> yLcf = new ArrayList<BarEntry>();
         ArrayList<String> xLcf = new ArrayList<String>();
 
         ArrayList<BarEntry> yDpk = new ArrayList<BarEntry>();
         ArrayList<String> xDpk = new ArrayList<String>();
+
+        ArrayList<BarEntry> barBaki = new ArrayList<BarEntry>();
+        ArrayList<Entry> lineBaki = new ArrayList<Entry>();
+        ArrayList<String> blnBaki = new ArrayList<String>();
+        ArrayList<BarEntry> barBakiPercen = new ArrayList<BarEntry>();
+        ArrayList<Entry> lineBakiThres = new ArrayList<Entry>();
 
         public DataFetcherTask(String parsing) {
             this.parsing = parsing;
@@ -494,6 +478,7 @@ public class NewDashboardActivity extends Fragment {
         protected Void doInBackground(Void... arg0) {
             try {
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlGetperAccount+parsing));
+                Log.d("datadash", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     strAcc_num = jsonObject.getString(acc_num);
@@ -568,19 +553,12 @@ public class NewDashboardActivity extends Fragment {
 
                             xCashIn.add(strBlnCashIn);
 
-                            yCashIn.add(new BarEntry(new float[]{fltCashIn, fltRevenue}, a));
+                            //yCashIn.add(new BarEntry(new float[]{fltCashIn}, a));
+                            yCashIn.add(new BarEntry(fltCashIn, a));
+                            lineIn.add(new Entry(fltRevenue, a));
 
+                            //Log.d("datacash", yCashIn.toString());
 
-
-                            /*hashMapMonth = new HashMap<String, String>();
-                            hashMapMonth.put(month, objCashin.getString(month));
-                            mylistMonth.add(hashMapMonth);
-
-                            hashMapCashio = new HashMap<String, String>();
-                            hashMapCashio.put(cashintarget, objCashin.getString(cashintarget));
-                            hashMapCashio.put("targetrevenue", objCashin.getString("targetrevenue"));
-                            hashMapCashio.put("percentage", objCashin.getString("percentage"));
-                            mylistCashin.add(hashMapCashio);*/
 
                         }
                     } else {
@@ -613,7 +591,8 @@ public class NewDashboardActivity extends Fragment {
 
                             xCashOut.add(strBlnCashOut);
 
-                            yCashOut.add(new BarEntry(new float[]{fltCashOut, fltRevenue}, a));
+                            yCashOut.add(new BarEntry(fltCashOut, a));
+                            lineOut.add(new Entry(fltRevenue, a));
 
                             /*hashMapMonth = new HashMap<String, String>();
                             hashMapMonth.put(month, objCashout.getString(month));
@@ -676,6 +655,7 @@ public class NewDashboardActivity extends Fragment {
                         hashMapMonth = new HashMap<String, String>();
                         myListMonthDPK.add(hashMapMonth);
                     }
+
                     // Mapping Data Lcf
                     if(jsonObject.has("lcf")) {
                         mylistLcf.clear();
@@ -699,16 +679,6 @@ public class NewDashboardActivity extends Fragment {
 
                             yLcf.add(new BarEntry(new float[]{fltLCF, fltCredit}, a));
 
-                            /*hashMapMonth = new HashMap<String, String>();
-                            hashMapMonth.put(month, objLCF.getString(month));
-                            myListMonthLCF.add(hashMapMonth);
-
-                            hashMapLcf = new HashMap<String, String>();
-                            hashMapLcf.put("lcf", objLCF.getString("lcf"));
-                            hashMapLcf.put("credit", objLCF.getString("credit"));
-                            hashMapLcf.put("percentage", objLCF.getString("percentage"));
-                            mylistLcf.add(hashMapLcf);*/
-
                         }
                     } else {
                         mylistLcf.clear();
@@ -718,6 +688,81 @@ public class NewDashboardActivity extends Fragment {
                         hashMapMonth = new HashMap<String, String>();
                         myListMonthLCF.add(hashMapMonth);
                     }
+
+                    //Mapping Data AGF
+                    if (jsonObject.has("agf")){
+                        JSONArray arrayAGF = jsonObject.getJSONArray("agf");
+                        for (int a = 0; a<arrayAGF.length();a++){
+                            JSONObject objAGF = arrayAGF.getJSONObject(a);
+
+                            String pinjam = objAGF.getString("rek_pinjaman");
+                            String sumber = objAGF.getString("rek_sumber");
+                            String tempo = objAGF.getString("jatuh_tempo");
+                            String nominal = objAGF.getString("nominal");
+                            String kolek = objAGF.getString("kolektibilitas");
+
+                            mylistAGF.clear();
+                            hashMapAGF = new HashMap<>();
+                            hashMapAGF.put("no", Integer.toString(a+1));
+                            hashMapAGF.put("pinjam", DataManager.getDecimalFormat(pinjam));
+                            hashMapAGF.put("sumber", DataManager.getDecimalFormat(sumber));
+                            hashMapAGF.put("tempo", tempo);
+                            hashMapAGF.put("nominal", DataManager.getDecimalFormat(nominal));
+                            hashMapAGF.put("kolek", kolek);
+
+                            mylistAGF.add(hashMapAGF);
+
+                        }
+                    }else {
+                        mylistAGF.clear();
+                        hashMapAGF = new HashMap<String, String>();
+                        mylistAGF.add(hashMapAGF);
+
+                    }
+
+                    // Mapping Data BakiDebet
+                    if(jsonObject.has("baki_debet")) {
+                        JSONArray arrayBaki = jsonObject.getJSONArray("baki_debet");
+                        //Log.d("bakidebet", arrayBaki.toString());
+                        for (int a = 0; a < arrayBaki.length(); a++){
+                            JSONObject objBaki = arrayBaki.getJSONObject(a);
+
+                            String strMonth = objBaki.getString("month");
+                            String strBaki_debet = objBaki.getString("baki_debet");
+                            String strlimit = objBaki.getString("limit");
+                            String strthreshold = objBaki.getString("threshold");
+                            String strpercentage = objBaki.getString("percentage");
+
+                            int intBaki_debet = Integer.parseInt(strBaki_debet);
+                            int intlimit = Integer.parseInt(strlimit);
+
+                            float fltBaki_debet = (float) intBaki_debet;
+                            float fltlimit = (float) intlimit;
+
+                            blnBaki.add(strMonth);
+
+                            barBaki.add(new BarEntry(fltBaki_debet, a));
+                            lineBaki.add(new Entry(fltlimit, a));
+
+
+                            //Log.d("karakter", removeLastChar(strpercentage));
+                            int intPercen = Integer.parseInt(removeLastChar(strpercentage));
+                            int intThres = Integer.parseInt(removeLastChar(strthreshold));
+
+                            float fltPercen = (float) intPercen;
+                            float fltThres = (float) intThres;
+
+                            barBakiPercen.add(new BarEntry(fltPercen, a));
+                            lineBakiThres.add(new Entry(fltThres, a));
+
+
+
+                        }
+
+
+                    }
+
+
 
 
                 }
@@ -749,109 +794,65 @@ public class NewDashboardActivity extends Fragment {
             listTFD.setExpanded(true);
 
             //CASHIN
-            BarDataSet setCashIn = new BarDataSet(yCashIn, "");
-            setCashIn.setColors(getColors());
-            setCashIn.setStackLabels(new String[] { "Cash In", "Target Revenue" });
+            BarDataSet dataSetCashIn = new BarDataSet(yCashIn, "Cash In");
+            dataSetCashIn.setColor(getResources().getColor(R.color.cpb_green));
 
-            ArrayList<BarDataSet> dataSetCashIn = new ArrayList<BarDataSet>();
-            dataSetCashIn.add(setCashIn);
+            BarData dataCashIn = new BarData();
+            dataCashIn.addDataSet(dataSetCashIn);
 
-            BarData dataCashIn = new BarData(xCashIn, dataSetCashIn);
-            dataCashIn.setValueFormatter(new MyValueFormatter());
+            LineDataSet lineDataSetCashIn = new LineDataSet(lineIn, "Target Revenue");
+            //lineDataSetCashIn.setCircleColor(getResources().getColor(R.color.yellow));
+            lineDataSetCashIn.setColor(getResources().getColor(R.color.yellow));
 
+            LineData lineDataCashIn = new LineData();
+            lineDataCashIn.addDataSet(lineDataSetCashIn);
+
+            CombinedData comdataCashIn = new CombinedData(xCashIn);
+            comdataCashIn.setData(dataCashIn);
+            comdataCashIn.setData(lineDataCashIn);
+
+            chart_CashIn.setData(comdataCashIn);
             chart_CashIn.setDescription("");
-
-            // if more than 60 entries are displayed in the chart, no values will be
-            // drawn
-            chart_CashIn.setMaxVisibleValueCount(60);
-
-            // scaling can now only be done on x- and y-axis separately
-            chart_CashIn.setPinchZoom(false);
-
-            chart_CashIn.setDrawGridBackground(false);
-            chart_CashIn.setDrawBarShadow(false);
-
-            chart_CashIn.setDrawValueAboveBar(false);
-
-            // change the position of the y-labels
-            YAxis leftAxis = chart_CashIn.getAxisLeft();
-            leftAxis.setValueFormatter(new MyYAxisValueFormatter());
-            leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
-            chart_CashIn.getAxisRight().setEnabled(false);
-
+            chart_CashIn.animateXY(2000, 2000);
             XAxis xLabels = chart_CashIn.getXAxis();
             xLabels.setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart_CashIn.getXAxis().setDrawGridLines(false);
+            chart_CashIn.setDoubleTapToZoomEnabled(false);
+            chart_CashIn.setPinchZoom(false);
+            chart_CashIn.getAxisRight().setEnabled(false);
 
-            // mChart.setDrawXLabels(false);
-            // mChart.setDrawYLabels(false);
-
-            Legend l = chart_CashIn.getLegend();
-            l.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
-            l.setFormSize(8f);
-            l.setFormToTextSpace(4f);
-            l.setXEntrySpace(6f);
-
-
-            chart_CashIn.setData(dataCashIn);
             chart_CashIn.invalidate();
 
-            //String[] columnTags = new String[] {cashintarget, "targetrevenue", "percentage"};
-            //int[] columnIds = new int[] {R.id.cashin_target, R.id.cashin_targetrevenue, R.id.cashin_percentage};
-            //adapterCashin = new SimpleAdapter(getActivity(), mylistCashin, R.layout.list_row_dashboard_cashio, columnTags , columnIds);
-            //listCashin.setAdapter(adapterCashin);
-            //listCashin.setExpanded(true);
 
             //CASHOut
-            BarDataSet setCashOut = new BarDataSet(yCashOut, "");
-            setCashOut.setColors(getColors());
-            setCashOut.setStackLabels(new String[] { "Cash Out", "Target Revenue" });
+            BarDataSet BarsetCashOut = new BarDataSet(yCashOut, "Cash Out");
+            BarsetCashOut.setColor(getResources().getColor(R.color.cpb_green));
 
-            ArrayList<BarDataSet> dataSetCashOut = new ArrayList<BarDataSet>();
-            dataSetCashOut.add(setCashOut);
+            BarData barDataCashOut = new BarData();
+            barDataCashOut.addDataSet(BarsetCashOut);
 
-            BarData dataCashOut = new BarData(xCashOut, dataSetCashOut);
-            dataCashOut.setValueFormatter(new MyValueFormatter());
+            LineDataSet LineSetCashOut = new LineDataSet(lineOut, "Target Revenue");
+            LineSetCashOut.setColor(getResources().getColor(R.color.yellow));
 
+            LineData lineDataCashOut = new LineData();
+            lineDataCashOut.addDataSet(LineSetCashOut);
+
+            CombinedData comdataCashOut = new CombinedData(xCashOut);
+            comdataCashOut.setData(barDataCashOut);
+            comdataCashOut.setData(lineDataCashOut);
+
+            chat_CashOut.setData(comdataCashOut);
             chat_CashOut.setDescription("");
-
-            // if more than 60 entries are displayed in the chart, no values will be
-            // drawn
-            chat_CashOut.setMaxVisibleValueCount(60);
-
-            // scaling can now only be done on x- and y-axis separately
+            chat_CashOut.animateXY(2000, 2000);
+            XAxis xLabelsOut = chat_CashOut.getXAxis();
+            xLabelsOut.setPosition(XAxis.XAxisPosition.BOTTOM);
+            chat_CashOut.getXAxis().setDrawGridLines(false);
+            chat_CashOut.setDoubleTapToZoomEnabled(false);
             chat_CashOut.setPinchZoom(false);
-
-            chat_CashOut.setDrawGridBackground(false);
-            chat_CashOut.setDrawBarShadow(false);
-
-            chat_CashOut.setDrawValueAboveBar(false);
-
-            // change the position of the y-labels
-            YAxis leftAxis_CashOin = chat_CashOut.getAxisLeft();
-            leftAxis_CashOin.setValueFormatter(new MyYAxisValueFormatter());
-            leftAxis_CashOin.setAxisMinValue(0f); // this replaces setStartAtZero(true)
             chat_CashOut.getAxisRight().setEnabled(false);
 
-            XAxis xLabels_CashOut = chat_CashOut.getXAxis();
-            xLabels_CashOut.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            // mChart.setDrawXLabels(false);
-            // mChart.setDrawYLabels(false);
-
-            Legend l_CashOut = chat_CashOut.getLegend();
-            l_CashOut.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
-            l_CashOut.setFormSize(8f);
-            l_CashOut.setFormToTextSpace(4f);
-            l_CashOut.setXEntrySpace(6f);
-
-
-            chat_CashOut.setData(dataCashOut);
             chat_CashOut.invalidate();
-            /*String[] cashoutTags = new String[] {cashouttarget, "targetrevenue", "percentage"};
-            int[] cashoutIds = new int[] {R.id.cashout_target, R.id.cashout_targetrevenue, R.id.cashout_percentage};
-            adapterCashout = new SimpleAdapter(getActivity(), mylistCashout, R.layout.list_row_dashboard_cashout, cashoutTags , cashoutIds);
-            listCashout.setAdapter(adapterCashout);
-            listCashout.setExpanded(true);*/
+
 
             //DPK
             BarDataSet setDPK = new BarDataSet(yDpk, "");
@@ -879,11 +880,11 @@ public class NewDashboardActivity extends Fragment {
             chart_Dpk.setDrawValueAboveBar(false);
 
             // change the position of the y-labels
-            YAxis leftAxis_DPK = chat_CashOut.getAxisLeft();
+            YAxis leftAxis_DPK = chart_Dpk.getAxisLeft();
             leftAxis_DPK.setValueFormatter(new MyYAxisValueFormatter());
             leftAxis_DPK.setAxisMinValue(0f); // this replaces setStartAtZero(true)
             chart_Dpk.getAxisRight().setEnabled(false);
-
+            chart_Dpk.getXAxis().setDrawGridLines(false);
             XAxis xLabels_DPK = chart_Dpk.getXAxis();
             xLabels_DPK.setPosition(XAxis.XAxisPosition.BOTTOM);
 
@@ -896,8 +897,9 @@ public class NewDashboardActivity extends Fragment {
             l_DPK.setFormToTextSpace(4f);
             l_DPK.setXEntrySpace(6f);
 
-
             chart_Dpk.setData(dataDPK);
+            chart_Dpk.setDoubleTapToZoomEnabled(false);
+            chart_Dpk.setPinchZoom(false);
             chart_Dpk.invalidate();
             /*String[] dpkTags = new String[] {"dpk", "credit", "percentage"};
             int[] dpkIds = new int[] {R.id.dpk_target, R.id.dpk_credit, R.id.dpk_percentage};
@@ -935,7 +937,7 @@ public class NewDashboardActivity extends Fragment {
             leftAxis_LCF.setValueFormatter(new MyYAxisValueFormatter());
             leftAxis_LCF.setAxisMinValue(0f); // this replaces setStartAtZero(true)
             chart_Lcf.getAxisRight().setEnabled(false);
-
+            chart_Lcf.getXAxis().setDrawGridLines(false);
             XAxis xLabels_LCF = chart_Lcf.getXAxis();
             xLabels_LCF.setPosition(XAxis.XAxisPosition.BOTTOM);
 
@@ -948,33 +950,84 @@ public class NewDashboardActivity extends Fragment {
             l_LCF.setFormToTextSpace(4f);
             l_LCF.setXEntrySpace(6f);
 
-
             chart_Lcf.setData(dataLCF);
+            chart_Lcf.setDoubleTapToZoomEnabled(false);
+            chart_Lcf.setPinchZoom(false);
             chart_Lcf.invalidate();
-            /*String[] lcfTags = new String[] {"lcf", "credit", "percentage"};
-            int[] lcfIds = new int[] {R.id.lcf_target, R.id.lcf_credit, R.id.lcf_percentage};
-            adapterLcf = new SimpleAdapter(getActivity(), mylistLcf, R.layout.list_row_dashboard_lcf, lcfTags , lcfIds);
-            listLCF.setAdapter(adapterLcf);
-            listLCF.setExpanded(true);
 
-            adapterMonth = new SimpleAdapter(getActivity(), mylistMonth, R.layout.list_row_dashboard_month,
-                    new String[]{month}, new int[]{R.id.list_month});
-            adapterMonthCashout = new SimpleAdapter(getActivity(), myListMonthCashout, R.layout.list_row_dashboard_month,
-                    new String[]{month}, new int[]{R.id.list_month});
-            adapterMonthDPK = new SimpleAdapter(getActivity(), myListMonthDPK, R.layout.list_row_dashboard_month,
-                    new String[]{month}, new int[]{R.id.list_month});
-            adapterMonthLCF = new SimpleAdapter(getActivity(), myListMonthLCF, R.layout.list_row_dashboard_month,
-                    new String[]{month}, new int[]{R.id.list_month});
-            listMonth.setAdapter(adapterMonth);
-            listMonthCashout.setAdapter(adapterMonthCashout);
-            listMonthDpk.setAdapter(adapterMonthDPK);
-            listMonthLcf.setAdapter(adapterMonthLCF);
+            //AGF
 
-            listMonth.setExpanded(true);
-            listMonthCashout.setExpanded(true);
-            listMonthDpk.setExpanded(true);
-            listMonthLcf.setExpanded(true);
-            adapterTFD.notifyDataSetChanged();*/
+            String[] agfColumns = new String[]{"no","pinjam","sumber","tempo","nominal","kolek"};
+
+            int[] agfTags = new int[] {R.id.txt_agf_no, R.id.txt_agf_pinjam, R.id.txt_agf_sumber, R.id.txt_agf_tempo,
+                    R.id.txt_agf_nominal, R.id.txt_agf_kolektibilitas};
+
+            adapterAGF = new SimpleAdapter(getActivity(), mylistAGF, R.layout.list_row_agf, agfColumns, agfTags);
+            listAGF.setAdapter(adapterAGF);
+            listAGF.setExpanded(true);
+
+
+
+            //Baki Debet
+
+            /*BAKI DEBET*/
+            BarDataSet BarsetBaki = new BarDataSet(barBaki, "Baki Debet");
+            BarsetBaki.setColor(getResources().getColor(R.color.cpb_green));
+
+            BarData barDataBaki = new BarData();
+            barDataBaki.addDataSet(BarsetBaki);
+
+            LineDataSet LineSetBaki = new LineDataSet(lineBaki, "Limit");
+            LineSetBaki.setColor(getResources().getColor(R.color.yellow));
+
+            LineData lineDataBaki = new LineData();
+            lineDataBaki.addDataSet(LineSetBaki);
+
+            CombinedData comdataBaki = new CombinedData(blnBaki);
+            comdataBaki.setData(barDataBaki);
+            comdataBaki.setData(lineDataBaki);
+
+            chart_BakiDebet1.setData(comdataBaki);
+            chart_BakiDebet1.setDescription("");
+            chart_BakiDebet1.animateXY(2000, 2000);
+            XAxis xLabelsBaki = chart_BakiDebet1.getXAxis();
+            xLabelsBaki.setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart_BakiDebet1.getXAxis().setDrawGridLines(false);
+            chart_BakiDebet1.setDoubleTapToZoomEnabled(false);
+            chart_BakiDebet1.setPinchZoom(false);
+            chart_BakiDebet1.getAxisRight().setEnabled(false);
+
+            chart_BakiDebet1.invalidate();
+
+            /*PERCENTAGE*/
+            BarDataSet BarsetPercen = new BarDataSet(barBakiPercen, "Percentage");
+            BarsetPercen.setColor(getResources().getColor(R.color.cpb_green));
+
+            BarData barDataPercen = new BarData();
+            barDataPercen.addDataSet(BarsetPercen);
+
+            LineDataSet LineSetPercen = new LineDataSet(lineBakiThres, "Threshold");
+            LineSetPercen.setColor(getResources().getColor(R.color.yellow));
+
+            LineData lineDataPercen = new LineData();
+            lineDataPercen.addDataSet(LineSetPercen);
+
+            CombinedData comdataPercen = new CombinedData(blnBaki);
+            comdataPercen.setData(barDataPercen);
+            comdataPercen.setData(lineDataPercen);
+
+            chart_BakiDebet2.setData(comdataPercen);
+            chart_BakiDebet2.setDescription("%");
+            chart_BakiDebet2.animateXY(2000, 2000);
+            XAxis xLabelsPercen = chart_BakiDebet2.getXAxis();
+            xLabelsPercen.setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart_BakiDebet2.getXAxis().setDrawGridLines(false);
+
+            chart_BakiDebet2.getAxisRight().setEnabled(false);
+            chart_BakiDebet2.setDoubleTapToZoomEnabled(false);
+            chart_BakiDebet2.setPinchZoom(false);
+            chart_BakiDebet2.invalidate();
+
         }
     }
 
@@ -998,6 +1051,12 @@ public class NewDashboardActivity extends Fragment {
         String strspinnum;
         ArrayList<String> worldListDirectorate;
         ArrayAdapter<String> world;
+        private String parsing;
+
+        public DataSpinner(String parsing) {
+            this.parsing = parsing;
+
+        }
 
         @Override
         protected void onPreExecute() {
@@ -1014,10 +1073,17 @@ public class NewDashboardActivity extends Fragment {
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlList+idParsing));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                    strspinnum = jsonObject1.getString(acc_num);
+                    String strCif = jsonObject1.getString("cif");
+                    if (strCif.trim().equals(parsing)) {
 
-                    worldListDirectorate.add(strspinnum);
+                        JSONArray array = jsonObject1.getJSONArray(acc_num);
+                        for (int a = 0; a < array.length(); a++) {
+                            strspinnum = array.getString(a);
 
+                            worldListDirectorate.add(strspinnum);
+                            //Log.d("kata", strspinnum);
+                        }
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1040,6 +1106,75 @@ public class NewDashboardActivity extends Fragment {
             //wo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
             //        R.layout.list_new_spinner, worldListDirectorate));
+        }
+    }
+
+    private class DataSpinnerTop extends AsyncTask<Void, Void, Void> {
+        String urlList = DataManager.urlListperAccount;
+        private static final String acc_num = "acc_num";
+        String strspinnum, strCif;
+        ArrayList<String> worldListDirectorate;
+        ArrayAdapter<String> world;
+
+        ArrayList<String> kata;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            worldListDirectorate = new ArrayList<String>();
+
+            kata = new ArrayList<>();
+
+            try {
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlList+idParsing));
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                    strCif = jsonObject1.getString("cif");
+
+                    worldListDirectorate.add(strCif);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            try {
+                world = new ArrayAdapter<String>(getActivity(), R.layout.list_new_spinner, worldListDirectorate);
+                world.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin_top.setAdapter(world);
+            }catch (Exception e){
+
+            }
+
+            spin_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    //Log.d("kata", list.get(position).getNumber().toString());
+                    new DataSpinner(spin_top.getSelectedItem().toString()).execute();
+
+
+                    //Toast.makeText(getActivity(), list.get(position).getAccnumber(), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
         }
     }
 }

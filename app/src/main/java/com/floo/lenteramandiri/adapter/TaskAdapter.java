@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.DataManager;
 
 /**
  * Created by Floo on 3/4/2016.
@@ -90,7 +91,7 @@ public class TaskAdapter extends BaseAdapter{
         long today;
         long epoch = 2592000;
 
-        String str = dateNow();
+        String str = DataManager.dateNow();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date2 = null;
         try {
@@ -126,24 +127,7 @@ public class TaskAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
-    private long tode() {
-        String str = dateNow();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date2 = null;
-        try {
-            date2 = df.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date2.getTime()/1000;
-    }
 
-    private String dateNow(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "dd/MM/yyyy HH:mm", Locale.getDefault());
-        Date date1 = new Date();
-        return dateFormat.format(date1);
-    }
 
 
     public void filterRed(String charText) {

@@ -30,13 +30,11 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:spinnerMode="dropdown"
-            android:entries="@array/periode"
             android:textColor="#fff"
             android:layout_margin="1dp" />
         <Spinner
 
             android:id="@+id/spin_DataType"
-            android:entries="@array/DataType"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"

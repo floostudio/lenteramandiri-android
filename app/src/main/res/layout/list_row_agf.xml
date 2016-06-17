@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/Black">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_agf_no"
+                    android:layout_width="20sp"
+                    android:layout_height="35sp"
+                    android:text="NO"
+                    android:textColor="#000000"
+                    android:layout_marginRight="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_agf_pinjam"
+                    android:layout_width="110sp"
+                    android:layout_height="35sp"
+                    android:text="Rekening Pinjam"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:layout_marginRight="1dp"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_agf_sumber"
+                    android:layout_width="110sp"
+                    android:layout_height="35sp"
+                    android:text="Rrekening Sumber"
+                    android:textColor="#000000"
+                    android:layout_marginRight="1dp"
+
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_agf_tempo"
+                    android:layout_width="80sp"
+                    android:layout_height="35sp"
+                    android:text="Jatuh\nTempo"
+                    android:textColor="#000000"
+                    android:layout_marginRight="1dp"
+
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_agf_nominal"
+                    android:layout_width="110sp"
+                    android:layout_height="35sp"
+                    android:text="Nominal"
+                    android:textColor="#000000"
+                    android:layout_marginRight="1dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_agf_kolektibilitas"
+                    android:layout_width="80sp"
+                    android:layout_height="35sp"
+                    android:text="Kolektibilitas"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#FFFFFF"
+                    android:paddingRight="2dp"
+                    android:paddingLeft="2dp"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+</HorizontalScrollView>
