@@ -204,33 +204,6 @@ public class TaskActivity extends Fragment {
                 }
             }
         });
-
-        /*subject = new String[]{"OTS ke Pabrik", "Transaksi tidak di Mandiri", "Saldo untuk AGF kurang",
-                                "LK 2015 Audited", "New Task", "New Event", "New Auditions"};
-
-        pt = new String[]{"PT. MASPINA", "PT. SampamaTbk", "PT. MASPINA", "PT. TELEMA Tbk",
-                "PT. Owner", "PT. Founder", "PT. Industries"};
-
-        tgl = new String[]{"Expire 30/10/2015 07:30","Expire 29/11/2015 07:30","Expire 30/10/2015 07:30",
-                "Expire 23/02/2016 07:30","Expire 30/10/2016 07:30","Expire 30/10/2017 08:30","Expire 30/10/2018 07:30"};
-
-        image = new Integer[]{R.drawable.point_red, R.drawable.point_orange, R.drawable.point_green, R.drawable.point_blue,
-                R.drawable.point_blue, R.drawable.point_blue, R.drawable.point_blue};
-
-        mylist = new ArrayList<HashMap<String, String>>();
-        for (int i=0; i<subject.length;i++){
-            hashMap = new HashMap<String, String>();
-            hashMap.put("subject", subject[i]);
-            hashMap.put("pt", pt[i]);
-            hashMap.put("tgl", tgl[i]);
-            hashMap.put("image", Integer.toString(image[i]));
-            mylist.add(hashMap);
-        }
-
-        adapter = new SimpleAdapter(getActivity(), mylist, R.layout.list_row_task,
-                new String[]{"subject", "pt", "tgl", "image"}, new int[]{R.id.txt_list_task_subject,
-                R.id.txt_list_task_pt, R.id.txt_list_task_tgl, R.id.img_list_task});
-        listTask.setAdapter(adapter);*/
     }
 
     private long tode() {

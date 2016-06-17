@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,22 +23,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.floo.lenteramandiri.alarm.AlarmServiceBroadcastReciever;
+import com.floo.lenteramandiri.alarm.Call;
+import com.floo.lenteramandiri.alarm.Database;
+import com.floo.lenteramandiri.alarm.MainActivityAdapter;
 import com.floo.lenteramandiri.fragment.InfoActivity;
 import com.floo.lenteramandiri.fragment.NewDashboardActivity;
 import com.floo.lenteramandiri.fragment.NewsActivity;
 import com.floo.lenteramandiri.fragment.NotificationActivity;
 import com.floo.lenteramandiri.fragment.ProfilActivity;
 import com.floo.lenteramandiri.fragment.TaskActivity;
-import com.floo.lenteramandiri.utils.AlarmReceiver;
 import com.floo.lenteramandiri.utils.CircleImageView;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.ImageLoader;
 import com.floo.lenteramandiri.utils.SessionManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -87,11 +94,15 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<PendingIntent> arrayListInten = new ArrayList<>();
     ArrayList<Long> arrayListTime = new ArrayList<>();
 
+    ListView listView;
+    MainActivityAdapter mainActivityAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listView = (ListView)findViewById(R.id.list_alarm);
+        mainActivityAdapter = new MainActivityAdapter(MainActivity.this);
 
         /*Intent i = getIntent();
         idParsing = i.getStringExtra("IDPARSING");
@@ -194,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        //Log.d("datatgl", String.valueOf(getTime()));
 
         if (CalendarHelper.haveCalendarReadWritePermissions(MainActivity.this)){
             new DataFetcherTask().execute();
@@ -204,6 +216,19 @@ public class MainActivity extends AppCompatActivity {
             CalendarHelper.requestCalendarReadWritePermission(MainActivity.this);
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        // setListAdapter(null);
+        Database.deactivate();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAlarmList();
     }
 
     private void updateCalendarIdSpinner()
@@ -344,19 +369,38 @@ public class MainActivity extends AppCompatActivity {
                             if (!number.trim().equals("0")) {
                                 if (number.trim().equals("7")) {
                                     expire = strExpire - week;
-                                    arrayListTime.add(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                    long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
+                                    if (data > getTime()){
+                                        Call call = new Call();
+                                        call.setId(strId);
+                                        call.setTitle(strTitle);
+                                        call.setDate(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                        call.setActive(call.getActive());
+                                        Database.create(call);
+                                    }
                                 } else if (number.trim().equals("14")) {
                                     expire = strExpire - (week * 2);
-                                    arrayListTime.add(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                    long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
+                                    if (data > getTime()){
+                                        Call call = new Call();
+                                        call.setId(strId);
+                                        call.setTitle(strTitle);
+                                        call.setDate(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                        call.setActive(call.getActive());
+                                        Database.create(call);
+                                    }
                                 } else if (number.trim().equals("21")) {
                                     expire = strExpire - (week * 3);
-                                    arrayListTime.add(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                    long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
+                                    if (data > getTime()){
+                                        Call call = new Call();
+                                        call.setId(strId);
+                                        call.setTitle(strTitle);
+                                        call.setDate(data);
+                                        call.setActive(call.getActive());
+                                        Database.create(call);
+                                    }
                                 }
-
-                                /*if (expire>0) {
-
-                                    dataCall = new Long[]{DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire))};
-                                }*/
                             }
                         }
                     }
@@ -373,22 +417,28 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             //Log.d("datamasuk", String.valueOf(arrayListTime.size()));
-            if (!arrayListTime.isEmpty()){
-                for (int a=0; a<arrayListTime.size();a++){
-                Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-                pendingIntent = PendingIntent.getBroadcast(
-                        getBaseContext(), 1, intent, 0);
-                alarmManager[a] = (AlarmManager)getSystemService(Context.ALARM_SERVICE) ;
-                alarmManager[a].set(AlarmManager.RTC_WAKEUP, arrayListTime.get(a),
-                        pendingIntent);
 
-                arrayListInten.add(pendingIntent);
-                }
+            callMathAlarmScheduleService();
 
-            }
+            MainActivity.this.listView.setAdapter(mainActivityAdapter);
+
         }
     }
 
+    private long getTime(){
+
+        String str = DataManager.dateNow();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date2 = null;
+        try {
+            date2 = df.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date2.getTime();
+
+
+    }
 
 
     private void setChecked(){
@@ -573,6 +623,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void updateAlarmList() {
+        Database.init(MainActivity.this);
+        final List<Call> alarms = Database.getAll();
+        mainActivityAdapter.setMathAlarms(alarms);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                // reload content
+                MainActivity.this.mainActivityAdapter.notifyDataSetChanged();
+
+
+            }
+        });
+    }
+
+
+    protected void callMathAlarmScheduleService() {
+        Intent mathAlarmServiceIntent = new Intent(this, AlarmServiceBroadcastReciever.class);
+        sendBroadcast(mathAlarmServiceIntent, null);
+    }
 
 
     public void onBackPressed(){

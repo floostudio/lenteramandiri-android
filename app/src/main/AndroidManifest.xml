@@ -107,12 +107,26 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
 
-        <receiver android:name=".utils.AlarmReceiver"
-            android:process=":remote"/>
+        <service android:name=".alarm.AlarmService"
+            android:process="com.floo.lenteramandiri.serviceProcess"/>
+
+        <receiver android:name=".alarm.AlarmServiceBroadcastReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".data.WakeUpCallActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
+
+        <receiver android:name=".alarm.AlarmAlertBroadcastReciever"/>
+
+        <receiver android:name=".alarm.PhoneStateChangedBroadcastReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
