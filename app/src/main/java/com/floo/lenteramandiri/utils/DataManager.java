@@ -63,7 +63,7 @@ public class DataManager {
     public static String urlMasterDepartment = "http://sandbox.floostudio.com/lenteramandiri/api/v1/master/department";
     public static String urlMasterGroup = "http://sandbox.floostudio.com/lenteramandiri/api/v1/master/group";
     public static String urlMasterTitle = "http://sandbox.floostudio.com/lenteramandiri/api/v1/master/title";
-    public static String urlPortGroup = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_group";
+    public static String urlPortGroup = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_group/user/";
     public static String urlPortGroupDetail = "";
     public static String urlPortAccount = "http://sandbox.floostudio.com/lenteramandiri/api/v1/portfolio_acc/user/";
     public static String urlPortAccountDetail = "";

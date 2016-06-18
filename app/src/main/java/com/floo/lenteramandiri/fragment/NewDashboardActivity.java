@@ -59,7 +59,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             mylistMonth, myListMonthCashout, myListMonthDPK, myListMonthLCF, mylistAGF;
     ExpandableHeightListView listTFD, listAGF;
     SimpleAdapter adapterTFD, adapterAGF;
-    Button btntfd, btncash, btncashout, btndpk, btnlcf, btndlr, btnagf, btnavg, btnbakidebet, btndetail;
+    Button btntfd, btncash, btncashout, btndpk, btnlcf, btnagf, btnavg, btnbakidebet, btndetail;
     Spinner spinner, spin_top;
     TextView text1, text2, title_blue, title_yellow, title1 ;
 
@@ -172,8 +172,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btndpk.setTextColor(Color.parseColor("#0b3a77"));
             btnlcf.setBackgroundResource(R.drawable.activity_btn);
             btnlcf.setTextColor(Color.parseColor("#0b3a77"));
-            btndlr.setBackgroundResource(R.drawable.activity_btn);
-            btndlr.setTextColor(Color.parseColor("#0b3a77"));
             btnagf.setBackgroundResource(R.drawable.activity_btn);
             btnagf.setTextColor(Color.parseColor("#0b3a77"));
             btnavg.setBackgroundResource(R.drawable.activity_btn);
@@ -191,8 +189,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btndpk.setTextColor(Color.parseColor("#ffffff"));
             btnlcf.setBackgroundResource(R.drawable.activity_btn_blue);
             btnlcf.setTextColor(Color.parseColor("#ffffff"));
-            btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
-            btndlr.setTextColor(Color.parseColor("#ffffff"));
             btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
             btnagf.setTextColor(Color.parseColor("#ffffff"));
             btnavg.setBackgroundResource(R.drawable.activity_btn_blue);
@@ -219,7 +215,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         btncashout = (Button)v.findViewById(R.id.btn_cashout);
         btndpk = (Button)v.findViewById(R.id.btn_dpk);
         btnlcf = (Button)v.findViewById(R.id.btn_lcf);
-        btndlr = (Button)v.findViewById(R.id.btn_dlr);
+
         btnagf = (Button)v.findViewById(R.id.btn_agf);
         btnavg = (Button)v.findViewById(R.id.btn_avg);
         btnbakidebet = (Button)v.findViewById(R.id.btn_BakiDebet);
@@ -229,7 +225,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         btncashout.setOnClickListener(this);
         btndpk.setOnClickListener(this);
         btnlcf.setOnClickListener(this);
-        btndlr.setOnClickListener(this);
+
         btnagf.setOnClickListener(this);
         btnavg.setOnClickListener(this);
         btnbakidebet.setOnClickListener(this);
@@ -327,16 +323,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             setGONE();
             toggleChart(chart_Lcf);
-
-
-        }else if (v==btndlr){
-            title_yellow.setText("Deposito Loan Ratio");
-            title_blue.setText("Deposito Loan Ratio");
-
-            toggleButtonActive(false);
-            btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
-            btndlr.setTextColor(Color.parseColor("#ffffff"));
-
 
 
         }else if (v==btnagf){

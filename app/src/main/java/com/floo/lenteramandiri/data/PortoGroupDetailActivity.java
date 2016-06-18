@@ -18,9 +18,9 @@ import com.floo.lenteramandiri.R;
 public class PortoGroupDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout line;
-    TextView titleToolbar, save, txtGroupId, txtGroupLimit, txtGroupBalance, txtAccAmount,
+    TextView titleToolbar, save, txtCif, txtGroupId, txtGroupLimit, txtGroupBalance, txtAccAmount,
             txtFacilityAmount, txtFee, txtBunga, txtUtilisasi, txtCompany;
-    String pGroupId, pGroupLimit, pGroupBalance, pAccAmount,
+    String pCif, pGroupId, pGroupLimit, pGroupBalance, pAccAmount,
             pFacilityAmount, pFee, pBunga, pUtilisasi, pCompany;
 
     @Override
@@ -31,20 +31,22 @@ public class PortoGroupDetailActivity extends AppCompatActivity {
     }
     public void initView(){
         Intent i = getIntent();
-        pGroupId  = i.getStringExtra("group_id");
-        pGroupLimit = i.getStringExtra("group_limit");
-        pGroupBalance  = i.getStringExtra("group_balance");
-        pAccAmount = i.getStringExtra("acc_amount");
-        pFacilityAmount  = i.getStringExtra("facility_amount");
-        pFee = i.getStringExtra("fee");
-        pBunga  = i.getStringExtra("bunga");
-        pUtilisasi = i.getStringExtra("utilisasi");
-        pCompany  = i.getStringExtra("company_name");
+        pCif = i.getStringExtra(PortoGroupActivity.cif);
+        pGroupId  = i.getStringExtra(PortoGroupActivity.group_id);
+        pAccAmount = i.getStringExtra(PortoGroupActivity.acc_num);
+        pGroupLimit = i.getStringExtra(PortoGroupActivity.group_limit);
+        pGroupBalance  = i.getStringExtra(PortoGroupActivity.group_balance);
+        pFacilityAmount  = i.getStringExtra(PortoGroupActivity.type_facility);
+        pFee = i.getStringExtra(PortoGroupActivity.fee);
+        pBunga  = i.getStringExtra(PortoGroupActivity.bunga);
+        pUtilisasi = i.getStringExtra(PortoGroupActivity.utilisasi);
+        pCompany  = i.getStringExtra(PortoGroupActivity.company_name);
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO GROUP");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
+        txtCif = (TextView)findViewById(R.id.txt_group_detail_cif);
         txtGroupId = (TextView)findViewById(R.id.txt_group_detail_id);
         txtGroupLimit = (TextView) findViewById(R.id.txt_group_detail_limit);
         txtGroupBalance = (TextView)findViewById(R.id.txt_group_detail_balance);
@@ -54,6 +56,7 @@ public class PortoGroupDetailActivity extends AppCompatActivity {
         txtBunga = (TextView)findViewById(R.id.txt_group_detail_bunga);
         txtUtilisasi = (TextView) findViewById(R.id.txt_group_detail_utilisasi);
         txtCompany = (TextView)findViewById(R.id.txt_group_detail_company);
+        txtCif.setText(pCif);
         txtGroupId.setText(pGroupId);
         txtGroupLimit.setText("IDR "+pGroupLimit+"d");
         txtGroupBalance.setText(pGroupBalance);

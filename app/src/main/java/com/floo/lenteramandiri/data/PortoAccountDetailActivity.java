@@ -17,9 +17,9 @@ import com.floo.lenteramandiri.R;
 public class PortoAccountDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout line;
-    TextView titleToolbar, save, txtAccNumber, txtValuta, txtSaldo, txtLimit, txtTunggakan,
+    TextView titleToolbar, save, txtCif, txtAccNumber, txtValuta, txtSaldo, txtLimit, txtTunggakan,
             txtKolektibilitas, txtJmlhTempo, txtDebet, txtKredit, txtRata, txtCompany;
-    String pAccNumber, pValuta, pSaldo, pLimit, pTunggakan, pKolektibilitas,
+    String pCif, pAccNumber, pValuta, pSaldo, pLimit, pTunggakan, pKolektibilitas,
             pJmlhTempo, pDebet, pKredit, pRata, pCompany, pId;
     Button convenant;
 
@@ -31,23 +31,25 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
     }
     public void initView(){
         Intent i = getIntent();
-        pAccNumber  = i.getStringExtra("acc_number");
-        pValuta = i.getStringExtra("valuta");
-        pSaldo  = i.getStringExtra("saldo");
-        pLimit = i.getStringExtra("limit");
-        pTunggakan  = i.getStringExtra("tunggakan");
-        pKolektibilitas = i.getStringExtra("kolektibilitas");
-        pJmlhTempo  = i.getStringExtra("jumlah_tempo");
-        pDebet = i.getStringExtra("trans_debet");
-        pKredit  = i.getStringExtra("trans_kredit");
-        pRata = i.getStringExtra("saldo_rata");
-        pCompany  = i.getStringExtra("company_name");
-        pId = i.getStringExtra("id");
+        pCif = i.getStringExtra(PortoAccountActivity.cif);
+        pId = i.getStringExtra(PortoAccountActivity.id);
+        pAccNumber  = i.getStringExtra(PortoAccountActivity.acc_num);
+        pValuta = i.getStringExtra(PortoAccountActivity.valuta);
+        pSaldo  = i.getStringExtra(PortoAccountActivity.saldo);
+        pLimit = i.getStringExtra(PortoAccountActivity.limit);
+        pTunggakan  = i.getStringExtra(PortoAccountActivity.tunggakan);
+        pKolektibilitas = i.getStringExtra(PortoAccountActivity.kolektibilitas);
+        pJmlhTempo  = i.getStringExtra(PortoAccountActivity.jatuh_tempo);
+        pDebet = i.getStringExtra(PortoAccountActivity.trans_debet);
+        pKredit  = i.getStringExtra(PortoAccountActivity.trans_kredit);
+        pRata = i.getStringExtra(PortoAccountActivity.saldo_rata);
+        pCompany  = i.getStringExtra(PortoAccountActivity.company_name);
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO ACCOUNT");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
+        txtCif = (TextView)findViewById(R.id.txt_account_detail_cif);
         txtAccNumber = (TextView)findViewById(R.id.txt_account_detail_acc);
         txtValuta = (TextView) findViewById(R.id.txt_account_detail_valuta);
         txtSaldo = (TextView)findViewById(R.id.txt_account_detail_saldo);
@@ -59,6 +61,7 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
         txtKredit = (TextView)findViewById(R.id.txt_account_detail_kredit);
         txtRata = (TextView) findViewById(R.id.txt_account_detail_rata_rata);
         txtCompany = (TextView)findViewById(R.id.txt_account_detail_company);
+        txtCif.setText(pCif);
         txtAccNumber.setText(pAccNumber);
         txtValuta.setText(pValuta);
         txtSaldo.setText(pSaldo);

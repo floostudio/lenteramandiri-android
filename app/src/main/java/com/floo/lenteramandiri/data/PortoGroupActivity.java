@@ -40,20 +40,20 @@ public class PortoGroupActivity extends AppCompatActivity {
     String url = DataManager.url;
     String urlPortGroup = DataManager.urlPortGroup;
     private SpotsDialog pDialog;
-    private static final String no = "no";
-    private static final String group_id = "group_id";
-    private static final String group_limit = "group_limit";
-    private static final String group_balance = "group_balance";
-    private static final String fee = "fee";
-    private static final String bunga = "bunga";
-    private static final String utilisasi = "utilisasi";
-    private static final String company_name = "company_name";
-    private static final String acc_amount = "acc_amount";
-    private static final String facility_amount = "facility_amount";
+    public static final String cif = "cif";
+    public static final String group_id = "group_id";
+    public static final String group_limit = "group_limit";
+    public static final String group_balance = "group_balance";
+    public static final String fee = "fee";
+    public static final String bunga = "bunga";
+    public static final String utilisasi = "utilisasi";
+    public static final String company_name = "company_name";
+    public static final String acc_num = "acc_num";
+    public static final String type_facility = "type_facility";
 
-    String strNo, strGroupId, strGroupLimit, strGroupBalance, strFee,
+    String strCif, strGroupId, strGroupLimit, strGroupBalance, strFee,
             strBunga, strUtilisasi, strCompanyName, strAcc_amount,
-            strFacility_amount;
+            strFacility_amount, idParsing;
 
     SimpleAdapter adapter;
     @Override
@@ -90,6 +90,7 @@ public class PortoGroupActivity extends AppCompatActivity {
         listportoGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView txtcif = (TextView) view.findViewById(R.id.txt_porto_group_cif);
                 TextView txtid = (TextView) view.findViewById(R.id.txt_porto_group_id);
                 TextView txtlimit = (TextView) view.findViewById(R.id.txt_porto_group_limit);
                 TextView txtbalance = (TextView) view.findViewById(R.id.txt_porto_group_balance);
@@ -100,11 +101,12 @@ public class PortoGroupActivity extends AppCompatActivity {
                 TextView txtutilisasi = (TextView) view.findViewById(R.id.txt_porto_group_utilisasi);
                 TextView txtcompany = (TextView) view.findViewById(R.id.txt_porto_group_company);
                 Intent GroupDetail = new Intent(PortoGroupActivity.this, PortoGroupDetailActivity.class);
+                GroupDetail.putExtra(cif, txtcif.getText().toString());
                 GroupDetail.putExtra(group_id, txtid.getText().toString());
                 GroupDetail.putExtra(group_limit, txtlimit.getText().toString());
                 GroupDetail.putExtra(group_balance, txtbalance.getText().toString());
-                GroupDetail.putExtra(acc_amount, txtacc.getText().toString());
-                GroupDetail.putExtra(facility_amount, txtfacility.getText().toString());
+                GroupDetail.putExtra(acc_num, txtacc.getText().toString());
+                GroupDetail.putExtra(type_facility, txtfacility.getText().toString());
                 GroupDetail.putExtra(fee, txtfee.getText().toString());
                 GroupDetail.putExtra(bunga, txtbunga.getText().toString());
                 GroupDetail.putExtra(utilisasi, txtutilisasi.getText().toString());
@@ -116,6 +118,8 @@ public class PortoGroupActivity extends AppCompatActivity {
 
     }
     public void initView(){
+        Intent i = getIntent();
+        idParsing  = i.getStringExtra("IDPARSING");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO GROUP");
@@ -180,15 +184,16 @@ public class PortoGroupActivity extends AppCompatActivity {
 
             try {
 
-                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortGroup));
+                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortGroup+idParsing));
                 for(int i=0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+                    strCif = jsonObject.getString(cif);
                     strGroupId = jsonObject.getString(group_id);
+                    strAcc_amount = jsonObject.getString(acc_num);
                     strGroupLimit = jsonObject.getString(group_limit);
                     strGroupBalance = jsonObject.getString(group_balance);
-                    strAcc_amount = jsonObject.getString(acc_amount);
-                    strFacility_amount = jsonObject.getString(facility_amount);
+                    strFacility_amount = jsonObject.getString(type_facility);
                     strFee = jsonObject.getString(fee);
                     strBunga = jsonObject.getString(bunga);
                     strUtilisasi = jsonObject.getString(utilisasi);
@@ -196,11 +201,12 @@ public class PortoGroupActivity extends AppCompatActivity {
 
 
                     HashMap<String, String> hashMap = new HashMap<String, String>();
+                    hashMap.put(cif, strCif);
                     hashMap.put(group_id, strGroupId);
+                    hashMap.put(acc_num, strAcc_amount);
                     hashMap.put(group_limit, getDecimalFormat(strGroupLimit));
                     hashMap.put(group_balance, getDecimalFormat(strGroupBalance));
-                    hashMap.put(acc_amount, strAcc_amount);
-                    hashMap.put(facility_amount, strFacility_amount);
+                    hashMap.put(type_facility, strFacility_amount);
                     hashMap.put(fee, getDecimalFormat(strFee));
                     hashMap.put(bunga, getDecimalFormat(strBunga));
                     hashMap.put(utilisasi, strUtilisasi);
@@ -224,8 +230,8 @@ public class PortoGroupActivity extends AppCompatActivity {
                 pDialog.dismiss();
 
             adapter = new SimpleAdapter(getApplicationContext(), mylist, R.layout.list_row_porto_group,
-                    new String[]{group_id, group_limit, group_balance, acc_amount, facility_amount, fee, bunga, utilisasi, company_name},
-                    new int[]{R.id.txt_porto_group_id, R.id.txt_porto_group_limit, R.id.txt_porto_group_balance, R.id.txt_porto_group_acc_amount,
+                    new String[]{cif, group_id, group_limit, group_balance, acc_num, type_facility, fee, bunga, utilisasi, company_name},
+                    new int[]{R.id.txt_porto_group_cif, R.id.txt_porto_group_id, R.id.txt_porto_group_limit, R.id.txt_porto_group_balance, R.id.txt_porto_group_acc_amount,
                     R.id.txt_porto_group_facility_amount, R.id.txt_porto_group_fee, R.id.txt_porto_group_bunga, R.id.txt_porto_group_utilisasi, R.id.txt_porto_group_company});
 
             listportoGroup.setAdapter(adapter);

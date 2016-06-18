@@ -37,6 +37,7 @@ public class PortofolioActivity extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent nextGroup=new Intent(getActivity(), PortoGroupActivity.class);
+                nextGroup.putExtra("IDPARSING", idParsing);
                 startActivity(nextGroup);
             }
         });

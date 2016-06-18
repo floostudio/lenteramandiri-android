@@ -142,17 +142,6 @@
                                 android:layout_height="25dp"
                                 android:background="@drawable/activity_btn"
                                 android:layout_marginLeft="10dp"
-                                android:id="@+id/btn_dlr"
-                                android:textAllCaps="false"
-                                android:text="DLR"/>
-
-                            <Button
-
-                                android:textColor="@color/background"
-                                android:layout_width="80dp"
-                                android:layout_height="25dp"
-                                android:background="@drawable/activity_btn"
-                                android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_agf"
                                 android:textAllCaps="false"
                                 android:text="AGF"/>

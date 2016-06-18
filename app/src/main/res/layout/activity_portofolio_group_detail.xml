@@ -38,7 +38,39 @@
             <TableRow>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:text="GROUP ID"
+                    android:text="Cif"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_cif"
+                    android:layout_marginRight="10dp"
+                    android:text=""
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Group Id"
                     android:textColor="@color/Black"
                     android:padding="3dip"/>
                 <TextView
@@ -54,7 +86,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@color/grey"
+        android:background="@drawable/bg_list_datainprofile"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
@@ -86,7 +118,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:background="@drawable/bg_list_datainprofile"
+        android:background="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
@@ -119,39 +151,6 @@
 
     </LinearLayout>
     <LinearLayout
-        android:background="@color/grey"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginRight="15dp">
-
-        <TableLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:stretchColumns="1">
-
-            <TableRow>
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:text="Account Amount"
-                    android:textColor="@color/Black"
-                    android:padding="3dip"/>
-                <TextView
-                    android:id="@+id/txt_group_detail_account"
-                    android:layout_marginRight="10dp"
-                    android:text="17"
-                    android:textColor="@color/Black"
-                    android:layout_column="1"
-                    android:gravity="right"
-                    android:padding="3dip"/>
-            </TableRow>
-        </TableLayout>
-
-    </LinearLayout>
-    <LinearLayout
         android:background="@drawable/bg_list_datainprofile"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -169,7 +168,40 @@
             <TableRow>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:text="Facility Amount"
+                    android:text="Acc Num"
+                    android:textColor="@color/Black"
+                    android:padding="3dip"/>
+                <TextView
+                    android:id="@+id/txt_group_detail_account"
+                    android:layout_marginRight="10dp"
+                    android:text="17"
+                    android:textColor="@color/Black"
+                    android:layout_column="1"
+                    android:gravity="right"
+                    android:padding="3dip"/>
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="15dp">
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:stretchColumns="1">
+
+            <TableRow>
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:text="Type Facility"
                     android:textColor="@color/Black"
                     android:padding="3dip"/>
                 <TextView
@@ -185,7 +217,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:background="@color/grey"
+        android:background="@drawable/bg_list_datainprofile"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
@@ -219,7 +251,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:background="@drawable/bg_list_datainprofile"
+        android:background="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
@@ -252,7 +284,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:background="@color/grey"
+        android:background="@drawable/bg_list_datainprofile"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
