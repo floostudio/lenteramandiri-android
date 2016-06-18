@@ -70,13 +70,13 @@ public class NewsAdapter extends BaseAdapter{
         viewHolder.idNews.setText(Integer.toString(id));
         String subject = news.getTitle();
         viewHolder.titleNews.setText(subject);
-        /*if (news.getUrl().trim().equals("")){
+        if (news.getUrl().trim().equals("")){
 
             viewHolder.titleNews.setText(subject);
         }else {
-            String tittle = "[PDF] "+subject;
+            String tittle = "[LINK] "+subject;
             viewHolder.titleNews.setText(tittle);
-        }*/
+        }
 
         viewHolder.urlNews.setText(news.getUrl());
         String pt = news.getContent();

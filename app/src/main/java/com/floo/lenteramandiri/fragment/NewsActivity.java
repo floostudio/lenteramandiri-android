@@ -1,6 +1,7 @@
 package com.floo.lenteramandiri.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -79,17 +80,15 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView taID = (TextView)view.findViewById(R.id.txt_id_news);
                 TextView taURL = (TextView)view.findViewById(R.id.txt_url_news);
-                Intent detailNews = new Intent(getActivity(), NewsDetailActivity.class);
-                detailNews.putExtra("news_id", taID.getText().toString());
-                startActivity(detailNews);
-                //Log.e("urlLink", taURL.getText().toString());
-                //Log.e("idparsing", taID.getText().toString());
-               /* if (taURL.getText().toString().trim().equals("")){
 
+                if (taURL.getText().toString().trim().equals("")){
+                    Intent detailNews = new Intent(getActivity(), NewsDetailActivity.class);
+                    detailNews.putExtra("news_id", taID.getText().toString());
+                    startActivity(detailNews);
                 }else {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taURL.getText().toString()));
                     startActivity(intent);
-                }*/
+                }
             }
         });
 
