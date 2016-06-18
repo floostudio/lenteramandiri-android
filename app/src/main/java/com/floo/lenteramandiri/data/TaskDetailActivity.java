@@ -212,7 +212,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             String key = "";
             try {
-                String coba = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/31?user_id=58";
+                String coba = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/37?user_id=58";
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(urlDetailTask+idTaskParsing+"?user_id="+struserid));
                 //Log.d("alamat", urlDetailTask+idTaskParsing+"?user_id="+struserid);
                 //JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(coba));

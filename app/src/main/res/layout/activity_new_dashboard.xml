@@ -90,8 +90,8 @@
                                 android:text="TFD"
                                 android:layout_width="80dp"
                                 android:layout_height="25dp"
-                                android:background="@drawable/activity_btn"
-                                android:textColor="@color/background"
+                                android:background="@drawable/activity_btn_blue"
+                                android:textColor="@color/White"
                                 android:textAllCaps="false" />
 
                             <Button
@@ -136,7 +136,16 @@
                                 android:text="LCF" />
 
                             <Button
+                                android:textColor="@color/background"
+                                android:layout_width="80dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/activity_btn"
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/btn_dlr"
+                                android:textAllCaps="false"
+                                android:text="DLR"/>
 
+                            <Button
                                 android:textColor="@color/background"
                                 android:layout_width="80dp"
                                 android:layout_height="25dp"
@@ -279,7 +288,7 @@
                         android:layout_width="match_parent"
                         android:divider="@android:color/transparent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                     </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
 
@@ -517,7 +526,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/White"
                 android:background="@color/yellow"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
 
         </LinearLayout>
