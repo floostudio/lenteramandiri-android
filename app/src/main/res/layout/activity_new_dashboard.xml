@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="55dp"
         android:paddingLeft="10dp"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="2dp"
@@ -14,6 +14,13 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:background="@color/lightyellow" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CIF"
+            android:textColor="@color/White"
+            android:textSize="12sp"/>
 
         <Spinner
             android:id="@+id/spin_array_top"
@@ -28,7 +35,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="2dp"
@@ -36,6 +43,12 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:background="@color/yellow">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Number"
+            android:textColor="@color/White"
+            android:textSize="12sp"/>
 
         <Spinner
             android:id="@+id/spin_array"
@@ -51,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Transaction Flow Diagram"
             android:textColor="@color/White"
             android:textSize="@dimen/activity_horizontal_margin"
             android:textStyle="normal"/>
@@ -259,17 +272,86 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.github.mikephil.charting.charts.CombinedChart
-                        android:id="@+id/chart_cashIn"
+                    <RelativeLayout
+                        android:id="@+id/relative_cash_in"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:visibility="gone"/>
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
-                    <com.github.mikephil.charting.charts.CombinedChart
-                        android:id="@+id/chart_cashOut"
+
+                        <LinearLayout
+                            android:id="@+id/linier_cash_in"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@android:color/transparent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cash In"
+                                android:textStyle="bold"
+                                android:textSize="12sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(million IDR)"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.CombinedChart
+                            android:layout_below="@+id/linier_cash_in"
+                            android:id="@+id/chart_cashIn"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:visibility="visible"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linier_cash_out"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:visibility="gone"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@android:color/transparent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cash Out"
+                                android:textStyle="bold"
+                                android:textSize="12sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(million IDR)"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.CombinedChart
+                            android:id="@+id/chart_cashOut"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp" />
+
+                    </LinearLayout>
+
+
+
+
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/chart_dpk"

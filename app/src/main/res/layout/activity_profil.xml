@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:text="Account Detail"
             android:textSize="@dimen/activity_horizontal_margin"
-            android:textStyle="normal"/>
+            android:textStyle="normal"
+            android:textColor="@color/White"/>
 
     </LinearLayout>
 
@@ -179,7 +180,7 @@
             <TableRow>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:text="Directorat"
+                    android:text="Directorate"
                     android:textColor="@color/background"
                     android:padding="3dip"/>
                 <TextView

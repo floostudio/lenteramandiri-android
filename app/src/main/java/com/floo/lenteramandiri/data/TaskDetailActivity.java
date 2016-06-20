@@ -22,9 +22,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -35,6 +39,8 @@ import com.floo.lenteramandiri.adapter.TaskDetailAdapter;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.DialogMediaActivity;
 import com.floo.lenteramandiri.utils.DialogUniversalWarningUtils;
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 /**
  * Created by Floo on 2/25/2016.
@@ -67,7 +73,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     HashMap<String, String> hashMaptoTaskList;
     ArrayList<HashMap<String, String>> arrayfromTaskList;
     ArrayList<HashMap<String, String>> arraytoTaskList;
-    ListView listDetailTaskList, listEscalatedTo;
+    ExpandableHeightListView listDetailTaskList, listEscalatedTo;
     SimpleAdapter adapterDetailTaskList;
 
     public static final String status_code = "status_code";
@@ -114,8 +120,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         img_list_task = (ImageView)findViewById(R.id.img_list_task);
         txtEscalated = (TextView)findViewById(R.id.txt_escalated_taskdetail);
         txtEscalatedTo = (TextView)findViewById(R.id.txt_escalated_taskdetail1);
-        listDetailTaskList = (ListView)findViewById(R.id.list_detail_task);
-        listEscalatedTo = (ListView)findViewById(R.id.list_detail_task1);
+        listDetailTaskList = (ExpandableHeightListView)findViewById(R.id.list_detail_task);
+        listEscalatedTo = (ExpandableHeightListView)findViewById(R.id.list_detail_task1);
         listDetailTaskList.setEnabled(false);
         listEscalatedTo.setEnabled(false);
 
@@ -212,7 +218,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             String key = "";
             try {
-                String coba = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/37?user_id=58";
+                String coba = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/66?user_id=63";
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(urlDetailTask+idTaskParsing+"?user_id="+struserid));
                 //Log.d("alamat", urlDetailTask+idTaskParsing+"?user_id="+struserid);
                 //JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(coba));
@@ -240,22 +246,36 @@ public class TaskDetailActivity extends AppCompatActivity {
                     arrayfromTaskList.add(hashmapfromTaskList);
                 }
 
+                ArrayList<String> array = new ArrayList<String>();
                 JSONObject objEscalTo = jsonObject.getJSONObject(escalated_to);
-                for (int a=0; a<objEscalTo.length();a++){
-                    key = objEscalTo.names().getString(a);
+                for (int a=0; a<objEscalTo.length();a++) {
+                    //key = objEscalTo.names().getString(a);
+                    array.add(objEscalTo.names().getString(a));
+                }
+                Collections.sort(array, new Comparator<String>() {
+                    @Override
+                    public int compare(String lhs, String rhs) {
+                        return lhs.compareToIgnoreCase(rhs);
+                    }
+                });
+
+                //Log.d("datamasuk", array.toString());
+                for (int b=0; b<array.size();b++){
+                    String data1=array.get(b);
+                    //Log.d("datakeluar", data);
 
                     Escalateds escall = new Escalateds();
-                    escall.setEscalate(key);
-                    if (!key.trim().equals(Escalated+" "+strPosition)){
+                    escall.setEscalate(data1);
+                    if (!data1.trim().equals(Escalated + " " + strPosition)) {
 
                         String ada = "1";
 
                         escall.setBold(ada);
                         arrayListTo.add(escall);
 
-                        JSONArray arrayEscal = objEscalTo.getJSONArray(key);
-                        if (arrayEscal.length()>0){
-                            for (int c=0;c<arrayEscal.length();c++) {
+                        JSONArray arrayEscal = objEscalTo.getJSONArray(data1);
+                        if (arrayEscal.length() > 0) {
+                            for (int c = 0; c < arrayEscal.length(); c++) {
 
                                 String data = arrayEscal.getString(c);
                                 //Log.d(Escalated, data);
@@ -267,15 +287,15 @@ public class TaskDetailActivity extends AppCompatActivity {
                                 arrayListTo.add(escalateds);
                             }
                         }
-                    }else {
+                    } else {
                         String tdk = "0";
 
                         escall.setBold(tdk);
                         arrayListTo.add(escall);
 
-                        JSONArray arrayEscal = objEscalTo.getJSONArray(key);
-                        if (arrayEscal.length()>0){
-                            for (int c=0;c<arrayEscal.length();c++) {
+                        JSONArray arrayEscal = objEscalTo.getJSONArray(data1);
+                        if (arrayEscal.length() > 0) {
+                            for (int c = 0; c < arrayEscal.length(); c++) {
 
                                 String data = arrayEscal.getString(c);
                                 //Log.d(Escalated, data);
@@ -288,8 +308,69 @@ public class TaskDetailActivity extends AppCompatActivity {
                             }
 
                         }
+
                     }
                 }
+
+
+
+
+
+                /*JSONObject objEscalTo = jsonObject.getJSONObject(escalated_to);
+
+                Log.d("datamasuk", objEscalTo.toString());
+                for (int a=0; a<objEscalTo.length();a++) {
+                    key = objEscalTo.names().getString(a);
+                    Log.d("data", key);
+                    int urut = a + 1;
+                        Escalateds escall = new Escalateds();
+                        escall.setEscalate(key);
+                        if (!key.trim().equals(Escalated + " " + strPosition)) {
+
+                            String ada = "1";
+
+                            escall.setBold(ada);
+                            arrayListTo.add(escall);
+
+                            JSONArray arrayEscal = objEscalTo.getJSONArray(key);
+                            if (arrayEscal.length() > 0) {
+                                for (int c = 0; c < arrayEscal.length(); c++) {
+
+                                    String data = arrayEscal.getString(c);
+                                    //Log.d(Escalated, data);
+
+                                    Escalateds escalateds = new Escalateds();
+                                    escalateds.setEscalate(data);
+                                    escalateds.setBold(ada);
+
+                                    arrayListTo.add(escalateds);
+                                }
+                            }
+                        } else {
+                            String tdk = "0";
+
+                            escall.setBold(tdk);
+                            arrayListTo.add(escall);
+
+                            JSONArray arrayEscal = objEscalTo.getJSONArray(key);
+                            if (arrayEscal.length() > 0) {
+                                for (int c = 0; c < arrayEscal.length(); c++) {
+
+                                    String data = arrayEscal.getString(c);
+                                    //Log.d(Escalated, data);
+
+                                    Escalateds escalateds = new Escalateds();
+                                    escalateds.setEscalate(data);
+                                    escalateds.setBold(tdk);
+
+                                    arrayListTo.add(escalateds);
+                                }
+
+                            }
+                        }
+                    }*/
+
+
 
                 } catch (JSONException e) {
                 e.printStackTrace();
@@ -349,11 +430,13 @@ public class TaskDetailActivity extends AppCompatActivity {
                 txtEscalatedTo.setText("Escalated To :");
                 adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
                 listEscalatedTo.setAdapter(adapter);
+                listEscalatedTo.setExpanded(true);
 
                 txtEscalated.setText("Escalated From :");
                 adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
                         R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
                 listDetailTaskList.setAdapter(adapterDetailTaskList);
+                listDetailTaskList.setExpanded(true);
             }else {
                 if (arrayfromTaskList.isEmpty()){
                     txtEscalated.setVisibility(View.GONE);
@@ -366,6 +449,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     txtEscalatedTo.setText("Escalated To :");
                     adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
                     listEscalatedTo.setAdapter(adapter);
+                    listEscalatedTo.setExpanded(true);
 
                 }else {
                     txtEscalatedTo.setVisibility(View.GONE);
@@ -376,6 +460,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
                             R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
                     listDetailTaskList.setAdapter(adapterDetailTaskList);
+                    listDetailTaskList.setExpanded(true);
                 }
             }
 

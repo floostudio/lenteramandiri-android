@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -86,6 +87,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     LinearLayout lineBakiDebet;
     Button btnBakiDebetTrue, btnPercentageTrue;
     HorizontalScrollView horizontalAGF;
+    RelativeLayout relative_cash_in;
+    LinearLayout linier_cash_out;
 
 
     @Nullable
@@ -254,6 +257,9 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
         listAGF.setEnabled(false);
 
+        relative_cash_in = (RelativeLayout)v.findViewById(R.id.relative_cash_in);
+        linier_cash_out = (LinearLayout)v.findViewById(R.id.linier_cash_out);
+
 
 
 
@@ -288,7 +294,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btncash.setTextColor(Color.parseColor("#ffffff"));
 
             setGONE();
-            toggleLineChart(chart_CashIn);
+            //toggleLineChart(chart_CashIn);
+            relative_cash_in.setVisibility(View.VISIBLE);
 
 
         }else if (v==btncashout){
@@ -301,7 +308,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btncashout.setTextColor(Color.parseColor("#ffffff"));
 
             setGONE();
-            toggleLineChart(chat_CashOut);
+            linier_cash_out.setVisibility(View.VISIBLE);
+            //toggleLineChart(chat_CashOut);
 
 
         }else if (v==btndpk){
@@ -409,8 +417,10 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         listTFD.setVisibility(View.GONE);
         btndetail.setVisibility(View.GONE);
 
-        chart_CashIn.setVisibility(View.GONE);
-        chat_CashOut.setVisibility(View.GONE);
+        relative_cash_in.setVisibility(View.GONE);
+        linier_cash_out.setVisibility(View.GONE);
+        //chart_CashIn.setVisibility(View.GONE);
+        //chat_CashOut.setVisibility(View.GONE);
         chart_Lcf.setVisibility(View.GONE);
         chart_Dpk.setVisibility(View.GONE);
 
@@ -421,7 +431,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     }
 
     private void toggleLineChart(CombinedChart cc){
-        chart_CashIn.setVisibility(View.GONE);
+        //chart_CashIn.setVisibility(View.GONE);
         chat_CashOut.setVisibility(View.GONE);
         chart_BakiDebet1.setVisibility(View.GONE);
         chart_BakiDebet2.setVisibility(View.GONE);
