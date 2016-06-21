@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
         int strId, strExpire;
 
         int expire;
-        int week = 604800;
+        int day = 86400;
 
 
 
@@ -342,6 +342,13 @@ public class MainActivity extends AppCompatActivity {
                             String number = arrayNotification.getString(a);
 
                             if (!number.trim().equals("0")){
+                                int nilai = Integer.parseInt(number);
+                                expire = strExpire - (day*nilai);
+                                addNewEvent(strTitle, DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+
+                            }
+
+                           /* if (!number.trim().equals("0")){
                                 if (number.trim().equals("7")){
                                     expire = strExpire - week;
                                 }else if (number.trim().equals("14")){
@@ -357,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
 
-                            }
+                            }*/
                         }
                     }
 
@@ -366,7 +373,21 @@ public class MainActivity extends AppCompatActivity {
                         for (int a=0; a<arrayWakeUp.length();a++){
                             String number = arrayWakeUp.getString(a);
 
-                            if (!number.trim().equals("0")) {
+                            if (!number.trim().equals("0")){
+                                int nilai = Integer.parseInt(number);
+                                expire = strExpire - (day*nilai);
+                                long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
+                                if (data > getTime()){
+                                    Call call = new Call();
+                                    call.setId(strId);
+                                    call.setTitle(strTitle);
+                                    call.setDate(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                    call.setActive(call.getActive());
+                                    Database.create(call);
+                                }
+                            }
+
+                            /*if (!number.trim().equals("0")) {
                                 if (number.trim().equals("7")) {
                                     expire = strExpire - week;
                                     long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
@@ -401,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
                                         Database.create(call);
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
