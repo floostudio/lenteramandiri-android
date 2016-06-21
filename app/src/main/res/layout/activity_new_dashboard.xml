@@ -349,21 +349,79 @@
 
                     </LinearLayout>
 
-
-
-
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/chart_dpk"
+                    <LinearLayout
+                        android:id="@+id/linier_dpk"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:visibility="gone"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/chart_lcf"
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@android:color/transparent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DPK"
+                            android:textStyle="bold"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(million IDR)"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/chart_dpk"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linier_lcf"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:visibility="gone"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@android:color/transparent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LCF"
+                            android:textStyle="bold"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(million IDR)"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/chart_lcf"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"/>
+
+                    </LinearLayout>
 
                     <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                         android:id="@+id/list_dasboard"
@@ -433,11 +491,45 @@
                             android:background="@color/background"
                             android:layout_marginBottom="5dp"/>
 
+                    <LinearLayout
+                        android:id="@+id/linier_bakidebet1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@android:color/transparent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Baki Debet"
+                                android:textStyle="bold"
+                                android:textSize="12sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(million IDR)"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
                         <com.github.mikephil.charting.charts.CombinedChart
                             android:id="@+id/chart_bakidebet1"
                             android:layout_width="match_parent"
-                            android:layout_height="400dp"
-                            android:visibility="gone"></com.github.mikephil.charting.charts.CombinedChart>
+                            android:layout_height="400dp"></com.github.mikephil.charting.charts.CombinedChart>
+
+                    </LinearLayout>
+
+
+
 
 
                         <com.github.mikephil.charting.charts.CombinedChart

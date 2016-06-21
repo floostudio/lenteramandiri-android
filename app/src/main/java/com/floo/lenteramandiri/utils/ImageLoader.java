@@ -3,6 +3,7 @@ package com.floo.lenteramandiri.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.IOException;
@@ -18,15 +19,15 @@ import com.floo.lenteramandiri.R;
 public class ImageLoader {
 
     public void DisplayProfile(String url, ImageView img) {
-        if (url.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")) {
+        /*if (url.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")) {
 
             img.setImageResource(R.drawable.profile);
 
-        } else {
+        } else {*/
 
-            new ImageLoadTask(url, img).execute();
+            //new ProfilLoadTask(url, img).execute();
 
-        }
+        //}
     }
 
     public static Bitmap getBitmap(String urlImage){
@@ -67,6 +68,7 @@ public class ImageLoader {
                 URL urlConnection = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection
                         .openConnection();
+
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
@@ -86,6 +88,8 @@ public class ImageLoader {
             imageView.setImageBitmap(result);
         }
     }
+
+
 }
 
 

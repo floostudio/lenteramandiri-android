@@ -2,6 +2,7 @@ package com.floo.lenteramandiri.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -35,7 +36,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 import dmax.dialog.SpotsDialog;
@@ -210,38 +215,37 @@ public class ProfilActivity extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(serverData);
 
-                    //strId = jsonObject.getString(USER_ID);
-                    strFirstname = jsonObject.getString(USER_FIRST_NAME);
-                    strLastname = jsonObject.getString(USER_LAST_NAME);
-                    strNip = jsonObject.getString(USER_NIP);
-                    strDirctorate = jsonObject.getString(USER_DIRECTORATE);
-                    strGroup = jsonObject.getString(USER_GROUP);
-                    strDepartment = jsonObject.getString(USER_DEPARTMENT);
-                    strEmail = jsonObject.getString(USER_EMAIL);
-                    strTitle = jsonObject.getString(USER_TITLE);
-                    strImg = jsonObject.getString(profpic);
-                //Log.d("gambar", strImg);
+                strFirstname = jsonObject.getString(USER_FIRST_NAME);
+                strLastname = jsonObject.getString(USER_LAST_NAME);
+                strNip = jsonObject.getString(USER_NIP);
+                strDirctorate = jsonObject.getString(USER_DIRECTORATE);
+                strGroup = jsonObject.getString(USER_GROUP);
+                strDepartment = jsonObject.getString(USER_DEPARTMENT);
+                strEmail = jsonObject.getString(USER_EMAIL);
+                strTitle = jsonObject.getString(USER_TITLE);
+                strImg = jsonObject.getString(profpic);
 
+                URL urlConnection = new URL(strImg);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
 
-                    if (strImg.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
-                        Drawable myDrawable = getResources().getDrawable(R.drawable.profile);
-                        myBitmap = ((BitmapDrawable) myDrawable).getBitmap();
-                    }else {
+                if (connection.getResponseCode()==200){
 
-                        /*URL urlConnection = new URL(strImg);
-                        HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
-                        connection.setDoInput(true);
-                        connection.connect();
-                        InputStream input = connection.getInputStream();
-                        myBitmap = BitmapFactory.decodeStream(input);*/
-                        myBitmap = ImageLoader.getBitmap(strImg);
-                    }
-
-
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+                }else {
+                    myBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.profile);
+                }
 
 
 
             }catch (JSONException e){
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 

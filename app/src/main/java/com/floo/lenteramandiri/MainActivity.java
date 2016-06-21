@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +44,9 @@ import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.ImageLoader;
 import com.floo.lenteramandiri.utils.SessionManager;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,8 +142,11 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
 
-        imageLoader = new ImageLoader();
-        imageLoader.DisplayProfile(strProfpic, img);
+        new ProfilLoadTask(strProfpic, img).execute();
+        //new ProfilLoadTask("http://play.floostudio.com/lenteramandiri/static/images/users/profile/femadadle.png", img);
+        //imageLoader = new ImageLoader();
+        //imageLoader.DisplayProfile("http://play.floostudio.com/lenteramandiri/static/images/users/profile/femadadle.png", img);
+        //imageLoader.DisplayProfile(strProfpic, img);
 
         /*if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
 
@@ -302,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("table", "table>"+calendarIdTable.get(calendarString)+" spnner>"+calendarString);
         int calendar_id = Integer.parseInt(calendarIdTable.get(calendarString));
 
-        CalendarHelper.MakeNewCalendarEntry(this, title, "Add event", "Somewhere",mili,mili,false,true,calendar_id,3);
+        CalendarHelper.MakeNewCalendarEntry(this, title, "Add event", "Somewhere",mili,mili,false,true,calendar_id,4);
 
     }
 
@@ -665,6 +672,53 @@ public class MainActivity extends AppCompatActivity {
         sendBroadcast(mathAlarmServiceIntent, null);
     }
 
+    public class ProfilLoadTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+        private ImageView imageView;
+
+        public ProfilLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+
+                Bitmap myBitmap = null;
+                if (connection.getResponseCode()==200){
+
+                    InputStream input = connection.getInputStream();
+                    myBitmap = BitmapFactory.decodeStream(input);
+                }else {
+                    myBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.profile);
+                }
+
+
+                return myBitmap;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            imageView.setImageBitmap(result);
+        }
+    }
+
+
+
 
     public void onBackPressed(){
         new AlertDialog.Builder(this)
@@ -686,5 +740,6 @@ public class MainActivity extends AppCompatActivity {
                         }).create().show();
 
     }
+
 
 }

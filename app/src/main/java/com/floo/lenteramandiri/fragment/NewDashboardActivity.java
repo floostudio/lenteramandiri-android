@@ -88,7 +88,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     Button btnBakiDebetTrue, btnPercentageTrue;
     HorizontalScrollView horizontalAGF;
     RelativeLayout relative_cash_in;
-    LinearLayout linier_cash_out;
+    LinearLayout linier_cash_out, linier_dpk, linier_lcf, linier_bakidebet;
 
 
     @Nullable
@@ -259,6 +259,9 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
         relative_cash_in = (RelativeLayout)v.findViewById(R.id.relative_cash_in);
         linier_cash_out = (LinearLayout)v.findViewById(R.id.linier_cash_out);
+        linier_dpk = (LinearLayout)v.findViewById(R.id.linier_dpk);
+        linier_lcf = (LinearLayout)v.findViewById(R.id.linier_lcf);
+        linier_bakidebet = (LinearLayout)v.findViewById(R.id.linier_bakidebet1);
 
 
 
@@ -322,7 +325,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btndpk.setTextColor(Color.parseColor("#ffffff"));
 
             setGONE();
-            toggleChart(chart_Dpk);
+            linier_dpk.setVisibility(View.VISIBLE);
+            //toggleChart(chart_Dpk);
 
         }else if (v==btnlcf){
             title_yellow.setText("LCF");
@@ -334,7 +338,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btnlcf.setTextColor(Color.parseColor("#ffffff"));
 
             setGONE();
-            toggleChart(chart_Lcf);
+            linier_lcf.setVisibility(View.VISIBLE);
+            //toggleChart(chart_Lcf);
 
 
         }else if (v==btndlr){
@@ -346,6 +351,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btndlr.setBackgroundResource(R.drawable.activity_btn_blue);
             btndlr.setTextColor(Color.parseColor("#ffffff"));
             setGONE();
+
+
 
         }else if (v==btnagf){
             title_yellow.setText("AGF");
@@ -383,8 +390,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             setGONE();
             lineBakiDebet.setVisibility(View.VISIBLE);
-            toggleLineChart(chart_BakiDebet1);
-
+            linier_bakidebet.setVisibility(View.VISIBLE);
+            chart_BakiDebet2.setVisibility(View.GONE);
 
         }else if (v==btndetail){
             Intent im=new Intent(getActivity(), ImageActivity.class);
@@ -394,22 +401,16 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             toogleButtonBakiDebet(false);
             btnBakiDebetTrue.setBackgroundResource(R.drawable.activity_btn_blue);
             btnBakiDebetTrue.setTextColor(Color.parseColor("#ffffff"));
-            toggleLineChart(chart_BakiDebet1);
+            linier_bakidebet.setVisibility(View.VISIBLE);
+            chart_BakiDebet2.setVisibility(View.GONE);
 
         }else if (v==btnPercentageTrue){
             toogleButtonBakiDebet(false);
             btnPercentageTrue.setBackgroundResource(R.drawable.activity_btn_blue);
             btnPercentageTrue.setTextColor(Color.parseColor("#ffffff"));
-            toggleLineChart(chart_BakiDebet2);
+            linier_bakidebet.setVisibility(View.GONE);
+            chart_BakiDebet2.setVisibility(View.VISIBLE);
         }
-    }
-
-    private void toggleChart(BarChart bc){
-
-        chart_Lcf.setVisibility(View.GONE);
-        chart_Dpk.setVisibility(View.GONE);
-
-        bc.setVisibility(View.VISIBLE);
     }
 
     private void setGONE(){
@@ -421,23 +422,17 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         linier_cash_out.setVisibility(View.GONE);
         //chart_CashIn.setVisibility(View.GONE);
         //chat_CashOut.setVisibility(View.GONE);
-        chart_Lcf.setVisibility(View.GONE);
-        chart_Dpk.setVisibility(View.GONE);
-
+        //chart_Lcf.setVisibility(View.GONE);
+        //chart_Dpk.setVisibility(View.GONE);
+        linier_dpk.setVisibility(View.GONE);
+        linier_lcf.setVisibility(View.GONE);
         lineBakiDebet.setVisibility(View.GONE);
 
         horizontalAGF.setVisibility(View.GONE);
 
     }
 
-    private void toggleLineChart(CombinedChart cc){
-        //chart_CashIn.setVisibility(View.GONE);
-        chat_CashOut.setVisibility(View.GONE);
-        chart_BakiDebet1.setVisibility(View.GONE);
-        chart_BakiDebet2.setVisibility(View.GONE);
 
-        cc.setVisibility(View.VISIBLE);
-    }
 
     private static String removeLastChar(String str) {
         return str.substring(0,str.length()-1);
