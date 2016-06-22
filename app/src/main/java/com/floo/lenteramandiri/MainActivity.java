@@ -376,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (jsonObject.has("wakeup_call")){
+                        Database.deleteAll();
                         JSONArray arrayWakeUp = jsonObject.getJSONArray("wakeup_call");
                         for (int a=0; a<arrayWakeUp.length();a++){
                             String number = arrayWakeUp.getString(a);

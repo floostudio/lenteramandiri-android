@@ -33,6 +33,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
@@ -825,7 +826,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_CashIn.setDoubleTapToZoomEnabled(false);
             chart_CashIn.setPinchZoom(false);
             chart_CashIn.getAxisRight().setEnabled(false);
-
             chart_CashIn.invalidate();
 
 

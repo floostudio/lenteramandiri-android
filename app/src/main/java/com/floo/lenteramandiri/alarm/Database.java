@@ -78,6 +78,11 @@ public class Database extends SQLiteOpenHelper {
 
 		return getDatabase().insert(ALARM_TABLE, null, cv);
 	}
+
+	public static int deleteAll(){
+		return getDatabase().delete(ALARM_TABLE, null, null);
+	}
+
 	public static int update(Call alarm) {
 		ContentValues cv = new ContentValues();
 		//cv.put(COLUMN_ALARM_TITLE, alarm.getTitle());

@@ -118,7 +118,9 @@
 
         <activity android:name=".data.WakeUpCallActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <receiver android:name=".alarm.AlarmAlertBroadcastReciever"/>
 
