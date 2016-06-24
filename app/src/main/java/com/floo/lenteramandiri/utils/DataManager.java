@@ -39,7 +39,6 @@ import java.util.TimeZone;
 public class DataManager {
 
 
-
     //POST
     public static String url = "http://sandbox.floostudio.com/lenteramandiri/api/v1/instance";
     public static String urlLogin = "http://sandbox.floostudio.com/lenteramandiri/api/v1/users/login";

@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -62,6 +63,8 @@ import com.floo.lenteramandiri.fragment.PortofolioActivity;
 import com.floo.lenteramandiri.utils.RoundedImageView;
 import com.floo.lenteramandiri.utils.calendarphone.CalendarHelper;
 import com.floo.lenteramandiri.utils.calendarphone.CustomOnItemSelectedListener;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -469,7 +472,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     private void setChecked(){
         navigationView.getMenu().getItem(0).setChecked(false);
         navigationView.getMenu().getItem(1).setChecked(false);
@@ -479,6 +481,12 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(5).setChecked(false);
         navigationView.getMenu().getItem(6).setChecked(false);
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.combined, menu);
+        return true;
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

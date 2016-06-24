@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -89,7 +90,10 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     Button btnBakiDebetTrue, btnPercentageTrue;
     HorizontalScrollView horizontalAGF;
     RelativeLayout relative_cash_in;
-    LinearLayout linier_cash_out, linier_dpk, linier_lcf, linier_bakidebet;
+    LinearLayout linier_cash_out, linier_dpk, linier_lcf, linier_bakidebet1, linier_bakidebet2;
+    Button btn_toggle_line_cashIn, btn_toggle_bar_cashIn, btn_toggle_line_cashOut, btn_toggle_bar_cashOut,
+            btn_toggle_line_bakidebet1, btn_toggle_bar_bakidebet1, btn_toggle_line_bakidebet2, btn_toggle_bar_bakidebet2;
+    HashMap<Button, Integer> mapBtnCashIn, mapBtnCashOut, mapBtnBakiDebet1, mapBtnBakiDebet2;
 
 
     @Nullable
@@ -259,16 +263,52 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         listAGF.setEnabled(false);
 
         relative_cash_in = (RelativeLayout)v.findViewById(R.id.relative_cash_in);
+        btn_toggle_line_cashIn = (Button)v.findViewById(R.id.btn_toggle_line_cashIn);
+        btn_toggle_bar_cashIn = (Button)v.findViewById(R.id.btn_toggle_bar_cashIn);
+        btn_toggle_line_cashIn.setOnClickListener(this);
+        btn_toggle_bar_cashIn.setOnClickListener(this);
+        mapBtnCashIn = new HashMap<Button, Integer>();
+        btn_toggle_line_cashIn.setBackgroundResource(R.drawable.activity_btn_blue);
+        btn_toggle_bar_cashIn.setBackgroundResource(R.drawable.activity_btn_blue);
+        mapBtnCashIn.put(btn_toggle_line_cashIn, R.drawable.activity_btn_blue);
+        mapBtnCashIn.put(btn_toggle_bar_cashIn, R.drawable.activity_btn_blue);
+
+
         linier_cash_out = (LinearLayout)v.findViewById(R.id.linier_cash_out);
+        btn_toggle_line_cashOut = (Button)v.findViewById(R.id.btn_toggle_line_cashOut);
+        btn_toggle_bar_cashOut = (Button)v.findViewById(R.id.btn_toggle_bar_cashOut);
+        btn_toggle_line_cashOut.setOnClickListener(this);
+        btn_toggle_bar_cashOut.setOnClickListener(this);
+        mapBtnCashOut = new HashMap<Button, Integer>();
+        btn_toggle_line_cashOut.setBackgroundResource(R.drawable.activity_btn_blue);
+        btn_toggle_bar_cashOut.setBackgroundResource(R.drawable.activity_btn_blue);
+        mapBtnCashOut.put(btn_toggle_line_cashOut, R.drawable.activity_btn_blue);
+        mapBtnCashOut.put(btn_toggle_bar_cashOut, R.drawable.activity_btn_blue);
+
         linier_dpk = (LinearLayout)v.findViewById(R.id.linier_dpk);
         linier_lcf = (LinearLayout)v.findViewById(R.id.linier_lcf);
-        linier_bakidebet = (LinearLayout)v.findViewById(R.id.linier_bakidebet1);
 
+        linier_bakidebet1 = (LinearLayout)v.findViewById(R.id.linier_bakidebet1);
+        btn_toggle_line_bakidebet1 = (Button)v.findViewById(R.id.btn_toggle_line_bakidebet1);
+        btn_toggle_bar_bakidebet1 = (Button)v.findViewById(R.id.btn_toggle_bar_bakidebet1);
+        btn_toggle_line_bakidebet1.setOnClickListener(this);
+        btn_toggle_bar_bakidebet1.setOnClickListener(this);
+        mapBtnBakiDebet1 = new HashMap<Button, Integer>();
+        btn_toggle_line_bakidebet1.setBackgroundResource(R.drawable.activity_btn_blue);
+        btn_toggle_bar_bakidebet1.setBackgroundResource(R.drawable.activity_btn_blue);
+        mapBtnBakiDebet1.put(btn_toggle_line_bakidebet1, R.drawable.activity_btn_blue);
+        mapBtnBakiDebet1.put(btn_toggle_bar_bakidebet1, R.drawable.activity_btn_blue);
 
-
-
-
-
+        linier_bakidebet2 = (LinearLayout)v.findViewById(R.id.linier_bakidebet2);
+        btn_toggle_line_bakidebet2 = (Button)v.findViewById(R.id.btn_toggle_line_bakidebet2);
+        btn_toggle_bar_bakidebet2 = (Button)v.findViewById(R.id.btn_toggle_bar_bakidebet2);
+        btn_toggle_line_bakidebet2.setOnClickListener(this);
+        btn_toggle_bar_bakidebet2.setOnClickListener(this);
+        mapBtnBakiDebet2 = new HashMap<Button, Integer>();
+        btn_toggle_line_bakidebet2.setBackgroundResource(R.drawable.activity_btn_blue);
+        btn_toggle_bar_bakidebet2.setBackgroundResource(R.drawable.activity_btn_blue);
+        mapBtnBakiDebet2.put(btn_toggle_line_bakidebet2, R.drawable.activity_btn_blue);
+        mapBtnBakiDebet2.put(btn_toggle_bar_bakidebet2, R.drawable.activity_btn_blue);
 
     }
 
@@ -391,8 +431,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             setGONE();
             lineBakiDebet.setVisibility(View.VISIBLE);
-            linier_bakidebet.setVisibility(View.VISIBLE);
-            chart_BakiDebet2.setVisibility(View.GONE);
+            linier_bakidebet1.setVisibility(View.VISIBLE);
+            linier_bakidebet2.setVisibility(View.GONE);
 
         }else if (v==btndetail){
             Intent im=new Intent(getActivity(), ImageActivity.class);
@@ -402,15 +442,156 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             toogleButtonBakiDebet(false);
             btnBakiDebetTrue.setBackgroundResource(R.drawable.activity_btn_blue);
             btnBakiDebetTrue.setTextColor(Color.parseColor("#ffffff"));
-            linier_bakidebet.setVisibility(View.VISIBLE);
-            chart_BakiDebet2.setVisibility(View.GONE);
+            linier_bakidebet1.setVisibility(View.VISIBLE);
+            linier_bakidebet2.setVisibility(View.GONE);
 
         }else if (v==btnPercentageTrue){
             toogleButtonBakiDebet(false);
             btnPercentageTrue.setBackgroundResource(R.drawable.activity_btn_blue);
             btnPercentageTrue.setTextColor(Color.parseColor("#ffffff"));
-            linier_bakidebet.setVisibility(View.GONE);
-            chart_BakiDebet2.setVisibility(View.VISIBLE);
+            linier_bakidebet1.setVisibility(View.GONE);
+            linier_bakidebet2.setVisibility(View.VISIBLE);
+
+        }else if (v==btn_toggle_bar_cashIn){
+            if (mapBtnCashIn.get(btn_toggle_bar_cashIn) == R.drawable.activity_btn) {
+                btn_toggle_bar_cashIn.setText("Hide Bar Values");
+                btn_toggle_bar_cashIn.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_bar_cashIn.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnCashIn.put(btn_toggle_bar_cashIn, R.drawable.activity_btn_blue);
+                chart_CashIn.getBarData().setDrawValues(true);
+                chart_CashIn.invalidate();
+            }else {
+                btn_toggle_bar_cashIn.setText("Show Bar Values");
+                btn_toggle_bar_cashIn.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_bar_cashIn.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnCashIn.put(btn_toggle_bar_cashIn, R.drawable.activity_btn);
+                chart_CashIn.getBarData().setDrawValues(false);
+                chart_CashIn.invalidate();
+            }
+
+        }else if (v==btn_toggle_line_cashIn){
+            if (mapBtnCashIn.get(btn_toggle_line_cashIn) == R.drawable.activity_btn) {
+                btn_toggle_line_cashIn.setText("Hide Line Values");
+                btn_toggle_line_cashIn.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_line_cashIn.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnCashIn.put(btn_toggle_line_cashIn, R.drawable.activity_btn_blue);
+                chart_CashIn.getLineData().setDrawValues(true);
+                chart_CashIn.invalidate();
+
+            }else {
+                btn_toggle_line_cashIn.setText("Show Line Values");
+                btn_toggle_line_cashIn.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_line_cashIn.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnCashIn.put(btn_toggle_line_cashIn, R.drawable.activity_btn);
+                chart_CashIn.getLineData().setDrawValues(false);
+                chart_CashIn.invalidate();
+            }
+        }else if (v==btn_toggle_bar_cashOut){
+            if (mapBtnCashOut.get(btn_toggle_bar_cashOut) == R.drawable.activity_btn) {
+                btn_toggle_bar_cashOut.setText("Hide Bar Values");
+                btn_toggle_bar_cashOut.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_bar_cashOut.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnCashOut.put(btn_toggle_bar_cashOut, R.drawable.activity_btn_blue);
+                chat_CashOut.getBarData().setDrawValues(true);
+                chat_CashOut.invalidate();
+            }else {
+                btn_toggle_bar_cashOut.setText("Show Bar Values");
+                btn_toggle_bar_cashOut.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_bar_cashOut.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnCashOut.put(btn_toggle_bar_cashOut, R.drawable.activity_btn);
+                chat_CashOut.getBarData().setDrawValues(false);
+                chat_CashOut.invalidate();
+            }
+
+        }else if (v==btn_toggle_line_cashOut){
+            if (mapBtnCashOut.get(btn_toggle_line_cashOut) == R.drawable.activity_btn) {
+                btn_toggle_line_cashOut.setText("Hide Line Values");
+                btn_toggle_line_cashOut.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_line_cashOut.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnCashOut.put(btn_toggle_line_cashOut, R.drawable.activity_btn_blue);
+                chat_CashOut.getLineData().setDrawValues(true);
+                chat_CashOut.invalidate();
+
+            }else {
+                btn_toggle_line_cashOut.setText("Show Line Values");
+                btn_toggle_line_cashOut.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_line_cashOut.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnCashOut.put(btn_toggle_line_cashOut, R.drawable.activity_btn);
+                chat_CashOut.getLineData().setDrawValues(false);
+                chat_CashOut.invalidate();
+            }
+        }else if (v==btn_toggle_bar_bakidebet1){
+            if (mapBtnBakiDebet1.get(btn_toggle_bar_bakidebet1) == R.drawable.activity_btn) {
+                btn_toggle_bar_bakidebet1.setText("Hide Bar Values");
+                btn_toggle_bar_bakidebet1.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_bar_bakidebet1.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnBakiDebet1.put(btn_toggle_bar_bakidebet1, R.drawable.activity_btn_blue);
+                chart_BakiDebet1.getBarData().setDrawValues(true);
+                chart_BakiDebet1.invalidate();
+
+            }else {
+                btn_toggle_bar_bakidebet1.setText("Show Bar Values");
+                btn_toggle_bar_bakidebet1.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_bar_bakidebet1.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnBakiDebet1.put(btn_toggle_bar_bakidebet1, R.drawable.activity_btn);
+                chart_BakiDebet1.getBarData().setDrawValues(false);
+                chart_BakiDebet1.invalidate();
+            }
+
+        }else if (v==btn_toggle_line_bakidebet1){
+            if (mapBtnBakiDebet1.get(btn_toggle_line_bakidebet1) == R.drawable.activity_btn) {
+                btn_toggle_line_bakidebet1.setText("Hide Line Values");
+                btn_toggle_line_bakidebet1.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_line_bakidebet1.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnBakiDebet1.put(btn_toggle_line_bakidebet1, R.drawable.activity_btn_blue);
+                chart_BakiDebet1.getLineData().setDrawValues(true);
+                chart_BakiDebet1.invalidate();
+
+            }else {
+                btn_toggle_line_bakidebet1.setText("Show Line Values");
+                btn_toggle_line_bakidebet1.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_line_bakidebet1.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnBakiDebet1.put(btn_toggle_line_bakidebet1, R.drawable.activity_btn);
+                chart_BakiDebet1.getLineData().setDrawValues(false);
+                chart_BakiDebet1.invalidate();
+            }
+
+        }else if (v==btn_toggle_bar_bakidebet2){
+            if (mapBtnBakiDebet2.get(btn_toggle_bar_bakidebet2) == R.drawable.activity_btn) {
+                btn_toggle_bar_bakidebet2.setText("Hide Bar Values");
+                btn_toggle_bar_bakidebet2.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_bar_bakidebet2.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnBakiDebet2.put(btn_toggle_bar_bakidebet2, R.drawable.activity_btn_blue);
+                chart_BakiDebet2.getBarData().setDrawValues(true);
+                chart_BakiDebet2.invalidate();
+
+            }else {
+                btn_toggle_bar_bakidebet2.setText("Show Bar Values");
+                btn_toggle_bar_bakidebet2.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_bar_bakidebet2.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnBakiDebet2.put(btn_toggle_bar_bakidebet2, R.drawable.activity_btn);
+                chart_BakiDebet2.getBarData().setDrawValues(false);
+                chart_BakiDebet2.invalidate();
+            }
+
+        }else if (v==btn_toggle_line_bakidebet2){
+            if (mapBtnBakiDebet2.get(btn_toggle_line_bakidebet2) == R.drawable.activity_btn) {
+                btn_toggle_line_bakidebet2.setText("Hide Line Values");
+                btn_toggle_line_bakidebet2.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_line_bakidebet2.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnBakiDebet2.put(btn_toggle_line_bakidebet2, R.drawable.activity_btn_blue);
+                chart_BakiDebet2.getLineData().setDrawValues(true);
+                chart_BakiDebet2.invalidate();
+
+            }else {
+                btn_toggle_line_bakidebet2.setText("Show Line Values");
+                btn_toggle_line_bakidebet2.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_line_bakidebet2.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnBakiDebet2.put(btn_toggle_line_bakidebet2, R.drawable.activity_btn);
+                chart_BakiDebet2.getLineData().setDrawValues(false);
+                chart_BakiDebet2.invalidate();
+            }
+
         }
     }
 
@@ -826,6 +1007,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_CashIn.setDoubleTapToZoomEnabled(false);
             chart_CashIn.setPinchZoom(false);
             chart_CashIn.getAxisRight().setEnabled(false);
+            chart_CashIn.getBarData().setValueTextColor(getResources().getColor(R.color.red));
             chart_CashIn.invalidate();
 
 

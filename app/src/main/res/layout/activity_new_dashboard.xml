@@ -243,7 +243,7 @@
                         android:text=""
                         android:textSize="10dp"
                         android:textStyle="bold"
-                        android:textColor="@color/White"/>
+                        android:textColor="@color/White" />
 
                 </LinearLayout>
 
@@ -283,23 +283,62 @@
                             android:id="@+id/linier_cash_in"
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="3dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:background="@android:color/transparent">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Cash In"
-                                android:textStyle="bold"
-                                android:textSize="12sp"/>
+                                android:orientation="horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:gravity="center">
 
-                            <TextView
+                                <Button
+                                    android:id="@+id/btn_toggle_line_cashIn"
+                                    android:text="Hide Line Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false"
+                                    android:layout_weight="1"/>
+
+                                <Button
+                                    android:id="@+id/btn_toggle_bar_cashIn"
+                                    android:layout_marginLeft="30dp"
+                                    android:text="Hide Bar Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false"
+                                    android:layout_weight="1"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="(million IDR)"
-                                android:textSize="12sp"/>
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cash In"
+                                    android:textStyle="bold"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="(million IDR)"
+                                    android:textSize="12sp"/>
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
@@ -307,8 +346,7 @@
                             android:layout_below="@+id/linier_cash_in"
                             android:id="@+id/chart_cashIn"
                             android:layout_width="match_parent"
-                            android:layout_height="400dp"
-                            android:visibility="visible"/>
+                            android:layout_height="400dp"/>
 
                     </RelativeLayout>
 
@@ -322,23 +360,61 @@
                         <LinearLayout
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="3dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:background="@android:color/transparent">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Cash Out"
-                                android:textStyle="bold"
-                                android:textSize="12sp"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:gravity="center">
 
-                            <TextView
+                                <Button
+                                    android:id="@+id/btn_toggle_line_cashOut"
+                                    android:text="Hide Line Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                                <Button
+                                    android:id="@+id/btn_toggle_bar_cashOut"
+                                    android:layout_marginLeft="30dp"
+                                    android:text="Hide Bar Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="(million IDR)"
-                                android:textSize="12sp"/>
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cash Out"
+                                    android:textStyle="bold"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="(million IDR)"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+
 
                         </LinearLayout>
 
@@ -437,6 +513,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
+                        android:layout_marginBottom="10dp"
                         android:visibility="gone">
 
                         <LinearLayout
@@ -521,22 +598,98 @@
 
                         </LinearLayout>
 
-                        <com.github.mikephil.charting.charts.CombinedChart
-                            android:id="@+id/chart_bakidebet1"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="400dp"></com.github.mikephil.charting.charts.CombinedChart>
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.github.mikephil.charting.charts.CombinedChart
+                                android:id="@+id/chart_bakidebet1"
+                                android:layout_width="match_parent"
+                                android:layout_height="400dp"></com.github.mikephil.charting.charts.CombinedChart>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:gravity="center">
+
+                                <Button
+                                    android:id="@+id/btn_toggle_line_bakidebet1"
+                                    android:text="Hide Line Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                                <Button
+                                    android:id="@+id/btn_toggle_bar_bakidebet1"
+                                    android:layout_marginLeft="30dp"
+                                    android:text="Hide Bar Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
 
                     </LinearLayout>
 
-
-
-
-
-                        <com.github.mikephil.charting.charts.CombinedChart
-                            android:id="@+id/chart_bakidebet2"
+                        <LinearLayout
+                            android:id="@+id/linier_bakidebet2"
                             android:layout_width="match_parent"
-                            android:layout_height="400dp"
-                            android:visibility="gone"></com.github.mikephil.charting.charts.CombinedChart>
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <com.github.mikephil.charting.charts.CombinedChart
+                                android:id="@+id/chart_bakidebet2"
+                                android:layout_width="match_parent"
+                                android:layout_height="400dp"></com.github.mikephil.charting.charts.CombinedChart>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:gravity="center">
+
+                                <Button
+                                    android:id="@+id/btn_toggle_line_bakidebet2"
+                                    android:text="Hide Line Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                                <Button
+                                    android:id="@+id/btn_toggle_bar_bakidebet2"
+                                    android:layout_marginLeft="30dp"
+                                    android:text="Hide Bar Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
