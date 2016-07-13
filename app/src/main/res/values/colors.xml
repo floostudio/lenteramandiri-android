@@ -23,6 +23,7 @@
     <color name="lightgrey">#999999</color>
     <color name="lighttgrey">#707171</color>
     <color name="lightyellow">#ffc903</color>
+    <color name="standart">#3F3F3F</color>
 
 
     <!-- PLEASE NOTE: Since adding transparency to already

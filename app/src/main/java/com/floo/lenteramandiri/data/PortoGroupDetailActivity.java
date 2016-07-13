@@ -43,7 +43,7 @@ public class PortoGroupDetailActivity extends AppCompatActivity {
         pCompany  = i.getStringExtra(PortoGroupActivity.company_name);
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("PORTFOLIO GROUP");
+        titleToolbar.setText("PORTFOLIO DEBITUR");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
         txtCif = (TextView)findViewById(R.id.txt_group_detail_cif);

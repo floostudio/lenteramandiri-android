@@ -142,7 +142,10 @@ public class TaskDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent nextNote = new Intent(TaskDetailActivity.this, NoteActivity.class);
+                nextNote.putExtra("taskid", idTaskParsing);
                 nextNote.putExtra(note, strNote);
+                nextNote.putExtra("idParsing", struserid);
+                finish();
                 startActivity(nextNote);
             }
         });

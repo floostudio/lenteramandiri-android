@@ -982,13 +982,13 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             //CASHIN
             BarDataSet dataSetCashIn = new BarDataSet(yCashIn, "Cash In");
-            dataSetCashIn.setColor(getResources().getColor(R.color.cpb_green));
+            dataSetCashIn.setColor(getResources().getColor(R.color.lightblue));
 
             BarData dataCashIn = new BarData();
             dataCashIn.addDataSet(dataSetCashIn);
 
-            LineDataSet lineDataSetCashIn = new LineDataSet(lineIn, "Target Revenue");
-            //lineDataSetCashIn.setCircleColor(getResources().getColor(R.color.yellow));
+            LineDataSet lineDataSetCashIn = new LineDataSet(lineIn, "Target Cash In");
+            lineDataSetCashIn.setCircleColor(getResources().getColor(R.color.yellow));
             lineDataSetCashIn.setColor(getResources().getColor(R.color.yellow));
 
             LineData lineDataCashIn = new LineData();
@@ -1007,18 +1007,19 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_CashIn.setDoubleTapToZoomEnabled(false);
             chart_CashIn.setPinchZoom(false);
             chart_CashIn.getAxisRight().setEnabled(false);
-            chart_CashIn.getBarData().setValueTextColor(getResources().getColor(R.color.red));
+            //chart_CashIn.getBarData().setValueTextColor(getResources().getColor(R.color.red));
             chart_CashIn.invalidate();
 
 
             //CASHOut
             BarDataSet BarsetCashOut = new BarDataSet(yCashOut, "Cash Out");
-            BarsetCashOut.setColor(getResources().getColor(R.color.cpb_green));
+            BarsetCashOut.setColor(getResources().getColor(R.color.lightblue));
 
             BarData barDataCashOut = new BarData();
             barDataCashOut.addDataSet(BarsetCashOut);
 
-            LineDataSet LineSetCashOut = new LineDataSet(lineOut, "Target Revenue");
+            LineDataSet LineSetCashOut = new LineDataSet(lineOut, "Target Cash Out");
+            LineSetCashOut.setCircleColor(getResources().getColor(R.color.yellow));
             LineSetCashOut.setColor(getResources().getColor(R.color.yellow));
 
             LineData lineDataCashOut = new LineData();

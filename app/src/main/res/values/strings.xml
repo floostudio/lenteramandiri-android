@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lentera-Mandiri</string>
+    <string name="app_name">Lentera</string>
 
     <string name="register"><u>REGISTER</u></string>
     <string name="title_activity_main">MainActivity</string>

@@ -38,9 +38,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:text="BACK"
+                android:text="KEMBALI"
                 android:textStyle="bold"
-                android:textSize="14dp"
+                android:textSize="13dp"
 
                 android:textColor="@color/White"/>
 
@@ -68,11 +68,11 @@
         </android.support.v7.widget.Toolbar>
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/txt_save"
-            android:text="SAVE"
+            android:text="SIMPAN"
             android:paddingRight="10dp"
             android:gravity="center"
             android:textStyle="bold"

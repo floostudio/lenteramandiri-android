@@ -68,7 +68,7 @@
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_light_yellow"
-                android:textColor="@color/White" />
+                android:textColor="@color/standart" />
 
         </LinearLayout>
     </LinearLayout>
@@ -138,7 +138,7 @@
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_yellow"
-                android:textColor="@color/White" />
+                android:textColor="@color/standart" />
 
         </LinearLayout>
 
@@ -207,7 +207,7 @@
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_light_yellow"
-                android:textColor="@color/White" />
+                android:textColor="@color/standart" />
 
         </LinearLayout>
     </LinearLayout>
@@ -277,7 +277,7 @@
                 android:layout_height="25dp"
                 android:textSize="11dp"
                 android:background="@drawable/activity_btn_yellow"
-                android:textColor="@color/White" />
+                android:textColor="@color/standart" />
 
         </LinearLayout>
 

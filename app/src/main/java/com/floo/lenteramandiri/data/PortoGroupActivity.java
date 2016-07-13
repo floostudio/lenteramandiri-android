@@ -122,7 +122,7 @@ public class PortoGroupActivity extends AppCompatActivity {
         idParsing  = i.getStringExtra("IDPARSING");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("PORTFOLIO GROUP");
+        titleToolbar.setText("PORTFOLIO DEBITUR");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
         listportoGroup = (ListView) findViewById(R.id.list_porto_group);

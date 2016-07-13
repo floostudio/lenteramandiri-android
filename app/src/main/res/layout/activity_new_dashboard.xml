@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CIF"
-            android:textColor="@color/White"
+            android:textColor="@color/standart"
             android:textSize="12sp"/>
 
         <Spinner
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Account Number"
-            android:textColor="@color/White"
+            android:textColor="@color/standart"
             android:textSize="12sp"/>
 
         <Spinner
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Transaction Flow Diagram"
-            android:textColor="@color/White"
+            android:textColor="@color/standart"
             android:textSize="@dimen/activity_horizontal_margin"
             android:textStyle="normal"/>
 
@@ -213,7 +213,7 @@
                     android:id="@+id/txt_title_blue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text=""
+                    android:text="Transaction Flow Diagram"
                     android:textColor="@color/White"
                     android:textSize="20dp"
                     android:textStyle="bold"
@@ -240,10 +240,10 @@
                         android:id="@+id/txt_dasboard_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="Collection"
                         android:textSize="10dp"
                         android:textStyle="bold"
-                        android:textColor="@color/White" />
+                        android:textColor="@color/standart" />
 
                 </LinearLayout>
 
@@ -259,10 +259,10 @@
                         android:id="@+id/txt_dasboard_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="Payment"
                         android:textSize="10dp"
                         android:textStyle="bold"
-                        android:textColor="@color/White"/>
+                        android:textColor="@color/standart"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -851,7 +851,7 @@
                 android:text="DETAIL"
                 android:textSize="18dp"
                 android:layout_gravity="center"
-                android:textColor="@color/White"
+                android:textColor="@color/standart"
                 android:background="@color/yellow"
                 android:visibility="visible"/>
 
