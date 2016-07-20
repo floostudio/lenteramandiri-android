@@ -563,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (position){
             case 0:
-                title.setText("PROFILE");
+                title.setText("PROFIL");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 ProfilActivity profil = new ProfilActivity();
@@ -572,7 +572,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 1:
-                title.setText("DASHBOARD");
+                title.setText("BERANDA");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 NewDashboardActivity dashboar = new NewDashboardActivity();
@@ -581,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 2:
-                title.setText("TASK");
+                title.setText("TUGAS");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 TaskActivity task= new TaskActivity();
@@ -590,7 +590,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 3:
-                title.setText("PORTFOLIO");
+                title.setText("PORTOFOLIO");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 PortofolioActivity porto = new PortofolioActivity();
@@ -599,7 +599,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 4:
-                title.setText("CALENDAR");
+                title.setText("KALENDAR");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 CalenderActivity calender = new CalenderActivity();
@@ -608,7 +608,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 5:
-                title.setText("NEWS");
+                title.setText("BERITA");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 NewsActivity news = new NewsActivity();

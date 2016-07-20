@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import dmax.dialog.SpotsDialog;
+
+import com.floo.lenteramandiri.MainActivity;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.Escalateds;
 import com.floo.lenteramandiri.adapter.TaskDetailAdapter;
@@ -111,7 +114,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         //strepoch = i.getStringExtra("epoch");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("TASK DETAIL");
+        titleToolbar.setText("DETIL TUGAS");
         save = (TextView)findViewById(R.id.txt_save);
         txtSubject = (TextView) findViewById(R.id.txt_detail_task_subject);
         txtPt = (TextView) findViewById(R.id.txt_detail_task_pt);
@@ -155,6 +158,9 @@ public class TaskDetailActivity extends AppCompatActivity {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String report = "";
+                new DoneAsync(idTaskParsing, struserid, report).execute();
+
                 //Log.d("today", String.valueOf(epoch(dateNow())));
                 //Log.d("tanggal", String.valueOf(epoch(txtTgl.getText().toString())));
 
@@ -163,13 +169,13 @@ public class TaskDetailActivity extends AppCompatActivity {
                 //DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(TaskDetailActivity.this);
                 //warning.showDialog();
 
-               if (epoch(txtTgl.getText().toString()) < epoch(dateNow())) {
+               /*if (epoch(txtTgl.getText().toString()) < epoch(dateNow())) {
                     DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(TaskDetailActivity.this);
                     warning.showDialog();
                 }else {
                     DialogMediaActivity dialog = new DialogMediaActivity(TaskDetailActivity.this, idTaskParsing, struserid);
                     dialog.showDialog();
-                }
+                }*/
 
 
 
@@ -430,12 +436,12 @@ public class TaskDetailActivity extends AppCompatActivity {
                 listEscalatedTo.setVisibility(View.VISIBLE);
                 listDetailTaskList.setVisibility(View.VISIBLE);
 
-                txtEscalatedTo.setText("Escalated To :");
+                txtEscalatedTo.setText("Eskalasi Ke :");
                 adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
                 listEscalatedTo.setAdapter(adapter);
                 listEscalatedTo.setExpanded(true);
 
-                txtEscalated.setText("Escalated From :");
+                txtEscalated.setText("Eskalasi Dari :");
                 adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
                         R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
                 listDetailTaskList.setAdapter(adapterDetailTaskList);
@@ -449,7 +455,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     params.setMargins(0, 0, 0, 0);
                     txtEscalatedTo.setLayoutParams(params);
-                    txtEscalatedTo.setText("Escalated To :");
+                    txtEscalatedTo.setText("Eskalasi Ke :");
                     adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
                     listEscalatedTo.setAdapter(adapter);
                     listEscalatedTo.setExpanded(true);
@@ -459,7 +465,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     listEscalatedTo.setVisibility(View.GONE);
                     txtEscalated.setVisibility(View.VISIBLE);
                     listDetailTaskList.setVisibility(View.VISIBLE);
-                    txtEscalated.setText("Escalated From :");
+                    txtEscalated.setText("Eskalasi Dari :");
                     adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
                             R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
                     listDetailTaskList.setAdapter(adapterDetailTaskList);
@@ -492,6 +498,68 @@ public class TaskDetailActivity extends AppCompatActivity {
                 }
 
             }*/
+        }
+    }
+
+    class DoneAsync extends AsyncTask<Void, Void, Void> {
+
+        private String idTaskParsing;
+        private String userid;
+        private String strReport;
+
+
+        public DoneAsync(String idTaskParsing, String userid, String strReport) {
+            this.idTaskParsing = idTaskParsing;
+            this.userid = userid;
+            this.strReport = strReport;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            JSONObject objReport = new JSONObject();
+            String objstrReport = "";
+
+            try {
+                objReport.put(user_id, userid);
+                objReport.put(report, strReport);
+                objstrReport = objReport.toString();
+
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlDone+idTaskParsing, objstrReport));
+                strStatus = jsonObject.getString(status_code);
+                strMessage = jsonObject.getString(message);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (strStatus.trim().equals("200")){
+                Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+                Intent back=new Intent(getApplicationContext(), MainActivity.class);
+                back.putExtra("fragment", "fragment");
+                finish();
+                startActivity(back);
+
+                //Intent back = new Intent(TaskDetailActivity.this, MainActivity.class);
+                //startActivity(back);
+
+
+            }else {
+                Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 }

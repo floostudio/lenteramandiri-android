@@ -5,23 +5,23 @@
             android:id="@+id/nav_home"
             android:checked="true"
             android:icon="@drawable/ic_home"
-            android:title="Dashboard" />
+            android:title="Beranda" />
         <item
             android:id="@+id/nav_task"
             android:icon="@drawable/ic_to_do"
-            android:title="Task" />
+            android:title="Tugas" />
         <item
             android:id="@+id/nav_portfolio"
             android:icon="@drawable/ic_portfolio"
-            android:title="Portfolio" />
+            android:title="Portofolio" />
         <item
             android:id="@+id/nav_calender"
             android:icon="@drawable/ic_calendar"
-            android:title="Calendar" />
+            android:title="Kalendar" />
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/ic_news"
-            android:title="News" />
+            android:title="Berita" />
         <item
             android:id="@+id/nav_info"
             android:icon="@drawable/ic_info"
@@ -29,7 +29,7 @@
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
-            android:title="Logout" />
+            android:title="Keluar" />
 
     </group>
 

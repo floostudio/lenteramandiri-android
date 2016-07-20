@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account Number"
+            android:text="No Rekening"
             android:textColor="@color/standart"
             android:textSize="12sp"/>
 
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:spinnerMode="dropdown"
             android:popupBackground="@color/White"
-            android:layout_margin="1dp" />
+            android:layout_margin="1dp"/>
 
         <TextView
             android:id="@+id/txt_title_yellow"
@@ -146,7 +146,8 @@
                                 android:layout_marginLeft="10dp"
                                 android:id="@+id/btn_lcf"
                                 android:textAllCaps="false"
-                                android:text="LCF" />
+                                android:text="LCF"
+                                android:visibility="gone"/>
 
                             <Button
                                 android:textColor="@color/background"
@@ -853,7 +854,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/standart"
                 android:background="@color/yellow"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
 
         </LinearLayout>

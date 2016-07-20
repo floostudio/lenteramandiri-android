@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Lentera</string>
 
-    <string name="register"><u>REGISTER</u></string>
+    <string name="register"><u>DAFTAR</u></string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

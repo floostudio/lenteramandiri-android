@@ -218,6 +218,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         title_yellow = (TextView)v.findViewById(R.id.txt_title_yellow);
         title1 = (TextView)v.findViewById(R.id.tfd_title_1);
         spinner = (Spinner)v.findViewById(R.id.spin_array);
+        spinner.setEnabled(false);
         spin_top = (Spinner)v.findViewById(R.id.spin_array_top);
         spin_top.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
@@ -326,7 +327,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
 
             listTFD.setVisibility(View.VISIBLE);
-            btndetail.setVisibility(View.VISIBLE);
+            btndetail.setVisibility(View.GONE);
+            spinner.setEnabled(false);
 
         }else if (v==btncash){
             title_yellow.setText("Cash In");
@@ -340,6 +342,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
             //toggleLineChart(chart_CashIn);
             relative_cash_in.setVisibility(View.VISIBLE);
+            spinner.setEnabled(true);
 
 
         }else if (v==btncashout){
@@ -354,6 +357,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
             linier_cash_out.setVisibility(View.VISIBLE);
             //toggleLineChart(chat_CashOut);
+            spinner.setEnabled(true);
 
 
         }else if (v==btndpk){
@@ -368,7 +372,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
             linier_dpk.setVisibility(View.VISIBLE);
             //toggleChart(chart_Dpk);
-
+            spinner.setEnabled(false);
         }else if (v==btnlcf){
             title_yellow.setText("LCF");
             title_blue.setText("LCF");
@@ -393,7 +397,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btndlr.setTextColor(Color.parseColor("#ffffff"));
             setGONE();
 
-
+            spinner.setEnabled(false);
 
         }else if (v==btnagf){
             title_yellow.setText("AGF");
@@ -407,7 +411,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
             horizontalAGF.setVisibility(View.VISIBLE);
 
-
+            spinner.setEnabled(false);
 
         }else if (v==btnavg){
             toggleButtonActive(false);
@@ -433,6 +437,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             lineBakiDebet.setVisibility(View.VISIBLE);
             linier_bakidebet1.setVisibility(View.VISIBLE);
             linier_bakidebet2.setVisibility(View.GONE);
+            spinner.setEnabled(true);
 
         }else if (v==btndetail){
             Intent im=new Intent(getActivity(), ImageActivity.class);
@@ -1160,13 +1165,14 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             /*BAKI DEBET*/
             BarDataSet BarsetBaki = new BarDataSet(barBaki, "Baki Debet");
-            BarsetBaki.setColor(getResources().getColor(R.color.cpb_green));
+            BarsetBaki.setColor(getResources().getColor(R.color.lightblue));
 
             BarData barDataBaki = new BarData();
             barDataBaki.addDataSet(BarsetBaki);
 
             LineDataSet LineSetBaki = new LineDataSet(lineBaki, "Limit");
             LineSetBaki.setColor(getResources().getColor(R.color.yellow));
+            LineSetBaki.setCircleColor(getResources().getColor(R.color.yellow));
 
             LineData lineDataBaki = new LineData();
             lineDataBaki.addDataSet(LineSetBaki);
@@ -1347,11 +1353,13 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             }
 
+
             spin_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     //Log.d("kata", list.get(position).getNumber().toString());
                     new DataSpinner(spin_top.getSelectedItem().toString()).execute();
+
 
 
                     //Toast.makeText(getActivity(), list.get(position).getAccnumber(), Toast.LENGTH_LONG).show();
