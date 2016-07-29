@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (CalendarHelper.haveCalendarReadWritePermissions(MainActivity.this)){
-            //new DataFetcherTask().execute();
+            new DataFetcherTask().execute();
 
         }else {
             CalendarHelper.requestCalendarReadWritePermission(MainActivity.this);

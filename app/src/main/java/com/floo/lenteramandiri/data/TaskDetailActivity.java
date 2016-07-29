@@ -149,8 +149,10 @@ public class TaskDetailActivity extends AppCompatActivity {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String report = "";
-                new DoneAsync(idTaskParsing, struserid, report).execute();
+                DialogMediaActivity dialog = new DialogMediaActivity(TaskDetailActivity.this, idTaskParsing, struserid);
+                dialog.showDialog();
+                //String report = "";
+                //new DoneAsync(idTaskParsing, struserid, report).execute();
 
             }
         });
@@ -269,7 +271,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                             for (int c = 0; c < arrayEscal.length(); c++) {
 
                                 String data = arrayEscal.getString(c);
-                                //Log.d(Escalated, data);
 
                                 Escalateds escalateds = new Escalateds();
                                 escalateds.setEscalate(data);
@@ -404,7 +405,9 @@ public class TaskDetailActivity extends AppCompatActivity {
                 objstrReport = objReport.toString();
 
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlDone+idTaskParsing, objstrReport));
+                Log.d("json", jsonObject.toString());
                 strStatus = jsonObject.getString(status_code);
+                Log.d("detail", strStatus);
                 strMessage = jsonObject.getString(message);
 
 

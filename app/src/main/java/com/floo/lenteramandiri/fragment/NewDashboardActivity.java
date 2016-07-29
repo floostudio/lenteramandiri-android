@@ -847,7 +847,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                             hashMapAGF = new HashMap<>();
                             hashMapAGF.put("values", arrayRow.getString(z));
                             mylistAGF.add(hashMapAGF);
-                            Log.d("datadash", mylistAGF.toString());
+
                         }
                     }
                 }else {
@@ -1268,7 +1268,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                             strspinnum = array.getString(a);
 
                             worldListDirectorate.add(strspinnum);
-                            //Log.d("kata", strspinnum);
                         }
                     }
                 }

@@ -61,10 +61,6 @@ public class DialogMediaActivity {
 		mName = (TextView) mDialog.findViewById(R.id.dialog_media_ok);
 		mComment = (EditText) mDialog.findViewById(R.id.dialog_media_comment);
 		mDialogComment = (EditText) mDialog.findViewById(R.id.dialog_media_comment);
-		//Log.d("idparsing", idTaskParsing);
-		//Log.d("user", struserid);
-		
-		//ImageUtil.displayRoundImage(mDialogImage, "http://pengaja.com/uiapptemplate/newphotos/profileimages/0.jpg", null);
 
 		
 		initDialogButtons();

@@ -780,7 +780,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {

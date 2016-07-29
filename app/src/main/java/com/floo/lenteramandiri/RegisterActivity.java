@@ -211,7 +211,6 @@ public class RegisterActivity extends AppCompatActivity {
                 object1.put(password,strPassword);
 
                 objReg = object1.toString();
-                //Log.e("json", json1);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -222,7 +221,6 @@ public class RegisterActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlRegister, objReg));
                 strMessage = jsonObject.getString(message);
 
-                Log.e("hello", strMessage);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

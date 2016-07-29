@@ -1,6 +1,7 @@
 package com.floo.lenteramandiri.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class DashboardTFDAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();
         }
         HashMap<String, String> item = listData.get(position);
+        //Log.d("datadash", item.get("data1").replaceAll(".*_", ""));
 
         if (position%2==0){
             viewHolder.row1.setBackgroundColor(context.getResources().getColor(R.color.grey));
@@ -72,14 +74,19 @@ public class DashboardTFDAdapter extends BaseAdapter{
             viewHolder.value2.setBackground(context.getResources().getDrawable(R.drawable.activity_btn_yellow));
         }
 
-        viewHolder.key1.setText(item.get("data1"));
+        viewHolder.key1.setText(beforeString(item.get("data1")));
         viewHolder.value1.setText(item.get("data2"));
-        viewHolder.key2.setText(item.get("data3"));
+        viewHolder.key2.setText(beforeString(item.get("data3")));
         viewHolder.value2.setText(item.get("data4"));
 
-
-
-
         return view;
+    }
+
+    private String beforeString(String string){
+        String result = null;
+
+        result = string.replaceAll(".*_", "");
+
+        return result;
     }
 }

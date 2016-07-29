@@ -238,14 +238,12 @@ public class TaskActivity extends Fragment {
             try {
                 taskArray = new ArrayList<Task>();
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlTask+idParsing));
-                //Log.d("taskasd", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                     strId = jsonObject.getInt("task_id");
                     strTitle = jsonObject.getString(title);
                     strExpire = jsonObject.getInt("expire");
-                    //strExpire = tgl[i];
                     strNote = jsonObject.getString(note);
                     strCompany = jsonObject.getString(company);
 
