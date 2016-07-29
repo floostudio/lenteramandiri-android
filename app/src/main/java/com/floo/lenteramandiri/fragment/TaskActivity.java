@@ -77,8 +77,6 @@ public class TaskActivity extends Fragment {
         arraylistTask = new ArrayList<HashMap<String, String>>();
         new DataFetcherTask().execute();
 
-
-
         String str = dateNow();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = null;
@@ -118,12 +116,8 @@ public class TaskActivity extends Fragment {
                 TextView epoch = (TextView)view.findViewById(R.id.txt_list_task_tgl);
                 Intent detailTask = new Intent(getActivity(), TaskDetailActivity.class);
                 detailTask.putExtra("task_id", taID.getText().toString());
-                //Log.d("idParsing", idParsing);
                 detailTask.putExtra("idParsing", idParsing);
-                //detailTask.putExtra("epoch", epoch.getText().toString());
                 startActivity(detailTask);
-                //Toast.makeText(getActivity(), taID.getText().toString(),Toast.LENGTH_LONG).show();
-
             }
         });
 
@@ -141,10 +135,7 @@ public class TaskActivity extends Fragment {
                     btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
                     hashMap.put(btn_months, R.drawable.btn_6months_inactive);
 
-                    //taskAdapter.filterRed("");
-                    //taskAdapter = new TaskAdapter(getActivity(), taskArray);
                     taskAdapter.filterRed(a);
-                    //listTask.setAdapter(taskAdapter);
                 } else {
                     btn_expired.setBackgroundResource(R.drawable.btn_expire_inactive);
                     hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
@@ -167,10 +158,8 @@ public class TaskActivity extends Fragment {
                     btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
                     hashMap.put(btn_months, R.drawable.btn_6months_inactive);
 
-
-                    //taskAdapter = new TaskAdapter(getActivity(), taskArray);
                     taskAdapter.filterOrange(a);
-                    //listTask.setAdapter(taskAdapter);
+
                 } else {
                     btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_inactive);
                     hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
@@ -192,9 +181,8 @@ public class TaskActivity extends Fragment {
                     hashMap.put(btn_expired, R.drawable.btn_expire_inactive);
                     btn_willexpired.setBackgroundResource(R.drawable.btn_willexpire_inactive);
                     hashMap.put(btn_willexpired, R.drawable.btn_willexpire_inactive);
-                    //new DataFetcherTask().execute();
+
                     taskAdapter.filterGreen(a);
-                    //listTask.setAdapter(taskAdapter);
 
                 } else {
                     btn_months.setBackgroundResource(R.drawable.btn_6months_inactive);
@@ -261,28 +249,13 @@ public class TaskActivity extends Fragment {
                     strNote = jsonObject.getString(note);
                     strCompany = jsonObject.getString(company);
 
-
                     Task task = new Task();
-                    //if (strExpire<tode()){
-
-                      //  if (strExpire>)
-
-                        task.setTask_id(strId);
-                        task.setTitle(strTitle);
-                        task.setExpire(strExpire);
-                        task.setNote(strNote);
-                        task.setCompany(strCompany);
-                        taskArray.add(task);
-                    /*}else {
-                        task.setTask_id(strId);
-                        task.setTitle(strTitle);
-                        task.setExpire(strExpire);
-                        task.setNote(strNote);
-                        task.setCompany(strCompany);
-                        taskArray.add(task);
-                    }*/
-
-
+                    task.setTask_id(strId);
+                    task.setTitle(strTitle);
+                    task.setExpire(strExpire);
+                    task.setNote(strNote);
+                    task.setCompany(strCompany);
+                    taskArray.add(task);
                 }
 
 
@@ -300,8 +273,6 @@ public class TaskActivity extends Fragment {
                 pDialog.dismiss();
 
             taskAdapter = new TaskAdapter(getActivity(), taskArray);
-            //String day = String.valueOf(datenowwwwww());
-            //taskAdapter.filter(day);
             listTask.setAdapter(taskAdapter);
 
         }

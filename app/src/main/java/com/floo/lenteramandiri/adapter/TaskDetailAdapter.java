@@ -48,7 +48,6 @@ public class TaskDetailAdapter extends BaseAdapter {
         private LinearLayout liner;
         private ImageView img;
 
-
     }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
@@ -67,7 +66,6 @@ public class TaskDetailAdapter extends BaseAdapter {
         Escalateds escalated = listData.get(position);
         String a = escalated.getEscalate();
         String z = escalated.getBold();
-        //Log.d("datamasuk1", z);
 
         if (a.trim().equals("Escalated 1")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
@@ -129,9 +127,6 @@ public class TaskDetailAdapter extends BaseAdapter {
 
             viewHolder.escal.setText(escalated.getEscalate());
         }
-
-        
-
 
         return view;
     }

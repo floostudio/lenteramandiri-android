@@ -53,8 +53,6 @@ public class ChangePasswordActivity extends AppCompatActivity{
         edtNew = (EditText)findViewById(R.id.edt_change_newpassword);
         edtReenter = (EditText)findViewById(R.id.edt_change_reenterpassword);
 
-
-
         line.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,94 +106,6 @@ public class ChangePasswordActivity extends AppCompatActivity{
 
         @Override
         protected Void doInBackground(Void... params) {
-            /*String objek = "";
-
-            HttpParams myParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(myParams, 5000);
-            HttpConnectionParams.setSoTimeout(myParams, 5000);
-
-            JSONObject object = new JSONObject();
-            try {
-
-                object.put("device_type","Samsung Galaxy Note 5");
-                object.put("device_os","android OS 4.4.2");
-                object.put("device_uuid","njadnjlvafjvnjnjasmsodc");
-                object.put("vendor_name","DOT");
-                object.put("vendor_pass","DOTVNDR");
-
-
-                String json = object.toString();
-
-                HttpClient httpclient = new DefaultHttpClient(myParams);
-
-
-                HttpPost httppost = new HttpPost(url);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("Accept-Language", "en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                objek = EntityUtils.toString(response.getEntity());
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String access_key="";
-            try{
-                JSONObject jsonObject2 = new JSONObject(objek);
-                access_key = jsonObject2.getString("access_key");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            String serverData="";
-
-            JSONObject object1 = new JSONObject();
-            try {
-                object1.put(email, emailParsing);
-                object1.put(old_password, strCurrent);
-                object1.put(new_password, strNew);
-                String json1 = object1.toString();
-
-
-
-                DefaultHttpClient httpclient= new DefaultHttpClient(myParams);
-                HttpPut httpPut = new HttpPut(urlChangePass);
-                httpPut.setHeader("Content-Type", "application/json");
-                httpPut.setHeader("Accept", "application/json");
-                httpPut.setHeader("X-Header_access_key", access_key);
-                httpPut.setHeader("Accept-Language","en-us");
-                httpPut.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json1);
-                httpPut.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httpPut);
-                serverData = EntityUtils.toString(response.getEntity());
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
             String objPut = "";
             JSONObject object1 = new JSONObject();
             try {

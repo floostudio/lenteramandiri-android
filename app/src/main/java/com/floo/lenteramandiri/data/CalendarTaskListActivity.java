@@ -48,25 +48,17 @@ public class CalendarTaskListActivity extends AppCompatActivity {
     private static final String company = "company";
     CharSequence ss;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_tasklist);
         initView();
-
         new DataFetcherTask().execute();
-
-
-
-
     }
 
     public void initView(){
         Intent i = getIntent();
         idParsing  = i.getStringExtra("IDPARSING");
-        //expireParsing = i.getStringExtra("date");
         ss = i.getCharSequenceExtra("date");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
@@ -95,8 +87,6 @@ public class CalendarTaskListActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     private class DataFetcherTask extends AsyncTask<Void, Void, Void> {
@@ -116,7 +106,6 @@ public class CalendarTaskListActivity extends AppCompatActivity {
             try {
                 taskArray = new ArrayList<Task>();
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlTask+idParsing));
-                //Log.e("task", jsonArray.toString());
                 for (int i=0; i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
@@ -126,7 +115,6 @@ public class CalendarTaskListActivity extends AppCompatActivity {
                     strNote = jsonObject.getString(note);
                     strCompany = jsonObject.getString(company);
 
-
                     Task task = new Task();
                     task.setTask_id(strId);
                     task.setTitle(strTitle);
@@ -134,15 +122,10 @@ public class CalendarTaskListActivity extends AppCompatActivity {
                     task.setNote(strNote);
                     task.setCompany(strCompany);
                     taskArray.add(task);
-
-
                 }
-
-
             }catch (JSONException e){
                 e.printStackTrace();
             }
-
             return null;
         }
 
@@ -155,8 +138,6 @@ public class CalendarTaskListActivity extends AppCompatActivity {
             taskAdapter = new CalendarListAdapter(CalendarTaskListActivity.this, taskArray);
             taskAdapter.filter(ss.toString());
             listTask.setAdapter(taskAdapter);
-
-
         }
     }
 }

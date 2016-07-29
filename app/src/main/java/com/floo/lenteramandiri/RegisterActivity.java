@@ -61,9 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String status_code = "status_code";
     private static final String message = "message";
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void initView(){
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titletoolbar = (TextView) toolbar.findViewById(R.id.titleToolbar);
-        titletoolbar.setText("REGISTER");
+        titletoolbar.setText("DAFTAR");
         save = (TextView)findViewById(R.id.txt_save);
         save.setVisibility(View.INVISIBLE);
         LinearLayout line = (LinearLayout) findViewById(R.id.linier_toolbar);
@@ -103,13 +100,11 @@ public class RegisterActivity extends AppCompatActivity {
         idGroup = (TextView) findViewById(R.id.txtid_group);
         spinDepartment = (Spinner) findViewById(R.id.spin_Department);
         idDepartment = (TextView) findViewById(R.id.txtid_department);
-        //edtDirectorate = (EditText) findViewById(R.id.edt_reg_directorate);
-        //edtGroup = (EditText) findViewById(R.id.edt_reg_group);
-        //edtDepartment = (EditText) findViewById(R.id.edt_reg_department);
+
         edtEmail = (EditText) findViewById(R.id.edt_reg_email);
         spinTitle = (Spinner)findViewById(R.id.spin_Title);
         idTitle = (TextView) findViewById(R.id.txtid_title);
-        //edtTitle = (EditText) findViewById(R.id.edt_reg_title);
+
         edtPassword = (EditText) findViewById(R.id.edt_reg_password);
         edtConfirm = (EditText) findViewById(R.id.edt_reg_conf_password);
         btnRegister = (Button) findViewById(R.id.btn_reg_submit);
@@ -117,8 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (edtFirstName.getText().toString().isEmpty()){
                     Toast.makeText(getApplicationContext(), "Firstname empty",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
@@ -227,7 +220,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlRegister, objReg));
-                //strStatus= jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 
                 Log.e("hello", strMessage);
@@ -241,7 +233,6 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            //Log.e("Login", strStatus);
             if (strMessage.trim().equals("Registered Success")){
                 Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
                 Intent nextMenu = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -274,14 +265,8 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-
             worldDirectorate = new ArrayList<DataSpinner>();
             worldListDirectorate = new ArrayList<String>();
-
-            String[] plan = new String[]{
-                    "Select an item..."
-            };
-
 
             try {
                 DataSpinner data = new DataSpinner();
@@ -307,10 +292,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     worldListDirectorate.add(strNameDrectorate);
 
-
                 }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -354,12 +336,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             };
 
-            //spinDirectorate.setPrompt("pilih");
             spinDirectorate.setAdapter(arrayAdapter);
-
-
-            //spinDirectorate.setAdapter(new ArrayAdapter<String>(RegisterActivity.this,
-            //        R.layout.list_spinner, worldListDirectorate));
 
             spinDirectorate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -375,8 +352,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                     TextView txtid = (TextView) findViewById(R.id.txtid_directorate);
                     txtid.setText(Integer.toString(worldDirectorate.get(position).getId()));
-                    //Toast.makeText(getApplicationContext(), txtid.getText().toString(), Toast.LENGTH_LONG).show();
-
 
                 }
 
@@ -385,9 +360,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
             });
-
-
-
         }
     }
 
@@ -412,7 +384,6 @@ public class RegisterActivity extends AppCompatActivity {
             world = new ArrayList<DataSpinner>();
             worldList = new ArrayList<String>();
 
-
             try {
                 DataSpinner data = new DataSpinner();
                 int id = 0;
@@ -435,15 +406,12 @@ public class RegisterActivity extends AppCompatActivity {
                     world.add(dataSpinner);
 
                     worldList.add(strName);
-
-
                 }
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             return null;
         }
@@ -496,8 +464,6 @@ public class RegisterActivity extends AppCompatActivity {
                     }else {
                         row.setTextColor(Color.BLACK);
                     }
-
-
 
                     TextView txtid = (TextView) findViewById(R.id.txtid_department);
                     txtid.setText(Integer.toString(world.get(position).getId()));
@@ -555,8 +521,6 @@ public class RegisterActivity extends AppCompatActivity {
                     worldDirectorate.add(dataSpinner);
 
                     worldListDirectorate.add(strNameDrectorate);
-
-
                 }
 
             } catch (JSONException e) {
@@ -653,7 +617,7 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 DataSpinner data = new DataSpinner();
                 int id = 0;
-                String pilih = "Title";
+                String pilih = "Jabatan";
                 data.setId(id);
                 data.setName(pilih);
                 worldDirectorate.add(data);
@@ -672,8 +636,6 @@ public class RegisterActivity extends AppCompatActivity {
                     worldDirectorate.add(dataSpinner);
 
                     worldListDirectorate.add(strNameDrectorate);
-
-
                 }
 
             } catch (JSONException e) {
@@ -727,7 +689,7 @@ public class RegisterActivity extends AppCompatActivity {
                                            View view, int position, long id) {
                     TextView row = (TextView)view.findViewById(R.id.txtSpinner);
 
-                    if (row.getText().toString().trim().equals("Title")){
+                    if (position==0){
                         row.setTextColor(getResources().getColor(R.color.hint));
                     }else {
                         row.setTextColor(Color.BLACK);
@@ -744,6 +706,12 @@ public class RegisterActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    public void onBackPressed(){
+        Intent backLogin = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(backLogin);
+        finish();
     }
 }
 

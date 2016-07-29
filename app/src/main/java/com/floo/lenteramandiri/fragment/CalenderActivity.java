@@ -66,9 +66,7 @@ public class CalenderActivity extends Fragment {
         idParsing = this.getArguments().getString("IDPARSING");
         calendarr = (MaterialCalendarView) view.findViewById(R.id.calendarView);
 
-        //calendarr.setHeaderTextAppearance(R.style.TextAppearance_AppCompat_Large);
         calendarr.setDateTextAppearance(R.style.TextAppearance_AppCompat_Small);
-        //calendarr.setWeekDayTextAppearance(R.style.TextAppearance_AppCompat_Medium);
 
         calendarr.addDecorator(new EnableOneToTenDecorator());
 
@@ -81,7 +79,6 @@ public class CalenderActivity extends Fragment {
         calendar.set(calendar.get(Calendar.YEAR) + 2, Calendar.OCTOBER, 31);
         calendarr.setMaximumDate(calendar.getTime());
 
-        //int color = R.color.lightblue;
         calendarr.setSelectionColor(this.getResources().getColor(R.color.lightblue));
 
         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
@@ -100,17 +97,12 @@ public class CalenderActivity extends Fragment {
                     e.printStackTrace();
                 }
                 today = date2.getTime()/1000;
-                //Toast.makeText(getActivity(), String.valueOf(today), Toast.LENGTH_LONG).show();
 
                 Intent task = new Intent(getActivity(), CalendarTaskListActivity.class);
                 task.putExtra("IDPARSING", idParsing);
-                //task.putExtra("date", String.valueOf(today));
                 task.putExtra("date", getSelectedDatesString());
 
                 startActivity(task);
-                //Toast.makeText(getActivity(), getSelectedDatesString(), Toast.LENGTH_LONG).show();
-
-
             }
         });
     }
@@ -171,7 +163,6 @@ public class CalenderActivity extends Fragment {
 
                     CalendarDay dayy;
                     dayy = CalendarDay.from(new Date(epochtodate(strExpire)));
-                    //Log.d("tanggal", String.valueOf(dayy));
 
                     dates.add(dayy);
 
@@ -181,7 +172,6 @@ public class CalenderActivity extends Fragment {
             }catch (JSONException e){
                 e.printStackTrace();
             }
-
 
             return dates;
         }

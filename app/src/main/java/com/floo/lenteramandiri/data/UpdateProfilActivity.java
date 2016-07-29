@@ -136,9 +136,7 @@ public class UpdateProfilActivity extends AppCompatActivity {
                     strEmail = edtEmail.getText().toString();
 
                     new NoteAsync().execute();
-
                 }
-
             }
         });
     }

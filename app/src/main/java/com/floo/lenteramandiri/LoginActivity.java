@@ -56,14 +56,12 @@ public class LoginActivity extends AppCompatActivity {
     String msg = "";
     String PROJECTNUMBER = DataManager.PROJECTNUMBER;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getRegId();
         initView();
-
 
         String str = dateNow();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -90,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     regid = gcm.register(PROJECTNUMBER);
                     msg = "Device registered, registration ID=" + regid;
-
-                    //Log.d("nouuid", regid);
 
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
@@ -125,7 +121,6 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.edtPwd);
         login = (Button) findViewById(R.id.btn_Login);
 
-
         //initializing
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +134,6 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //email.setText("qwerty@domain.com", TextView.BufferType.EDITABLE);
-                //password.setText("qwerty", TextView.BufferType.EDITABLE);
 
                 if (email.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "NIP empty", Toast.LENGTH_LONG).show();
@@ -168,7 +161,6 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             String json1 = "";
             JSONObject object1 = new JSONObject();
-            //Log.d("nouuid", regid);
 
             try {
                 object1.put("nip",strEmail);
@@ -178,39 +170,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            /*try {
-                object1.put("email",strEmail);
-                object1.put("password", strPassword);
-                String json1 = object1.toString();
-
-
-                DefaultHttpClient httpclient= new DefaultHttpClient();
-                HttpPost httppost = new HttpPost(urlLogin);
-                httppost.setHeader("Content-Type", "application/json");
-                httppost.setHeader("Accept", "application/json");
-                httppost.setHeader("X-Header_access_key", DataManager.getHeaderKey());
-                httppost.setHeader("Accept-Language","en-us");
-                httppost.setHeader("X-Timezone", "Asia/Jakarta");
-
-                StringEntity se = new StringEntity(json1);
-                httppost.setEntity(se);
-
-                HttpResponse response = httpclient.execute(httppost);
-                serverData = EntityUtils.toString(response.getEntity());
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-
 
             try {
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlLogin, json1));
@@ -226,8 +185,6 @@ public class LoginActivity extends AppCompatActivity {
                     strMessage = jsonObject.getString(message);
                 }
 
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -241,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(result);
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
-            //progressDialog.dismiss();
+
             try{
                 if (strStatus.trim().equals("200")){
                     idParsing = Integer.toString(user_id);
@@ -249,27 +206,15 @@ public class LoginActivity extends AppCompatActivity {
                         session.createLoginSession(idParsing, strFirstname, strLastname, strProfpic);
                         Intent nextMenu = new Intent(LoginActivity.this, MainActivity.class);
 
-                        //nextMenu.putExtra("IDPARSING", idParsing);
-                        //nextMenu.putExtra(first_name, strFirstname);
-                        //nextMenu.putExtra(last_name, strLastname);
-                        //nextMenu.putExtra(profpic, strProfpic);
-
                         startActivity(nextMenu);
                         finish();
-
                 }else{
-
                     Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_LONG).show();
-
                 }
 
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
-
-
 }

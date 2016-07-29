@@ -89,9 +89,6 @@ public class TaskDetailActivity extends AppCompatActivity {
 
     private static String[] titles = new String[8];
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,17 +98,12 @@ public class TaskDetailActivity extends AppCompatActivity {
         arraytoTaskList = new ArrayList<HashMap<String, String>>();
         arrayListTo = new ArrayList<Escalateds>();
         new DataFetcherDetailTask().execute();
-
-
-
-
     }
 
     public void initView(){
         Intent i = getIntent();
         idTaskParsing  = i.getStringExtra("task_id");
         struserid = i.getStringExtra("idParsing");
-        //strepoch = i.getStringExtra("epoch");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("DETIL TUGAS");
@@ -140,7 +132,6 @@ public class TaskDetailActivity extends AppCompatActivity {
             }
         });
 
-
         btnNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,24 +151,6 @@ public class TaskDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String report = "";
                 new DoneAsync(idTaskParsing, struserid, report).execute();
-
-                //Log.d("today", String.valueOf(epoch(dateNow())));
-                //Log.d("tanggal", String.valueOf(epoch(txtTgl.getText().toString())));
-
-                //long tanggal = epoch(txtTgl.getText().toString());
-                //Log.d("tanggal", String.valueOf(tanggal));
-                //DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(TaskDetailActivity.this);
-                //warning.showDialog();
-
-               /*if (epoch(txtTgl.getText().toString()) < epoch(dateNow())) {
-                    DialogUniversalWarningUtils warning = new DialogUniversalWarningUtils(TaskDetailActivity.this);
-                    warning.showDialog();
-                }else {
-                    DialogMediaActivity dialog = new DialogMediaActivity(TaskDetailActivity.this, idTaskParsing, struserid);
-                    dialog.showDialog();
-                }*/
-
-
 
             }
         });
@@ -229,25 +202,18 @@ public class TaskDetailActivity extends AppCompatActivity {
             try {
                 String coba = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/66?user_id=63";
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(urlDetailTask+idTaskParsing+"?user_id="+struserid));
-                //Log.d("alamat", urlDetailTask+idTaskParsing+"?user_id="+struserid);
-                //JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(coba));
                 strid = jsonObject.getInt("task_id");
                 strTitle = jsonObject.getString(title);
                 strExpire = jsonObject.getInt("expire");
-                //strExpire = (int) epoch(strepoch);
                 strNote = jsonObject.getString(note);
                 strPosition = jsonObject.getString(esc_position);
                 strCompany = jsonObject.getString(company);
 
-                //convert = Integer.parseInt(strExpire);
                 epochtodate(strExpire);
 
                 JSONArray arrayEscalfrom = jsonObject.getJSONArray(escalated_from);
-                //Log.d("objEscalated", arrayEscal.toString());
                 for (int i=0; i<arrayEscalfrom.length();i++){
-                    //Log.d("arrayEscal", arrayEscal.getString(i));
                     String strEscalated = arrayEscalfrom.getString(i);
-
 
                     hashmapfromTaskList = new HashMap<String, String>();
                     hashmapfromTaskList.put(escalated_from, strEscalated);
@@ -258,7 +224,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                 ArrayList<String> array = new ArrayList<String>();
                 JSONObject objEscalTo = jsonObject.getJSONObject(escalated_to);
                 for (int a=0; a<objEscalTo.length();a++) {
-                    //key = objEscalTo.names().getString(a);
                     array.add(objEscalTo.names().getString(a));
                 }
                 Collections.sort(array, new Comparator<String>() {
@@ -268,10 +233,8 @@ public class TaskDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                //Log.d("datamasuk", array.toString());
                 for (int b=0; b<array.size();b++){
                     String data1=array.get(b);
-                    //Log.d("datakeluar", data);
 
                     Escalateds escall = new Escalateds();
                     escall.setEscalate(data1);
@@ -287,7 +250,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                             for (int c = 0; c < arrayEscal.length(); c++) {
 
                                 String data = arrayEscal.getString(c);
-                                //Log.d(Escalated, data);
 
                                 Escalateds escalateds = new Escalateds();
                                 escalateds.setEscalate(data);
@@ -320,71 +282,9 @@ public class TaskDetailActivity extends AppCompatActivity {
 
                     }
                 }
-
-
-
-
-
-                /*JSONObject objEscalTo = jsonObject.getJSONObject(escalated_to);
-
-                Log.d("datamasuk", objEscalTo.toString());
-                for (int a=0; a<objEscalTo.length();a++) {
-                    key = objEscalTo.names().getString(a);
-                    Log.d("data", key);
-                    int urut = a + 1;
-                        Escalateds escall = new Escalateds();
-                        escall.setEscalate(key);
-                        if (!key.trim().equals(Escalated + " " + strPosition)) {
-
-                            String ada = "1";
-
-                            escall.setBold(ada);
-                            arrayListTo.add(escall);
-
-                            JSONArray arrayEscal = objEscalTo.getJSONArray(key);
-                            if (arrayEscal.length() > 0) {
-                                for (int c = 0; c < arrayEscal.length(); c++) {
-
-                                    String data = arrayEscal.getString(c);
-                                    //Log.d(Escalated, data);
-
-                                    Escalateds escalateds = new Escalateds();
-                                    escalateds.setEscalate(data);
-                                    escalateds.setBold(ada);
-
-                                    arrayListTo.add(escalateds);
-                                }
-                            }
-                        } else {
-                            String tdk = "0";
-
-                            escall.setBold(tdk);
-                            arrayListTo.add(escall);
-
-                            JSONArray arrayEscal = objEscalTo.getJSONArray(key);
-                            if (arrayEscal.length() > 0) {
-                                for (int c = 0; c < arrayEscal.length(); c++) {
-
-                                    String data = arrayEscal.getString(c);
-                                    //Log.d(Escalated, data);
-
-                                    Escalateds escalateds = new Escalateds();
-                                    escalateds.setEscalate(data);
-                                    escalateds.setBold(tdk);
-
-                                    arrayListTo.add(escalateds);
-                                }
-
-                            }
-                        }
-                    }*/
-
-
-
                 } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             return null;
         }
@@ -472,32 +372,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                     listDetailTaskList.setExpanded(true);
                 }
             }
-
-            /*txtEscalatedTo.setText("Escalated To :");
-            adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
-            listEscalatedTo.setAdapter(adapter);
-
-            txtEscalated.setText("Escalated From :");
-            adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
-                    R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
-            listDetailTaskList.setAdapter(adapterDetailTaskList);
-
-            if (arrayListTo.isEmpty() && arrayfromTaskList.isEmpty()){
-                txtEscalated.setText("");
-            }else{
-                if (arrayfromTaskList.isEmpty()){
-                    txtEscalated.setText("Escalated To :");
-                    adapter = new TaskDetailAdapter(getApplicationContext(), arrayListTo);
-                    listDetailTaskList.setAdapter(adapter);
-
-                }else {
-                    txtEscalated.setText("Escalated From :");
-                    adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
-                            R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
-                    listDetailTaskList.setAdapter(adapterDetailTaskList);
-                }
-
-            }*/
         }
     }
 
@@ -551,10 +425,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                 back.putExtra("fragment", "fragment");
                 finish();
                 startActivity(back);
-
-                //Intent back = new Intent(TaskDetailActivity.this, MainActivity.class);
-                //startActivity(back);
-
 
             }else {
                 Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();

@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +22,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.floo.lenteramandiri.adapter.DashboardAGFAdapter;
+import com.floo.lenteramandiri.adapter.DashboardTFDAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
@@ -34,7 +36,6 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
@@ -45,6 +46,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
@@ -67,10 +69,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     TextView text1, text2, title_blue, title_yellow, title1 ;
 
     private SpotsDialog pDialog;
-    String url = DataManager.url;
-    String urlDashboard = DataManager.urlDashboard;
     String urlGetperAccount = DataManager.urlGetperAccountSementara;
-    String strAcc_num, idParsing;
+    String strAcc_num,strCif, idParsing;
     private static final String acc_num = "acc_num";
     private static final String tfd = "tfd";
     private static final String collection = "collection";
@@ -85,15 +85,17 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     private static final String cashoutactual = "cashoutactual";
 
     BarChart chart_Lcf, chart_Dpk;
-    CombinedChart chart_CashIn, chat_CashOut, chart_BakiDebet1, chart_BakiDebet2;
+    CombinedChart chart_CashIn, chat_CashOut, chart_BakiDebet1, chart_BakiDebet2, chart_dlr;
     LinearLayout lineBakiDebet;
     Button btnBakiDebetTrue, btnPercentageTrue;
     HorizontalScrollView horizontalAGF;
     RelativeLayout relative_cash_in;
-    LinearLayout linier_cash_out, linier_dpk, linier_lcf, linier_bakidebet1, linier_bakidebet2;
+    LinearLayout linier_cash_out, linier_dpk, linier_lcf, linier_bakidebet1, linier_bakidebet2, linier_dlr;
     Button btn_toggle_line_cashIn, btn_toggle_bar_cashIn, btn_toggle_line_cashOut, btn_toggle_bar_cashOut,
-            btn_toggle_line_bakidebet1, btn_toggle_bar_bakidebet1, btn_toggle_line_bakidebet2, btn_toggle_bar_bakidebet2;
-    HashMap<Button, Integer> mapBtnCashIn, mapBtnCashOut, mapBtnBakiDebet1, mapBtnBakiDebet2;
+            btn_toggle_line_bakidebet1, btn_toggle_bar_bakidebet1, btn_toggle_line_bakidebet2, btn_toggle_bar_bakidebet2,
+            btn_toggle_line_dlr, btn_toggle_bar_dlr;
+    HashMap<Button, Integer> mapBtnCashIn, mapBtnCashOut, mapBtnBakiDebet1, mapBtnBakiDebet2, mapBtnDlr;
+    GridView grid;
 
 
     @Nullable
@@ -116,32 +118,30 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         //new DataSpinner().execute();
         new DataSpinnerTop().execute();
 
+        spin_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String text = spin_top.getSelectedItem().toString().replaceAll("\\s+","");
+                int index = text.indexOf("-");
+                new DataSpinner(text.substring(0, index)).execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView txt = (TextView)view.findViewById(R.id.text1);
+                String text = spin_top.getSelectedItem().toString().replaceAll("\\s+","");
+                int index = text.indexOf("-");
 
-                //Toast.makeText(getActivity(), txt.getText().toString(),Toast.LENGTH_LONG).show();
-
-                new DataFetcherTask(txt.getText().toString()).execute();
-                /*title_yellow.setText("Transaction Flow Diagram");
-                title_blue.setText("Transaction Flow Diagram");
-                text1.setText("Collection");
-                text2.setText("Payment");
-                toggleButtonActive(false);
-                btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
-                btntfd.setTextColor(Color.parseColor("#ffffff"));
-
-                setGONE();
-
-                //toggleListView(listTFD);
-                listTFD.setVisibility(View.VISIBLE);
-
-                btndetail.setVisibility(View.VISIBLE);*/
-
-
-
+                new DataFetcherTask(text.substring(0, index), txt.getText().toString()).execute();
             }
 
             @Override
@@ -218,7 +218,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         title_yellow = (TextView)v.findViewById(R.id.txt_title_yellow);
         title1 = (TextView)v.findViewById(R.id.tfd_title_1);
         spinner = (Spinner)v.findViewById(R.id.spin_array);
-        spinner.setEnabled(false);
+        spinner.setVisibility(View.INVISIBLE);
         spin_top = (Spinner)v.findViewById(R.id.spin_array_top);
         spin_top.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
@@ -233,6 +233,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         btnavg = (Button)v.findViewById(R.id.btn_avg);
         btnbakidebet = (Button)v.findViewById(R.id.btn_BakiDebet);
         btndetail = (Button)v.findViewById(R.id.btn_detail);
+
         btntfd.setOnClickListener(this);
         btncash.setOnClickListener(this);
         btncashout.setOnClickListener(this);
@@ -255,13 +256,13 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         chat_CashOut = (CombinedChart)v.findViewById(R.id.chart_cashOut);
         chart_Lcf = (BarChart) v.findViewById(R.id.chart_lcf);
         chart_Dpk = (BarChart)v.findViewById(R.id.chart_dpk);
+        chart_dlr= (CombinedChart) v.findViewById(R.id.chart_dlr);
         chart_BakiDebet1 = (CombinedChart)v.findViewById(R.id.chart_bakidebet1);
         chart_BakiDebet2 = (CombinedChart)v.findViewById(R.id.chart_bakidebet2);
         lineBakiDebet = (LinearLayout)v.findViewById(R.id.linierBakiDebet) ;
 
         horizontalAGF = (HorizontalScrollView)v.findViewById(R.id.horizontalAGF);
-        listAGF = (ExpandableHeightListView)v.findViewById(R.id.list_agf);
-        listAGF.setEnabled(false);
+        grid = (GridView)v.findViewById(R.id.grid);
 
         relative_cash_in = (RelativeLayout)v.findViewById(R.id.relative_cash_in);
         btn_toggle_line_cashIn = (Button)v.findViewById(R.id.btn_toggle_line_cashIn);
@@ -288,6 +289,17 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
         linier_dpk = (LinearLayout)v.findViewById(R.id.linier_dpk);
         linier_lcf = (LinearLayout)v.findViewById(R.id.linier_lcf);
+
+        linier_dlr = (LinearLayout)v.findViewById(R.id.linier_dlr);
+        btn_toggle_line_dlr = (Button)v.findViewById(R.id.btn_toggle_line_dlr);
+        btn_toggle_bar_dlr = (Button)v.findViewById(R.id.btn_toggle_bar_dlr);
+        btn_toggle_line_dlr.setOnClickListener(this);
+        btn_toggle_bar_dlr.setOnClickListener(this);
+        mapBtnDlr = new HashMap<Button, Integer>();
+        btn_toggle_line_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
+        btn_toggle_bar_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
+        mapBtnDlr.put(btn_toggle_line_dlr, R.drawable.activity_btn_blue);
+        mapBtnDlr.put(btn_toggle_bar_dlr, R.drawable.activity_btn_blue);
 
         linier_bakidebet1 = (LinearLayout)v.findViewById(R.id.linier_bakidebet1);
         btn_toggle_line_bakidebet1 = (Button)v.findViewById(R.id.btn_toggle_line_bakidebet1);
@@ -328,7 +340,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             listTFD.setVisibility(View.VISIBLE);
             btndetail.setVisibility(View.GONE);
-            spinner.setEnabled(false);
+            spinner.setVisibility(View.INVISIBLE);
 
         }else if (v==btncash){
             title_yellow.setText("Cash In");
@@ -340,9 +352,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btncash.setTextColor(Color.parseColor("#ffffff"));
 
             setGONE();
-            //toggleLineChart(chart_CashIn);
             relative_cash_in.setVisibility(View.VISIBLE);
-            spinner.setEnabled(true);
+            spinner.setVisibility(View.VISIBLE);
 
 
         }else if (v==btncashout){
@@ -356,8 +367,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             setGONE();
             linier_cash_out.setVisibility(View.VISIBLE);
-            //toggleLineChart(chat_CashOut);
-            spinner.setEnabled(true);
+            spinner.setVisibility(View.VISIBLE);
 
 
         }else if (v==btndpk){
@@ -371,8 +381,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             setGONE();
             linier_dpk.setVisibility(View.VISIBLE);
-            //toggleChart(chart_Dpk);
-            spinner.setEnabled(false);
+            spinner.setVisibility(View.INVISIBLE);
         }else if (v==btnlcf){
             title_yellow.setText("LCF");
             title_blue.setText("LCF");
@@ -384,8 +393,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             setGONE();
             linier_lcf.setVisibility(View.VISIBLE);
-            //toggleChart(chart_Lcf);
-
 
         }else if (v==btndlr){
             title_yellow.setText("Deposito Loan Ratio");
@@ -397,7 +404,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             btndlr.setTextColor(Color.parseColor("#ffffff"));
             setGONE();
 
-            spinner.setEnabled(false);
+            spinner.setVisibility(View.INVISIBLE);
+            linier_dlr.setVisibility(View.VISIBLE);
 
         }else if (v==btnagf){
             title_yellow.setText("AGF");
@@ -411,7 +419,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
             horizontalAGF.setVisibility(View.VISIBLE);
 
-            spinner.setEnabled(false);
+            spinner.setVisibility(View.INVISIBLE);
 
         }else if (v==btnavg){
             toggleButtonActive(false);
@@ -437,7 +445,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             lineBakiDebet.setVisibility(View.VISIBLE);
             linier_bakidebet1.setVisibility(View.VISIBLE);
             linier_bakidebet2.setVisibility(View.GONE);
-            spinner.setEnabled(true);
+            spinner.setVisibility(View.VISIBLE);
 
         }else if (v==btndetail){
             Intent im=new Intent(getActivity(), ImageActivity.class);
@@ -597,6 +605,40 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                 chart_BakiDebet2.invalidate();
             }
 
+        }else if (v==btn_toggle_bar_dlr){
+            if (mapBtnDlr.get(btn_toggle_bar_dlr) == R.drawable.activity_btn) {
+                btn_toggle_bar_dlr.setText("Hide Bar Values");
+                btn_toggle_bar_dlr.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_bar_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnDlr.put(btn_toggle_bar_dlr, R.drawable.activity_btn_blue);
+                chart_dlr.getBarData().setDrawValues(true);
+                chart_dlr.invalidate();
+            }else {
+                btn_toggle_bar_dlr.setText("Show Bar Values");
+                btn_toggle_bar_dlr.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_bar_dlr.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnDlr.put(btn_toggle_bar_dlr, R.drawable.activity_btn);
+                chart_dlr.getBarData().setDrawValues(false);
+                chart_dlr.invalidate();
+            }
+
+        }else if (v==btn_toggle_line_dlr){
+            if (mapBtnDlr.get(btn_toggle_line_dlr) == R.drawable.activity_btn) {
+                btn_toggle_line_dlr.setText("Hide Line Values");
+                btn_toggle_line_dlr.setTextColor(getResources().getColor(R.color.cpb_white));
+                btn_toggle_line_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
+                mapBtnDlr.put(btn_toggle_line_dlr, R.drawable.activity_btn_blue);
+                chart_dlr.getLineData().setDrawValues(true);
+                chart_dlr.invalidate();
+
+            }else {
+                btn_toggle_line_dlr.setText("Show Line Values");
+                btn_toggle_line_dlr.setTextColor(getResources().getColor(R.color.background));
+                btn_toggle_line_dlr.setBackgroundResource(R.drawable.activity_btn);
+                mapBtnDlr.put(btn_toggle_line_dlr, R.drawable.activity_btn);
+                chart_dlr.getLineData().setDrawValues(false);
+                chart_dlr.invalidate();
+            }
         }
     }
 
@@ -607,19 +649,14 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
         relative_cash_in.setVisibility(View.GONE);
         linier_cash_out.setVisibility(View.GONE);
-        //chart_CashIn.setVisibility(View.GONE);
-        //chat_CashOut.setVisibility(View.GONE);
-        //chart_Lcf.setVisibility(View.GONE);
-        //chart_Dpk.setVisibility(View.GONE);
         linier_dpk.setVisibility(View.GONE);
         linier_lcf.setVisibility(View.GONE);
         lineBakiDebet.setVisibility(View.GONE);
 
         horizontalAGF.setVisibility(View.GONE);
+        linier_dlr.setVisibility(View.GONE);
 
     }
-
-
 
     private static String removeLastChar(String str) {
         return str.substring(0,str.length()-1);
@@ -628,7 +665,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
 
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
-        private String parsing;
+        private String pCif, pAccount;
         ArrayList<BarEntry> yCashIn = new ArrayList<BarEntry>();
         ArrayList<String> xCashIn = new ArrayList<String>();
         ArrayList<Entry> lineIn = new ArrayList<Entry>();
@@ -643,14 +680,22 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         ArrayList<BarEntry> yDpk = new ArrayList<BarEntry>();
         ArrayList<String> xDpk = new ArrayList<String>();
 
+        ArrayList<BarEntry> yDlr = new ArrayList<BarEntry>();
+        ArrayList<String> xDlr = new ArrayList<String>();
+        ArrayList<Entry> lineDlr = new ArrayList<Entry>();
+
         ArrayList<BarEntry> barBaki = new ArrayList<BarEntry>();
         ArrayList<Entry> lineBaki = new ArrayList<Entry>();
         ArrayList<String> blnBaki = new ArrayList<String>();
         ArrayList<BarEntry> barBakiPercen = new ArrayList<BarEntry>();
         ArrayList<Entry> lineBakiThres = new ArrayList<Entry>();
 
-        public DataFetcherTask(String parsing) {
-            this.parsing = parsing;
+        int lengthAGF;
+        ArrayList<String> lengthList = new ArrayList<>();
+
+        public DataFetcherTask(String pCif, String pAccount) {
+            this.pCif = pCif;
+            this.pAccount = pAccount;
 
         }
 
@@ -668,295 +713,234 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
         @Override
         protected Void doInBackground(Void... arg0) {
+            String json1 = "";
+            JSONObject object1 = new JSONObject();
             try {
-                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlGetperAccount+parsing));
-                Log.d("datadash", jsonArray.toString());
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    strAcc_num = jsonObject.getString(acc_num);
-                    // Mapping Data TFD
-                    if(jsonObject.has(tfd)) {
-                        JSONObject objTfd = jsonObject.getJSONObject(tfd);
-                        JSONObject objCollection = objTfd.getJSONObject(collection);
-                        titles[0] = objCollection.getString("data_title_1");
-                        titles[1] = objCollection.getString("data_title_2");
-                        titles[2] = objCollection.getString("data_title_3");
-                        titles[3] = objCollection.getString("data_title_4");
-                        String data_1 = objCollection.getString("data_1");
-                        String data_2 = objCollection.getString("data_2");
-                        String data_3 = objCollection.getString("data_3");
-                        String data_4 = objCollection.getString("data_4");
+                object1.put("cif",pCif);
+                object1.put("acc_num", pAccount);
+                json1 = object1.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                        JSONObject objPayment = objTfd.getJSONObject(payment);
 
-                        titles[4] = objPayment.getString("data_title_5");
-                        titles[5] = objPayment.getString("data_title_6");
-                        titles[6] = objPayment.getString("data_title_7");
-                        titles[7] = objPayment.getString("data_title_8");
-                        String data_5 = objPayment.getString("data_5");
-                        String data_6 = objPayment.getString("data_6");
-                        String data_7 = objPayment.getString("data_7");
-                        String data_8 = objPayment.getString("data_8");
+            try {
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlGetperAccount, json1));
+                strCif = jsonObject.getString("cif");
+                strAcc_num = jsonObject.getString(acc_num);
+                String company = jsonObject.getString("company_name");
 
-                        mylistTFD.clear();
+                if(jsonObject.has(tfd)) {
+                    ArrayList<String> arrayListKey1 = new ArrayList<>();
+                    ArrayList<String> arrayListKey2 = new ArrayList<>();
+                    ArrayList<String> arrayListValue1 = new ArrayList<>();
+                    ArrayList<String> arrayListValue2 = new ArrayList<>();
+                    JSONArray arrayTFD = jsonObject.getJSONArray(tfd);
+                    for (int a=0; a<arrayTFD.length();a++){
+                        JSONObject objTFD = arrayTFD.getJSONObject(a);
+                        String title = objTFD.getString("is_title");
+                        if (title.trim().equals("1")){
+                            JSONArray arrayKey = objTFD.getJSONArray("row");
+                            for (int i=0; i<arrayKey.length();i++) {
+
+                                if (i>=2){
+                                    if (i%2==0){
+                                        arrayListKey1.add(arrayKey.getString(i));
+                                    }else {
+                                        arrayListKey2.add(arrayKey.getString(i));
+                                    }
+                                }
+                            }
+                        }else {
+                            JSONArray arrayKey = objTFD.getJSONArray("row");
+                            for (int i=0; i<arrayKey.length();i++) {
+
+                                if (i>=2){
+                                    if (i%2==0){
+                                        arrayListValue1.add(arrayKey.getString(i));
+                                    }else {
+                                        arrayListValue2.add(arrayKey.getString(i));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    mylistTFD.clear();
+                    for (int z=0; z<arrayListValue1.size();z++){
                         hashMapTFD = new HashMap<String, String>();
-                        hashMapTFD.put("data_1", data_1);
-                        hashMapTFD.put("data_2", data_2);
-                        hashMapTFD.put("data_3", data_3);
-                        hashMapTFD.put("data_4", data_4);
-                        hashMapTFD.put("data_5", data_5);
-                        hashMapTFD.put("data_6", data_6);
-                        hashMapTFD.put("data_7", data_7);
-                        hashMapTFD.put("data_8", data_8);
-                        hashMapTFD.put("dt_title_1", titles[0]);
-                        hashMapTFD.put("dt_title_2", titles[1]);
-                        hashMapTFD.put("dt_title_3", titles[2]);
-                        hashMapTFD.put("dt_title_4", titles[3]);
-                        hashMapTFD.put("dt_title_5", titles[4]);
-                        hashMapTFD.put("dt_title_6", titles[5]);
-                        hashMapTFD.put("dt_title_7", titles[6]);
-                        hashMapTFD.put("dt_title_8", titles[7]);
-                        mylistTFD.add(hashMapTFD);
-                    } else {
-                        mylistTFD.clear();
-                        hashMapTFD  = new HashMap<String, String>();
+                        hashMapTFD.put("data1", arrayListKey1.get(z));
+                        hashMapTFD.put("data2", arrayListValue1.get(z));
+                        hashMapTFD.put("data3", arrayListKey2.get(z));
+                        hashMapTFD.put("data4", arrayListValue2.get(z));
                         mylistTFD.add(hashMapTFD);
                     }
+                }
+
+                // Mapping Data DPK
+                if(jsonObject.has("dpk")) {
+                    JSONArray arrayDPK = jsonObject.getJSONArray("dpk");
+                    for (int a = 0; a < arrayDPK.length(); a++) {
+                        JSONObject objDPK = arrayDPK.getJSONObject(a);
+
+                        String strBlnDPK = objDPK.getString(month);
+                        String strdpkkk = objDPK.getString("giro");
+                        String strcredittt = objDPK.getString("tabungan");
+                        String strdeposit = objDPK.getString("deposito");
+
+                        int intdpk = Integer.parseInt(strdpkkk);
+                        int intcredit = Integer.parseInt(strcredittt);
+                        int intdeposit = Integer.parseInt(strdeposit);
+
+                        float fltDPK = (float) intdpk;
+                        float fltCredit = (float) intcredit;
+                        float fltDeposit = (float)intdeposit;
 
 
-                    // Mapping Data Cashin
-                    if(jsonObject.has("cashin")) {
-                        mylistCashin.clear();
-                        mylistMonth.clear();
-                        JSONArray arrayCashin = jsonObject.getJSONArray("cashin");
-                        for (int a = 0; a < arrayCashin.length(); a++){
-                            JSONObject objCashin = arrayCashin.getJSONObject(a);
+                        xDpk.add(strBlnDPK);
 
-                            String strBlnCashIn = objCashin.getString(month);
-                            String strtargettt = objCashin.getString(cashintarget);
-                            String stractualll = objCashin.getString("targetrevenue");
+                        yDpk.add(new BarEntry(new float[]{fltDPK, fltCredit, fltDeposit}, a));
 
-                            int intCashIn = Integer.parseInt(strtargettt);
-                            int intRevenue = Integer.parseInt(stractualll);
-
-                            float fltCashIn = (float) intCashIn;
-                            float fltRevenue = (float) intRevenue;
-
-
-                            xCashIn.add(strBlnCashIn);
-
-                            //yCashIn.add(new BarEntry(new float[]{fltCashIn}, a));
-                            yCashIn.add(new BarEntry(fltCashIn, a));
-                            lineIn.add(new Entry(fltRevenue, a));
-
-                            //Log.d("datacash", yCashIn.toString());
-
-
-                        }
-                    } else {
-                        mylistCashin.clear();
-                        mylistMonth.clear();
-                        hashMapCashio = new HashMap<String, String>();
-                        mylistCashin.add(hashMapCashio);
-                        hashMapMonth = new HashMap<String, String>();
-                        mylistMonth.add(hashMapMonth);
                     }
+                }
 
-                    // Mapping Data Cashout
-                    if(jsonObject.has("cashout")) {
-                        mylistCashout.clear();
-                        myListMonthCashout.clear();
-                        JSONArray arrayCashout = jsonObject.getJSONArray("cashout");
-                        for (int a = 0; a < arrayCashout.length(); a++){
-                            JSONObject objCashout = arrayCashout.getJSONObject(a);
+                //Mapping Data DLR
+                if (jsonObject.has("dlr")){
+                    JSONArray arrayDLR = jsonObject.getJSONArray("dlr");
+                    for (int a=0; a<arrayDLR.length();a++){
+                        JSONObject objDLR = arrayDLR.getJSONObject(a);
 
-                            String strBlnCashOut = objCashout.getString(month);
-                            String strtargettt = objCashout.getString(cashouttarget);
-                            String strrevenue = objCashout.getString("targetrevenue");
+                        String strMonth = objDLR.getString(month);
+                        String strLoan = objDLR.getString("outstanding_loan");
+                        String strDpk = objDLR.getString("dpk");
 
-                            int intCashOut = Integer.parseInt(strtargettt);
-                            int intRevenue = Integer.parseInt(strrevenue);
+                        int intLoan = Integer.parseInt(strLoan);
+                        int intDpk = Integer.parseInt(strDpk);
 
-                            float fltCashOut = (float) intCashOut;
-                            float fltRevenue = (float) intRevenue;
+                        float fltLoan = (float) intLoan;
+                        float fltDpk = (float) intDpk;
 
+                        xDlr.add(strMonth);
 
-                            xCashOut.add(strBlnCashOut);
-
-                            yCashOut.add(new BarEntry(fltCashOut, a));
-                            lineOut.add(new Entry(fltRevenue, a));
-
-                            /*hashMapMonth = new HashMap<String, String>();
-                            hashMapMonth.put(month, objCashout.getString(month));
-                            myListMonthCashout.add(hashMapMonth);
-
-                            hashMapCashout = new HashMap<String, String>();
-                            hashMapCashout.put(cashouttarget, objCashout.getString(cashouttarget));
-                            hashMapCashout.put("targetrevenue", objCashout.getString("targetrevenue"));
-                            hashMapCashout.put("percentage", objCashout.getString("percentage"));
-                            mylistCashout.add(hashMapCashout);*/
-
-                        }
-                    } else {
-                        mylistCashout.clear();
-                        myListMonthCashout.clear();
-                        hashMapCashout = new HashMap<String, String>();
-                        mylistCashout.add(hashMapCashout);
-                        hashMapMonth = new HashMap<String, String>();
-                        myListMonthCashout.add(hashMapMonth);
+                        yDlr.add(new BarEntry(fltLoan, a));
+                        lineDlr.add(new Entry(fltDpk, a));
                     }
-                    // Mapping Data DPK
-                    if(jsonObject.has("dpk")) {
-                        mylistDpk.clear();
-                        myListMonthDPK.clear();
-                        JSONArray arrayDPK = jsonObject.getJSONArray("dpk");
-                        for (int a = 0; a < arrayDPK.length(); a++){
-                            JSONObject objDPK = arrayDPK.getJSONObject(a);
+                }
+                //Mapping Data AGF
+                if (jsonObject.has("agf")){
 
-                            String strBlnDPK = objDPK.getString(month);
-                            String strdpkkk = objDPK.getString("dpk");
-                            String strcredittt = objDPK.getString("credit");
+                    mylistAGF.clear();
+                    JSONArray arrayAGF = jsonObject.getJSONArray("agf");
+                    for (int a = 0; a<arrayAGF.length();a++){
+                        JSONObject objAGF = arrayAGF.getJSONObject(a);
+                        String title = objAGF.getString("is_title");
 
-                            int intdpk = Integer.parseInt(strdpkkk);
-                            int intcredit = Integer.parseInt(strcredittt);
-
-                            float fltDPK = (float) intdpk;
-                            float fltCredit = (float) intcredit;
-
-
-                            xDpk.add(strBlnDPK);
-
-                            yDpk.add(new BarEntry(new float[]{fltDPK, fltCredit}, a));
-
-                            /*hashMapMonth = new HashMap<String, String>();
-                            hashMapMonth.put(month, objDPK.getString(month));
-                            myListMonthDPK.add(hashMapMonth);
-
-                            hashMapDpk = new HashMap<String, String>();
-                            hashMapDpk.put("dpk", objDPK.getString("dpk"));
-                            hashMapDpk.put("credit", objDPK.getString("credit"));
-                            hashMapDpk.put("percentage", objDPK.getString("percentage"));
-                            mylistDpk.add(hashMapDpk);*/
-
+                        if (title.trim().equals("1")){
+                            JSONArray arrayRow = objAGF.getJSONArray("row");
+                            for (int z=0;z<arrayRow.length();z++){
+                                lengthList.add(arrayRow.getString(z));
+                            }
                         }
-                    } else {
-                        mylistDpk.clear();
-                        myListMonthDPK.clear();
-                        hashMapDpk = new HashMap<String, String>();
-                        mylistDpk.add(hashMapDpk);
-                        hashMapMonth = new HashMap<String, String>();
-                        myListMonthDPK.add(hashMapMonth);
-                    }
 
-                    // Mapping Data Lcf
-                    if(jsonObject.has("lcf")) {
-                        mylistLcf.clear();
-                        myListMonthLCF.clear();
-                        JSONArray arrayLCF = jsonObject.getJSONArray("lcf");
-                        for (int a = 0; a < arrayLCF.length(); a++){
-                            JSONObject objLCF = arrayLCF.getJSONObject(a);
-
-                            String strBlnLCF = objLCF.getString(month);
-                            String strlcfff = objLCF.getString("lcf");
-                            String strcredittt = objLCF.getString("credit");
-
-                            int intlcf = Integer.parseInt(strlcfff);
-                            int intcredit = Integer.parseInt(strcredittt);
-
-                            float fltLCF = (float) intlcf;
-                            float fltCredit = (float) intcredit;
-
-
-                            xLcf.add(strBlnLCF);
-
-                            yLcf.add(new BarEntry(new float[]{fltLCF, fltCredit}, a));
-
-                        }
-                    } else {
-                        mylistLcf.clear();
-                        myListMonthLCF.clear();
-                        hashMapLcf = new HashMap<String, String>();
-                        mylistLcf.add(hashMapLcf);
-                        hashMapMonth = new HashMap<String, String>();
-                        myListMonthLCF.add(hashMapMonth);
-                    }
-
-                    //Mapping Data AGF
-                    if (jsonObject.has("agf")){
-                        JSONArray arrayAGF = jsonObject.getJSONArray("agf");
-                        for (int a = 0; a<arrayAGF.length();a++){
-                            JSONObject objAGF = arrayAGF.getJSONObject(a);
-
-                            String pinjam = objAGF.getString("rek_pinjaman");
-                            String sumber = objAGF.getString("rek_sumber");
-                            String tempo = objAGF.getString("jatuh_tempo");
-                            String nominal = objAGF.getString("nominal");
-                            String kolek = objAGF.getString("kolektibilitas");
-
-                            mylistAGF.clear();
+                        JSONArray arrayRow = objAGF.getJSONArray("row");
+                        for (int z=0;z<arrayRow.length();z++){
                             hashMapAGF = new HashMap<>();
-                            hashMapAGF.put("no", Integer.toString(a+1));
-                            hashMapAGF.put("pinjam", DataManager.getDecimalFormat(pinjam));
-                            hashMapAGF.put("sumber", DataManager.getDecimalFormat(sumber));
-                            hashMapAGF.put("tempo", tempo);
-                            hashMapAGF.put("nominal", DataManager.getDecimalFormat(nominal));
-                            hashMapAGF.put("kolek", kolek);
-
+                            hashMapAGF.put("values", arrayRow.getString(z));
                             mylistAGF.add(hashMapAGF);
-
+                            Log.d("datadash", mylistAGF.toString());
                         }
-                    }else {
-                        mylistAGF.clear();
-                        hashMapAGF = new HashMap<String, String>();
-                        mylistAGF.add(hashMapAGF);
+                    }
+                }else {
+                    mylistAGF.clear();
+                    hashMapAGF = new HashMap<String, String>();
+                    mylistAGF.add(hashMapAGF);
+                }
+
+                // Mapping Data Cashin
+                if(jsonObject.has("cashin")) {
+
+                    JSONArray arrayCashin = jsonObject.getJSONArray("cashin");
+                    for (int a = 0; a < arrayCashin.length(); a++){
+                        JSONObject objCashin = arrayCashin.getJSONObject(a);
+
+                        String strBlnCashIn = objCashin.getString(month);
+                        String strtargettt = objCashin.getString(cashintarget);
+                        String stractualll = objCashin.getString("targetrevenue");
+
+                        int intCashIn = Integer.parseInt(strtargettt);
+                        int intRevenue = Integer.parseInt(stractualll);
+
+                        float fltCashIn = (float) intCashIn;
+                        float fltRevenue = (float) intRevenue;
+
+                        xCashIn.add(strBlnCashIn);
+
+                        yCashIn.add(new BarEntry(fltCashIn, a));
+                        lineIn.add(new Entry(fltRevenue, a));
 
                     }
+                }
 
-                    // Mapping Data BakiDebet
-                    if(jsonObject.has("baki_debet")) {
-                        JSONArray arrayBaki = jsonObject.getJSONArray("baki_debet");
-                        //Log.d("bakidebet", arrayBaki.toString());
-                        for (int a = 0; a < arrayBaki.length(); a++){
-                            JSONObject objBaki = arrayBaki.getJSONObject(a);
+                // Mapping Data Cashout
+                if(jsonObject.has("cashout")) {
+                    mylistCashout.clear();
+                    myListMonthCashout.clear();
+                    JSONArray arrayCashout = jsonObject.getJSONArray("cashout");
+                    for (int a = 0; a < arrayCashout.length(); a++){
+                        JSONObject objCashout = arrayCashout.getJSONObject(a);
 
-                            String strMonth = objBaki.getString("month");
-                            String strBaki_debet = objBaki.getString("baki_debet");
-                            String strlimit = objBaki.getString("limit");
-                            String strthreshold = objBaki.getString("threshold");
-                            String strpercentage = objBaki.getString("percentage");
+                        String strBlnCashOut = objCashout.getString(month);
+                        String strtargettt = objCashout.getString(cashouttarget);
+                        String strrevenue = objCashout.getString("targetrevenue");
 
-                            int intBaki_debet = Integer.parseInt(strBaki_debet);
-                            int intlimit = Integer.parseInt(strlimit);
+                        int intCashOut = Integer.parseInt(strtargettt);
+                        int intRevenue = Integer.parseInt(strrevenue);
 
-                            float fltBaki_debet = (float) intBaki_debet;
-                            float fltlimit = (float) intlimit;
-
-                            blnBaki.add(strMonth);
-
-                            barBaki.add(new BarEntry(fltBaki_debet, a));
-                            lineBaki.add(new Entry(fltlimit, a));
+                        float fltCashOut = (float) intCashOut;
+                        float fltRevenue = (float) intRevenue;
 
 
-                            //Log.d("karakter", removeLastChar(strpercentage));
-                            int intPercen = Integer.parseInt(removeLastChar(strpercentage));
-                            int intThres = Integer.parseInt(removeLastChar(strthreshold));
+                        xCashOut.add(strBlnCashOut);
 
-                            float fltPercen = (float) intPercen;
-                            float fltThres = (float) intThres;
-
-                            barBakiPercen.add(new BarEntry(fltPercen, a));
-                            lineBakiThres.add(new Entry(fltThres, a));
-
-
-
-                        }
-
+                        yCashOut.add(new BarEntry(fltCashOut, a));
+                        lineOut.add(new Entry(fltRevenue, a));
 
                     }
+                }
 
+                // Mapping Data BakiDebet
+                if(jsonObject.has("baki_debet")) {
+                    JSONArray arrayBaki = jsonObject.getJSONArray("baki_debet");
+                    for (int a = 0; a < arrayBaki.length(); a++){
+                        JSONObject objBaki = arrayBaki.getJSONObject(a);
 
+                        String strMonth = objBaki.getString("month");
+                        String strBaki_debet = objBaki.getString("baki_debet");
+                        String strlimit = objBaki.getString("limit");
+                        String strthreshold = objBaki.getString("threshold");
+                        String strpercentage = objBaki.getString("percentage");
 
+                        int intBaki_debet = Integer.parseInt(strBaki_debet);
+                        int intlimit = Integer.parseInt(strlimit);
 
+                        float fltBaki_debet = (float) intBaki_debet;
+                        float fltlimit = (float) intlimit;
+
+                        blnBaki.add(strMonth);
+
+                        barBaki.add(new BarEntry(fltBaki_debet, a));
+                        lineBaki.add(new Entry(fltlimit, a));
+
+                        int intPercen = Integer.parseInt(removeLastChar(strpercentage));
+                        int intThres = Integer.parseInt(removeLastChar(strthreshold));
+
+                        float fltPercen = (float) intPercen;
+                        float fltThres = (float) intThres;
+
+                        barBakiPercen.add(new BarEntry(fltPercen, a));
+                        lineBakiThres.add(new Entry(fltThres, a));
+
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -972,17 +956,9 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                 pDialog.dismiss();
             }
 
-            String[] tfdColumns = new String[]{"data_1","data_2","data_3","data_4","data_5","data_6","data_7","data_8",
-                                            "dt_title_1","dt_title_2","dt_title_3","dt_title_4",
-                                            "dt_title_5","dt_title_6","dt_title_7","dt_title_8"};
-            int[] tfdTags = new int[] {R.id.tfd_data_1, R.id.tfd_data_2, R.id.tfd_data_3, R.id.tfd_data_4,
-                    R.id.tfd_data_5, R.id.tfd_data_6, R.id.tfd_data_7, R.id.tfd_data_8,
-                    R.id.tfd_title_1, R.id.tfd_title_2, R.id.tfd_title_3, R.id.tfd_title_4,
-                    R.id.tfd_title_5, R.id.tfd_title_6, R.id.tfd_title_7, R.id.tfd_title_8,
-            };
             //TFD
-            adapterTFD = new SimpleAdapter(getActivity(), mylistTFD, R.layout.list_row_dashboard_tfd, tfdColumns, tfdTags);
-            listTFD.setAdapter(adapterTFD);
+            DashboardTFDAdapter adapter = new DashboardTFDAdapter(getActivity(), mylistTFD);
+            listTFD.setAdapter(adapter);
             listTFD.setExpanded(true);
 
             //CASHIN
@@ -1012,7 +988,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_CashIn.setDoubleTapToZoomEnabled(false);
             chart_CashIn.setPinchZoom(false);
             chart_CashIn.getAxisRight().setEnabled(false);
-            //chart_CashIn.getBarData().setValueTextColor(getResources().getColor(R.color.red));
             chart_CashIn.invalidate();
 
 
@@ -1049,8 +1024,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             //DPK
             BarDataSet setDPK = new BarDataSet(yDpk, "");
-            setDPK.setColors(getColors());
-            setDPK.setStackLabels(new String[] { "DPK", "Credit" });
+            setDPK.setColors(getColors(3));
+            setDPK.setStackLabels(new String[] { "Giro", "Tabungan", "Deposito" });
 
             ArrayList<BarDataSet> dataSetDPK = new ArrayList<BarDataSet>();
             dataSetDPK.add(setDPK);
@@ -1094,15 +1069,40 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_Dpk.setDoubleTapToZoomEnabled(false);
             chart_Dpk.setPinchZoom(false);
             chart_Dpk.invalidate();
-            /*String[] dpkTags = new String[] {"dpk", "credit", "percentage"};
-            int[] dpkIds = new int[] {R.id.dpk_target, R.id.dpk_credit, R.id.dpk_percentage};
-            adapterDpk = new SimpleAdapter(getActivity(), mylistDpk, R.layout.list_row_dashboard_dpk, dpkTags , dpkIds);
-            listDPK.setAdapter(adapterDpk);
-            listDPK.setExpanded(true);*/
+
+            //DLR
+            BarDataSet dataSetDLR = new BarDataSet(yDlr, "Outstanding Loan");
+            dataSetDLR.setColor(getResources().getColor(R.color.lightblue));
+
+            BarData dataDLR = new BarData();
+            dataDLR.addDataSet(dataSetDLR);
+
+            LineDataSet lineDataSetDLR = new LineDataSet(lineDlr, "DPK");
+            lineDataSetDLR.setCircleColor(getResources().getColor(R.color.yellow));
+            lineDataSetDLR.setColor(getResources().getColor(R.color.yellow));
+
+            LineData lineDataDLR = new LineData();
+            lineDataDLR.addDataSet(lineDataSetDLR);
+
+            CombinedData comdataDLR = new CombinedData(xDlr);
+            comdataDLR.setData(dataDLR);
+            comdataDLR.setData(lineDataDLR);
+
+            chart_dlr.setData(comdataDLR);
+            chart_dlr.setDescription("");
+            chart_dlr.animateXY(2000, 2000);
+            XAxis xDLR = chart_dlr.getXAxis();
+            xDLR.setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart_dlr.getXAxis().setDrawGridLines(false);
+            chart_dlr.setDoubleTapToZoomEnabled(false);
+            chart_dlr.setPinchZoom(false);
+            chart_dlr.getAxisRight().setEnabled(false);
+            chart_dlr.invalidate();
+
 
             //LCF
-            BarDataSet setLCF = new BarDataSet(yLcf, "");
-            setLCF.setColors(getColors());
+            /*BarDataSet setLCF = new BarDataSet(yLcf, "");
+            setLCF.setColors(getColors(2));
             setLCF.setStackLabels(new String[] { "LCF", "Credit" });
 
             ArrayList<BarDataSet> dataSetLCF = new ArrayList<BarDataSet>();
@@ -1146,20 +1146,13 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_Lcf.setData(dataLCF);
             chart_Lcf.setDoubleTapToZoomEnabled(false);
             chart_Lcf.setPinchZoom(false);
-            chart_Lcf.invalidate();
+            chart_Lcf.invalidate();*/
 
             //AGF
 
-            String[] agfColumns = new String[]{"no","pinjam","sumber","tempo","nominal","kolek"};
-
-            int[] agfTags = new int[] {R.id.txt_agf_no, R.id.txt_agf_pinjam, R.id.txt_agf_sumber, R.id.txt_agf_tempo,
-                    R.id.txt_agf_nominal, R.id.txt_agf_kolektibilitas};
-
-            adapterAGF = new SimpleAdapter(getActivity(), mylistAGF, R.layout.list_row_agf, agfColumns, agfTags);
-            listAGF.setAdapter(adapterAGF);
-            listAGF.setExpanded(true);
-
-
+            grid.setNumColumns(lengthList.size());
+            DashboardAGFAdapter adapter1 = new DashboardAGFAdapter(getActivity(), mylistAGF, lengthList.size());
+            grid.setAdapter(adapter1);
 
             //Baki Debet
 
@@ -1225,14 +1218,14 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         }
     }
 
-    private int[] getColors() {
+    private int[] getColors(int size) {
 
-        int stacksize = 2;
+        //int stacksize = 2;
 
         // have as many colors as stack-values per entry
-        int[] colors = new int[stacksize];
+        int[] colors = new int[size];
 
-        for (int i = 0; i < stacksize; i++) {
+        for (int i = 0; i < size; i++) {
             colors[i] = ColorTemplate.VORDIPLOM_COLORS[i];
         }
 
@@ -1296,10 +1289,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             }catch (Exception e){
 
             }
-
-            //wo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            //spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
-            //        R.layout.list_new_spinner, worldListDirectorate));
         }
     }
 
@@ -1331,8 +1320,11 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
                     strCif = jsonObject1.getString("cif");
+                    String company = jsonObject1.getString("company_name");
 
-                    worldListDirectorate.add(strCif);
+
+
+                    worldListDirectorate.add(strCif+" - "+company);
 
                 }
             } catch (JSONException e) {
@@ -1345,6 +1337,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
+
             try {
                 world = new ArrayAdapter<String>(getActivity(), R.layout.list_new_spinner, worldListDirectorate);
                 world.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1352,25 +1345,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             }catch (Exception e){
 
             }
-
-
-            spin_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    //Log.d("kata", list.get(position).getNumber().toString());
-                    new DataSpinner(spin_top.getSelectedItem().toString()).execute();
-
-
-
-                    //Toast.makeText(getActivity(), list.get(position).getAccnumber(), Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
         }
     }
 }

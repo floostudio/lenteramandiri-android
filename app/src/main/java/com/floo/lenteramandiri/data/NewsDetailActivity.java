@@ -111,13 +111,9 @@ public class NewsDetailActivity extends AppCompatActivity{
                 strContent = jsonObject.getString(content);
                 strDate = jsonObject.getInt("date");
 
-
-                //convert = Integer.parseInt(strExpire);
                 epochtodate(strDate);
 
                 myBitmap = ImageLoader.getBitmap(strImage);
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -134,7 +130,6 @@ public class NewsDetailActivity extends AppCompatActivity{
             txtTitle.setText(strTitle);
             txtDate.setText(formatDate);
             txtContent.setText(strContent);
-            //txtID.setText(id);
             imageView.setImageBitmap(myBitmap);
 
         }

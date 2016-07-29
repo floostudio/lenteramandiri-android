@@ -47,7 +47,7 @@ public class ConvenantActivity extends AppCompatActivity {
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save, txtConvenant, txtCompany;
-    String pId, pCompany, pAcc_number;
+    String pCompany, pAcc_number;
     String strCovTitle, strCovNote, strCompany;
     int strCovId, strCovExpire;
 
@@ -74,7 +74,6 @@ public class ConvenantActivity extends AppCompatActivity {
     }
     public void initView(){
         Intent i = getIntent();
-        pId  = i.getStringExtra("id");
         pAcc_number = i.getStringExtra("acc_number");
         pCompany = i.getStringExtra("company_name");
 
@@ -134,7 +133,7 @@ public class ConvenantActivity extends AppCompatActivity {
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
                 String json = object.toString();
-                //Log.e("json", json);
+
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -148,7 +147,7 @@ public class ConvenantActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                //Log.e("hello", objek);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -190,7 +189,7 @@ public class ConvenantActivity extends AppCompatActivity {
             }
 
             String coba="";
-            //Log.d("Covenant", DataManager.url);
+
             try {
 
                 JSONArray jsonArray = new JSONArray(serverData);
@@ -201,13 +200,11 @@ public class ConvenantActivity extends AppCompatActivity {
                     strCovTitle = jsonObject.getString(cov_title);
                     strCovExpire = jsonObject.getInt("cov_expire");
                     strCovNote = jsonObject.getString(cov_note);
-                    //strCompany = jsonObject.getString(company_name);
+
 
                     HashMap<String, String> hashMap = new HashMap<String, String>();
                     hashMap.put(cov_id, Integer.toString(i+1));
                     hashMap.put(cov_title, strCovTitle);
-                    //hashMap.put(cov_expire, epochtodate(strCovExpire));
-
 
                     mylist.add(hashMap);
                 }
@@ -231,8 +228,6 @@ public class ConvenantActivity extends AppCompatActivity {
                     R.layout.list_row_covenant,new String[]{cov_id, cov_title},
                     new int[]{R.id.txt_list_cov_no, R.id.txt_list_cov_title});
             listCovenant.setAdapter(adapter);
-
-
 
         }
     }

@@ -38,7 +38,6 @@ public class InfoActivity extends Fragment{
 
     String urlInfo = DataManager.urlInfo;
 
-
     private SpotsDialog pDialog;
     private static final String title = "title";
     private static final String image = "image";
@@ -56,8 +55,6 @@ public class InfoActivity extends Fragment{
         initView(v);
 
         new DataFetcherTask().execute();
-        //appearanceAnimate(1);
-
 
         return v;
     }
@@ -65,23 +62,18 @@ public class InfoActivity extends Fragment{
         list_info = (ListView) view.findViewById(R.id.list_info);
 
         infoArray = new ArrayList<Info>();
-        //newsAdapter = new NewsAdapter(getActivity(), newsArray);
-        //list_news.setAdapter(newsAdapter);
 
         list_info.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView taID = (TextView)view.findViewById(R.id.txt_id_info);
                 TextView taURL = (TextView)view.findViewById(R.id.txt_url_info);
-                //Log.e("urlLink", taURL.getText().toString());
-                //Log.e("idparsing", taID.getText().toString());
+
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(taURL.getText().toString()));
                     startActivity(intent);
 
             }
         });
-
-
     }
 
     private void epochtodate(int epoch){
@@ -118,8 +110,6 @@ public class InfoActivity extends Fragment{
                     strUrl = jsonObject.getString(url);
                     strDate = jsonObject.getInt("date");
 
-                    //epochtodate(strDate);
-
                     Info info = new Info();
                     info.setInfo_id(strinfo_id);
                     info.setTitle(strTitle);
@@ -128,7 +118,6 @@ public class InfoActivity extends Fragment{
                     info.setDate(strDate);
 
                     infoArray.add(info);
-
 
                 }
             }catch (JSONException e){
@@ -144,7 +133,6 @@ public class InfoActivity extends Fragment{
             if (pDialog.isShowing())
                 pDialog.dismiss();
             infoAdapter = new InfoAdapter(getActivity(), infoArray);
-            //infoAdapter.notifyDataSetChanged();
             list_info.setAdapter(infoAdapter);
 
         }

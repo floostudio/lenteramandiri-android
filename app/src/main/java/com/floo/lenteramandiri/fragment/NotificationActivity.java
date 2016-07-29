@@ -40,8 +40,6 @@ public class NotificationActivity extends Fragment {
         dbNotification = new DBNotification(getActivity());
         initView(v);
 
-        //Log.d("today", String.valueOf(DataManager.epochtodate((int) (DataManager.dateToEpoch(DataManager.getDatesNow())-(2678400+86400)))));
-
         return v;
     }
 
@@ -62,24 +60,4 @@ public class NotificationActivity extends Fragment {
             }
         }, SPLASH_DURATION);
     }
-
-
-
-    /*@Override
-    public void onStart() {
-        super.onStart();
-        ArrayList<Notifi> arrayList = dbNotification.getAllSurvey();
-        //Log.d("semuadata", arrayList.toString());
-        adapter = new NotificationAdapter(getActivity(), arrayList);
-        //int fisrt = listView.getFirstVisiblePosition();
-        listView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ArrayList<Notifi> arrayList = dbNotification.getAllSurvey();
-        adapter = new NotificationAdapter(getActivity(), arrayList);
-        listView.setAdapter(adapter);
-    }*/
 }

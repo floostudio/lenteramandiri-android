@@ -3,8 +3,10 @@ package com.floo.lenteramandiri.data;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -28,7 +31,7 @@ import com.floo.lenteramandiri.R;
 /**
  * Created by Floo on 3/3/2016.
  */
-public class PortoGroupActivity extends AppCompatActivity {
+public class PortoGroupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save;
@@ -56,65 +59,17 @@ public class PortoGroupActivity extends AppCompatActivity {
             strFacility_amount, idParsing;
 
     SimpleAdapter adapter;
+    ArrayList<String> arrayVar, arrayKey;
+    JSONArray jsonArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portofolio_group);
         initView();
         mylist = new ArrayList<HashMap<String, String>>();
+        arrayVar = new ArrayList<>();
+        arrayKey = new ArrayList<>();
         new DataGroup().execute();
-
-        /*subject = new String[]{"G9741123123", "G9741123123", "G9741123123",
-                "G9741123123", "G9741123123", "G9741123123", "G9741123123"};
-
-        pt = new String[]{"PT. MASPINA", "PT. MASPINA", "PT. MASPINA", "PT. MASPINA",
-                "PT. MASPINA", "PT. MASPINA", "PT. MASPINA"};
-
-        idr = new String[]{"580.000.000.000d","580.000.000.000d","580.000.000.000d",
-                "580.000.000.000d","580.000.000.000d","580.000.000.000d","580.000.000.000d"};
-
-        mylist = new ArrayList<HashMap<String, String>>();
-        for (int i=0; i<subject.length;i++){
-            hashMap = new HashMap<String, String>();
-            hashMap.put("subject", subject[i]);
-            hashMap.put("pt", pt[i]);
-            hashMap.put("idr", idr[i]);
-            mylist.add(hashMap);
-        }
-
-        adapter = new SimpleAdapter(getApplicationContext(), mylist, R.layout.list_row_porto_group,
-                new String[]{"subject", "pt", "idr"}, new int[]{R.id.txt_porto_group_subject,
-                R.id.txt_porto_group_pt, R.id.txt_porto_group_idr});
-        portoGroup.setAdapter(adapter);*/
-
-        listportoGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView txtcif = (TextView) view.findViewById(R.id.txt_porto_group_cif);
-                TextView txtid = (TextView) view.findViewById(R.id.txt_porto_group_id);
-                TextView txtlimit = (TextView) view.findViewById(R.id.txt_porto_group_limit);
-                TextView txtbalance = (TextView) view.findViewById(R.id.txt_porto_group_balance);
-                TextView txtacc = (TextView) view.findViewById(R.id.txt_porto_group_acc_amount);
-                TextView txtfacility = (TextView) view.findViewById(R.id.txt_porto_group_facility_amount);
-                TextView txtfee = (TextView) view.findViewById(R.id.txt_porto_group_fee);
-                TextView txtbunga = (TextView) view.findViewById(R.id.txt_porto_group_bunga);
-                TextView txtutilisasi = (TextView) view.findViewById(R.id.txt_porto_group_utilisasi);
-                TextView txtcompany = (TextView) view.findViewById(R.id.txt_porto_group_company);
-                Intent GroupDetail = new Intent(PortoGroupActivity.this, PortoGroupDetailActivity.class);
-                GroupDetail.putExtra(cif, txtcif.getText().toString());
-                GroupDetail.putExtra(group_id, txtid.getText().toString());
-                GroupDetail.putExtra(group_limit, txtlimit.getText().toString());
-                GroupDetail.putExtra(group_balance, txtbalance.getText().toString());
-                GroupDetail.putExtra(acc_num, txtacc.getText().toString());
-                GroupDetail.putExtra(type_facility, txtfacility.getText().toString());
-                GroupDetail.putExtra(fee, txtfee.getText().toString());
-                GroupDetail.putExtra(bunga, txtbunga.getText().toString());
-                GroupDetail.putExtra(utilisasi, txtutilisasi.getText().toString());
-                GroupDetail.putExtra(company_name, txtcompany.getText().toString());
-                startActivity(GroupDetail);
-
-            }
-        });
 
     }
     public void initView(){
@@ -126,6 +81,8 @@ public class PortoGroupActivity extends AppCompatActivity {
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
         listportoGroup = (ListView) findViewById(R.id.list_porto_group);
+
+        listportoGroup.setOnItemClickListener(this);
 
         save.setVisibility(View.INVISIBLE);
         line.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +123,19 @@ public class PortoGroupActivity extends AppCompatActivity {
             i++;
         }
     }
-    
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TextView txtCompany = (TextView)view.findViewById(R.id.txt_porto_group_company);
+        TextView txtCif = (TextView)view.findViewById(R.id.txt_porto_group_cif);
+        Intent GroupDetail = new Intent(PortoGroupActivity.this, PortoGroupDetailActivity.class);
+        GroupDetail.putExtra(cif, txtCif.getText().toString());
+        GroupDetail.putExtra(company_name, txtCompany.getText().toString());
+        GroupDetail.putStringArrayListExtra("variable", arrayVar);
+        GroupDetail.putExtra("key", jsonArray.toString());
+        startActivity(GroupDetail);
+    }
+
 
     private class DataGroup extends AsyncTask<Void, Void, Void> {
 
@@ -184,35 +153,35 @@ public class PortoGroupActivity extends AppCompatActivity {
 
             try {
 
-                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortGroup+idParsing));
+                jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortGroup+idParsing));
                 for(int i=0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String is_title = jsonObject.getString("is_title");
+                    if (is_title.trim().equals("1")){
+                        JSONArray arrayRow = jsonObject.getJSONArray("row");
+                        String var = (String) arrayRow.get(i);
+                        for (int a=0;a<arrayRow.length();a++){
+                            arrayVar.add(arrayRow.getString(a));
 
-                    strCif = jsonObject.getString(cif);
-                    strGroupId = jsonObject.getString(group_id);
-                    strAcc_amount = jsonObject.getString(acc_num);
-                    strGroupLimit = jsonObject.getString(group_limit);
-                    strGroupBalance = jsonObject.getString(group_balance);
-                    strFacility_amount = jsonObject.getString(type_facility);
-                    strFee = jsonObject.getString(fee);
-                    strBunga = jsonObject.getString(bunga);
-                    strUtilisasi = jsonObject.getString(utilisasi);
-                    strCompanyName = jsonObject.getString(company_name);
+                        }
+                    }
+
+                    if (is_title.trim().equals("0")){
+                        JSONArray arrayRow = jsonObject.getJSONArray("row");
+                        strCif = (String) arrayRow.get(0);
+                        strGroupId = (String) arrayRow.get(1);
+                        strCompanyName = arrayRow.getString(3);
+                        strGroupLimit = (String) arrayRow.get(4);
+
+                        HashMap<String, String> hashMap = new HashMap<String, String>();
+                        hashMap.put(cif, strCif);
+                        hashMap.put(group_id, strGroupId);
+                        hashMap.put(group_limit, strGroupLimit);
+                        hashMap.put(company_name, strCompanyName);
+                        mylist.add(hashMap);
 
 
-                    HashMap<String, String> hashMap = new HashMap<String, String>();
-                    hashMap.put(cif, strCif);
-                    hashMap.put(group_id, strGroupId);
-                    hashMap.put(acc_num, strAcc_amount);
-                    hashMap.put(group_limit, getDecimalFormat(strGroupLimit));
-                    hashMap.put(group_balance, getDecimalFormat(strGroupBalance));
-                    hashMap.put(type_facility, strFacility_amount);
-                    hashMap.put(fee, getDecimalFormat(strFee));
-                    hashMap.put(bunga, getDecimalFormat(strBunga));
-                    hashMap.put(utilisasi, strUtilisasi);
-                    hashMap.put(company_name, strCompanyName);
-
-                    mylist.add(hashMap);
+                    }
                     }
 
             } catch (JSONException e) {
@@ -229,14 +198,9 @@ public class PortoGroupActivity extends AppCompatActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            adapter = new SimpleAdapter(getApplicationContext(), mylist, R.layout.list_row_porto_group,
-                    new String[]{cif, group_id, group_limit, group_balance, acc_num, type_facility, fee, bunga, utilisasi, company_name},
-                    new int[]{R.id.txt_porto_group_cif, R.id.txt_porto_group_id, R.id.txt_porto_group_limit, R.id.txt_porto_group_balance, R.id.txt_porto_group_acc_amount,
-                    R.id.txt_porto_group_facility_amount, R.id.txt_porto_group_fee, R.id.txt_porto_group_bunga, R.id.txt_porto_group_utilisasi, R.id.txt_porto_group_company});
-
+           adapter = new SimpleAdapter(getApplicationContext(), mylist,R.layout.list_row_porto_group,
+                    new String[]{cif, group_id, group_limit, company_name}, new int[]{R.id.txt_porto_group_cif, R.id.txt_porto_group_id, R.id.txt_porto_group_limit, R.id.txt_porto_group_company});
             listportoGroup.setAdapter(adapter);
-
-
 
         }
     }

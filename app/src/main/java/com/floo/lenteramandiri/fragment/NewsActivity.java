@@ -61,10 +61,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
         View v = inflater.inflate(R.layout.activity_news, container, false);
         initView(v);
 
-        //new DataFetcherTask().execute();
-        //appearanceAnimate(1);
-
-
         return v;
     }
     public void initView(View view) {
@@ -72,8 +68,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
         list_news = (ListView) view.findViewById(R.id.list_news);
 
         newsArray = new ArrayList<News>();
-        //newsAdapter = new NewsAdapter(getActivity(), newsArray);
-        //list_news.setAdapter(newsAdapter);
 
         list_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -135,7 +129,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
         protected Void doInBackground(Void... arg0) {
 
             try {
-                //Log.d("urutan", String.valueOf(offset));
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlNews+offset+"&limit=10"));
                 for (int i=0; i<jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -146,8 +139,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
                     strUrl = jsonObject.getString(url);
                     strContent = jsonObject.getString(content);
                     strDate = jsonObject.getInt("date");
-
-                    //epochtodate(strDate);
 
                     News news = new News();
                     news.setNews_id(strnews_id);
@@ -178,7 +169,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
             newsAdapter = new NewsAdapter(getActivity(), newsArray);
             newsAdapter.notifyDataSetChanged();
             list_news.setAdapter(newsAdapter);
-
         }
     }
 }

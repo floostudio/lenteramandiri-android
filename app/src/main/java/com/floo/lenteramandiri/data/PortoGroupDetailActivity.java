@@ -4,13 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.adapter.GroupDetailAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Floo on 3/11/2016.
@@ -22,50 +31,68 @@ public class PortoGroupDetailActivity extends AppCompatActivity {
             txtFacilityAmount, txtFee, txtBunga, txtUtilisasi, txtCompany;
     String pCif, pGroupId, pGroupLimit, pGroupBalance, pAccAmount,
             pFacilityAmount, pFee, pBunga, pUtilisasi, pCompany;
-
+    ArrayList<String> arrayVar, arrayKey;
+    GroupDetailAdapter adapter;
+    ListView listView;
+    ArrayList<HashMap<String, String>> arrayList;
+    static String strArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portofolio_group_detail);
+        arrayVar = new ArrayList<>();
+        arrayKey = new ArrayList<>();
+        arrayList = new ArrayList<>();
         initView();
     }
     public void initView(){
         Intent i = getIntent();
         pCif = i.getStringExtra(PortoGroupActivity.cif);
-        pGroupId  = i.getStringExtra(PortoGroupActivity.group_id);
-        pAccAmount = i.getStringExtra(PortoGroupActivity.acc_num);
-        pGroupLimit = i.getStringExtra(PortoGroupActivity.group_limit);
-        pGroupBalance  = i.getStringExtra(PortoGroupActivity.group_balance);
-        pFacilityAmount  = i.getStringExtra(PortoGroupActivity.type_facility);
-        pFee = i.getStringExtra(PortoGroupActivity.fee);
-        pBunga  = i.getStringExtra(PortoGroupActivity.bunga);
-        pUtilisasi = i.getStringExtra(PortoGroupActivity.utilisasi);
         pCompany  = i.getStringExtra(PortoGroupActivity.company_name);
+        arrayVar = i.getStringArrayListExtra("variable");
+        strArray = i.getStringExtra("key");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO DEBITUR");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
-        txtCif = (TextView)findViewById(R.id.txt_group_detail_cif);
-        txtGroupId = (TextView)findViewById(R.id.txt_group_detail_id);
-        txtGroupLimit = (TextView) findViewById(R.id.txt_group_detail_limit);
-        txtGroupBalance = (TextView)findViewById(R.id.txt_group_detail_balance);
-        txtAccAmount = (TextView) findViewById(R.id.txt_group_detail_account);
-        txtFacilityAmount = (TextView)findViewById(R.id.txt_group_detail_facility);
-        txtFee = (TextView) findViewById(R.id.txt_group_detail_fee);
-        txtBunga = (TextView)findViewById(R.id.txt_group_detail_bunga);
-        txtUtilisasi = (TextView) findViewById(R.id.txt_group_detail_utilisasi);
+
         txtCompany = (TextView)findViewById(R.id.txt_group_detail_company);
-        txtCif.setText(pCif);
-        txtGroupId.setText(pGroupId);
-        txtGroupLimit.setText("IDR "+pGroupLimit+"d");
-        txtGroupBalance.setText(pGroupBalance);
-        txtAccAmount.setText(pAccAmount);
-        txtFacilityAmount.setText(pFacilityAmount);
-        txtFee.setText(pFee);
-        txtBunga.setText(pBunga);
-        txtUtilisasi.setText(pUtilisasi+"%");
+        listView = (ListView)findViewById(R.id.list_group_detail);
         txtCompany.setText(pCompany);
+
+        try {
+            JSONArray jsonArray = new JSONArray(strArray);
+            for(int z=0; z<jsonArray.length(); z++){
+                JSONObject jsonObject = jsonArray.getJSONObject(z);
+                String strTitle = jsonObject.getString("is_title");
+
+                if (strTitle.trim().equals("0")){
+                    JSONArray arrayRow = jsonObject.getJSONArray("row");
+                    String value = (String) arrayRow.get(0);
+                    if (value.trim().equals(pCif)){
+                        for (int a=0;a<arrayRow.length();a++){
+                            arrayKey.add(arrayRow.getString(a));
+
+                        }
+                    }
+                }
+            }
+
+            for (int a=0;a<arrayVar.size();a++){
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("variable", arrayVar.get(a));
+                hashMap.put("key", arrayKey.get(a));
+
+                arrayList.add(hashMap);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        adapter = new GroupDetailAdapter(getApplicationContext(), arrayList);
+        listView.setAdapter(adapter);
+
         save.setVisibility(View.INVISIBLE);
         line.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,10 +29,19 @@
             android:paddingRight="30dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Masukkan data\nuntuk mendaftar ke aplikasi"
+                android:gravity="center"
+                android:textColor="@color/White"
+                android:textSize="20sp"/>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/text_in_register" />
+                android:src="@drawable/text_in_register"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -51,7 +60,7 @@
                     android:inputType="text"
                     android:textSize="14sp"
                     android:textAlignment="center"
-                    android:hint="First Name"
+                    android:hint="Nama Depan"
                     android:typeface="normal">
 
                     <requestFocus/>
@@ -74,7 +83,7 @@
                     android:textSize="14sp"
                     android:typeface="normal"
                     android:textAlignment="center"
-                    android:hint="Last Name"/>
+                    android:hint="Nama Belakang"/>
 
 
             </RelativeLayout>
@@ -227,7 +236,7 @@
                     android:textSize="14sp"
                     android:typeface="monospace"
                     android:textAlignment="center"
-                    android:hint="Confirm Password"/>
+                    android:hint="Konfirmasi Password"/>
             </RelativeLayout>
 
             <LinearLayout

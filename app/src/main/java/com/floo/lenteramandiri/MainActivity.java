@@ -111,15 +111,8 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.list_alarm);
         mainActivityAdapter = new MainActivityAdapter(MainActivity.this);
 
-        /*Intent i = getIntent();
-        idParsing = i.getStringExtra("IDPARSING");
-        strFirstname = i.getStringExtra(first_name);
-        strLastname = i.getStringExtra(last_name);
-        strProfpic = i.getStringExtra(profpic);*/
-
         session = new SessionManager(getApplicationContext());
-        //Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
-        //session.isLoggedIn();
+
         session.checkLogin();
         HashMap<String, String> user = session.getUserDetails();
         idParsing = user.get(IDPARSING);
@@ -128,12 +121,9 @@ public class MainActivity extends AppCompatActivity {
         strProfpic = user.get(profpic);
 
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         title = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        //title.setText("DASHBOARD");
 
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -146,21 +136,6 @@ public class MainActivity extends AppCompatActivity {
         CircleImageView img = (CircleImageView) headerView.findViewById(R.id.img_profil);
 
         new ProfilLoadTask(strProfpic, img).execute();
-        //new ProfilLoadTask("http://play.floostudio.com/lenteramandiri/static/images/users/profile/femadadle.png", img);
-        //imageLoader = new ImageLoader();
-        //imageLoader.DisplayProfile("http://play.floostudio.com/lenteramandiri/static/images/users/profile/femadadle.png", img);
-        //imageLoader.DisplayProfile(strProfpic, img);
-
-        /*if (strProfpic.trim().equals("http://play.floostudio.com/lenteramandiri/static/images/users/profile/http://play.floostudio")){
-
-            img.setImageResource(R.drawable.profile);
-
-        }else {
-            //imageLoader = new ImageLoader(strProfpic, img);
-            imageLoader.DisplayImage(strProfpic, img);
-            //new ImageLoadTask(strProfpic, img).execute();
-
-        }*/
 
         TextView name = (TextView) headerView.findViewById(R.id.txtname);
         name.setText(strFirstname + " " + strLastname);
@@ -177,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), strProfpic, Toast.LENGTH_LONG).show();
-
                 setFragment(0);
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -210,17 +183,12 @@ public class MainActivity extends AppCompatActivity {
         {
             //Load calendars
             calendarIdTable = CalendarHelper.listCalendarId(this);
-
             updateCalendarIdSpinner();
 
         }
 
-        //Log.d("datatgl", String.valueOf(getTime()));
-
         if (CalendarHelper.haveCalendarReadWritePermissions(MainActivity.this)){
-            new DataFetcherTask().execute();
-            //addNewEvent();
-
+            //new DataFetcherTask().execute();
 
         }else {
             CalendarHelper.requestCalendarReadWritePermission(MainActivity.this);
@@ -271,9 +239,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 Toast.makeText(this, (String)"Have Calendar Read/Write Permission.",
                         Toast.LENGTH_LONG).show();
-
             }
-
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -303,13 +269,8 @@ public class MainActivity extends AppCompatActivity {
         long tenMinutesFromNow = (new Date()).getTime() + tenMinutes;
         long twoMinutesFromNow = (new Date()).getTime() + twoMinutes;
 
-        //long mili = DataManager.dateTomiliSecond(DataManager.epochtodateTime(1466211960));
-        //Log.d("datamasuk", String.valueOf(tenMinutesFromNow));
-
-
         String calendarString = calendarIdSpinner.getSelectedItem().toString();
-        //Log.d("spinner", calendarString);
-        //Log.d("table", "table>"+calendarIdTable.get(calendarString)+" spnner>"+calendarString);
+
         int calendar_id = Integer.parseInt(calendarIdTable.get(calendarString));
 
         CalendarHelper.MakeNewCalendarEntry(this, title, "Add event", "Somewhere",mili,mili,false,true,calendar_id,4);
@@ -322,9 +283,6 @@ public class MainActivity extends AppCompatActivity {
 
         int expire;
         int day = 86400;
-
-
-
 
         @Override
         protected void onPreExecute() {
@@ -357,24 +315,6 @@ public class MainActivity extends AppCompatActivity {
                                 addNewEvent(strTitle, DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
 
                             }
-
-                           /* if (!number.trim().equals("0")){
-                                if (number.trim().equals("7")){
-                                    expire = strExpire - week;
-                                }else if (number.trim().equals("14")){
-                                    expire = strExpire - (week*2);
-                                }else if (number.trim().equals("21")){
-                                    expire = strExpire - (week*3);
-                                }
-
-
-                                if (expire>0){
-
-                                    addNewEvent(strTitle, DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
-                                }
-
-
-                            }*/
                         }
                     }
 
@@ -397,43 +337,6 @@ public class MainActivity extends AppCompatActivity {
                                     Database.create(call);
                                 }
                             }
-
-                            /*if (!number.trim().equals("0")) {
-                                if (number.trim().equals("7")) {
-                                    expire = strExpire - week;
-                                    long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
-                                    if (data > getTime()){
-                                        Call call = new Call();
-                                        call.setId(strId);
-                                        call.setTitle(strTitle);
-                                        call.setDate(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
-                                        call.setActive(call.getActive());
-                                        Database.create(call);
-                                    }
-                                } else if (number.trim().equals("14")) {
-                                    expire = strExpire - (week * 2);
-                                    long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
-                                    if (data > getTime()){
-                                        Call call = new Call();
-                                        call.setId(strId);
-                                        call.setTitle(strTitle);
-                                        call.setDate(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
-                                        call.setActive(call.getActive());
-                                        Database.create(call);
-                                    }
-                                } else if (number.trim().equals("21")) {
-                                    expire = strExpire - (week * 3);
-                                    long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
-                                    if (data > getTime()){
-                                        Call call = new Call();
-                                        call.setId(strId);
-                                        call.setTitle(strTitle);
-                                        call.setDate(data);
-                                        call.setActive(call.getActive());
-                                        Database.create(call);
-                                    }
-                                }
-                            }*/
                         }
                     }
                 }
@@ -447,8 +350,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
-            //Log.d("datamasuk", String.valueOf(arrayListTime.size()));
 
             callMathAlarmScheduleService();
 
@@ -482,12 +383,6 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(6).setChecked(false);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.combined, menu);
-        return true;
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -505,7 +400,6 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem item) {
                         switch (item.getItemId()){
                             case R.id.nav_home:
-                                //title.setText("DASHBOARD");
                                 item.setChecked(true);
                                 setFragment(1);
                                 drawer.closeDrawer(GravityCompat.START);
@@ -542,11 +436,6 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_logout:
                                 new logoutuser().execute();
 
-                                //session.logoutUser();
-                                //finish();
-                                //Intent signout=new Intent(MainActivity.this, LoginActivity.class);
-                                //startActivity(signout);
-                                //finish();
                                 return true;
                         }
                         return true;
@@ -669,8 +558,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 // reload content
                 MainActivity.this.mainActivityAdapter.notifyDataSetChanged();
-
-
             }
         });
     }
@@ -726,9 +613,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     public void onBackPressed(){
         new AlertDialog.Builder(this)
                 .setTitle("Really Exit?")
@@ -747,8 +631,5 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         }).create().show();
-
     }
-
-
 }

@@ -30,7 +30,7 @@ import com.floo.lenteramandiri.R;
 /**
  * Created by Floo on 3/3/2016.
  */
-public class PortoAccountActivity extends AppCompatActivity {
+public class PortoAccountActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save;
@@ -62,6 +62,8 @@ public class PortoAccountActivity extends AppCompatActivity {
             strTunggakan, strKolektibilitas, strJmlhTempo, strTransDebet,
             strTransKredit, strSaldoRata, strCompanyName, strCif, idParsing;
 
+    ArrayList<String> arrayKey;
+    JSONArray jsonArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,65 +71,8 @@ public class PortoAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_portofolio_account);
         initView();
         mylist = new ArrayList<HashMap<String, String>>();
+        arrayKey = new ArrayList<>();
         new DataAccount().execute();
-
-        /*subject = new String[]{"012-3912-9312-23910", "012-3912-9312-23910", "012-3912-9312-23910",
-                "012-3912-9312-23910", "012-3912-9312-23910"};
-
-        pt = new String[]{"PT. MASPINA", "PT. MASPINA", "PT. MASPINA", "PT. MASPINA",
-                "PT. MASPINA", "PT. MASPINA", "PT. MASPINA"};
-
-        idr = new String[]{"580.000.000.000d","580.000.000.000d","580.000.000.000d",
-                "580.000.000.000d","580.000.000.000d","580.000.000.000d","580.000.000.000d"};
-
-        mylist = new ArrayList<HashMap<String, String>>();
-        for (int i=0; i<subject.length;i++){
-            hashMap = new HashMap<String, String>();
-            hashMap.put("subject", subject[i]);
-            hashMap.put("pt", pt[i]);
-            hashMap.put("idr", idr[i]);
-            mylist.add(hashMap);
-        }
-
-        adapter = new SimpleAdapter(getApplicationContext(), mylist, R.layout.list_row_porto_group,
-                new String[]{"subject", "pt", "idr"}, new int[]{R.id.txt_porto_group_subject,
-                R.id.txt_porto_group_pt, R.id.txt_porto_group_idr});
-        portoAccount.setAdapter(adapter);*/
-
-        portoAccount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView txtCif = (TextView) view.findViewById(R.id.txt_porto_account_cif);
-                TextView txtAccNumber = (TextView) view.findViewById(R.id.txt_porto_account_acc);
-                TextView txtValuta = (TextView) view.findViewById(R.id.txt_porto_account_valuta);
-                TextView txtSaldo = (TextView) view.findViewById(R.id.txt_porto_account_saldo);
-                TextView txtLimit = (TextView) view.findViewById(R.id.txt_porto_account_limit);
-                TextView txtTunggakan = (TextView) view.findViewById(R.id.txt_porto_account_tunggakan);
-                TextView txtKolektib = (TextView) view.findViewById(R.id.txt_porto_account_kolektibilitas);
-                TextView txtJmlhTempo = (TextView) view.findViewById(R.id.txt_porto_account_tempo);
-                TextView txtDebet = (TextView) view.findViewById(R.id.txt_porto_account_debet);
-                TextView txtKredit = (TextView) view.findViewById(R.id.txt_porto_account_kredit);
-                TextView txtRata = (TextView) view.findViewById(R.id.txt_porto_account_rata);
-                TextView txtCompany = (TextView) view.findViewById(R.id.txt_porto_account_company);
-                TextView txtConvenant = (TextView) view.findViewById(R.id.txt_porto_account_id);
-                Intent GroupDetail = new Intent(PortoAccountActivity.this, PortoAccountDetailActivity.class);
-                GroupDetail.putExtra(cif, txtCif.getText().toString());
-                GroupDetail.putExtra(acc_num, txtAccNumber.getText().toString());
-                GroupDetail.putExtra(valuta, txtValuta.getText().toString());
-                GroupDetail.putExtra(saldo, txtSaldo.getText().toString());
-                GroupDetail.putExtra(limit, txtLimit.getText().toString());
-                GroupDetail.putExtra(tunggakan, txtTunggakan.getText().toString());
-                GroupDetail.putExtra(kolektibilitas, txtKolektib.getText().toString());
-                GroupDetail.putExtra(jatuh_tempo, txtJmlhTempo.getText().toString());
-                GroupDetail.putExtra(trans_debet, txtDebet.getText().toString());
-                GroupDetail.putExtra(trans_kredit, txtKredit.getText().toString());
-                GroupDetail.putExtra(saldo_rata, txtRata.getText().toString());
-                GroupDetail.putExtra(company_name, txtCompany.getText().toString());
-                GroupDetail.putExtra("id", txtConvenant.getText().toString());
-                startActivity(GroupDetail);
-
-            }
-        });
 
     }
     public void initView(){
@@ -147,6 +92,8 @@ public class PortoAccountActivity extends AppCompatActivity {
                 PortoAccountActivity.this.finish();
             }
         });
+
+        portoAccount.setOnItemClickListener(this);
 
     }
 
@@ -180,6 +127,20 @@ public class PortoAccountActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TextView txtCif = (TextView) view.findViewById(R.id.txt_porto_account_cif);
+        TextView txtCompany = (TextView) view.findViewById(R.id.txt_porto_account_company);
+        TextView txtAcc_number = (TextView) view.findViewById(R.id.txt_porto_account_acc);
+        Intent GroupDetail = new Intent(PortoAccountActivity.this, PortoAccountDetailActivity.class);
+        GroupDetail.putExtra(cif, txtCif.getText().toString());
+        GroupDetail.putExtra(company_name, txtCompany.getText().toString());
+        GroupDetail.putExtra(acc_num, txtAcc_number.getText().toString());
+        GroupDetail.putStringArrayListExtra(valuta, arrayKey);
+        GroupDetail.putExtra(covenant, jsonArray.toString());
+        startActivity(GroupDetail);
+    }
+
     private class DataAccount extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -195,53 +156,37 @@ public class PortoAccountActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
             try {
-                JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortAccount+idParsing));
+                jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortAccount+idParsing));
                 for(int i=0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String is_title = jsonObject.getString("is_title");
+                    if (is_title.trim().equals("1")){
+                        JSONArray arrayRow = jsonObject.getJSONArray("row");
+                        for (int a=0;a<arrayRow.length();a++){
+                            arrayKey.add(arrayRow.getString(a));
+                        }
+                    }else {
+                        JSONArray arrayRow = jsonObject.getJSONArray("row");
+                        strCif = (String) arrayRow.get(0);
+                        strAccNumber = (String) arrayRow.get(2);
+                        strCompanyName = (String) arrayRow.get(3);
+                        strSaldo = (String) arrayRow.get(4);
 
-                    strCif = jsonObject.getString(cif);
-                    strId = jsonObject.getString(id);
-                    strAccNumber= jsonObject.getString(acc_num);
-                    strValuta= jsonObject.getString(valuta);
-                    strSaldo = jsonObject.getString(saldo);
-                    strLimit= jsonObject.getString(limit);
-                    strTunggakan = jsonObject.getString(tunggakan);
-                    strKolektibilitas = jsonObject.getString(kolektibilitas);
-                    strJmlhTempo = jsonObject.getString(jatuh_tempo);
-                    strTransDebet = jsonObject.getString(trans_debet);
-                    strTransKredit = jsonObject.getString(trans_kredit);
-                    strSaldoRata= jsonObject.getString(saldo_rata);
-                    strCompanyName = jsonObject.getString(company_name);
-                    //strConvenant = jsonObject.getString(covenant);
-                    //Log.d("dtamasuk", strCompanyName);
+                        HashMap<String, String> hashMap = new HashMap<String, String>();
+                        hashMap.put(cif, strCif);
+                        hashMap.put(acc_num, strAccNumber);
+                        hashMap.put(saldo, strSaldo);
+                        hashMap.put(company_name, strCompanyName);
 
-
-
-                    HashMap<String, String> hashMap = new HashMap<String, String>();
-                    hashMap.put(cif, strCif);
-                    hashMap.put(id, strId);
-                    hashMap.put(acc_num, strAccNumber);
-                    hashMap.put(valuta, strValuta);
-                    hashMap.put(saldo, getDecimalFormat(strSaldo));
-                    hashMap.put(limit, getDecimalFormat(strLimit));
-                    hashMap.put(tunggakan, getDecimalFormat(strTunggakan));
-                    hashMap.put(kolektibilitas, strKolektibilitas);
-                    hashMap.put(jatuh_tempo, strJmlhTempo);
-                    hashMap.put(trans_debet, getDecimalFormat(strTransDebet));
-                    hashMap.put(trans_kredit, getDecimalFormat(strTransKredit));
-                    hashMap.put(saldo_rata, getDecimalFormat(strSaldoRata));
-                    hashMap.put(company_name, strCompanyName);
-                    //hashMap.put(covenant, strConvenant);
+                        mylist.add(hashMap);
 
 
-                    mylist.add(hashMap);
+                    }
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 
@@ -252,18 +197,10 @@ public class PortoAccountActivity extends AppCompatActivity {
                 pDialog.dismiss();
 
             adapter = new SimpleAdapter(getApplicationContext(), mylist, R.layout.list_row_porto_account,
-                    new String[]{cif, acc_num, valuta, saldo, limit, tunggakan, kolektibilitas,
-                            jatuh_tempo, trans_debet, trans_kredit, saldo_rata, company_name, id},
-                    new int[]{R.id.txt_porto_account_cif, R.id.txt_porto_account_acc, R.id.txt_porto_account_valuta, R.id.txt_porto_account_saldo, R.id.txt_porto_account_limit,
-                            R.id.txt_porto_account_tunggakan, R.id.txt_porto_account_kolektibilitas, R.id.txt_porto_account_tempo,
-                            R.id.txt_porto_account_debet, R.id.txt_porto_account_kredit, R.id.txt_porto_account_rata,
-                            R.id.txt_porto_account_company, R.id.txt_porto_account_id});
-
-            AlphaInAnimationAdapter animasi = new AlphaInAnimationAdapter(adapter);
-            //animasi.setAbsListView(portoAccount);
+                    new String[]{cif, acc_num,saldo, company_name},
+                new int[]{R.id.txt_porto_account_cif, R.id.txt_porto_account_acc,R.id.txt_porto_account_saldo,R.id.txt_porto_account_company});
 
             portoAccount.setAdapter(adapter);
-
 
         }
     }

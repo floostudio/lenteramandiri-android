@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/linier_key_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:background="@color/White">
+
+            <TextView
+
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="11dp"
+                android:textColor="@color/Black"
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_1" />
+
+            <Button
+                android:id="@+id/tfd_data_1"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:textSize="11dp"
+                android:background="@drawable/activity_btn_blue"
+                android:textColor="@color/White" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linier_key_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:background="@color/grey">
+
+            <TextView
+
+                android:textColor="@color/Black"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+
+                android:layout_weight="1"
+                android:textSize="11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textStyle="bold"
+                android:id="@+id/tfd_title_5" />
+
+            <Button
+                android:id="@+id/tfd_data_5"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:textSize="11dp"
+                android:background="@drawable/activity_btn_light_yellow"
+                android:textColor="@color/standart" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

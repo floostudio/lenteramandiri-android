@@ -72,7 +72,7 @@
 
                 <TextView
                     android:id="@+id/txt_porto_group_company"
-
+                    android:text="company"
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:textColor="@color/background"/>
@@ -109,7 +109,7 @@
             android:id="@+id/txt_porto_group_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:text="lmit"
             android:layout_gravity="end"
             android:layout_marginRight="5dp"
             android:textColor="@color/yellow"

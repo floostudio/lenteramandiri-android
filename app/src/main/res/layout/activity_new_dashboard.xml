@@ -270,7 +270,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <RelativeLayout
@@ -462,6 +462,84 @@
                             android:layout_height="400dp" />
 
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linier_dlr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@android:color/transparent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:gravity="center">
+
+                                <Button
+                                    android:id="@+id/btn_toggle_line_dlr"
+                                    android:text="Hide Line Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                                <Button
+                                    android:id="@+id/btn_toggle_bar_dlr"
+                                    android:layout_marginLeft="30dp"
+                                    android:text="Hide Bar Values"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="28dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/activity_btn_blue"
+                                    android:textColor="@color/White"
+                                    android:textAllCaps="false" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="DLR"
+                                    android:textStyle="bold"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="(million IDR)"
+                                    android:textSize="12sp"/>
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.CombinedChart
+                            android:id="@+id/chart_dlr"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp" />
+
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/linier_lcf"
@@ -697,151 +775,41 @@
 
                     <HorizontalScrollView
                         android:id="@+id/horizontalAGF"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:fillViewport="true"
                         android:scrollbars="horizontal"
-                        android:background="@color/Black"
                         android:visibility="gone">
 
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_marginTop="1dp"
-                                android:layout_marginBottom="1dp">
+                                android:id="@+id/linearLayout_gridtableLayout"
+                                android:layout_width="900dp"
+                                android:layout_height="900dp"
+                                android:orientation="horizontal">
 
-                                <LinearLayout
+                                <GridView
+                                    android:gravity="center"
+                                    android:columnWidth="100dp"
+                                    android:stretchMode="columnWidth"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="20sp"
-                                        android:layout_height="35sp"
-                                        android:text="NO"
-                                        android:textColor="@color/White"
-                                        android:background="@color/yellow"
-                                        android:layout_marginRight="1dp"
-                                        android:gravity="center"
-                                        android:paddingRight="2dp"
-                                        android:paddingLeft="2dp"
-                                        android:textSize="11sp"/>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="110sp"
-                                        android:layout_height="35sp"
-                                        android:text="Rekening\nPinjam"
-                                        android:textColor="@color/White"
-                                        android:background="@color/yellow"
-                                        android:gravity="center"
-                                        android:layout_marginRight="1dp"
-                                        android:paddingRight="2dp"
-                                        android:paddingLeft="2dp"
-                                        android:textSize="11sp"/>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="110sp"
-                                        android:layout_height="35sp"
-                                        android:text="Rekening\nSumber"
-                                        android:textColor="@color/White"
-                                        android:background="@color/yellow"
-                                        android:layout_marginRight="1dp"
-                                        android:gravity="center"
-                                        android:paddingRight="2dp"
-                                        android:paddingLeft="2dp"
-                                        android:textSize="11sp"/>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="80sp"
-                                        android:layout_height="35sp"
-                                        android:text="Jatuh\nTempo"
-                                        android:textColor="@color/White"
-                                        android:background="@color/yellow"
-                                        android:layout_marginRight="1dp"
-                                        android:gravity="center"
-                                        android:paddingRight="2dp"
-                                        android:paddingLeft="2dp"
-                                        android:textSize="11sp"/>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="110sp"
-                                        android:layout_height="35sp"
-                                        android:text="Nominal"
-                                        android:textColor="@color/White"
-                                        android:background="@color/yellow"
-                                        android:layout_marginRight="1dp"
-                                        android:gravity="center"
-                                        android:paddingRight="2dp"
-                                        android:paddingLeft="2dp"
-                                        android:textSize="11sp"/>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="80sp"
-                                        android:layout_height="35sp"
-                                        android:text="Kolektibilitas"
-                                        android:textColor="@color/White"
-                                        android:background="@color/yellow"
-                                        android:gravity="center"
-                                        android:paddingRight="2dp"
-                                        android:paddingLeft="2dp"
-                                        android:textSize="11sp"/>
-
-                                </LinearLayout>
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/grid"
+                                    />
 
                             </LinearLayout>
 
 
-                            <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                                android:id="@+id/list_agf"
-                                android:layout_width="match_parent"
-                                android:divider="@android:color/transparent"
-                                android:layout_height="match_parent"></com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-
-
-
-                        </LinearLayout>
-
+                        </FrameLayout>
 
                     </HorizontalScrollView>
 
-
                 </RelativeLayout>
+
+
 
             <Button
                 android:layout_marginTop="5dp"
@@ -859,4 +827,7 @@
 
         </LinearLayout>
     </ScrollView>
+
+
+
 </LinearLayout>

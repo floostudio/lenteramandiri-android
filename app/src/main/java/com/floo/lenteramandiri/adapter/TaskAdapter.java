@@ -52,7 +52,6 @@ public class TaskAdapter extends BaseAdapter{
         private TextView idTask, subjectTask, ptTask, expireTask;
         private ImageView imageView;
 
-
     }
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
@@ -126,9 +125,6 @@ public class TaskAdapter extends BaseAdapter{
         }
         notifyDataSetChanged();
     }
-
-
-
 
     public void filterRed(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());

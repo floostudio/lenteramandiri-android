@@ -10,6 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.adapter.AccountDetailAdapter;
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Floo on 3/11/2016.
@@ -22,57 +31,32 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
     String pCif, pAccNumber, pValuta, pSaldo, pLimit, pTunggakan, pKolektibilitas,
             pJmlhTempo, pDebet, pKredit, pRata, pCompany, pId;
     Button convenant;
+    ArrayList<String> arrayKey, arrayValues;
+    ArrayList<HashMap<String, String>> arrayList;
+    ExpandableHeightListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portofolio_account_detail);
+        arrayKey = new ArrayList<>();
+        arrayValues = new ArrayList<>();
+        arrayList = new ArrayList<>();
         initView();
     }
     public void initView(){
         Intent i = getIntent();
         pCif = i.getStringExtra(PortoAccountActivity.cif);
-        pId = i.getStringExtra(PortoAccountActivity.id);
-        pAccNumber  = i.getStringExtra(PortoAccountActivity.acc_num);
-        pValuta = i.getStringExtra(PortoAccountActivity.valuta);
-        pSaldo  = i.getStringExtra(PortoAccountActivity.saldo);
-        pLimit = i.getStringExtra(PortoAccountActivity.limit);
-        pTunggakan  = i.getStringExtra(PortoAccountActivity.tunggakan);
-        pKolektibilitas = i.getStringExtra(PortoAccountActivity.kolektibilitas);
-        pJmlhTempo  = i.getStringExtra(PortoAccountActivity.jatuh_tempo);
-        pDebet = i.getStringExtra(PortoAccountActivity.trans_debet);
-        pKredit  = i.getStringExtra(PortoAccountActivity.trans_kredit);
-        pRata = i.getStringExtra(PortoAccountActivity.saldo_rata);
         pCompany  = i.getStringExtra(PortoAccountActivity.company_name);
+        pAccNumber = i.getStringExtra(PortoAccountActivity.acc_num);
+        arrayKey = i.getStringArrayListExtra(PortoAccountActivity.valuta);
+        pId = i.getStringExtra(PortoAccountActivity.covenant);
+
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
         titleToolbar.setText("PORTFOLIO ACCOUNT");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
-        txtCif = (TextView)findViewById(R.id.txt_account_detail_cif);
-        txtAccNumber = (TextView)findViewById(R.id.txt_account_detail_acc);
-        txtValuta = (TextView) findViewById(R.id.txt_account_detail_valuta);
-        txtSaldo = (TextView)findViewById(R.id.txt_account_detail_saldo);
-        txtLimit = (TextView) findViewById(R.id.txt_account_detail_limit);
-        txtTunggakan = (TextView)findViewById(R.id.txt_account_detail_tunggakan);
-        txtKolektibilitas = (TextView) findViewById(R.id.txt_account_detail_kolektibilas);
-        txtJmlhTempo = (TextView)findViewById(R.id.txt_account_detail_jmlhTempo);
-        txtDebet = (TextView) findViewById(R.id.txt_account_detail_debet);
-        txtKredit = (TextView)findViewById(R.id.txt_account_detail_kredit);
-        txtRata = (TextView) findViewById(R.id.txt_account_detail_rata_rata);
-        txtCompany = (TextView)findViewById(R.id.txt_account_detail_company);
-        txtCif.setText(pCif);
-        txtAccNumber.setText(pAccNumber);
-        txtValuta.setText(pValuta);
-        txtSaldo.setText(pSaldo);
-        txtLimit.setText(pLimit);
-        txtTunggakan.setText(pTunggakan);
-        txtKolektibilitas.setText(pKolektibilitas);
-        txtJmlhTempo.setText(pJmlhTempo);
-        txtDebet.setText(pDebet);
-        txtKredit.setText(pKredit);
-        txtRata.setText(pRata);
-        txtCompany.setText(pCompany);
 
         save.setVisibility(View.INVISIBLE);
         line.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +66,51 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
             }
         });
 
+        txtCompany = (TextView)findViewById(R.id.txt_account_detail_company_new);
+        listView = (ExpandableHeightListView)findViewById(R.id.list_account_detail);
+        txtCompany.setText(pCompany);
+
+        try {
+            JSONArray jsonArray = new JSONArray(pId);
+            for(int z=0; z<jsonArray.length(); z++){
+                JSONObject jsonObject = jsonArray.getJSONObject(z);
+                String strTitle = jsonObject.getString("is_title");
+
+                if (strTitle.trim().equals("0")){
+                    JSONArray arrayRow = jsonObject.getJSONArray("row");
+                    String value = (String) arrayRow.get(0);
+                    if (value.trim().equals(pCif)){
+                        for (int a=0;a<arrayRow.length();a++){
+                            arrayValues.add(arrayRow.getString(a));
+
+                        }
+                    }
+                }
+            }
+
+            for (int a=0;a<arrayKey.size();a++){
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("key", arrayKey.get(a));
+                hashMap.put("variable", arrayValues.get(a));
+
+                arrayList.add(hashMap);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        AccountDetailAdapter adapter = new AccountDetailAdapter(getApplicationContext(), arrayList);
+        listView.setAdapter(adapter);
+        listView.setExpanded(true);
+
         convenant = (Button)findViewById(R.id.btn_account_detail_convnant);
         convenant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent conv = new Intent(PortoAccountDetailActivity.this, ConvenantActivity.class);
-                conv.putExtra("id", pId.toString());
-                conv.putExtra("acc_number", pAccNumber.toString());
-                conv.putExtra("company_name", txtCompany.getText().toString());
+                conv.putExtra("acc_number", pAccNumber);
+                conv.putExtra("company_name", pCompany);
                 startActivity(conv);
             }
         });

@@ -110,19 +110,6 @@ public class ProfilActivity extends Fragment {
 
             }
         });
-//        update = (Button)view.findViewById(R.id.btn_updateProfile);
-//        update.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent update = new Intent(getActivity(), UpdateProfilActivity.class);
-//                update.putExtra("IDPARSING", idParsing);
-//                update.putExtra(profpic, strImg);
-//                update.putExtra(USER_EMAIL, txtEmail.getText().toString());
-//                startActivity(update);
-//            }
-//        });
-
-        //update.setVisibility(View.INVISIBLE);
     }
 
     private class DataFetcherProfil extends AsyncTask<Void, Void, Void> {
@@ -238,8 +225,6 @@ public class ProfilActivity extends Fragment {
                 }else {
                     myBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.profile);
                 }
-
-
 
             }catch (JSONException e){
                 e.printStackTrace();

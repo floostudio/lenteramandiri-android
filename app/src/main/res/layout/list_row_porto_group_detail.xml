@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row_group_detail"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingBottom="3dp"
+    android:paddingRight="10dp"
+    android:background="@color/grey">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:stretchColumns="1">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/txt_group_detail_variable"
+                android:text="Cif"
+                android:textColor="@color/Black"
+                android:padding="3dip"/>
+            <TextView
+                android:id="@+id/txt_group_detail_cif"
+                android:text="212232"
+                android:textColor="@color/Black"
+                android:layout_column="1"
+                android:gravity="right"
+                android:padding="3dip"/>
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

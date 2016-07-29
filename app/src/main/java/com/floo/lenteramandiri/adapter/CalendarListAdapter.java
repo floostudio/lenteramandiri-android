@@ -81,7 +81,6 @@ public class CalendarListAdapter extends BaseAdapter{
         viewHolder.ptTask.setText(pt);
         int expire = task.getExpire();
 
-        //viewHolder.expireTask.setText(Integer.toString(expire));
 
         Date date = new Date(expire * 1000L);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -133,7 +132,6 @@ public class CalendarListAdapter extends BaseAdapter{
             listData.addAll(list);
         } else {
             for (Task wp : list) {
-                //Log.d("epoch", epochtodate(wp.getExpire()));
                 if (epochtodate(wp.getExpire()).toLowerCase(Locale.getDefault())
                         .contains(charText)) {
                     listData.add(wp);
