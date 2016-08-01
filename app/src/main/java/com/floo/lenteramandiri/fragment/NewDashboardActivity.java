@@ -1188,13 +1188,14 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             /*PERCENTAGE*/
             BarDataSet BarsetPercen = new BarDataSet(barBakiPercen, "Percentage");
-            BarsetPercen.setColor(getResources().getColor(R.color.cpb_green));
+            BarsetPercen.setColor(getResources().getColor(R.color.lightblue));
 
             BarData barDataPercen = new BarData();
             barDataPercen.addDataSet(BarsetPercen);
 
             LineDataSet LineSetPercen = new LineDataSet(lineBakiThres, "Threshold");
             LineSetPercen.setColor(getResources().getColor(R.color.yellow));
+            LineSetPercen.setCircleColor(getResources().getColor(R.color.yellow));
 
             LineData lineDataPercen = new LineData();
             lineDataPercen.addDataSet(LineSetPercen);
