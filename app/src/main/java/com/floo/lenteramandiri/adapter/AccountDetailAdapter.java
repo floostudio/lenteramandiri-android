@@ -1,6 +1,7 @@
 package com.floo.lenteramandiri.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,22 @@ public class AccountDetailAdapter extends BaseAdapter{
             viewHolder.row.setBackgroundColor(context.getResources().getColor(R.color.cpb_white));
         }
         viewHolder.variable.setText(item.get("key"));
-        viewHolder.data.setText(item.get("variable"));
+        if (item.get("key").toString().trim().equals("cif")){
+            viewHolder.data.setText(item.get("variable"));
+        }else {
+            String values = item.get("variable");
+            if (values.matches("\\d+(?:\\.\\d+)?")){
+                if (values.length()>3){
+                    viewHolder.data.setText(DataManager.getDecimalFormat(values));
+                }else {
+                    viewHolder.data.setText(values);
+                }
+            }else {
+                viewHolder.data.setText(values);
+            }
+        }
+
+
 
         return view;
     }

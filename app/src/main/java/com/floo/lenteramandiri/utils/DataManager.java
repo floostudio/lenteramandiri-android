@@ -313,6 +313,18 @@ public class DataManager {
         return dateFormat.format(date1);
     }
 
+    public static Boolean isValidInteger(String value) {
+        try {
+            Integer val = Integer.valueOf(value);
+            if (val != null)
+                return true;
+            else
+                return false;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static String getDecimalFormat(String value) {
         StringTokenizer lst = new StringTokenizer(value, ".");
         String str1 = value;

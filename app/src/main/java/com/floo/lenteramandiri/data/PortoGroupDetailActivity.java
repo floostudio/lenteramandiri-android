@@ -53,7 +53,7 @@ public class PortoGroupDetailActivity extends AppCompatActivity {
         strArray = i.getStringExtra("key");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("PORTFOLIO DEBITUR");
+        titleToolbar.setText("PORTOFOLIO DEBITUR");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
 

@@ -84,16 +84,15 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
     private static final String cashouttarget = "cashouttarget";
     private static final String cashoutactual = "cashoutactual";
 
-    BarChart chart_Lcf, chart_Dpk;
-    CombinedChart chart_CashIn, chat_CashOut, chart_BakiDebet1, chart_BakiDebet2, chart_dlr;
-    LinearLayout lineBakiDebet;
+    BarChart chart_Lcf, chart_Dpk, chart_dlr;
+    CombinedChart chart_CashIn, chat_CashOut, chart_BakiDebet1, chart_BakiDebet2;
+    LinearLayout lineBakiDebet, linear_text2;
     Button btnBakiDebetTrue, btnPercentageTrue;
     HorizontalScrollView horizontalAGF;
     RelativeLayout relative_cash_in;
     LinearLayout linier_cash_out, linier_dpk, linier_lcf, linier_bakidebet1, linier_bakidebet2, linier_dlr;
     Button btn_toggle_line_cashIn, btn_toggle_bar_cashIn, btn_toggle_line_cashOut, btn_toggle_bar_cashOut,
-            btn_toggle_line_bakidebet1, btn_toggle_bar_bakidebet1, btn_toggle_line_bakidebet2, btn_toggle_bar_bakidebet2,
-            btn_toggle_line_dlr, btn_toggle_bar_dlr;
+            btn_toggle_line_bakidebet1, btn_toggle_bar_bakidebet1, btn_toggle_line_bakidebet2, btn_toggle_bar_bakidebet2;
     HashMap<Button, Integer> mapBtnCashIn, mapBtnCashOut, mapBtnBakiDebet1, mapBtnBakiDebet2, mapBtnDlr;
     GridView grid;
 
@@ -214,6 +213,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         idParsing = this.getArguments().getString("IDPARSING");
         text1 = (TextView)v.findViewById(R.id.txt_dasboard_1);
         text2 = (TextView)v.findViewById(R.id.txt_dasboard_2);
+        linear_text2 = (LinearLayout)v.findViewById(R.id.linear_text2);
         title_blue = (TextView)v.findViewById(R.id.txt_title_blue);
         title_yellow = (TextView)v.findViewById(R.id.txt_title_yellow);
         title1 = (TextView)v.findViewById(R.id.tfd_title_1);
@@ -256,7 +256,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         chat_CashOut = (CombinedChart)v.findViewById(R.id.chart_cashOut);
         chart_Lcf = (BarChart) v.findViewById(R.id.chart_lcf);
         chart_Dpk = (BarChart)v.findViewById(R.id.chart_dpk);
-        chart_dlr= (CombinedChart) v.findViewById(R.id.chart_dlr);
+        chart_dlr= (BarChart) v.findViewById(R.id.chart_dlr);
         chart_BakiDebet1 = (CombinedChart)v.findViewById(R.id.chart_bakidebet1);
         chart_BakiDebet2 = (CombinedChart)v.findViewById(R.id.chart_bakidebet2);
         lineBakiDebet = (LinearLayout)v.findViewById(R.id.linierBakiDebet) ;
@@ -291,15 +291,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         linier_lcf = (LinearLayout)v.findViewById(R.id.linier_lcf);
 
         linier_dlr = (LinearLayout)v.findViewById(R.id.linier_dlr);
-        btn_toggle_line_dlr = (Button)v.findViewById(R.id.btn_toggle_line_dlr);
-        btn_toggle_bar_dlr = (Button)v.findViewById(R.id.btn_toggle_bar_dlr);
-        btn_toggle_line_dlr.setOnClickListener(this);
-        btn_toggle_bar_dlr.setOnClickListener(this);
+
         mapBtnDlr = new HashMap<Button, Integer>();
-        btn_toggle_line_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
-        btn_toggle_bar_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
-        mapBtnDlr.put(btn_toggle_line_dlr, R.drawable.activity_btn_blue);
-        mapBtnDlr.put(btn_toggle_bar_dlr, R.drawable.activity_btn_blue);
 
         linier_bakidebet1 = (LinearLayout)v.findViewById(R.id.linier_bakidebet1);
         btn_toggle_line_bakidebet1 = (Button)v.findViewById(R.id.btn_toggle_line_bakidebet1);
@@ -331,7 +324,9 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             title_yellow.setText("Transaction Flow Diagram");
             title_blue.setText("Transaction Flow Diagram");
             text1.setText("Collection");
+            text1.setPadding(0, 0, 0, 0);
             text2.setText("Payment");
+            linear_text2.setVisibility(View.VISIBLE);
             toggleButtonActive(false);
             btntfd.setBackgroundResource(R.drawable.activity_btn_blue);
             btntfd.setTextColor(Color.parseColor("#ffffff"));
@@ -339,7 +334,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             setGONE();
 
             listTFD.setVisibility(View.VISIBLE);
-            btndetail.setVisibility(View.GONE);
+            btndetail.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.INVISIBLE);
 
         }else if (v==btncash){
@@ -410,8 +405,9 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         }else if (v==btnagf){
             title_yellow.setText("AGF");
             title_blue.setText("AGF");
-            text1.setText("");
-            text2.setText("");
+            text1.setText("*Saldo yang ditampilkan saldo tanggal 20 untuk saldo terakhir harap cek di BDS");
+            text1.setPadding(10, 0, 10, 0);
+            linear_text2.setVisibility(View.GONE);
             toggleButtonActive(false);
             btnagf.setBackgroundResource(R.drawable.activity_btn_blue);
             btnagf.setTextColor(Color.parseColor("#ffffff"));
@@ -605,40 +601,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                 chart_BakiDebet2.invalidate();
             }
 
-        }else if (v==btn_toggle_bar_dlr){
-            if (mapBtnDlr.get(btn_toggle_bar_dlr) == R.drawable.activity_btn) {
-                btn_toggle_bar_dlr.setText("Hide Bar Values");
-                btn_toggle_bar_dlr.setTextColor(getResources().getColor(R.color.cpb_white));
-                btn_toggle_bar_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
-                mapBtnDlr.put(btn_toggle_bar_dlr, R.drawable.activity_btn_blue);
-                chart_dlr.getBarData().setDrawValues(true);
-                chart_dlr.invalidate();
-            }else {
-                btn_toggle_bar_dlr.setText("Show Bar Values");
-                btn_toggle_bar_dlr.setTextColor(getResources().getColor(R.color.background));
-                btn_toggle_bar_dlr.setBackgroundResource(R.drawable.activity_btn);
-                mapBtnDlr.put(btn_toggle_bar_dlr, R.drawable.activity_btn);
-                chart_dlr.getBarData().setDrawValues(false);
-                chart_dlr.invalidate();
-            }
-
-        }else if (v==btn_toggle_line_dlr){
-            if (mapBtnDlr.get(btn_toggle_line_dlr) == R.drawable.activity_btn) {
-                btn_toggle_line_dlr.setText("Hide Line Values");
-                btn_toggle_line_dlr.setTextColor(getResources().getColor(R.color.cpb_white));
-                btn_toggle_line_dlr.setBackgroundResource(R.drawable.activity_btn_blue);
-                mapBtnDlr.put(btn_toggle_line_dlr, R.drawable.activity_btn_blue);
-                chart_dlr.getLineData().setDrawValues(true);
-                chart_dlr.invalidate();
-
-            }else {
-                btn_toggle_line_dlr.setText("Show Line Values");
-                btn_toggle_line_dlr.setTextColor(getResources().getColor(R.color.background));
-                btn_toggle_line_dlr.setBackgroundResource(R.drawable.activity_btn);
-                mapBtnDlr.put(btn_toggle_line_dlr, R.drawable.activity_btn);
-                chart_dlr.getLineData().setDrawValues(false);
-                chart_dlr.invalidate();
-            }
         }
     }
 
@@ -689,6 +651,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         ArrayList<String> blnBaki = new ArrayList<String>();
         ArrayList<BarEntry> barBakiPercen = new ArrayList<BarEntry>();
         ArrayList<Entry> lineBakiThres = new ArrayList<Entry>();
+
+
 
         int lengthAGF;
         ArrayList<String> lengthList = new ArrayList<>();
@@ -822,8 +786,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
                         xDlr.add(strMonth);
 
-                        yDlr.add(new BarEntry(fltLoan, a));
-                        lineDlr.add(new Entry(fltDpk, a));
+                        yDlr.add(new BarEntry(new float[]{fltLoan, fltDpk}, a));
+                        //lineDlr.add(new Entry(fltDpk, a));
                     }
                 }
                 //Mapping Data AGF
@@ -1071,32 +1035,51 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_Dpk.invalidate();
 
             //DLR
-            BarDataSet dataSetDLR = new BarDataSet(yDlr, "Outstanding Loan");
-            dataSetDLR.setColor(getResources().getColor(R.color.lightblue));
+            BarDataSet setDLR = new BarDataSet(yDlr, "");
+            setDLR.setColors(getColors(2));
+            setDLR.setStackLabels(new String[] { "Outstanding Loan", "DPK"});
 
-            BarData dataDLR = new BarData();
-            dataDLR.addDataSet(dataSetDLR);
+            ArrayList<BarDataSet> dataSetDLR = new ArrayList<BarDataSet>();
+            dataSetDLR.add(setDLR);
 
-            LineDataSet lineDataSetDLR = new LineDataSet(lineDlr, "DPK");
-            lineDataSetDLR.setCircleColor(getResources().getColor(R.color.yellow));
-            lineDataSetDLR.setColor(getResources().getColor(R.color.yellow));
+            BarData dataDLR = new BarData(xDlr, dataSetDLR);
+            dataDLR.setValueFormatter(new MyValueFormatter());
 
-            LineData lineDataDLR = new LineData();
-            lineDataDLR.addDataSet(lineDataSetDLR);
-
-            CombinedData comdataDLR = new CombinedData(xDlr);
-            comdataDLR.setData(dataDLR);
-            comdataDLR.setData(lineDataDLR);
-
-            chart_dlr.setData(comdataDLR);
             chart_dlr.setDescription("");
-            chart_dlr.animateXY(2000, 2000);
-            XAxis xDLR = chart_dlr.getXAxis();
-            xDLR.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            chart_dlr.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chart_dlr.setPinchZoom(false);
+
+            chart_dlr.setDrawGridBackground(false);
+            chart_dlr.setDrawBarShadow(false);
+
+            chart_dlr.setDrawValueAboveBar(false);
+
+            // change the position of the y-labels
+            YAxis leftAxis_DLR = chart_dlr.getAxisLeft();
+            leftAxis_DLR.setValueFormatter(new MyYAxisValueFormatter());
+            leftAxis_DLR.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            chart_dlr.getAxisRight().setEnabled(false);
             chart_dlr.getXAxis().setDrawGridLines(false);
+            XAxis xLabels_DLR = chart_dlr.getXAxis();
+            xLabels_DLR.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            // mChart.setDrawXLabels(false);
+            // mChart.setDrawYLabels(false);
+
+            Legend l_DLR = chart_dlr.getLegend();
+            l_DLR.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+            l_DLR.setFormSize(8f);
+            l_DLR.setFormToTextSpace(4f);
+            l_DLR.setXEntrySpace(6f);
+
+            chart_dlr.setData(dataDLR);
             chart_dlr.setDoubleTapToZoomEnabled(false);
             chart_dlr.setPinchZoom(false);
-            chart_dlr.getAxisRight().setEnabled(false);
             chart_dlr.invalidate();
 
 

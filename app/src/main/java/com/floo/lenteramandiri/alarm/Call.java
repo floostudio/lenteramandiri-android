@@ -1,11 +1,13 @@
 package com.floo.lenteramandiri.alarm;
 
+import java.util.Arrays;
+import java.util.Calendar;
+
 /**
  * Created by Floo on 3/4/2016.
  */
 public class Call {
     private int id;
-
     private String title;
     private long date;
     private boolean active = true;
@@ -53,4 +55,5 @@ public class Call {
     public void setActive(boolean active){
         this.active = active;
     }
+
 }

@@ -77,7 +77,7 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
         idParsing  = i.getStringExtra("IDPARSING");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("PORTFOLIO DEBITUR");
+        titleToolbar.setText("PORTOFOLIO DEBITUR");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
         listportoGroup = (ListView) findViewById(R.id.list_porto_group);
@@ -176,7 +176,7 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);
                         hashMap.put(group_id, strGroupId);
-                        hashMap.put(group_limit, strGroupLimit);
+                        hashMap.put(group_limit, DataManager.getDecimalFormat(strGroupLimit));
                         hashMap.put(company_name, strCompanyName);
                         mylist.add(hashMap);
 

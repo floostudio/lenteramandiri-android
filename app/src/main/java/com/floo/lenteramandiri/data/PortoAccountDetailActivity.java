@@ -54,7 +54,7 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("PORTFOLIO ACCOUNT");
+        titleToolbar.setText("AKUN PORTOFOLIO");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
 

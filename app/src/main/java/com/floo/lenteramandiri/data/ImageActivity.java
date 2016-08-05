@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.utils.TouchImageView;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Floo on 4/21/2016.
@@ -19,10 +20,14 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        Intent i = getIntent();
-        String gambar = i.getStringExtra("gambar");
+        //Intent i = getIntent();
+        //String gambar = i.getStringExtra("gambar");
 
         img = (TouchImageView)findViewById(R.id.img_img);
+
+        Picasso.with(getApplicationContext())
+                .load("http://sandbox.floostudio.com/lenteramandiri/portofolio_csv/tfd.jpg")
+                .into(img);
         /*img.setOnTouchImageViewListener(new TouchImageView.OnTouchImageViewListener() {
             @Override
             public void onMove() {

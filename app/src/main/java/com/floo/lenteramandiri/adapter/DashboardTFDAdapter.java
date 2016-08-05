@@ -43,7 +43,7 @@ public class DashboardTFDAdapter extends BaseAdapter{
     }
     class ViewHolder {
         private TextView key1, key2;
-        private Button value1, value2;
+        private TextView value1, value2;
         private LinearLayout row1, row2;
 
     }
@@ -58,8 +58,8 @@ public class DashboardTFDAdapter extends BaseAdapter{
             viewHolder.row2 = (LinearLayout) view.findViewById(R.id.linier_key_2);
             viewHolder.key1= (TextView) view.findViewById(R.id.tfd_title_1);
             viewHolder.key2= (TextView) view.findViewById(R.id.tfd_title_5);
-            viewHolder.value1= (Button) view.findViewById(R.id.tfd_data_1);
-            viewHolder.value2= (Button) view.findViewById(R.id.tfd_data_5);
+            viewHolder.value1= (TextView) view.findViewById(R.id.tfd_data_1);
+            viewHolder.value2= (TextView) view.findViewById(R.id.tfd_data_5);
             view.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) view.getTag();
@@ -67,12 +67,12 @@ public class DashboardTFDAdapter extends BaseAdapter{
         HashMap<String, String> item = listData.get(position);
         //Log.d("datadash", item.get("data1").replaceAll(".*_", ""));
 
-        if (position%2==0){
+        /*if (position%2==0){
             viewHolder.row1.setBackgroundColor(context.getResources().getColor(R.color.grey));
             viewHolder.row2.setBackgroundColor(context.getResources().getColor(R.color.cpb_white));
             viewHolder.value1.setBackground(context.getResources().getDrawable(R.drawable.activity_btn_bluee));
             viewHolder.value2.setBackground(context.getResources().getDrawable(R.drawable.activity_btn_yellow));
-        }
+        }*/
 
         viewHolder.key1.setText(beforeString(item.get("data1")));
         viewHolder.value1.setText(item.get("data2"));

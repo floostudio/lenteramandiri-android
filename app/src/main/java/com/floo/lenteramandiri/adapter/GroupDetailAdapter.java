@@ -71,7 +71,21 @@ public class GroupDetailAdapter extends BaseAdapter{
             viewHolder.row.setBackgroundColor(context.getResources().getColor(R.color.cpb_white));
         }
         viewHolder.variable.setText(item.get("variable"));
-        viewHolder.data.setText(item.get("key"));
+        if (item.get("variable").toString().trim().equals("cif")){
+            viewHolder.data.setText(item.get("key"));
+        }else {
+            String values = item.get("key");
+            if (values.matches("\\d+(?:\\.\\d+)?")){
+                if (values.length()>3){
+                    viewHolder.data.setText(DataManager.getDecimalFormat(values));
+                }else {
+                    viewHolder.data.setText(values);
+                }
+            }else {
+                viewHolder.data.setText(values);
+            }
+        }
+        //viewHolder.data.setText(item.get("key"));
 
         return view;
     }

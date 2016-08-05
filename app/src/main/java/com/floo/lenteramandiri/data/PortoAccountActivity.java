@@ -80,7 +80,7 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
         idParsing  = i.getStringExtra("IDPARSING");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("PORTFOLIO ACCOUNT");
+        titleToolbar.setText("AKUN PORTOFOLIO");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
         portoAccount = (DynamicListView) findViewById(R.id.list_porto_account);
@@ -97,7 +97,7 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
 
     }
 
-    private String getDecimalFormat(String value) {
+    /*public String getDecimalFormat(String value) {
         StringTokenizer lst = new StringTokenizer(value, ".");
         String str1 = value;
         String str2 = "";
@@ -125,7 +125,7 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
             str3 = str1.charAt(k) + str3;
             i++;
         }
-    }
+    }*/
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -175,7 +175,7 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);
                         hashMap.put(acc_num, strAccNumber);
-                        hashMap.put(saldo, strSaldo);
+                        hashMap.put(saldo, DataManager.getDecimalFormat(strSaldo));
                         hashMap.put(company_name, strCompanyName);
 
                         mylist.add(hashMap);

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +66,22 @@ public class DashboardAGFAdapter extends BaseAdapter {
                 llp.setMargins(0, 2, 2, 2); // llp.setMargins(left, top, right, bottom);
                 textView.setLayoutParams(llp);
             }
-            textView.setText(hashMap.get("values"));
+            String agf = hashMap.get("values");
+            if (position==length){
+                textView.setText(agf);
+            }else{
+                if (agf.matches("\\d+(?:\\.\\d+)?")){
+                    if (agf.length()>3){
+                        textView.setText(DataManager.getDecimalFormat(agf));
+                    }else {
+                        textView.setText(agf);
+                    }
+
+                }else {
+                    textView.setText(agf);
+                }
+            }
+
 
         } else {
             grid = (View) convertView;

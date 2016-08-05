@@ -96,8 +96,6 @@ public class AlarmService extends Service {
 		Call alarm = getNext();
 		//long mili = alarm.getDate();
 		if(null != alarm){
-
-
 			//alarm.setActive(true);
 			Intent myIntent = new Intent(getApplicationContext(), AlarmAlertBroadcastReciever.class);
 			myIntent.putExtra("alarm", alarm.getDate());

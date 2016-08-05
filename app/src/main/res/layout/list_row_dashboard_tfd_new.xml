@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/Black">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="1dp">
         <LinearLayout
             android:id="@+id/linier_key_1"
             android:layout_width="match_parent"
@@ -30,15 +32,21 @@
                 android:textStyle="bold"
                 android:id="@+id/tfd_title_1" />
 
-            <Button
+            <TextView
                 android:id="@+id/tfd_data_1"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
-                android:background="@drawable/activity_btn_blue"
-                android:textColor="@color/White" />
+                android:gravity="center"
+                android:background="@color/White"
+                android:textColor="@color/standart" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/Black"/>
 
         <LinearLayout
             android:id="@+id/linier_key_2"
@@ -48,7 +56,7 @@
             android:gravity="center_vertical"
             android:layout_weight="1"
             android:padding="6dp"
-            android:background="@color/grey">
+            android:background="@color/White">
 
             <TextView
 
@@ -64,12 +72,13 @@
                 android:textStyle="bold"
                 android:id="@+id/tfd_title_5" />
 
-            <Button
+            <TextView
                 android:id="@+id/tfd_data_5"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
                 android:textSize="11dp"
-                android:background="@drawable/activity_btn_light_yellow"
+                android:gravity="center"
+                android:background="@color/White"
                 android:textColor="@color/standart" />
 
         </LinearLayout>

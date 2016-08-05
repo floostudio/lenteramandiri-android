@@ -67,7 +67,7 @@ public class TaskDetailAdapter extends BaseAdapter {
         String a = escalated.getEscalate();
         String z = escalated.getBold();
 
-        if (a.trim().equals("Escalated 1")){
+        if (a.trim().equals("Eskalasi 1")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
             viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
@@ -77,7 +77,7 @@ public class TaskDetailAdapter extends BaseAdapter {
                 viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
             }
             viewHolder.escal.setText(escalated.getEscalate());
-        }else if (a.trim().equals("Escalated 2")){
+        }else if (a.trim().equals("Eskalasi 2")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
             viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
@@ -87,7 +87,7 @@ public class TaskDetailAdapter extends BaseAdapter {
                 viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
             }
             viewHolder.escal.setText(escalated.getEscalate());
-        }else if (a.trim().equals("Escalated 3")){
+        }else if (a.trim().equals("Eskalasi 3")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
             viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
@@ -97,7 +97,7 @@ public class TaskDetailAdapter extends BaseAdapter {
                 viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
             }
             viewHolder.escal.setText(escalated.getEscalate());
-        }else if (a.trim().equals("Escalated 4")){
+        }else if (a.trim().equals("Eskalasi 4")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
             viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);
@@ -107,7 +107,7 @@ public class TaskDetailAdapter extends BaseAdapter {
                 viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
             }
             viewHolder.escal.setText(escalated.getEscalate());
-        }else if (a.trim().equals("Escalated 5")){
+        }else if (a.trim().equals("Eskalasi 5")){
             viewHolder.liner.setPadding(0, 0, 0, 0);
             viewHolder.img.setImageResource(R.drawable.check_fortask_active);
             viewHolder.escal.setTypeface(Typeface.DEFAULT_BOLD);

@@ -56,6 +56,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 
 import com.floo.lenteramandiri.fragment.CalenderActivity;
 import com.floo.lenteramandiri.fragment.PortofolioActivity;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     TextView title;
     ActionBar actionBar;
     DrawerLayout drawer;
-    String idParsing, strFirstname, strLastname, strProfpic, strEsclated;
+    String idParsing, strFirstname, strLastname, strProfpic, strTitle;
     public static final String first_name = "first_name";
     public static final String last_name = "last_name";
     public static final String profpic = "profpic";
@@ -87,19 +88,12 @@ public class MainActivity extends AppCompatActivity {
     String frgment="";
     ImageLoader imageLoader;
     NavigationView navigationView;
+    int pTitle;
 
 
     //calendar
     private Hashtable<String,String> calendarIdTable;
     Spinner calendarIdSpinner;
-
-    //wake up call
-    ArrayList<Long> arrayList = new ArrayList<>();
-    Long[] dataCall ;
-    AlarmManager[] alarmManager = new AlarmManager[24];
-    PendingIntent pendingIntent;
-    ArrayList<PendingIntent> arrayListInten = new ArrayList<>();
-    ArrayList<Long> arrayListTime = new ArrayList<>();
 
     ListView listView;
     MainActivityAdapter mainActivityAdapter;
@@ -119,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
         strFirstname = user.get(first_name);
         strLastname = user.get(last_name);
         strProfpic = user.get(profpic);
+        /*strTitle = user.get(SessionManager.Key_title);
+
+        if (strTitle.trim().equals("MANAGER")|| strTitle.trim().equals("manager")){
+            pTitle = 1;
+        }else {
+            pTitle = 0;
+        }*/
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (CalendarHelper.haveCalendarReadWritePermissions(MainActivity.this)){
-            new DataFetcherTask().execute();
+            //new DataFetcherTask().execute();
 
         }else {
             CalendarHelper.requestCalendarReadWritePermission(MainActivity.this);
@@ -294,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
 
             try {
+                Database.deleteAll();
                 JSONArray jsonArray = new JSONArray(DataManager.MyHttpGet(DataManager.urltaskList+idParsing));
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -312,36 +314,38 @@ public class MainActivity extends AppCompatActivity {
                             if (!number.trim().equals("0")){
                                 int nilai = Integer.parseInt(number);
                                 expire = strExpire - (day*nilai);
-                                addNewEvent(strTitle, DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
+                                addNewEvent(strTitle, main(DataManager.epochtodateTime(expire)));
 
                             }
                         }
                     }
 
                     if (jsonObject.has("wakeup_call")){
-                        Database.deleteAll();
+
                         JSONArray arrayWakeUp = jsonObject.getJSONArray("wakeup_call");
                         for (int a=0; a<arrayWakeUp.length();a++){
-                            String number = arrayWakeUp.getString(a);
+                            int number = arrayWakeUp.getInt(a);
 
-                            if (!number.trim().equals("0")){
-                                int nilai = Integer.parseInt(number);
-                                expire = strExpire - (day*nilai);
-                                long data = DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire));
-                                if (data > getTime()){
-                                    Call call = new Call();
-                                    call.setId(strId);
-                                    call.setTitle(strTitle);
-                                    call.setDate(DataManager.dateTomiliSecond(DataManager.epochtodateTime(expire)));
-                                    call.setActive(call.getActive());
-                                    Database.create(call);
-                                }
+                            expire = strExpire - (day*number);
+                            long data = main(DataManager.epochtodateTime(expire));
+
+                            if (data > main(dateNow())) {
+                                Call call = new Call();
+                                call.setId(strId);
+                                call.setTitle(strTitle);
+                                call.setDate(main(DataManager.epochtodateTime(expire)));
+                                call.setActive(call.getActive());
+                                Database.create(call);
+                                //Log.d("wakeupcall", "wake up call number "+a);
+                                //Toast.makeText(getApplicationContext(), "wake up call number "+a, Toast.LENGTH_LONG).show();
                             }
                         }
                     }
                 }
 
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -358,10 +362,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static String dateNow(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        Date date1 = new Date();
+        return dateFormat.format(date1);
+    }
+
+    public static long main(String args) throws Exception
+    {
+        //String str = "Jun 13 2003 23:11:52.454 UTC";
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = df.parse(args);
+        long epoch = date.getTime();
+        //System.out.println(epoch); // 1055545912454
+
+        return epoch;
+    }
+
     private long getTime(){
 
         String str = DataManager.dateNow();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date2 = null;
         try {
             date2 = df.parse(str);
@@ -449,6 +471,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft;
         Bundle bundle = new Bundle();
         bundle.putString("IDPARSING", idParsing);
+        //bundle.putInt("title", pTitle);
 
         switch (position){
             case 0:
@@ -488,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 4:
-                title.setText("KALENDAR");
+                title.setText("KALENDER");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 CalenderActivity calender = new CalenderActivity();
@@ -497,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 5:
-                title.setText("BERITA");
+                title.setText("INFO");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 NewsActivity news = new NewsActivity();
@@ -505,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 6:
-                title.setText("INFO");
+                title.setText("BERITA");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 InfoActivity info = new InfoActivity();

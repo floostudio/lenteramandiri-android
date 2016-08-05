@@ -48,7 +48,7 @@ public class NoteActivity extends AppCompatActivity {
         struserid = i.getStringExtra("idParsing");
         toolbar = (Toolbar)findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("NOTE");
+        titleToolbar.setText("CATATAN");
         save = (TextView)findViewById(R.id.txt_save);
         LinearLayout line = (LinearLayout) findViewById(R.id.linier_toolbar);
 
@@ -123,7 +123,7 @@ public class NoteActivity extends AppCompatActivity {
                 objNote.put(note, strNote);
                 putNote = objNote.toString();
 
-                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlNote+taskid, putNote));
+                JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlNote+taskid+"/"+struserid, putNote));
                 strStatus = jsonObject.getString(status_code);
                 strMessage = jsonObject.getString(message);
 

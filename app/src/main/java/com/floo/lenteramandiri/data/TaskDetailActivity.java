@@ -39,6 +39,7 @@ import com.floo.lenteramandiri.MainActivity;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.Escalateds;
 import com.floo.lenteramandiri.adapter.TaskDetailAdapter;
+import com.floo.lenteramandiri.adapter.TaskDetailFromAdapter;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.DialogMediaActivity;
 import com.floo.lenteramandiri.utils.DialogUniversalWarningUtils;
@@ -77,7 +78,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> arrayfromTaskList;
     ArrayList<HashMap<String, String>> arraytoTaskList;
     ExpandableHeightListView listDetailTaskList, listEscalatedTo;
-    SimpleAdapter adapterDetailTaskList;
+    //SimpleAdapter adapterDetailTaskList;
 
     public static final String status_code = "status_code";
     public static final String message = "message";
@@ -217,10 +218,31 @@ public class TaskDetailActivity extends AppCompatActivity {
                 for (int i=0; i<arrayEscalfrom.length();i++){
                     String strEscalated = arrayEscalfrom.getString(i);
 
-                    hashmapfromTaskList = new HashMap<String, String>();
-                    hashmapfromTaskList.put(escalated_from, strEscalated);
+                    //new DataFetcherTask(text.substring(0, index), txt.getText().toString()).execute();
 
-                    arrayfromTaskList.add(hashmapfromTaskList);
+                    if (strEscalated.indexOf(";")>0){
+                        String[] items = strEscalated.split(";");
+                        for (int s=0;s<items.length;s++){
+                            String item = items[s];
+                            if (s==1){
+                                hashmapfromTaskList = new HashMap<String, String>();
+                                hashmapfromTaskList.put("note", String.valueOf(1));
+                                hashmapfromTaskList.put(escalated_from, item);
+                                arrayfromTaskList.add(hashmapfromTaskList);
+                            }else {
+                                hashmapfromTaskList = new HashMap<String, String>();
+                                hashmapfromTaskList.put("note", String.valueOf(0));
+                                hashmapfromTaskList.put(escalated_from, item);
+                                arrayfromTaskList.add(hashmapfromTaskList);
+                            }
+
+                        }
+                    }else {
+                        hashmapfromTaskList = new HashMap<String, String>();
+                        hashmapfromTaskList.put("note", String.valueOf(0));
+                        hashmapfromTaskList.put(escalated_from, strEscalated);
+                        arrayfromTaskList.add(hashmapfromTaskList);
+                    }
                 }
 
                 ArrayList<String> array = new ArrayList<String>();
@@ -240,7 +262,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
                     Escalateds escall = new Escalateds();
                     escall.setEscalate(data1);
-                    if (!data1.trim().equals(Escalated + " " + strPosition)) {
+                    if (!data1.trim().equals("Eskalasi"+ " " + strPosition)) {
 
                         String ada = "1";
 
@@ -343,8 +365,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                 listEscalatedTo.setExpanded(true);
 
                 txtEscalated.setText("Eskalasi Dari :");
-                adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
-                        R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
+                TaskDetailFromAdapter adapterDetailTaskList = new TaskDetailFromAdapter(getApplicationContext(), arrayfromTaskList);
                 listDetailTaskList.setAdapter(adapterDetailTaskList);
                 listDetailTaskList.setExpanded(true);
             }else {
@@ -367,8 +388,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                     txtEscalated.setVisibility(View.VISIBLE);
                     listDetailTaskList.setVisibility(View.VISIBLE);
                     txtEscalated.setText("Eskalasi Dari :");
-                    adapterDetailTaskList = new SimpleAdapter(getApplicationContext(), arrayfromTaskList,
-                            R.layout.list_row_detail_task,new String[]{escalated_from},new int[]{R.id.txt_task_list});
+                    TaskDetailFromAdapter adapterDetailTaskList = new TaskDetailFromAdapter(getApplicationContext(), arrayfromTaskList);
                     listDetailTaskList.setAdapter(adapterDetailTaskList);
                     listDetailTaskList.setExpanded(true);
                 }

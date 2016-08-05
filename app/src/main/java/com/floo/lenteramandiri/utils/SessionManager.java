@@ -33,6 +33,7 @@ public class SessionManager {
 	public static final String Key_IDPARSING = "IDPARSING";
 	public static final String Key_profpic = "profpic";
 	public static final String Key_last_name = "last_name";
+	public static final String Key_title = "title";
 	public static final String Key_escalated_group = "escalated_group";
 	
 	// Constructor
@@ -57,6 +58,7 @@ public class SessionManager {
 		editor.putString(Key_first_name, first_name);
 		editor.putString(Key_last_name, last_name);
 		editor.putString(Key_profpic, profpic);
+		//editor.putString(Key_title, title);
 
 		
 		// commit changes
@@ -97,6 +99,7 @@ public class SessionManager {
 		user.put(Key_first_name, pref.getString(Key_first_name, null));
 		user.put(Key_last_name, pref.getString(Key_last_name, null));
 		user.put(Key_profpic, pref.getString(Key_profpic, null));
+		//user.put(Key_title, pref.getString(Key_title, null));
 
 		
 		// return user

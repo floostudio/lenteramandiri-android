@@ -16,6 +16,7 @@ import java.util.TimeZone;
 
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.utils.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Floo on 3/4/2016.
@@ -92,8 +93,11 @@ public class NewsAdapter extends BaseAdapter{
         viewHolder.datenews.setText(formatDate);
 
         String img = news.getImage();
-        ImageLoader imageLoader = new ImageLoader();
-        imageLoader.DisplayImage(img, viewHolder.imageView);
+        Picasso.with(context)
+                .load(news.getImage())
+                .into(viewHolder.imageView);
+        //ImageLoader imageLoader = new ImageLoader();
+        //imageLoader.DisplayImage(img, viewHolder.imageView);
         //new ImageLoadTask(img, viewHolder.imageView).execute();
 
         /*viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
