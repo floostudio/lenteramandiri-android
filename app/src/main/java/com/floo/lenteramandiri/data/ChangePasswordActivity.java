@@ -64,23 +64,23 @@ public class ChangePasswordActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if (edtCurrent.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Current Password Empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Kata Sandi Saat ini Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtNew.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "New Password Empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Kata Sandi Baru Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtReenter.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Re-Enter Password Empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Masukkan Kembali Kata Sandi Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else {
                     if (!edtReenter.getText().toString().trim().equals(edtNew.getText().toString())) {
-                        Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG)
+                        Toast.makeText(getApplicationContext(), "Kata Sandi Tidak Cocok", Toast.LENGTH_LONG)
                                 .show();
                         Intent intent = getIntent();
                         finish();

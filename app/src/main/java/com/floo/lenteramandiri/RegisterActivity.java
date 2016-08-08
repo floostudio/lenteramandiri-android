@@ -113,58 +113,58 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (edtFirstName.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Firstname empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Nama Depan Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtLastName.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Lastname empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Nama Belakang Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtNip.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "NIP empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "NIP Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (idDirectorate.getText().toString().trim().equals("0")){
-                    Toast.makeText(getApplicationContext(), "Directorate",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Directorate Belum di Pilih",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (idGroup.getText().toString().trim().equals("0")){
-                    Toast.makeText(getApplicationContext(), "Group",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Group Belum di Pilih",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (idDepartment.getText().toString().trim().equals("0")){
-                    Toast.makeText(getApplicationContext(), "Department",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Department Belum di Pilih",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (idTitle.getText().toString().trim().equals("0")){
-                    Toast.makeText(getApplicationContext(), "Title",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Title Belum di Pilih",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtEmail.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Email empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Email Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtPassword.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Password empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Kata Sandi Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else if (edtConfirm.getText().toString().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Confirm Password empty",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Konfirmasi Kata Sandi Kosong",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
                 }else {
                     if (!edtPassword.getText().toString().trim().equals(edtConfirm.getText().toString())){
-                        Toast.makeText(getApplicationContext(),"Password does not match", Toast.LENGTH_LONG)
+                        Toast.makeText(getApplicationContext(),"Kata Sandi Tidak Cocok", Toast.LENGTH_LONG)
                                 .show();
                         Intent intent = getIntent();
                         finish();
