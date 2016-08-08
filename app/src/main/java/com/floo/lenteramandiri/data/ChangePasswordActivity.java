@@ -46,7 +46,7 @@ public class ChangePasswordActivity extends AppCompatActivity{
         emailParsing  = i.getStringExtra("email");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("UBAH PASSWORD");
+        titleToolbar.setText("UBAH KATA SANDI");
         save = (TextView)findViewById(R.id.txt_save);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
         edtCurrent = (EditText) findViewById(R.id.edt_change_currentpassword);

@@ -217,7 +217,7 @@
                     android:textSize="14sp"
                     android:typeface="normal"
                     android:textAlignment="center"
-                    android:hint="Password"/>
+                    android:hint="Kata Kunci"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -236,7 +236,7 @@
                     android:textSize="14sp"
                     android:typeface="monospace"
                     android:textAlignment="center"
-                    android:hint="Konfirmasi Password"/>
+                    android:hint="Konfirmasi Kata Kunci"/>
             </RelativeLayout>
 
             <LinearLayout

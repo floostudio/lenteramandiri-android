@@ -98,7 +98,7 @@
                     android:textColorHint="@color/hint"
                     android:inputType="textPassword"
                     android:layout_marginLeft="10dp"
-                    android:hint="Password"/>
+                    android:hint="Kata Sandi"/>
 
 
             </LinearLayout>

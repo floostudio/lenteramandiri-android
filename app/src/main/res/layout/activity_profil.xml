@@ -21,7 +21,7 @@
             android:text=" Detil Akun"
             android:textSize="@dimen/activity_horizontal_margin"
             android:textStyle="normal"
-            android:textColor="@color/White"/>
+            android:textColor="@color/Black"/>
 
     </LinearLayout>
 
@@ -278,7 +278,7 @@
                 <TextView
                     android:layout_marginLeft="10dp"
                     android:id="@+id/txt_profil_changepassword"
-                    android:text="Ganti Password"
+                    android:text="Ganti Kata Sandi"
                     android:layout_column="1"
                     android:textColor="@color/background"/>
 

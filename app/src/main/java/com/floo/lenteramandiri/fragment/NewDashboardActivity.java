@@ -220,8 +220,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         spinner = (Spinner)v.findViewById(R.id.spin_array);
         spinner.setVisibility(View.INVISIBLE);
         spin_top = (Spinner)v.findViewById(R.id.spin_array_top);
-        spin_top.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
-        spinner.getBackground().setColorFilter(getResources().getColor(R.color.cpb_white), PorterDuff.Mode.SRC_ATOP);
+        spin_top.getBackground().setColorFilter(getResources().getColor(R.color.White), PorterDuff.Mode.SRC_ATOP);
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.White), PorterDuff.Mode.SRC_ATOP);
 
         btntfd = (Button)v.findViewById(R.id.btn_tfd);
         btncash = (Button)v.findViewById(R.id.btn_cash);

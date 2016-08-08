@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (CalendarHelper.haveCalendarReadWritePermissions(MainActivity.this)){
-            //new DataFetcherTask().execute();
+            new DataFetcherTask().execute();
 
         }else {
             CalendarHelper.requestCalendarReadWritePermission(MainActivity.this);
@@ -520,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
                 break;
             case 5:
-                title.setText("INFO");
+                title.setText("INFORMASI");
                 fm = getSupportFragmentManager();
                 ft = fm.beginTransaction();
                 NewsActivity news = new NewsActivity();

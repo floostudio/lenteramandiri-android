@@ -74,8 +74,8 @@ public class DialogMediaActivity {
 			public void onClick(View view) {
 				isicomment = mDialogComment.getText().toString();
 				new AlertDialog.Builder(mDialogMediaActivity)
-						.setTitle("Confirmation")
-						.setMessage("Do you want to finish this task?")
+						.setTitle("Konfirmasi")
+						.setMessage("Apakah Anda ingin menyelesaikan tugas ini?")
 						.setNegativeButton(android.R.string.no, null)
 						.setPositiveButton(android.R.string.yes,
 								new DialogInterface.OnClickListener() {

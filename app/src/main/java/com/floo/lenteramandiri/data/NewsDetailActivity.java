@@ -62,7 +62,7 @@ public class NewsDetailActivity extends AppCompatActivity{
         idNewsParsing  = i.getStringExtra("news_id");
         toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         titleToolbar = (TextView)toolbar.findViewById(R.id.titleToolbar);
-        titleToolbar.setText("DETIL BERITA");
+        titleToolbar.setText("DETIL INFORMASI");
         save = (TextView)findViewById(R.id.txt_save);
         save.setVisibility(View.INVISIBLE);
         line = (LinearLayout) findViewById(R.id.linier_toolbar);
