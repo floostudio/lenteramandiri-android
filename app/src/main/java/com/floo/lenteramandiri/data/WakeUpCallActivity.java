@@ -34,7 +34,7 @@ public class WakeUpCallActivity extends AppCompatActivity {
         txtView = (TextView)findViewById(R.id.txt_wakeupcall);
         button = (Button)findViewById(R.id.btn_wakeupcall);
 
-        /*Database.init(WakeUpCallActivity.this);
+        Database.init(WakeUpCallActivity.this);
         Bundle bundle = getIntent().getExtras();
         long data = bundle.getLong("alarm");
 
@@ -51,7 +51,7 @@ public class WakeUpCallActivity extends AppCompatActivity {
         Call call = new Call();
         call.setDate(data);
         call.setActive(false);
-        Database.update(call);*/
+        Database.update(call);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
         //mediaPlayer.setLooping(true);
