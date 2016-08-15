@@ -1,6 +1,7 @@
 package com.floo.lenteramandiri.data;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 public class WakeUpCallActivity extends AppCompatActivity {
     TextView txtView;
     Button button;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class WakeUpCallActivity extends AppCompatActivity {
         txtView = (TextView)findViewById(R.id.txt_wakeupcall);
         button = (Button)findViewById(R.id.btn_wakeupcall);
 
-        Database.init(WakeUpCallActivity.this);
+        /*Database.init(WakeUpCallActivity.this);
         Bundle bundle = getIntent().getExtras();
         long data = bundle.getLong("alarm");
 
@@ -49,13 +51,19 @@ public class WakeUpCallActivity extends AppCompatActivity {
         Call call = new Call();
         call.setDate(data);
         call.setActive(false);
-        Database.update(call);
+        Database.update(call);*/
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
+        //mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(10.0f, 10.0f);
+        mediaPlayer.start();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent back=new Intent(getApplicationContext(), MainActivity.class);
                 back.putExtra("fragment", "fragment");
+                mediaPlayer.stop();
                 finish();
                 startActivity(back);
             }

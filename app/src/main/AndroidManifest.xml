@@ -120,6 +120,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
 
+
         </activity>
 
         <receiver android:name=".alarm.AlarmAlertBroadcastReciever"/>
