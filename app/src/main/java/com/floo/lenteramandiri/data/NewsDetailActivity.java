@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.ImageLoader;
 
@@ -27,11 +28,12 @@ import java.util.TimeZone;
 
 import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 3/6/2016.
  */
-public class NewsDetailActivity extends AppCompatActivity{
+public class NewsDetailActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     String url = DataManager.url;
     String urlDetailNews = DataManager.urlFetchNews;
     Toolbar toolbar;
@@ -85,6 +87,18 @@ public class NewsDetailActivity extends AppCompatActivity{
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
         formatDate = format.format(date);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     private class DataFetcherDetailTask extends AsyncTask<Void, Void, Void> {

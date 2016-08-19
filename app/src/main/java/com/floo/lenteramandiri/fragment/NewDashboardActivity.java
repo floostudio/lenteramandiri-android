@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.floo.lenteramandiri.adapter.DashboardAGFAdapter;
 import com.floo.lenteramandiri.adapter.DashboardTFDAdapter;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
@@ -58,7 +60,7 @@ import com.floo.lenteramandiri.utils.MyYAxisValueFormatter;
 /**
  * Created by Floo on 4/21/2016.
  */
-public class NewDashboardActivity extends Fragment implements View.OnClickListener{
+public class NewDashboardActivity extends Fragment implements View.OnClickListener, ConnectivityReceiver.ConnectivityReceiverListener{
     HashMap<String, String> hashMapTFD, hashMapCashio, hashMapCashout, hashMapDpk, hashMapLcf, hashMapMonth, hashMapAGF;
     ArrayList<HashMap<String, String>> mylistTFD, mylistCashin, mylistCashout, mylistDpk, mylistLcf,
             mylistMonth, myListMonthCashout, myListMonthDPK, myListMonthLCF, mylistAGF;
@@ -624,7 +626,17 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         return str.substring(0,str.length()-1);
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getActivity(), isConnected);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getActivity());
+    }
 
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
         private String pCif, pAccount;

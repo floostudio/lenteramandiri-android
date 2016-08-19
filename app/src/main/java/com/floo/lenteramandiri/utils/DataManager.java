@@ -1,9 +1,16 @@
 package com.floo.lenteramandiri.utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.floo.lenteramandiri.R;
 import com.onesignal.OneSignal;
 
 import org.apache.http.HttpEntity;
@@ -359,6 +366,26 @@ public class DataManager {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd, HH:mm:ss");
         Date l_time = new Date(Long.parseLong(p_time_in_millis));
         return sdf.format(l_time);
+    }
+
+    public static void checkConnection(Context context) {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnack(context, isConnected);
+    }
+
+    public static void showSnack(Context context, boolean isConnected) {
+        String message = null;
+        int color;
+        if (!isConnected) {
+            message = "Gagal terhubung internet";
+            Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+
+            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+            v.setTextColor(Color.RED);
+            toast.show();
+        }
+
+
     }
 
 

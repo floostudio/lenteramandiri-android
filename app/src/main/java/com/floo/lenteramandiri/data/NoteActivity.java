@@ -14,7 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +24,7 @@ import org.json.JSONObject;
 /**
  * Created by Floo on 5/9/2016.
  */
-public class NoteActivity extends AppCompatActivity {
+public class NoteActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     TextView titleToolbar, save;
     String isiNote;
@@ -104,6 +106,18 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     class NoteAsync extends AsyncTask<Void, Void, Void> {

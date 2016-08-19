@@ -11,17 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 3/14/2016.
  */
-public class ChangePasswordActivity extends AppCompatActivity{
+public class ChangePasswordActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     String url = DataManager.url;
     String urlChangePass = DataManager.urlChangePass;
     Toolbar toolbar;
@@ -95,6 +97,18 @@ public class ChangePasswordActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     class changePasswordAsync extends AsyncTask<Void, Void, Void> {

@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import org.json.JSONArray;
@@ -27,11 +28,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import com.floo.lenteramandiri.adapter.DataSpinner;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 2/22/2016.
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     TextView titletoolbar, save;
     String url = DataManager.url;
@@ -128,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                     finish();
                     startActivity(intent);
                 }else if (idDirectorate.getText().toString().trim().equals("0")){
-                    Toast.makeText(getApplicationContext(), "Directorate Belum di Pilih",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Direktorat Belum di Pilih",Toast.LENGTH_LONG).show();
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
@@ -186,6 +188,18 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(this);
     }
 
     class RegisterAsync extends AsyncTask<Void, Void, Void> {
@@ -269,7 +283,7 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 DataSpinner data = new DataSpinner();
                 int id = 0;
-                String pilih = "Directorate";
+                String pilih = "Direktorat";
                 data.setId(id);
                 data.setName(pilih);
                 worldDirectorate.add(data);
@@ -342,7 +356,7 @@ public class RegisterActivity extends AppCompatActivity {
                                            View view, int position, long id) {
                     TextView row = (TextView)view.findViewById(R.id.txtSpinner);
 
-                    if (row.getText().toString().trim().equals("Directorate")){
+                    if (row.getText().toString().trim().equals("Direktorat")){
                         row.setTextColor(getResources().getColor(R.color.hint));
                     }else {
                         row.setTextColor(Color.BLACK);
@@ -385,7 +399,7 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 DataSpinner data = new DataSpinner();
                 int id = 0;
-                String pilih = "Department";
+                String pilih = "Departemen";
                 data.setId(id);
                 data.setName(pilih);
                 world.add(data);
@@ -457,7 +471,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     TextView row = (TextView)view.findViewById(R.id.txtSpinner);
 
-                    if (row.getText().toString().trim().equals("Department")){
+                    if (row.getText().toString().trim().equals("Departemen")){
                         row.setTextColor(getResources().getColor(R.color.hint));
                     }else {
                         row.setTextColor(Color.BLACK);
@@ -499,7 +513,7 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 DataSpinner data = new DataSpinner();
                 int id = 0;
-                String pilih = "Group";
+                String pilih = "Grup";
                 data.setId(id);
                 data.setName(pilih);
                 worldDirectorate.add(data);
@@ -572,7 +586,7 @@ public class RegisterActivity extends AppCompatActivity {
                                            View view, int position, long id) {
                     TextView row = (TextView)view.findViewById(R.id.txtSpinner);
 
-                    if (row.getText().toString().trim().equals("Group")){
+                    if (row.getText().toString().trim().equals("Grup")){
                         row.setTextColor(getResources().getColor(R.color.hint));
                     }else {
                         row.setTextColor(Color.BLACK);

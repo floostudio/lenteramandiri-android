@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.floo.lenteramandiri.data.TaskDetailActivity;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import org.json.JSONArray;
@@ -36,11 +37,12 @@ import com.floo.lenteramandiri.MainActivity;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.Task;
 import com.floo.lenteramandiri.adapter.TaskAdapter;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 2/23/2016.
  */
-public class TaskActivity extends Fragment {
+public class TaskActivity extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
     //Listview
     HashMap<String, String> hashmapTask;
     ArrayList<HashMap<String, String>> arraylistTask;
@@ -73,6 +75,7 @@ public class TaskActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_task, container, false);
+        //DataManager.checkConnection(getActivity());
         initView(v);
         arraylistTask = new ArrayList<HashMap<String, String>>();
         new DataFetcherTask().execute();
@@ -219,6 +222,18 @@ public class TaskActivity extends Fragment {
                 "dd/MM/yyyy HH:mm", Locale.getDefault());
         Date date1 = new Date();
         return dateFormat.format(date1);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getActivity());
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getActivity(), isConnected);
     }
 
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {

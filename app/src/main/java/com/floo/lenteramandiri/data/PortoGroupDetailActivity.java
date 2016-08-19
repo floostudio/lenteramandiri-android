@@ -16,6 +16,9 @@ import java.util.StringTokenizer;
 
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.GroupDetailAdapter;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
+import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +27,7 @@ import org.json.JSONObject;
 /**
  * Created by Floo on 3/11/2016.
  */
-public class PortoGroupDetailActivity extends AppCompatActivity {
+public class PortoGroupDetailActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save, txtCif, txtGroupId, txtGroupLimit, txtGroupBalance, txtAccAmount,
@@ -146,5 +149,17 @@ public class PortoGroupDetailActivity extends AppCompatActivity {
             }
         }
         return strB.toString();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 }

@@ -15,6 +15,7 @@ import com.floo.lenteramandiri.calendar.DayViewDecorator;
 import com.floo.lenteramandiri.calendar.DayViewFacade;
 import com.floo.lenteramandiri.calendar.OnDateSelectedListener;
 import com.floo.lenteramandiri.data.CalendarTaskListActivity;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import org.json.JSONArray;
@@ -36,11 +37,12 @@ import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.calendar.CalendarDay;
 import com.floo.lenteramandiri.calendar.MaterialCalendarView;
 import com.floo.lenteramandiri.calendar.decorators.EventDecorator;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 3/3/2016.
  */
-public class CalenderActivity extends Fragment {
+public class CalenderActivity extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
     String url = DataManager.url;
     String urlTask = DataManager.urltaskList;
     private static final String title = "title";
@@ -113,6 +115,18 @@ public class CalenderActivity extends Fragment {
             return "No Selection";
         }
         return df.format(date.getDate());
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getActivity(), isConnected);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getActivity());
     }
 
     private static class EnableOneToTenDecorator implements DayViewDecorator {

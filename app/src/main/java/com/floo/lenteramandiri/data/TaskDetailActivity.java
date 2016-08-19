@@ -40,16 +40,18 @@ import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.Escalateds;
 import com.floo.lenteramandiri.adapter.TaskDetailAdapter;
 import com.floo.lenteramandiri.adapter.TaskDetailFromAdapter;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.DialogMediaActivity;
 import com.floo.lenteramandiri.utils.DialogUniversalWarningUtils;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 /**
  * Created by Floo on 2/25/2016.
  */
-public class TaskDetailActivity extends AppCompatActivity {
+public class TaskDetailActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     String url = DataManager.url;
     String urlDetailTask = DataManager.urltaskDetails;
     String idTaskParsing, struserid, strepoch,strTitle,  strNote, strCompany,strDetail,
@@ -186,6 +188,18 @@ public class TaskDetailActivity extends AppCompatActivity {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("GMT+07:00"));
         formatDate = format.format(date);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     private class DataFetcherDetailTask extends AsyncTask<Void, Void, Void> {

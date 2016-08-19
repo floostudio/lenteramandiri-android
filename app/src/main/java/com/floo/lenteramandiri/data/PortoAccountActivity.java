@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
@@ -30,7 +32,7 @@ import com.floo.lenteramandiri.R;
 /**
  * Created by Floo on 3/3/2016.
  */
-public class PortoAccountActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class PortoAccountActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save;
@@ -139,6 +141,18 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
         GroupDetail.putStringArrayListExtra(valuta, arrayKey);
         GroupDetail.putExtra(covenant, jsonArray.toString());
         startActivity(GroupDetail);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     private class DataAccount extends AsyncTask<Void, Void, Void> {

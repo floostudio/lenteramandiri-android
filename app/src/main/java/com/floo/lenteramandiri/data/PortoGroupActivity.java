@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import org.json.JSONArray;
@@ -27,11 +28,12 @@ import java.util.StringTokenizer;
 
 import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 3/3/2016.
  */
-public class PortoGroupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class PortoGroupActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save;
@@ -136,6 +138,17 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
         startActivity(GroupDetail);
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
+    }
 
     private class DataGroup extends AsyncTask<Void, Void, Void> {
 

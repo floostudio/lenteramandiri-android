@@ -180,7 +180,7 @@
             <TableRow>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:text="Directorate"
+                    android:text="Direktorat"
                     android:textColor="@color/background"
                     android:padding="3dip"/>
                 <TextView
@@ -212,7 +212,7 @@
             <TableRow>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:text="Group"
+                    android:text="Grup"
                     android:textColor="@color/background"
                     android:padding="3dip"/>
                 <TextView
@@ -244,7 +244,7 @@
             <TableRow>
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:text="Department"
+                    android:text="Departemen"
                     android:textColor="@color/background"
                     android:padding="3dip"/>
                 <TextView

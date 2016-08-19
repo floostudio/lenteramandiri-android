@@ -28,12 +28,14 @@ import java.util.TimeZone;
 import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.Info;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 3/3/2016.
  */
-public class InfoActivity extends Fragment{
+public class InfoActivity extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
     ListView list_info;
 
     String urlInfo = DataManager.urlInfo;
@@ -84,6 +86,17 @@ public class InfoActivity extends Fragment{
         formatDate = format.format(date);
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getActivity(), isConnected);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getActivity());
+    }
 
     private class DataFetcherTask extends AsyncTask<Void, Void, Void> {
 

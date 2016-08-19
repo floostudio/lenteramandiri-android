@@ -41,8 +41,10 @@ import com.floo.lenteramandiri.fragment.NotificationActivity;
 import com.floo.lenteramandiri.fragment.ProfilActivity;
 import com.floo.lenteramandiri.fragment.TaskActivity;
 import com.floo.lenteramandiri.utils.CircleImageView;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.ImageLoader;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.floo.lenteramandiri.utils.SessionManager;
 
 import java.io.InputStream;
@@ -71,7 +73,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     TextView title;
     ActionBar actionBar;
     DrawerLayout drawer;
@@ -208,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateAlarmList();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     private void updateCalendarIdSpinner()
@@ -277,6 +281,12 @@ public class MainActivity extends AppCompatActivity {
         CalendarHelper.MakeNewCalendarEntry(this, title, "Add event", "Somewhere",mili,mili,false,true,calendar_id,4);
 
     }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
 
     public class DataFetcherTask extends AsyncTask<Void, Void, Void> {
         String strTitle, strNote, strCompany, strNotifi;

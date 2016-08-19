@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.AccountDetailAdapter;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
+import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
 import org.json.JSONArray;
@@ -23,7 +26,7 @@ import java.util.HashMap;
 /**
  * Created by Floo on 3/11/2016.
  */
-public class PortoAccountDetailActivity extends AppCompatActivity {
+public class PortoAccountDetailActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save, txtCif, txtAccNumber, txtValuta, txtSaldo, txtLimit, txtTunggakan,
@@ -115,5 +118,17 @@ public class PortoAccountDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 }

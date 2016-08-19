@@ -38,12 +38,14 @@ import java.util.TimeZone;
 
 import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 3/11/2016.
  */
-public class ConvenantActivity extends AppCompatActivity {
+public class ConvenantActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     LinearLayout line;
     TextView titleToolbar, save, txtConvenant, txtCompany;
@@ -102,6 +104,18 @@ public class ConvenantActivity extends AppCompatActivity {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
         return  format.format(date);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     private class DataCovenant extends AsyncTask<Void, Void, Void> {

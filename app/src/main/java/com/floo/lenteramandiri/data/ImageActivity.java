@@ -8,13 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
+import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.floo.lenteramandiri.utils.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by Floo on 4/21/2016.
  */
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     TouchImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +42,17 @@ public class ImageActivity extends AppCompatActivity {
         });*/
 
        // new ImageLoadTask(gambar, img).execute();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 }

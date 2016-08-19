@@ -21,12 +21,14 @@ import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.CalendarListAdapter;
 import com.floo.lenteramandiri.adapter.Task;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 2/23/2016.
  */
-public class CalendarTaskListActivity extends AppCompatActivity {
+public class CalendarTaskListActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
 
     ListView listTask;
 
@@ -87,6 +89,18 @@ public class CalendarTaskListActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getApplicationContext());
     }
 
     private class DataFetcherTask extends AsyncTask<Void, Void, Void> {

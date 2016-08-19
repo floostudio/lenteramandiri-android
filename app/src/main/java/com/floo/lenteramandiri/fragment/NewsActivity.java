@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.floo.lenteramandiri.adapter.NewsAdapter;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 
 import org.json.JSONArray;
@@ -31,12 +32,13 @@ import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.adapter.News;
 import com.floo.lenteramandiri.data.NewsDetailActivity;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.floo.lenteramandiri.utils.swiperefreshbottom.SwipeRefreshLayoutBottom;
 
 /**
  * Created by Floo on 3/3/2016.
  */
-public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.OnRefreshListener{
+public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.OnRefreshListener, ConnectivityReceiver.ConnectivityReceiverListener{
     ListView list_news;
 
     String urlNews = DataManager.urlNewsList;
@@ -113,6 +115,17 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
         new DataFetcherTask().execute();
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getActivity(), isConnected);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getActivity());
+    }
 
     private class DataFetcherTask extends AsyncTask<Void, Void, Void> {
 

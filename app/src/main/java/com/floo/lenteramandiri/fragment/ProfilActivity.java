@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.ImageLoader;
 
@@ -46,11 +47,12 @@ import java.util.HashMap;
 import dmax.dialog.SpotsDialog;
 import com.floo.lenteramandiri.R;
 import com.floo.lenteramandiri.data.ChangePasswordActivity;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 
 /**
  * Created by Floo on 2/23/2016.
  */
-public class ProfilActivity extends Fragment {
+public class ProfilActivity extends Fragment implements ConnectivityReceiver.ConnectivityReceiverListener{
     String url = DataManager.url;
     String urlProfil = DataManager.urlprofilList;
     HashMap<String, String> hashmapTask;
@@ -110,6 +112,18 @@ public class ProfilActivity extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getActivity(), isConnected);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(getActivity());
     }
 
     private class DataFetcherProfil extends AsyncTask<Void, Void, Void> {

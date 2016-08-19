@@ -12,6 +12,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.database.DBNotification;
 import com.floo.lenteramandiri.adapter.NotificationAdapter;
 import com.floo.lenteramandiri.adapter.Notifi;
@@ -21,7 +22,7 @@ import dmax.dialog.SpotsDialog;
 /**
  * Created by Floo on 6/3/2016.
  */
-public class NotificationActivity extends Fragment {
+public class NotificationActivity extends Fragment{
     ListView listView;
     DBNotification dbNotification;
     NotificationAdapter adapter;

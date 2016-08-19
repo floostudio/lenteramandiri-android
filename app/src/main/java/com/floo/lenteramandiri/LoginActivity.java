@@ -13,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floo.lenteramandiri.utils.ConnectionDetector;
+import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
+import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.floo.lenteramandiri.utils.SessionManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -29,7 +31,7 @@ import java.util.Locale;
 /**
  * Created by Floo on 2/22/2016.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     TextView register;
     EditText email, password;
     Button login;
@@ -148,6 +150,18 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        DataManager.showSnack(getApplicationContext(), isConnected);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MyLenteraMandiri.getInstance().setConnectivityListener(this);
+        DataManager.checkConnection(this);
     }
 
     class Login extends AsyncTask<Void, Void, Void> {
