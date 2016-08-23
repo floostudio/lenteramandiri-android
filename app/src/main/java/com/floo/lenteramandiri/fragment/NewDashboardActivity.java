@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floo.lenteramandiri.adapter.DashboardAGFAdapter;
 import com.floo.lenteramandiri.adapter.DashboardTFDAdapter;
@@ -446,7 +447,11 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             spinner.setVisibility(View.VISIBLE);
 
         }else if (v==btndetail){
+            String text = spin_top.getSelectedItem().toString().replaceAll("\\s+","");
+            int index = text.indexOf("-");
+            String img = text.substring(0, index);
             Intent im=new Intent(getActivity(), ImageActivity.class);
+            im.putExtra("gambar", img);
             startActivity(im);
 
         }else if (v==btnBakiDebetTrue){

@@ -23,25 +23,14 @@ public class ImageActivity extends AppCompatActivity implements ConnectivityRece
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        //Intent i = getIntent();
-        //String gambar = i.getStringExtra("gambar");
+        Intent i = getIntent();
+        String gambar = i.getStringExtra("gambar");
 
         img = (TouchImageView)findViewById(R.id.img_img);
 
         Picasso.with(getApplicationContext())
-                .load("http://sandbox.floostudio.com/lenteramandiri/portofolio_csv/tfd.jpg")
+                .load("http://sandbox.floostudio.com/lenteramandiri/portofolio_csv/tfd_"+gambar+".jpg")
                 .into(img);
-        /*img.setOnTouchImageViewListener(new TouchImageView.OnTouchImageViewListener() {
-            @Override
-            public void onMove() {
-                PointF point = img.getScrollPosition();
-                RectF rect = img.getZoomedRect();
-                float currentZoom = img.getCurrentZoom();
-                boolean isZoomed = img.isZoomed();
-            }
-        });*/
-
-       // new ImageLoadTask(gambar, img).execute();
     }
 
     @Override
