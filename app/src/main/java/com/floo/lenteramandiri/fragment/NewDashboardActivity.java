@@ -39,6 +39,9 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.XAxisValueFormatter;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
@@ -936,6 +939,12 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+            YAxisValueFormatter customYaxisFormatter = new YAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, YAxis yAxis) {
+                    return String.valueOf((int)value);
+                }
+            };
 
             //TFD
             DashboardTFDAdapter adapter = new DashboardTFDAdapter(getActivity(), mylistTFD);
@@ -949,12 +958,14 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             BarData dataCashIn = new BarData();
             dataCashIn.addDataSet(dataSetCashIn);
 
+
             LineDataSet lineDataSetCashIn = new LineDataSet(lineIn, "Target Cash In");
             lineDataSetCashIn.setCircleColor(getResources().getColor(R.color.yellow));
             lineDataSetCashIn.setColor(getResources().getColor(R.color.yellow));
 
             LineData lineDataCashIn = new LineData();
             lineDataCashIn.addDataSet(lineDataSetCashIn);
+
 
             CombinedData comdataCashIn = new CombinedData(xCashIn);
             comdataCashIn.setData(dataCashIn);
@@ -969,7 +980,10 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_CashIn.setDoubleTapToZoomEnabled(false);
             chart_CashIn.setPinchZoom(false);
             chart_CashIn.getAxisRight().setEnabled(false);
+            chart_CashIn.getBarData().setValueFormatter(new MyValueFormatter());
+            chart_CashIn.getLineData().setValueFormatter(new MyValueFormatter());
             chart_CashIn.invalidate();
+
 
 
             //CASHOut
@@ -999,7 +1013,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chat_CashOut.setDoubleTapToZoomEnabled(false);
             chat_CashOut.setPinchZoom(false);
             chat_CashOut.getAxisRight().setEnabled(false);
-
+            chat_CashOut.getBarData().setValueFormatter(new MyValueFormatter());
+            chat_CashOut.getLineData().setValueFormatter(new MyValueFormatter());
             chat_CashOut.invalidate();
 
 
@@ -1007,6 +1022,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             BarDataSet setDPK = new BarDataSet(yDpk, "");
             setDPK.setColors(getColors(3));
             setDPK.setStackLabels(new String[] { "Giro", "Tabungan", "Deposito" });
+
 
             ArrayList<BarDataSet> dataSetDPK = new ArrayList<BarDataSet>();
             dataSetDPK.add(setDPK);
@@ -1027,6 +1043,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_Dpk.setDrawBarShadow(false);
 
             chart_Dpk.setDrawValueAboveBar(false);
+
+
 
             // change the position of the y-labels
             YAxis leftAxis_DPK = chart_Dpk.getAxisLeft();
@@ -1049,6 +1067,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_Dpk.setData(dataDPK);
             chart_Dpk.setDoubleTapToZoomEnabled(false);
             chart_Dpk.setPinchZoom(false);
+            chart_Dpk.getAxisLeft().setValueFormatter(customYaxisFormatter);
+
             chart_Dpk.invalidate();
 
             //DLR
@@ -1097,6 +1117,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_dlr.setData(dataDLR);
             chart_dlr.setDoubleTapToZoomEnabled(false);
             chart_dlr.setPinchZoom(false);
+            chart_dlr.getAxisLeft().setValueFormatter(customYaxisFormatter);
             chart_dlr.invalidate();
 
 
@@ -1184,6 +1205,10 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_BakiDebet1.setPinchZoom(false);
             chart_BakiDebet1.getAxisRight().setEnabled(false);
 
+            chart_BakiDebet1.getAxisLeft().setValueFormatter(customYaxisFormatter);
+            chart_BakiDebet1.getBarData().setValueFormatter(new MyValueFormatter());
+            chart_BakiDebet1.getLineData().setValueFormatter(new MyValueFormatter());
+
             chart_BakiDebet1.invalidate();
 
             /*PERCENTAGE*/
@@ -1214,6 +1239,8 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_BakiDebet2.getAxisRight().setEnabled(false);
             chart_BakiDebet2.setDoubleTapToZoomEnabled(false);
             chart_BakiDebet2.setPinchZoom(false);
+            chart_BakiDebet2.getBarData().setValueFormatter(new MyValueFormatter());
+            chart_BakiDebet2.getLineData().setValueFormatter(new MyValueFormatter());
             chart_BakiDebet2.invalidate();
 
         }

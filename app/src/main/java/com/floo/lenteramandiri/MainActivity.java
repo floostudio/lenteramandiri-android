@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -336,6 +337,15 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
                         for (int a=0; a<arrayWakeUp.length();a++){
                             int number = arrayWakeUp.getInt(a);
 
+                            /*if (strId == 50) {
+                                Call call = new Call();
+                                call.setId(strId);
+                                call.setTitle(strTitle);
+                                call.setDate(main(DataManager.epochtodateTime(1472180820)));
+                                call.setActive(call.getActive());
+                                Database.create(call);
+                            }*/
+
                             expire = strExpire - (day*number);
                             long data = main(DataManager.epochtodateTime(expire));
 
@@ -456,6 +466,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
                             case R.id.nav_news:
 
                                 item.setChecked(true);
+                                title.setText("INFORMASI");
                                 setFragment(5);
                                 drawer.closeDrawer(GravityCompat.START);
                                 return true;

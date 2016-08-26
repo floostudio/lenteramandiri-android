@@ -189,12 +189,12 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);
                         hashMap.put(group_id, strGroupId);
-                        hashMap.put(group_limit, DataManager.getDecimalFormat(strGroupLimit));
+                        hashMap.put(group_limit, strGroupLimit);
                         hashMap.put(company_name, strCompanyName);
                         mylist.add(hashMap);
+                        //hashMap.put(group_limit, DataManager.getDecimalFormat(strGroupLimit));
 
-
-                    }
+                        }
                     }
 
             } catch (JSONException e) {

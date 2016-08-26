@@ -189,12 +189,11 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);
                         hashMap.put(acc_num, strAccNumber);
-                        hashMap.put(saldo, DataManager.getDecimalFormat(strSaldo));
+                        hashMap.put(saldo, strSaldo);
                         hashMap.put(company_name, strCompanyName);
 
                         mylist.add(hashMap);
-
-
+                        //hashMap.put(saldo, DataManager.getDecimalFormat(strSaldo));
                     }
                 }
 

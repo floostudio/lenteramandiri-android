@@ -63,8 +63,10 @@ public class AlarmService extends Service {
 		List<Call> alarms = Database.getAll();
 
 		for (Call call : alarms){
-			if (call.getActive())
+			if (call.getActive()) {
 				alarmQueue.add(call);
+				//call.setActive(false);
+			}
 		}
 
 
