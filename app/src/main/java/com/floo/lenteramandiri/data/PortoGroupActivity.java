@@ -129,7 +129,7 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView txtCompany = (TextView)view.findViewById(R.id.txt_porto_group_company);
-        TextView txtCif = (TextView)view.findViewById(R.id.txt_porto_group_cif);
+        TextView txtCif = (TextView)view.findViewById(R.id.txt_porto_group_id);
         Intent GroupDetail = new Intent(PortoGroupActivity.this, PortoGroupDetailActivity.class);
         GroupDetail.putExtra(cif, txtCif.getText().toString());
         GroupDetail.putExtra(company_name, txtCompany.getText().toString());
@@ -183,8 +183,8 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
                         JSONArray arrayRow = jsonObject.getJSONArray("row");
                         strCif = (String) arrayRow.get(0);
                         strGroupId = (String) arrayRow.get(1);
-                        strCompanyName = arrayRow.getString(3);
-                        strGroupLimit = (String) arrayRow.get(4);
+                        strCompanyName = arrayRow.getString(2);
+                        strGroupLimit = (String) arrayRow.get(3);
 
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);

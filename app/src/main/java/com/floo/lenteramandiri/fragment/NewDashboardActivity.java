@@ -224,7 +224,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         title_yellow = (TextView)v.findViewById(R.id.txt_title_yellow);
         title1 = (TextView)v.findViewById(R.id.tfd_title_1);
         spinner = (Spinner)v.findViewById(R.id.spin_array);
-        spinner.setVisibility(View.INVISIBLE);
+        spinner.setVisibility(View.VISIBLE);
         spin_top = (Spinner)v.findViewById(R.id.spin_array_top);
         spin_top.getBackground().setColorFilter(getResources().getColor(R.color.White), PorterDuff.Mode.SRC_ATOP);
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.White), PorterDuff.Mode.SRC_ATOP);

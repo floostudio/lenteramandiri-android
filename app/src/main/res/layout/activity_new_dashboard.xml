@@ -64,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Transaction Flow Diagram"
+            android:text="Cash In"
             android:textColor="@color/standart"
             android:textSize="@dimen/activity_horizontal_margin"
             android:textStyle="normal"/>
@@ -96,24 +96,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TableRow>
-                            <Button
 
-                                android:layout_marginLeft="5dp"
-                                android:id="@+id/btn_tfd"
-                                android:text="TFD"
+                            <Button
+                                android:textColor="@color/White"
                                 android:layout_width="80dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/activity_btn_blue"
-                                android:textColor="@color/White"
-                                android:textAllCaps="false" />
-
-                            <Button
-
-                                android:textColor="@color/background"
-                                android:layout_width="80dp"
-                                android:layout_height="25dp"
-                                android:background="@drawable/activity_btn"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="5dp"
                                 android:id="@+id/btn_cash"
                                 android:textAllCaps="false"
                                 android:text="Cash In"/>
@@ -127,6 +116,18 @@
                                 android:id="@+id/btn_cashout"
                                 android:textAllCaps="false"
                                 android:text="Cash Out" />
+
+                            <Button
+
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/btn_tfd"
+                                android:text="TFD"
+                                android:layout_width="80dp"
+                                android:layout_height="25dp"
+                                android:background="@drawable/activity_btn"
+                                android:textColor="@color/background"
+                                android:textAllCaps="false" />
+
 
                             <Button
                                 android:textColor="@color/background"
@@ -278,7 +279,7 @@
                         android:id="@+id/relative_cash_in"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
 
                         <LinearLayout
@@ -553,7 +554,7 @@
                         android:layout_width="match_parent"
                         android:divider="@android:color/transparent"
                         android:layout_height="wrap_content"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                     </com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
 
@@ -792,7 +793,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/standart"
                 android:background="@color/yellow"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
 
         </LinearLayout>

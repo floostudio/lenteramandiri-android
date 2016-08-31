@@ -131,9 +131,9 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TextView txtCif = (TextView) view.findViewById(R.id.txt_porto_account_cif);
+        TextView txtCif = (TextView) view.findViewById(R.id.txt_porto_account_acc);
         TextView txtCompany = (TextView) view.findViewById(R.id.txt_porto_account_company);
-        TextView txtAcc_number = (TextView) view.findViewById(R.id.txt_porto_account_acc);
+        TextView txtAcc_number = (TextView) view.findViewById(R.id.txt_porto_account_saldo);
         Intent GroupDetail = new Intent(PortoAccountActivity.this, PortoAccountDetailActivity.class);
         GroupDetail.putExtra(cif, txtCif.getText().toString());
         GroupDetail.putExtra(company_name, txtCompany.getText().toString());
@@ -181,15 +181,14 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
                         }
                     }else {
                         JSONArray arrayRow = jsonObject.getJSONArray("row");
-                        strCif = (String) arrayRow.get(0);
-                        strAccNumber = (String) arrayRow.get(2);
-                        strCompanyName = (String) arrayRow.get(3);
-                        strSaldo = (String) arrayRow.get(4);
+                        strCif = (String) arrayRow.get(1);
+                        strCompanyName = (String) arrayRow.get(2);
+                        strAccNumber = (String) arrayRow.get(3);
 
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);
                         hashMap.put(acc_num, strAccNumber);
-                        hashMap.put(saldo, strSaldo);
+                        //hashMap.put(saldo, strSaldo);
                         hashMap.put(company_name, strCompanyName);
 
                         mylist.add(hashMap);
@@ -210,8 +209,8 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
                 pDialog.dismiss();
 
             adapter = new SimpleAdapter(getApplicationContext(), mylist, R.layout.list_row_porto_account,
-                    new String[]{cif, acc_num,saldo, company_name},
-                new int[]{R.id.txt_porto_account_cif, R.id.txt_porto_account_acc,R.id.txt_porto_account_saldo,R.id.txt_porto_account_company});
+                    new String[]{cif, company_name, acc_num},
+                new int[]{R.id.txt_porto_account_acc, R.id.txt_porto_account_company,R.id.txt_porto_account_saldo});
 
             portoAccount.setAdapter(adapter);
 

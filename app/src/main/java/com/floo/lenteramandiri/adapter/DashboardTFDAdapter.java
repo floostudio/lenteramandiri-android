@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.floo.lenteramandiri.R;
+import com.floo.lenteramandiri.utils.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,9 +76,9 @@ public class DashboardTFDAdapter extends BaseAdapter{
         }*/
 
         viewHolder.key1.setText(beforeString(item.get("data1")));
-        viewHolder.value1.setText(item.get("data2"));
+        viewHolder.value1.setText(DataManager.getDecimalFormat(item.get("data2")));
         viewHolder.key2.setText(beforeString(item.get("data3")));
-        viewHolder.value2.setText(item.get("data4"));
+        viewHolder.value2.setText(DataManager.getDecimalFormat(item.get("data4")));
 
         return view;
     }

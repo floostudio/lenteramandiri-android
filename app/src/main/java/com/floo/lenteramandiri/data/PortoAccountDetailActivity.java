@@ -81,7 +81,7 @@ public class PortoAccountDetailActivity extends AppCompatActivity implements Con
 
                 if (strTitle.trim().equals("0")){
                     JSONArray arrayRow = jsonObject.getJSONArray("row");
-                    String value = (String) arrayRow.get(0);
+                    String value = (String) arrayRow.get(1);
                     if (value.trim().equals(pCif)){
                         for (int a=0;a<arrayRow.length();a++){
                             arrayValues.add(arrayRow.getString(a));

@@ -115,7 +115,8 @@
             android:layout_height="wrap_content"
             android:text="IDR "
             android:textColor="@color/yellow"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:visibility="gone"/>
         <TextView
             android:layout_marginLeft="2dp"
             android:id="@+id/txt_porto_account_saldo"

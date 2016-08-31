@@ -72,7 +72,7 @@ public class PortoGroupDetailActivity extends AppCompatActivity implements Conne
 
                 if (strTitle.trim().equals("0")){
                     JSONArray arrayRow = jsonObject.getJSONArray("row");
-                    String value = (String) arrayRow.get(0);
+                    String value = (String) arrayRow.get(1);
                     if (value.trim().equals(pCif)){
                         for (int a=0;a<arrayRow.length();a++){
                             arrayKey.add(arrayRow.getString(a));
