@@ -66,8 +66,8 @@ public class AccountDetailAdapter extends BaseAdapter{
             viewHolder.row.setBackgroundColor(context.getResources().getColor(R.color.cpb_white));
         }
         viewHolder.variable.setText(item.get("key"));
-        viewHolder.data.setText(item.get("variable"));
-        /*if (item.get("key").toString().trim().equals("cif")){
+        //viewHolder.data.setText(item.get("variable"));
+        if (item.get("key").toString().trim().equals("cif")){
             viewHolder.data.setText(item.get("variable"));
         }else {
             String values = item.get("variable");
@@ -80,7 +80,7 @@ public class AccountDetailAdapter extends BaseAdapter{
             }else {
                 viewHolder.data.setText(values);
             }
-        }*/
+        }
 
 
 
