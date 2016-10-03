@@ -8,9 +8,7 @@ android {
 
     defaultConfig {
         applicationId "floo.com.mpm_mandiri"
-        manifestPlaceholders = [manifestApplicationId: "${applicationId}",
-                                onesignal_app_id: "5ec995d7-ce3a-4588-88bb-fd2fc2c2d672",
-                                onesignal_google_project_number: "697251048533"]
+
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
@@ -48,9 +46,5 @@ dependencies {
     compile files('libs/listviewanimations_lib-core-slh_3.1.0.jar')
     compile 'com.github.d-max:spots-dialog:0.4@aar'
     compile "com.squareup.picasso:picasso:2.4.0"
-    compile 'com.onesignal:OneSignal:2.+@aar'
-    compile 'com.google.android.gms:play-services-gcm:+'
-    compile 'com.google.android.gms:play-services-analytics:+'
-    compile "com.google.android.gms:play-services-location:+"
 
 }

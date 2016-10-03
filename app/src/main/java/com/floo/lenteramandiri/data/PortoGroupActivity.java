@@ -38,27 +38,16 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
     LinearLayout line;
     TextView titleToolbar, save;
     ListView listportoGroup;
-    String[] subject, pt, idr;
-    HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> mylist;
 
-    String url = DataManager.url;
     String urlPortGroup = DataManager.urlPortGroup;
     private SpotsDialog pDialog;
     public static final String cif = "cif";
     public static final String group_id = "group_id";
     public static final String group_limit = "group_limit";
-    public static final String group_balance = "group_balance";
-    public static final String fee = "fee";
-    public static final String bunga = "bunga";
-    public static final String utilisasi = "utilisasi";
     public static final String company_name = "company_name";
-    public static final String acc_num = "acc_num";
-    public static final String type_facility = "type_facility";
 
-    String strCif, strGroupId, strGroupLimit, strGroupBalance, strFee,
-            strBunga, strUtilisasi, strCompanyName, strAcc_amount,
-            strFacility_amount, idParsing;
+    String strCif, strGroupId, strGroupLimit, strCompanyName, idParsing;
 
     SimpleAdapter adapter;
     ArrayList<String> arrayVar, arrayKey;
@@ -94,36 +83,6 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
             }
         });
 
-    }
-
-    private String getDecimalFormat(String value) {
-        StringTokenizer lst = new StringTokenizer(value, ".");
-        String str1 = value;
-        String str2 = "";
-        if (lst.countTokens() > 1) {
-            str1 = lst.nextToken();
-            str2 = lst.nextToken();
-        }
-        String str3 = "";
-        int i = 0;
-        int j = -1 + str1.length();
-        if (str1.charAt(-1 + str1.length()) == '.') {
-            j--;
-            str3 = ".";
-        }
-        for (int k = j; ; k--) {
-            if (k < 0) {
-                if (str2.length() > 0)
-                    str3 = str3 + "." + str2;
-                return str3;
-            }
-            if (i == 3) {
-                str3 = "." + str3;
-                i = 0;
-            }
-            str3 = str1.charAt(k) + str3;
-            i++;
-        }
     }
 
     @Override
@@ -163,7 +122,6 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
 
         @Override
         protected Void doInBackground(Void... arg0) {
-
             try {
 
                 jsonArray = new JSONArray(DataManager.MyHttpGet(urlPortGroup+idParsing));
@@ -191,8 +149,8 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
                         hashMap.put(group_id, strGroupId);
                         hashMap.put(group_limit, DataManager.getDecimalFormat(strGroupLimit));
                         hashMap.put(company_name, strCompanyName);
+
                         mylist.add(hashMap);
-                        //hashMap.put(group_limit, DataManager.getDecimalFormat(strGroupLimit));
 
                         }
                     }
@@ -200,7 +158,6 @@ public class PortoGroupActivity extends AppCompatActivity implements AdapterView
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             return null;
         }

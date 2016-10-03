@@ -124,7 +124,6 @@ public class TaskDetailAdapter extends BaseAdapter {
                 viewHolder.escal.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 viewHolder.escal.setTextColor(context.getResources().getColor(R.color.lighttgrey));
             }
-
             viewHolder.escal.setText(escalated.getEscalate());
         }
 

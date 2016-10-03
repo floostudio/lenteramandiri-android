@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -165,11 +164,9 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
 
-
                 String json = object.toString();
 
                 HttpClient httpclient = new DefaultHttpClient(myParams);
-
 
                 HttpPost httppost = new HttpPost(url);
                 httppost.setHeader("Content-Type", "application/json");
@@ -182,7 +179,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -231,9 +227,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httpPut);
                 serverData = EntityUtils.toString(response.getEntity());
-                Log.d("isidata", serverData);
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -248,9 +241,7 @@ public class UpdateProfilActivity extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(serverData);
                 strStatus = jsonObject.getString(status_code);
-                Log.d("status_code", strStatus);
                 strMessage = jsonObject.getString(message);
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -269,7 +260,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
             }else {
                 Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
             }
-
         }
     }
 
@@ -307,7 +297,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
                 String json = object.toString();
-                Log.e("json", json);
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -321,7 +310,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -354,7 +342,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
             }catch (ClientProtocolException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -377,7 +364,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                     worldDirectorate.add(dataSpinner);
 
                     worldListDirectorate.add(strNameDrectorate);
-
 
                 }
 
@@ -449,7 +435,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
                 String json = object.toString();
-                Log.e("json", json);
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -463,7 +448,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -496,7 +480,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
             }catch (ClientProtocolException e){
                 e.printStackTrace();
             }catch (IOException e){
@@ -519,8 +502,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                     world.add(dataSpinner);
 
                     worldList.add(strName);
-
-
                 }
 
                 coba = strName;
@@ -528,14 +509,12 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
 
             spinDepartment.setAdapter(new ArrayAdapter<String>(UpdateProfilActivity.this,
                     R.layout.list_spinner, worldList));
@@ -591,7 +570,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 object.put("vendor_name", "DOT");
                 object.put("vendor_pass", "DOTVNDR");
                 String json = object.toString();
-                Log.e("json", json);
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -605,7 +583,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -638,7 +615,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 HttpResponse httpResponse = httpClient.execute(httpGet);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 serverData = EntityUtils.toString(httpEntity);
-                Log.d("response", serverData);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -662,22 +638,18 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                     worldListDirectorate.add(strNameDrectorate);
 
-
                 }
 
                 coba = strNameDrectorate;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
 
             spinGroup.setAdapter(new ArrayAdapter<String>(UpdateProfilActivity.this,
                     R.layout.coba, worldListDirectorate));
@@ -733,7 +705,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
                 object.put("vendor_name", "DOT");
                 object.put("vendor_pass", "DOTVNDR");
                 String json = object.toString();
-                Log.e("json", json);
                 HttpClient httpclient = new DefaultHttpClient(myParams);
 
                 HttpPost httppost = new HttpPost(url);
@@ -747,7 +718,6 @@ public class UpdateProfilActivity extends AppCompatActivity {
 
                 HttpResponse response = httpclient.execute(httppost);
                 objek = EntityUtils.toString(response.getEntity());
-                Log.e("hello", objek);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -802,23 +772,18 @@ public class UpdateProfilActivity extends AppCompatActivity {
                     worldDirectorate.add(dataSpinner);
 
                     worldListDirectorate.add(strNameDrectorate);
-
-
                 }
 
                 coba = strNameDrectorate;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
 
             spinTitle.setAdapter(new ArrayAdapter<String>(UpdateProfilActivity.this,
                     R.layout.list_spinner, worldListDirectorate));

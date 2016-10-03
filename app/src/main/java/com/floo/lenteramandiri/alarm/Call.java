@@ -15,14 +15,6 @@ public class Call {
     public Call(){
 
     }
-
-    /*public Call(int id, String title, long date, boolean active){
-        this.id = id;
-        this.title = title;
-        this.date = date;
-        this.active = active;
-    }*/
-
     public int getId(){
         return id;
     }

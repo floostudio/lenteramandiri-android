@@ -155,11 +155,9 @@ public class ProfilActivity extends Fragment implements ConnectivityReceiver.Con
                 object.put("vendor_name","DOT");
                 object.put("vendor_pass","DOTVNDR");
 
-
                 String json = object.toString();
 
                 HttpClient httpclient = new DefaultHttpClient(myParams);
-
 
                 HttpPost httppost = new HttpPost(url);
                 httppost.setHeader("Content-Type", "application/json");

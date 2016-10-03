@@ -69,11 +69,7 @@ public class TaskDetailFromAdapter extends BaseAdapter {
         }else {
             viewHolder.img.setVisibility(View.VISIBLE);
         }
-
         viewHolder.escal.setText(item.get("escalated_from"));
-
-
-
         return view;
     }
 }

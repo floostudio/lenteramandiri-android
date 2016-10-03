@@ -161,21 +161,6 @@ public class TaskDetailActivity extends AppCompatActivity implements Connectivit
         });
     }
 
-    public long epoch(String str){
-        long today;
-        long epoch = 2592000;
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date2 = null;
-        try {
-            date2 = df.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        today = date2.getTime()/1000;
-
-        return today;
-    }
-
     private String dateNow(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -217,7 +202,6 @@ public class TaskDetailActivity extends AppCompatActivity implements Connectivit
         protected Void doInBackground(Void... arg0) {
             String key = "";
             try {
-                String coba = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/detail/66?user_id=63";
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpGet(urlDetailTask+idTaskParsing+"?user_id="+struserid));
                 strid = jsonObject.getInt("task_id");
                 strTitle = jsonObject.getString(title);
@@ -231,8 +215,6 @@ public class TaskDetailActivity extends AppCompatActivity implements Connectivit
                 JSONArray arrayEscalfrom = jsonObject.getJSONArray(escalated_from);
                 for (int i=0; i<arrayEscalfrom.length();i++){
                     String strEscalated = arrayEscalfrom.getString(i);
-
-                    //new DataFetcherTask(text.substring(0, index), txt.getText().toString()).execute();
 
                     if (strEscalated.indexOf(";")>0){
                         String[] items = strEscalated.split(";");
@@ -439,9 +421,7 @@ public class TaskDetailActivity extends AppCompatActivity implements Connectivit
                 objstrReport = objReport.toString();
 
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpPut(urlDone+idTaskParsing, objstrReport));
-                Log.d("json", jsonObject.toString());
                 strStatus = jsonObject.getString(status_code);
-                Log.d("detail", strStatus);
                 strMessage = jsonObject.getString(message);
 
 

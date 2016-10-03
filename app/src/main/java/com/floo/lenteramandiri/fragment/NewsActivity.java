@@ -180,7 +180,6 @@ public class NewsActivity extends Fragment implements SwipeRefreshLayoutBottom.O
                 pDialog.dismiss();
             refreshLayout.setRefreshing(false);
             newsAdapter = new NewsAdapter(getActivity(), newsArray);
-            //newsAdapter.notifyDataSetChanged();
             list_news.setAdapter(newsAdapter);
         }
     }

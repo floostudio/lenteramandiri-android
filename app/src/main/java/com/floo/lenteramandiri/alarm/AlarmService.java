@@ -96,9 +96,7 @@ public class AlarmService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(this.getClass().getSimpleName(),"onStartCommand()");
 		Call alarm = getNext();
-		//long mili = alarm.getDate();
 		if(null != alarm){
-			//alarm.setActive(true);
 			Intent myIntent = new Intent(getApplicationContext(), AlarmAlertBroadcastReciever.class);
 			myIntent.putExtra("alarm", alarm.getDate());
 
@@ -110,7 +108,6 @@ public class AlarmService extends Service {
 
 		}else{
 			Intent myIntent = new Intent(getApplicationContext(), AlarmAlertBroadcastReciever.class);
-			//myIntent.putExtra("alarm", new Alarm());
 
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, myIntent,PendingIntent.FLAG_CANCEL_CURRENT);
 			AlarmManager alarmManager = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);

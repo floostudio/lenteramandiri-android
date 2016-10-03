@@ -66,14 +66,6 @@ public class DashboardTFDAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();
         }
         HashMap<String, String> item = listData.get(position);
-        //Log.d("datadash", item.get("data1").replaceAll(".*_", ""));
-
-        /*if (position%2==0){
-            viewHolder.row1.setBackgroundColor(context.getResources().getColor(R.color.grey));
-            viewHolder.row2.setBackgroundColor(context.getResources().getColor(R.color.cpb_white));
-            viewHolder.value1.setBackground(context.getResources().getDrawable(R.drawable.activity_btn_bluee));
-            viewHolder.value2.setBackground(context.getResources().getDrawable(R.drawable.activity_btn_yellow));
-        }*/
 
         viewHolder.key1.setText(beforeString(item.get("data1")));
         viewHolder.value1.setText(DataManager.getDecimalFormat(item.get("data2")));

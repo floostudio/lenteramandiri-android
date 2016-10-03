@@ -42,9 +42,6 @@ public class ImageActivity extends AppCompatActivity implements ConnectivityRece
 
         new ProfilLoadTask(url, img).execute();
 
-        //Picasso.with(getApplicationContext())
-        //        .load("http://sandbox.floostudio.com/lenteramandiri/portofolio_csv/tfd_"+gambar+".jpg")
-        //        .into(img);
     }
 
     @Override

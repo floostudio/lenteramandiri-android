@@ -85,20 +85,6 @@ public class InfoAdapter extends BaseAdapter{
         Picasso.with(context)
                 .load(info.getImage())
                 .into(viewHolder.imageView);
-        //ImageLoader imageLoader = new ImageLoader();
-        //imageLoader.DisplayImage(img, viewHolder.imageView);
-        //new ImageLoadTask(img, viewHolder.imageView).execute();
-
-        /*viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
-            String tost = news.getTitle();
-            @Override
-            public void onClick(View v) {
-                //TextView txt = (TextView)v.findViewById(R.id.txt_title_news);
-                //Toast.makeText(context, tost, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.pdf995.com/samples/pdf.pdf"));
-                context.startActivity(intent);
-            }
-        });*/
 
         return view;
     }

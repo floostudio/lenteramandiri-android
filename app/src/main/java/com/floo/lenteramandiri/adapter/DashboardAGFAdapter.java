@@ -76,18 +76,13 @@ public class DashboardAGFAdapter extends BaseAdapter {
                     }else {
                         textView.setText(agf);
                     }
-
                 }else {
                     textView.setText(agf);
                 }
             }
-
-
         } else {
             grid = (View) convertView;
         }
-
-
         return grid;
     }
 }

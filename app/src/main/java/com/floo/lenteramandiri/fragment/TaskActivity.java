@@ -75,7 +75,6 @@ public class TaskActivity extends Fragment implements ConnectivityReceiver.Conne
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_task, container, false);
-        //DataManager.checkConnection(getActivity());
         initView(v);
         arraylistTask = new ArrayList<HashMap<String, String>>();
         new DataFetcherTask().execute();

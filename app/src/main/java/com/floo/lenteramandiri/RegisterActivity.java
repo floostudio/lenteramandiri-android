@@ -38,9 +38,6 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityR
     TextView titletoolbar, save;
     String url = DataManager.url;
     String urlRegister = DataManager.urlRegister;
-    String urlDepartment = DataManager.urlMasterDepartment;
-    String urlGroup = DataManager.urlMasterGroup;
-    String urlTitle = DataManager.urlMasterTitle;
     EditText edtFirstName, edtLastName, edtNip, edtDirectorate,
             edtGroup, edtDepartment, edtEmail, edtTitle, edtPassword, edtConfirm;
     Button btnRegister;
@@ -60,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityR
     private static final String title = "title";
     private static final String password = "password";
 
-    private static final String status_code = "status_code";
     private static final String message = "message";
 
     @Override
@@ -229,7 +225,6 @@ public class RegisterActivity extends AppCompatActivity implements ConnectivityR
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             try {
                 JSONObject jsonObject = new JSONObject(DataManager.MyHttpPost(urlRegister, objReg));

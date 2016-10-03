@@ -37,32 +37,19 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
     LinearLayout line;
     TextView titleToolbar, save;
     DynamicListView portoAccount;
-    String[] subject, pt, idr;
-    HashMap<String, String> hashMap;
     ArrayList<HashMap<String, String>> mylist;
     SimpleAdapter adapter;
 
-    String url = DataManager.url;
     String urlPortAccount = DataManager.urlPortAccount;
     private SpotsDialog pDialog;
     public static final String cif = "cif";
     public static final String id = "id";
     public static final String acc_num = "acc_num";
     public static final String valuta = "valuta";
-    public static final String saldo = "saldo";
-    public static final String limit = "limit";
-    public static final String tunggakan = "tunggakan";
-    public static final String kolektibilitas = "kolektibilitas";
-    public static final String jatuh_tempo = "jatuh_tempo";
-    public static final String trans_debet = "trans_debet";
-    public static final String trans_kredit = "trans_kredit";
-    public static final String saldo_rata = "saldo_rata";
     public static final String company_name = "company_name";
     public static final String covenant = "covenant";
 
-    String strId, strAccNumber, strValuta, strSaldo, strLimit,
-            strTunggakan, strKolektibilitas, strJmlhTempo, strTransDebet,
-            strTransKredit, strSaldoRata, strCompanyName, strCif, idParsing;
+    String strAccNumber, strCompanyName, strCif, idParsing;
 
     ArrayList<String> arrayKey;
     JSONArray jsonArray;
@@ -98,36 +85,6 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
         portoAccount.setOnItemClickListener(this);
 
     }
-
-    /*public String getDecimalFormat(String value) {
-        StringTokenizer lst = new StringTokenizer(value, ".");
-        String str1 = value;
-        String str2 = "";
-        if (lst.countTokens() > 1) {
-            str1 = lst.nextToken();
-            str2 = lst.nextToken();
-        }
-        String str3 = "";
-        int i = 0;
-        int j = -1 + str1.length();
-        if (str1.charAt(-1 + str1.length()) == '.') {
-            j--;
-            str3 = ".";
-        }
-        for (int k = j; ; k--) {
-            if (k < 0) {
-                if (str2.length() > 0)
-                    str3 = str3 + "." + str2;
-                return str3;
-            }
-            if (i == 3) {
-                str3 = "." + str3;
-                i = 0;
-            }
-            str3 = str1.charAt(k) + str3;
-            i++;
-        }
-    }*/
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -188,11 +145,9 @@ public class PortoAccountActivity extends AppCompatActivity implements AdapterVi
                         HashMap<String, String> hashMap = new HashMap<String, String>();
                         hashMap.put(cif, strCif);
                         hashMap.put(acc_num, strAccNumber);
-                        //hashMap.put(saldo, strSaldo);
                         hashMap.put(company_name, strCompanyName);
 
                         mylist.add(hashMap);
-                        //hashMap.put(saldo, DataManager.getDecimalFormat(strSaldo));
                     }
                 }
 

@@ -93,7 +93,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements Connect
                         new changePasswordAsync().execute();
                     }
                 }
-
             }
         });
 

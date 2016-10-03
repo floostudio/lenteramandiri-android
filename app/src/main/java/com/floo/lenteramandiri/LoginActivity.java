@@ -18,7 +18,6 @@ import com.floo.lenteramandiri.utils.ConnectivityReceiver;
 import com.floo.lenteramandiri.utils.DataManager;
 import com.floo.lenteramandiri.utils.MyLenteraMandiri;
 import com.floo.lenteramandiri.utils.SessionManager;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
     public static final String profpic = "profpic";
     public static final String title = "title";
 
-    GoogleCloudMessaging gcm;
     String regid;
     String msg = "";
     String PROJECTNUMBER = DataManager.PROJECTNUMBER;
@@ -63,7 +61,6 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getRegId();
         initView();
 
         String str = dateNow();
@@ -77,38 +74,6 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
         long today = date.getTime();
 
     }
-
-    public void getRegId() {
-
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging
-                                .getInstance(getApplicationContext());
-                    }
-                    regid = gcm.register(PROJECTNUMBER);
-                    msg = "Device registered, registration ID=" + regid;
-
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-
-                    System.out.println("Error---" + ex.getMessage());
-                }
-
-                return msg;
-            }
-
-            @Override
-            protected void onPostExecute(String msg) {
-                System.out.println("Registerid---" + regid);
-            }
-        }.execute(null, null, null);
-
-    }
-
 
     private String dateNow(){
         SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -180,7 +145,6 @@ public class LoginActivity extends AppCompatActivity implements ConnectivityRece
             try {
                 object1.put("nip",strEmail);
                 object1.put("password", strPassword);
-                object1.put("device_id", DataManager.oneSignal());
                 json1 = object1.toString();
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -116,14 +116,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         strFirstname = user.get(first_name);
         strLastname = user.get(last_name);
         strProfpic = user.get(profpic);
-        /*strTitle = user.get(SessionManager.Key_title);
-
-        if (strTitle.trim().equals("MANAGER")|| strTitle.trim().equals("manager")){
-            pTitle = 1;
-        }else {
-            pTitle = 0;
-        }*/
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -147,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //title.setText("PROFILE");
                 setFragment(0);
                 drawer.closeDrawer(GravityCompat.START);
                 setChecked();
@@ -215,8 +206,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         DataManager.checkConnection(getApplicationContext());
     }
 
-    private void updateCalendarIdSpinner()
-    {
+    private void updateCalendarIdSpinner(){
         if (calendarIdTable==null)
         {
             return;
@@ -264,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
             return;
         }
-
 
         final long oneHour = 1000 * 60 * 60;
         final long tenMinutes = 1000 * 60 * 10;
@@ -336,16 +325,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
                         JSONArray arrayWakeUp = jsonObject.getJSONArray("wakeup_call");
                         for (int a=0; a<arrayWakeUp.length();a++){
                             int number = arrayWakeUp.getInt(a);
-
-                            /*if (strId == 50) {
-                                Call call = new Call();
-                                call.setId(strId);
-                                call.setTitle(strTitle);
-                                call.setDate(main(DataManager.epochtodateTime(1472180820)));
-                                call.setActive(call.getActive());
-                                Database.create(call);
-                            }*/
-
                             expire = strExpire - (day*number);
                             long data = main(DataManager.epochtodateTime(expire));
 
@@ -356,8 +335,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
                                 call.setDate(main(DataManager.epochtodateTime(expire)));
                                 call.setActive(call.getActive());
                                 Database.create(call);
-                                //Log.d("wakeupcall", "wake up call number "+a);
-                                //Toast.makeText(getApplicationContext(), "wake up call number "+a, Toast.LENGTH_LONG).show();
                             }
                         }
                     }
@@ -389,30 +366,12 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         return dateFormat.format(date1);
     }
 
-    public static long main(String args) throws Exception
-    {
-        //String str = "Jun 13 2003 23:11:52.454 UTC";
+    public static long main(String args) throws Exception{
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = df.parse(args);
         long epoch = date.getTime();
-        //System.out.println(epoch); // 1055545912454
 
         return epoch;
-    }
-
-    private long getTime(){
-
-        String str = DataManager.dateNow();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date2 = null;
-        try {
-            date2 = df.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date2.getTime();
-
-
     }
 
     private void setChecked(){
@@ -492,7 +451,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         FragmentTransaction ft;
         Bundle bundle = new Bundle();
         bundle.putString("IDPARSING", idParsing);
-        //bundle.putInt("title", pTitle);
 
         switch (position){
             case 0:
@@ -605,7 +563,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
             }
         });
     }
-
 
     protected void callMathAlarmScheduleService() {
         Intent mathAlarmServiceIntent = new Intent(this, AlarmServiceBroadcastReciever.class);

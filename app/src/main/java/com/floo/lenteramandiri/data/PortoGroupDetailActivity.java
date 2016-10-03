@@ -30,10 +30,8 @@ import org.json.JSONObject;
 public class PortoGroupDetailActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener{
     Toolbar toolbar;
     LinearLayout line;
-    TextView titleToolbar, save, txtCif, txtGroupId, txtGroupLimit, txtGroupBalance, txtAccAmount,
-            txtFacilityAmount, txtFee, txtBunga, txtUtilisasi, txtCompany;
-    String pCif, pGroupId, pGroupLimit, pGroupBalance, pAccAmount,
-            pFacilityAmount, pFee, pBunga, pUtilisasi, pCompany;
+    TextView titleToolbar, save, txtCompany;
+    String pCif, pCompany;
     ArrayList<String> arrayVar, arrayKey;
     GroupDetailAdapter adapter;
     ListView listView;
@@ -104,51 +102,6 @@ public class PortoGroupDetailActivity extends AppCompatActivity implements Conne
             }
         });
 
-    }
-
-    private String getDecimalFormat(String value) {
-        StringTokenizer lst = new StringTokenizer(value, ".");
-        String str1 = value;
-        String str2 = "";
-        if (lst.countTokens() > 1) {
-            str1 = lst.nextToken();
-            str2 = lst.nextToken();
-        }
-        String str3 = "";
-        int i = 0;
-        int j = -1 + str1.length();
-        if (str1.charAt(-1 + str1.length()) == '.') {
-            j--;
-            str3 = ".";
-        }
-        for (int k = j; ; k--) {
-            if (k < 0) {
-                if (str2.length() > 0)
-                    str3 = str3 + "." + str2;
-                return str3;
-            }
-            if (i == 3) {
-                str3 = "." + str3;
-                i = 0;
-            }
-            str3 = str1.charAt(k) + str3;
-            i++;
-        }
-    }
-
-    private String Spacer(String number){
-        StringBuilder strB = new StringBuilder();
-        strB.append(number);
-        int Three = 0;
-
-        for(int i=number.length();i>0;i--){
-            Three++;
-            if(Three == 3){
-                strB.insert(i-1, ".");
-                Three = 0;
-            }
-        }
-        return strB.toString();
     }
 
     @Override

@@ -40,12 +40,6 @@ public class Database extends SQLiteOpenHelper {
 	public static final String COLUMN_ALARM_TITLE = "alarm_title";
 	public static final String COLUMN_ALARM_DATE = "alarm_date";
 	public static final String COLUMN_ALARM_ACTIVE = "alarm_active";
-	/*public static final String COLUMN_ALARM_TIME = "alarm_time";
-	public static final String COLUMN_ALARM_DAYS = "alarm_days";
-	public static final String COLUMN_ALARM_DIFFICULTY = "alarm_difficulty";
-	public static final String COLUMN_ALARM_TONE = "alarm_tone";
-	public static final String COLUMN_ALARM_VIBRATE = "alarm_vibrate";
-	public static final String COLUMN_ALARM_NAME = "alarm_name";*/
 	
 	public static void init(Context context) {
 		if (null == instance) {
@@ -85,74 +79,11 @@ public class Database extends SQLiteOpenHelper {
 
 	public static int update(Call alarm) {
 		ContentValues cv = new ContentValues();
-		//cv.put(COLUMN_ALARM_TITLE, alarm.getTitle());
-		//cv.put(COLUMN_ALARM_DATE, alarm.getDate());
 		cv.put(COLUMN_ALARM_ACTIVE, alarm.getActive());
 					
 		return getDatabase().update(ALARM_TABLE, cv, "alarm_date=" + alarm.getDate(), null);
 	}
-	/*public static int deleteEntry(Alarm alarm){
-		return deleteEntry(alarm.getId());
-	}
-	
-	public static int deleteEntry(int id){
-		return getDatabase().delete(ALARM_TABLE, COLUMN_ALARM_ID + "=" + id, null);
-	}
-	
-	public static int deleteAll(){
-		return getDatabase().delete(ALARM_TABLE, "1", null);
-	}
-	
-	public static Alarm getAlarm(int id) {
-		// TODO Auto-generated method stub
-		String[] columns = new String[] {
-				COLUMN_ALARM_ID, 
-				COLUMN_ALARM_ACTIVE,
-				COLUMN_ALARM_TIME,
-				COLUMN_ALARM_DAYS,
-				COLUMN_ALARM_DIFFICULTY,
-				COLUMN_ALARM_TONE,
-				COLUMN_ALARM_VIBRATE,
-				COLUMN_ALARM_NAME
-				};
-		Cursor c = getDatabase().query(ALARM_TABLE, columns, COLUMN_ALARM_ID+"="+id, null, null, null,
-				null);
-		Alarm alarm = null;
-		
-		if(c.moveToFirst()){
-			
-			alarm =  new Alarm();
-			alarm.setId(c.getInt(1));
-			alarm.setAlarmActive(c.getInt(2)==1);
-			alarm.setAlarmTime(c.getString(3));
-			byte[] repeatDaysBytes = c.getBlob(4);
-			
-			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(repeatDaysBytes);
-			try {
-				ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-				Alarm.Day[] repeatDays;
-				Object object = objectInputStream.readObject();
-				if(object instanceof Alarm.Day[]){
-					repeatDays = (Alarm.Day[]) object;
-					alarm.setDays(repeatDays);
-				}								
-			} catch (StreamCorruptedException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-						
-			alarm.setDifficulty(Difficulty.values()[c.getInt(5)]);
-			alarm.setAlarmTonePath(c.getString(6));
-			alarm.setVibrate(c.getInt(7)==1);
-			alarm.setAlarmName(c.getString(8));
-		}
-		c.close();
-		return alarm;
-	}*/
-	
+
 	public static Cursor getCursor() {
 		// TODO Auto-generated method stub
 		String[] columns = new String[] {
@@ -177,13 +108,6 @@ public class Database extends SQLiteOpenHelper {
 				+ COLUMN_ALARM_TITLE + " TEXT NOT NULL, "
 				+ COLUMN_ALARM_DATE + " LONG NOT NULL, "
 				+ COLUMN_ALARM_ACTIVE + " INTEGER NOT NULL)");
-				/*+ COLUMN_ALARM_ACTIVE + " INTEGER NOT NULL, "
-				+ COLUMN_ALARM_TIME + " TEXT NOT NULL, " 
-				+ COLUMN_ALARM_DAYS + " BLOB NOT NULL, " 
-				+ COLUMN_ALARM_DIFFICULTY + " INTEGER NOT NULL, "
-				+ COLUMN_ALARM_TONE + " TEXT NOT NULL, " 
-				+ COLUMN_ALARM_VIBRATE + " INTEGER NOT NULL, " 
-				+ COLUMN_ALARM_NAME + " TEXT NOT NULL)");*/
 	}
 
 	@Override
@@ -198,15 +122,6 @@ public class Database extends SQLiteOpenHelper {
 		if (cursor.moveToFirst()) {
 
 			do {
-				// COLUMN_ALARM_ID,
-				// COLUMN_ALARM_ACTIVE,
-				// COLUMN_ALARM_TIME,
-				// COLUMN_ALARM_DAYS,
-				// COLUMN_ALARM_DIFFICULTY,
-				// COLUMN_ALARM_TONE,
-				// COLUMN_ALARM_VIBRATE,
-				// COLUMN_ALARM_NAME
-
 				Call call = new Call();
 				call.setId(cursor.getInt(0));
 				call.setTitle(cursor.getString(1));

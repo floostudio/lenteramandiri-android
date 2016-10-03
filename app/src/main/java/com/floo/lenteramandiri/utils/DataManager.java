@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floo.lenteramandiri.R;
-import com.onesignal.OneSignal;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -84,32 +83,6 @@ public class DataManager {
     public static String urlChangePass = "http://sandbox.floostudio.com/lenteramandiri/api/v1/users/change_password";
     public static String urlUpdProfile = "http://sandbox.floostudio.com/lenteramandiri/api/v1/users/detail/";
     public static String urltaskDone = "http://sandbox.floostudio.com/lenteramandiri/api/v1/tasks/done/";
-
-    public static String oneSignal(){
-        final String[] user = {""};
-        OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-            @Override
-            public void idsAvailable(String userId, String registrationId) {
-                /*String text = "OneSignal UserID:\n" + userId + "\n\n";
-
-                if (registrationId != null)
-                    text += "Google Registration Id:\n" + registrationId;
-                else
-                    text += "Google Registration Id:\nCould not subscribe for push";
-
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();*/
-
-                user[0] = userId;
-
-                Log.d("userid", userId);
-                Log.d("register", registrationId);
-
-            }
-        });
-
-        //Log.d("idsignal", user[0]);
-        return user[0];
-    }
 
     public static String getHeaderKey(){
         String objek="";

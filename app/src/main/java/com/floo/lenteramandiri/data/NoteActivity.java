@@ -74,10 +74,8 @@ public class NoteActivity extends AppCompatActivity implements ConnectivityRecei
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(NoteActivity.this);
-
                 // set title
                 alertDialogBuilder.setTitle("Pesan");
-
                 // set dialog message
                 alertDialogBuilder
                         .setMessage("Apakah anda ingin menyimpan note ini?")
@@ -96,10 +94,8 @@ public class NoteActivity extends AppCompatActivity implements ConnectivityRecei
                                 dialog.cancel();
                             }
                         });
-
                 // create alert dialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
-
                 // show it
                 alertDialog.show();
 
@@ -163,7 +159,6 @@ public class NoteActivity extends AppCompatActivity implements ConnectivityRecei
             }else {
                 Toast.makeText(getApplicationContext(), strMessage, Toast.LENGTH_LONG).show();
             }
-
         }
     }
 

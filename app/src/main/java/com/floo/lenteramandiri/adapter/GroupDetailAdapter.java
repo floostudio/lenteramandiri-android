@@ -71,7 +71,6 @@ public class GroupDetailAdapter extends BaseAdapter{
             viewHolder.row.setBackgroundColor(context.getResources().getColor(R.color.cpb_white));
         }
         viewHolder.variable.setText(item.get("variable"));
-        //viewHolder.data.setText(item.get("key"));
         if (item.get("variable").toString().trim().equals("cif")){
             viewHolder.data.setText(item.get("key"));
         }else {
@@ -86,7 +85,6 @@ public class GroupDetailAdapter extends BaseAdapter{
                 viewHolder.data.setText(values);
             }
         }
-        //viewHolder.data.setText(item.get("key"));
 
         return view;
     }

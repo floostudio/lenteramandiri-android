@@ -120,7 +120,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
         myListMonthLCF = new ArrayList<HashMap<String, String>>();
         mylistAGF = new ArrayList<HashMap<String, String>>();
 
-        //new DataSpinner().execute();
         new DataSpinnerTop().execute();
 
         spin_top.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -807,7 +806,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                         xDlr.add(strMonth);
 
                         yDlr.add(new BarEntry(new float[]{fltLoan, fltDpk}, a));
-                        //lineDlr.add(new Entry(fltDpk, a));
                     }
                 }
                 //Mapping Data AGF
@@ -946,18 +944,17 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
                 }
             };
 
-            //TFD
+            /*Data TFD*/
             DashboardTFDAdapter adapter = new DashboardTFDAdapter(getActivity(), mylistTFD);
             listTFD.setAdapter(adapter);
             listTFD.setExpanded(true);
 
-            //CASHIN
+            /*Data CASHIN*/
             BarDataSet dataSetCashIn = new BarDataSet(yCashIn, "Cash In");
             dataSetCashIn.setColor(getResources().getColor(R.color.lightblue));
 
             BarData dataCashIn = new BarData();
             dataCashIn.addDataSet(dataSetCashIn);
-
 
             LineDataSet lineDataSetCashIn = new LineDataSet(lineIn, "Target Cash In");
             lineDataSetCashIn.setCircleColor(getResources().getColor(R.color.yellow));
@@ -965,7 +962,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             LineData lineDataCashIn = new LineData();
             lineDataCashIn.addDataSet(lineDataSetCashIn);
-
 
             CombinedData comdataCashIn = new CombinedData(xCashIn);
             comdataCashIn.setData(dataCashIn);
@@ -984,9 +980,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_CashIn.getLineData().setValueFormatter(new MyValueFormatter());
             chart_CashIn.invalidate();
 
-
-
-            //CASHOut
+            /*Data CASHOut*/
             BarDataSet BarsetCashOut = new BarDataSet(yCashOut, "Cash Out");
             BarsetCashOut.setColor(getResources().getColor(R.color.lightblue));
 
@@ -1017,12 +1011,10 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chat_CashOut.getLineData().setValueFormatter(new MyValueFormatter());
             chat_CashOut.invalidate();
 
-
-            //DPK
+            /*Data DPK*/
             BarDataSet setDPK = new BarDataSet(yDpk, "");
             setDPK.setColors(getColors(3));
             setDPK.setStackLabels(new String[] { "Giro", "Tabungan", "Deposito" });
-
 
             ArrayList<BarDataSet> dataSetDPK = new ArrayList<BarDataSet>();
             dataSetDPK.add(setDPK);
@@ -1031,32 +1023,19 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             dataDPK.setValueFormatter(new MyValueFormatter());
 
             chart_Dpk.setDescription("");
-
-            // if more than 60 entries are displayed in the chart, no values will be
-            // drawn
             chart_Dpk.setMaxVisibleValueCount(60);
-
-            // scaling can now only be done on x- and y-axis separately
             chart_Dpk.setPinchZoom(false);
-
             chart_Dpk.setDrawGridBackground(false);
             chart_Dpk.setDrawBarShadow(false);
-
             chart_Dpk.setDrawValueAboveBar(false);
 
-
-
-            // change the position of the y-labels
             YAxis leftAxis_DPK = chart_Dpk.getAxisLeft();
             leftAxis_DPK.setValueFormatter(new MyYAxisValueFormatter());
-            leftAxis_DPK.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            leftAxis_DPK.setAxisMinValue(0f);
             chart_Dpk.getAxisRight().setEnabled(false);
             chart_Dpk.getXAxis().setDrawGridLines(false);
             XAxis xLabels_DPK = chart_Dpk.getXAxis();
             xLabels_DPK.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            // mChart.setDrawXLabels(false);
-            // mChart.setDrawYLabels(false);
 
             Legend l_DPK = chart_Dpk.getLegend();
             l_DPK.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
@@ -1071,7 +1050,7 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
             chart_Dpk.invalidate();
 
-            //DLR
+            /*Data DLR*/
             BarDataSet setDLR = new BarDataSet(yDlr, "");
             setDLR.setColors(getColors(2));
             setDLR.setStackLabels(new String[] { "Outstanding Loan", "DPK"});
@@ -1083,30 +1062,19 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             dataDLR.setValueFormatter(new MyValueFormatter());
 
             chart_dlr.setDescription("");
-
-            // if more than 60 entries are displayed in the chart, no values will be
-            // drawn
             chart_dlr.setMaxVisibleValueCount(60);
-
-            // scaling can now only be done on x- and y-axis separately
             chart_dlr.setPinchZoom(false);
-
             chart_dlr.setDrawGridBackground(false);
             chart_dlr.setDrawBarShadow(false);
-
             chart_dlr.setDrawValueAboveBar(false);
 
-            // change the position of the y-labels
             YAxis leftAxis_DLR = chart_dlr.getAxisLeft();
             leftAxis_DLR.setValueFormatter(new MyYAxisValueFormatter());
-            leftAxis_DLR.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+            leftAxis_DLR.setAxisMinValue(0f);
             chart_dlr.getAxisRight().setEnabled(false);
             chart_dlr.getXAxis().setDrawGridLines(false);
             XAxis xLabels_DLR = chart_dlr.getXAxis();
             xLabels_DLR.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            // mChart.setDrawXLabels(false);
-            // mChart.setDrawYLabels(false);
 
             Legend l_DLR = chart_dlr.getLegend();
             l_DLR.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
@@ -1120,62 +1088,12 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
             chart_dlr.getAxisLeft().setValueFormatter(customYaxisFormatter);
             chart_dlr.invalidate();
 
-
-            //LCF
-            /*BarDataSet setLCF = new BarDataSet(yLcf, "");
-            setLCF.setColors(getColors(2));
-            setLCF.setStackLabels(new String[] { "LCF", "Credit" });
-
-            ArrayList<BarDataSet> dataSetLCF = new ArrayList<BarDataSet>();
-            dataSetLCF.add(setLCF);
-
-            BarData dataLCF = new BarData(xLcf, dataSetLCF);
-            dataLCF.setValueFormatter(new MyValueFormatter());
-
-            chart_Lcf.setDescription("");
-
-            // if more than 60 entries are displayed in the chart, no values will be
-            // drawn
-            chart_Lcf.setMaxVisibleValueCount(60);
-
-            // scaling can now only be done on x- and y-axis separately
-            chart_Lcf.setPinchZoom(false);
-
-            chart_Lcf.setDrawGridBackground(false);
-            chart_Lcf.setDrawBarShadow(false);
-
-            chart_Lcf.setDrawValueAboveBar(false);
-
-            // change the position of the y-labels
-            YAxis leftAxis_LCF = chart_Lcf.getAxisLeft();
-            leftAxis_LCF.setValueFormatter(new MyYAxisValueFormatter());
-            leftAxis_LCF.setAxisMinValue(0f); // this replaces setStartAtZero(true)
-            chart_Lcf.getAxisRight().setEnabled(false);
-            chart_Lcf.getXAxis().setDrawGridLines(false);
-            XAxis xLabels_LCF = chart_Lcf.getXAxis();
-            xLabels_LCF.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            // mChart.setDrawXLabels(false);
-            // mChart.setDrawYLabels(false);
-
-            Legend l_LCF = chart_Lcf.getLegend();
-            l_LCF.setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
-            l_LCF.setFormSize(8f);
-            l_LCF.setFormToTextSpace(4f);
-            l_LCF.setXEntrySpace(6f);
-
-            chart_Lcf.setData(dataLCF);
-            chart_Lcf.setDoubleTapToZoomEnabled(false);
-            chart_Lcf.setPinchZoom(false);
-            chart_Lcf.invalidate();*/
-
-            //AGF
-
+            /*Data AGF*/
             grid.setNumColumns(lengthList.size());
             DashboardAGFAdapter adapter1 = new DashboardAGFAdapter(getActivity(), mylistAGF, lengthList.size());
             grid.setAdapter(adapter1);
 
-            //Baki Debet
+            /*Data Baki Debet*/
 
             /*BAKI DEBET*/
             BarDataSet BarsetBaki = new BarDataSet(barBaki, "Baki Debet");
@@ -1248,9 +1166,6 @@ public class NewDashboardActivity extends Fragment implements View.OnClickListen
 
     private int[] getColors(int size) {
 
-        //int stacksize = 2;
-
-        // have as many colors as stack-values per entry
         int[] colors = new int[size];
 
         for (int i = 0; i < size; i++) {

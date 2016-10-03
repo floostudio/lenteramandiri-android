@@ -52,7 +52,7 @@ public class WakeUpCallActivity extends AppCompatActivity {
         calendar.setTimeInMillis(data);
         String strNow = formatter.format(calendar.getTime());
 
-        //int view = Integer.parseInt(DataManager.epochtodate((int) data));
+
         txtView.setText("You have task that will expired" +
                 "\nat "+strNow+" !");
         List<Call> alarms = Database.getAll();
